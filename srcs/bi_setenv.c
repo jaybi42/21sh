@@ -6,11 +6,11 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/20 13:28:44 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/10 16:11:13 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/19 17:58:40 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "21sh.h"
 
 static int	arg_isin(char *name, char *value, char *str, t_list **g_env)
 {

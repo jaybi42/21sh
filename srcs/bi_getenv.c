@@ -6,11 +6,11 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/10 20:12:03 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/10 20:26:32 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/19 18:00:34 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "21sh.h"
 
 int			bi_getenv(t_av av, t_list **g_env, t_list **l_env)
 {
