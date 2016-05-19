@@ -1,0 +1,11 @@
+*.o
+*.a
+*~
+*.cmo
+*.cmi
+*.cmx
+.#*
+*.dump
+*.gch
+.nfs*
+ft_select
