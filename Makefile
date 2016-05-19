@@ -6,13 +6,13 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/05/19 13:58:35 by jguthert         ###   ########.fr        #
+#    Updated: 2016/05/19 17:54:55 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 ##=-  Compilatator -=##
 
-NAME = ft_select
+NAME = 21sh
 CC = gcc
 
 
@@ -40,19 +40,6 @@ EOC:="\033[0m"
 ##=-  Files -=##
 
 FILES =					main			\
-						ft_select		\
-						print_error		\
-						init_list		\
-						init_term		\
-						actions			\
-						arrow_actions	\
-						mod_actions		\
-						print_select	\
-						int_putchar		\
-						catch_sig		\
-						do_termcap		\
-						print_header	\
-						padding_control	\
 						init_env		\
 						read			\
 						shell			\
@@ -67,6 +54,8 @@ FILES =					main			\
 						print_error		\
 						print_prompt	\
 						do_exec			\
+						catch_sig		\
+
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
@@ -87,12 +76,12 @@ obj/%.o: srcs/%.c
 	@$(CC) $(CFLAGS) $(IFLAGS) -o $@ -c $<
 
 clean:
-	@echo $(GREEN) "Remove .o  [ft_select]" $(EOC)
+	@echo $(GREEN) "Remove .o  [21sh]" $(EOC)
 	@make -C ./libft clean
 	@/bin/rm -f $(OBJ)
 
 fclean: clean
-	@echo $(GREEN) "Remove all [ft_select]" $(EOC)
+	@echo $(GREEN) "Remove all [21sh]" $(EOC)
 	@make -C ./libft fclean
 	@/bin/rm -f $(NAME)
 

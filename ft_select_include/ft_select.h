@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   21sh.h                                             :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 11:55:33 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/18 18:54:01 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_21SH_H
-# define FT_21SH_H
+#ifndef FT_SELECT_H
+# define FT_SELECT_H
 
 /*
 ** TODO: Suppr stdio
 */
-
-#include <stdio.h> //
 
 # include "libft.h"
 # include <termios.h>
@@ -40,6 +38,9 @@ typedef struct		s_elem
 {
 	t_ftl_node		node;
 	char			*name;
+	int				name_len;
+	int				pos;
+	bool			selected;
 	bool			cursor;
 }					t_elem;
 
@@ -60,12 +61,12 @@ typedef struct		s_error
 }					t_error;
 
 /*
-**Name: Launch 21sh
-**File: ft_21sh.c
-**Desc: Parse 21sh
+**Name: Do select
+**File: ft_select.c
+**Desc: Parse ft_select
 */
 
-int					ft_21sh(char **av, int ac);
+int					ft_select(char **av, int ac);
 
 /*
 **Name: actions
@@ -96,9 +97,12 @@ int					reset_term(void);
 **Desc: Print ft_select
 */
 
+int					print_select(t_ftl_root *root);
 int					int_putchar(int c);
+int					padding_control(t_ftl_root *root, t_ftl_node *node);
 int					do_termcap(char *key);
 int					move_termcap(char *key, int col, int row);
+void				print_header(void);
 
 /*
 **Name: List
@@ -106,7 +110,7 @@ int					move_termcap(char *key, int col, int row);
 **Desc: Parse list
 */
 
-
+int					init_list(t_ftl_root *root, char **av, int ac);
 
 /*
 **Name: Error

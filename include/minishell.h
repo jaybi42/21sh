@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/18 19:53:21 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/19 17:30:07 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define INIT_ALL(CMD,AV1,AV2) (char *[]){CMD, AV1, AV2, NULL}
 # define INIT_ARG(AV1,AV2) (char *[]){AV1, AV2, NULL}
 # define INIT_AV(A,B,C,D) ((t_av){A, INIT_ARG(B, C), D, INIT_ALL(A, B, C)})
+# define STAT	struct stat
+# define PW_T		struct passwd
 
 typedef void	(*t_sig) (int);
 

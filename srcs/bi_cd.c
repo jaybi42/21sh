@@ -6,13 +6,15 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 19:50:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 16:11:57 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/19 17:30:34 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "unistd.h"
+#include <unistd.h>
 #include <pwd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 static int	mod_pwd(t_list **g_e, t_list **l_e)
 {
@@ -32,6 +34,8 @@ static int	mod_pwd(t_list **g_e, t_list **l_e)
 		bi_setenv(INIT_AV("setenv", "OLDPWD", env->value, 2), g_e, l_e);
 	pwd = ft_strdup(getwd(NULL));
 	bi_setenv(INIT_AV("setenv", "PWD", pwd, 2), g_e, l_e);
+	if (pwd != NULL)
+		ft_strdel(&pwd);
 	return (0);
 }
 
@@ -53,20 +57,23 @@ static int	go_back(t_list **g_e, t_list **l_e)
 	return (0);
 }
 
-static int	go_home(t_list **g_e, t_list **l_e)
+static int	go_home(char *arg, t_list **g_e, t_list **l_e)
 {
-	t_list	*temp;
+	STAT	stat;
+	PW_T	*pw;
+	char	*link;
 
-	temp = *l_e;
-	while (temp != NULL)
-	{
-		if (ft_strcmp(((t_env *)temp->content)->name, "HOME") == 0)
-			break ;
-		temp = temp->next;
-	}
-	if (temp == NULL)
-		return (0);
-	bi_cd(INIT_AV("cd", ((t_env *)temp->content)->value, NULL, 1), g_e, l_e);
+	if (lstat(".", &stat) == -1)
+		return (1);
+	if ((pw = getpwuid(stat.st_uid)) == NULL)
+		return (1);
+	if (arg[0] == '~')
+		link = ft_strjoin(pw->pw_dir, ++arg);
+	else
+		link = ft_strdup(pw->pw_dir);
+	bi_cd(INIT_AV("cd", link, NULL, 1), g_e, l_e);
+	if (link != NULL)
+		ft_strdel(&link);
 	return (0);
 }
 
@@ -76,8 +83,9 @@ int			bi_cd(t_av av, t_list **g_env, t_list **l_env)
 		return (print_error(av, 0));
 	if (av.argc > 1)
 		return (print_error(av, 1));
-	if (*av.arg == NULL || ft_strcmp(*av.arg, "~") == 0)
-		return (go_home(g_env, l_env));
+	if (*av.arg == NULL || ft_strncmp(*av.arg, "~", 1) == 0 ||
+		ft_strcmp(*av.arg, "--") == 0)
+		return (go_home(*av.arg, g_env, l_env));
 	if (av.argc == 1 && ft_strcmp(*av.arg, "-") == 0)
 		return (go_back(g_env, l_env));
 	if (av.argc == 1 && access(*av.arg, F_OK) == -1)
