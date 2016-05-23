@@ -6,11 +6,11 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/21 11:39:33 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/23 15:34:57 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/23 15:29:51 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "minishell.h"
 #include <signal.h>
 
 static void		get_color(int rand)

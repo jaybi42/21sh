@@ -6,11 +6,11 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 19:50:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 17:57:20 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/23 16:12:11 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "minishell.h"
 #include <unistd.h>
 #include <pwd.h>
 #include <sys/types.h>
@@ -67,7 +67,7 @@ static int	go_home(char *arg, t_list **g_e, t_list **l_e)
 		return (1);
 	if ((pw = getpwuid(stat.st_uid)) == NULL)
 		return (1);
-	if (arg[0] == '~')
+	if (arg != NULL && arg[0] == '~')
 		link = ft_strjoin(pw->pw_dir, ++arg);
 	else
 		link = ft_strdup(pw->pw_dir);

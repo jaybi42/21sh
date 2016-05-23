@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 17:56:19 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/23 18:48:02 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct	s_prompt
 	int			rand;
 	t_list		*g_env;
 	t_list		*l_env;
+	bool		son;
 }				t_prompt;
 
 typedef struct	s_error

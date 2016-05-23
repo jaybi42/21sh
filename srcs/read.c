@@ -6,11 +6,11 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 17:59:20 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/23 16:02:23 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "minishell.h"
 
 static void	fill_av(t_av *av, char *str)
 {
@@ -58,10 +58,7 @@ int			read_init(t_list **av_list)
 
 	*av_list = NULL;
 	line = NULL;
-	while (line == NULL)
-	{
-		if (get_next_line(0, &line) < 0)
-			return (1);
-	}
+	if (get_next_line(0, &line) <= 0)
+		return (1);
 	return (split_line(av_list, line));
 }
