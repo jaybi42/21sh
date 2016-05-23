@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 19:50:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/23 16:12:11 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/23 18:59:11 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,22 @@ static int	go_back(t_list **g_e, t_list **l_e)
 
 static int	go_home(char *arg, t_list **g_e, t_list **l_e)
 {
-	STAT	stat;
-	PW_T	*pw;
+	t_list	*temp;
 	char	*link;
 
-	if (lstat(".", &stat) == -1)
-		return (1);
-	if ((pw = getpwuid(stat.st_uid)) == NULL)
+	temp = *l_e;
+	while (temp != NULL)
+	{
+		if (ft_strcmp(((t_env *)temp->content)->name, "HOME") == 0)
+			break ;
+		temp = temp->next;
+	}
+	if (temp == NULL)
 		return (1);
 	if (arg != NULL && arg[0] == '~')
-		link = ft_strjoin(pw->pw_dir, ++arg);
+		link = ft_strjoin(((t_env *)temp->content)->value, ++arg);
 	else
-		link = ft_strdup(pw->pw_dir);
+		link = ft_strdup(((t_env *)temp->content)->value);
 	bi_cd(INIT_AV("cd", link, NULL, 1), g_e, l_e);
 	if (link != NULL)
 		ft_strdel(&link);
