@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/21 11:39:33 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 18:00:03 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/23 15:34:57 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ void			print_prompt(int rand, t_list *g_env, t_list *l_env)
 	{
 		ft_putstr("\033[0m");
 		get_color(rand + 2);
+		ft_putchar('\n');
 		ft_putchar('@');
 	}
 	print_value(g_env, l_env, "USER");
 	ft_putstr("$>");
 	ft_putstr("\033[0m");
-	ft_putchar('\n');
 }
