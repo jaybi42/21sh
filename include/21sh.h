@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/24 11:54:45 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/25 14:56:37 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int				init_env(t_list **g_env, t_list **l_env);
 int				shell(t_list *av_list, t_list **g_env, t_list **l_env);
 int				do_exec(t_av av, t_list *g_env, t_list *l_env);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env);
-void			catch_sig(int rand, t_list *g_env, t_list *l_env, bool son);
+void			catch_sigal(int rand, t_list *g_env, t_list *l_env, bool son);
 
 /*
 **Name: builtin
@@ -98,6 +98,7 @@ int				bi_unsetenv(t_av av, t_list **g_env, t_list **l_env);
 int				bi_setenv(t_av av, t_list **g_env, t_list **l_env);
 int				bi_exit(t_av av, t_list **g_env, t_list **l_env);
 int				bi_getenv(t_av av, t_list **g_env, t_list **l_env);
+int				bi_echo(t_av av, t_list **g_env, t_list **l_env);
 
 /*
 **Name: Free list
