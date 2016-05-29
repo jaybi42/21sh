@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/25 14:56:37 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/29 17:33:03 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,18 @@
 # define STAT	struct stat
 # define PW_T	struct passwd
 
+# define STDIN	0
+# define STDOUT	1
+
 typedef void	(*t_sig) (int);
+
+typedef int		(*t_red_func)();
+
+typedef struct	s_red
+{
+	t_red_func	func;
+	char		*value;
+}				t_red;
 
 typedef struct	s_env
 {
@@ -83,7 +94,7 @@ int				init_env(t_list **g_env, t_list **l_env);
 int				shell(t_list *av_list, t_list **g_env, t_list **l_env);
 int				do_exec(t_av av, t_list *g_env, t_list *l_env);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env);
-void			catch_sigal(int rand, t_list *g_env, t_list *l_env, bool son);
+void			catch_signal(int rand, t_list *g_env, t_list *l_env, bool son);
 
 /*
 **Name: builtin
