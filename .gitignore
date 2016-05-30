@@ -7,5 +7,6 @@
 .#*
 *.dump
 *.gch
+*.dSYM
 .nfs*
 21sh

@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   logic_red.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/10 20:12:03 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/30 14:54:22 by jguthert         ###   ########.fr       */
+/*   Created: 2016/05/26 13:17:55 by jguthert          #+#    #+#             */
+/*   Updated: 2016/05/29 17:30:41 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
-
-int			bi_getenv(t_av av, t_list **g_env, t_list **l_env)
+static t_red const	g_red[8] =
 {
-	t_list		*env;
+	{red_stofile, ">"};
+	{red_dtofile, ">>"};
+	{red_stoin, "<"};
+	{red_dtoin, "<<"};
+	{red_pipe, "|"};
+	{red_and, "&&"};
+	{red_or, "||"};
+	{NULL, NULL};
+};
 
-	env = *g_env;
-	if (av.argc == 0)
-		return (0);
-	(void)l_env;
-	while (env != NULL)
+int			logic_red(char *in, char *out, char *value)
+{
+	int		i;
+
+	i = 0;
+	while (g_red[i].value != NULL)
 	{
-		if (ft_strcmp(av.arg[0], ((t_env *)env->content)->name) == 0)
-		{
-			ft_putendl(((t_env *)env->content)->value);
-			break ;
-		}
-		env = env->next;
+		if (ft_strcmp(g_red[i].value, value) == 0)
+			return (g_red[i].func(in, out));
+		i++;
 	}
-	return (0);
+	return (1);
 }

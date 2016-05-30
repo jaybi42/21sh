@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/30 14:59:30 by jguthert         ###   ########.fr       */
+/*   Created: 2016/05/25 16:44:13 by jguthert          #+#    #+#             */
+/*   Updated: 2016/05/25 16:49:34 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-#include <stdlib.h>
-#include <time.h>
+#include <unistd.h>
 
-int				main(void)
+void		test_pipe(t_av av)
 {
-	t_list		*l_env;
-	t_list		*g_env;
-	t_list		*av;
-	uint64_t	nbr;
+	int		pipefd[2];
 
-	srand(time(NULL));
-	nbr = rand();
-	if (init_env(&g_env, &l_env) == 1)
-		return (1);
-	while (1)
-	{
-		catch_signal(nbr, g_env, l_env, 0);
-		print_prompt(nbr, g_env, l_env);
-		if (read_init(&av) == 1)
-			exit(0);
-		if (shell(av, &g_env, &l_env) == 1)
-			return (1);
-		ft_lstdel(&av, free_av);
-	}
-	return (0);
+	if (pipe(pipefd) == -1)
+		return ;
+
 }
