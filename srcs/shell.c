@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/24 11:53:36 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/31 12:59:05 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int		do_shell(t_av av, t_list **g_env, t_list **l_env)
 {
 	pid_t		ret;
 
-	catch_signal(0, NULL, NULL, 1);
+	catch_signal((t_prompt){0, NULL, NULL, 1, NULL});
 	ret = fork();
 	if (ret == 0)
 		do_exec(av, *g_env, *l_env);

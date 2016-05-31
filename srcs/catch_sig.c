@@ -6,14 +6,14 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/24 11:54:24 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/31 12:56:27 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <signal.h>
 
-static t_prompt	g_prompt = {0, NULL, NULL, 0};
+static t_prompt	g_prompt = {0, NULL, NULL, 0, NULL};
 
 static void	sig_action(void *action)
 {
@@ -31,12 +31,12 @@ static void	is_sig(int signum)
 	ft_putnbr(signum);
 	ft_putendl(" received.");
 	if (g_prompt.son == 0)
-		print_prompt(g_prompt.rand, g_prompt.g_env, g_prompt.l_env);
+		print_prompt(g_prompt.rand, g_prompt.g_env, g_prompt.l_env, g_prompt.l);
 }
 
-void	catch_signal(int rand, t_list *g_env, t_list *l_env, bool son)
+void	catch_signal(t_prompt prompt)
 {
-	g_prompt = (t_prompt){rand, g_env, l_env, son};
+	g_prompt = prompt;
 	signal(SIGINT, is_sig);
 	signal(SIGTSTP, is_sig);
 	signal(SIGQUIT, is_sig);

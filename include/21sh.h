@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/29 17:33:03 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/31 12:57:29 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,22 @@ typedef struct	s_red
 	char		*value;
 }				t_red;
 
+typedef struct	s_line
+{
+	int			nbline;
+	int			line1;
+	int			sizeprompt;
+	int			hauteur;
+	int			largeur;
+	int			var;
+	char		buffer[6];
+	char		*str;
+	char		*strcpy;
+	int			count;
+	int			tmp;
+	int			size;
+}				t_line;
+
 typedef struct	s_env
 {
 	char		*name;
@@ -51,6 +67,7 @@ typedef struct	s_prompt
 	t_list		*g_env;
 	t_list		*l_env;
 	bool		son;
+	t_line		*l;
 }				t_prompt;
 
 typedef struct	s_error
@@ -93,8 +110,8 @@ int				init_env(t_list **g_env, t_list **l_env);
 
 int				shell(t_list *av_list, t_list **g_env, t_list **l_env);
 int				do_exec(t_av av, t_list *g_env, t_list *l_env);
-void			print_prompt(int rand, t_list *g_env, t_list *l_env);
-void			catch_signal(int rand, t_list *g_env, t_list *l_env, bool son);
+void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l);
+void			catch_signal(t_prompt prompt);
 
 /*
 **Name: builtin
