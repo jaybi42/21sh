@@ -6,11 +6,18 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/01 18:19:34 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/05/31 15:01:39 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+#include <curses.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <unistd.h>
+#include <term.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 static void	fill_av(t_av *av, char *str)
 {
@@ -33,16 +40,16 @@ static int	split_line(t_list **av_list, char *line)
 {
 	t_list	*temp;
 	t_av	av;
-	char	**tab;
+	char	**tab2;
 	int		i;
 
 	i = 0;
-	tab = ft_strsplit(line, ';');
-	if (tab == NULL)
+	tab2 = ft_strsplit(line, ';');
+	if (tab2 == NULL)
 		return (1);
-	while (tab[i] != NULL)
+	while (tab2[i] != NULL)
 	{
-		fill_av(&av, tab[i]);
+		fill_av(&av, tab2[i]);
 		temp = ft_lstnew((void *)&av, sizeof(t_av));
 		if (temp == NULL)
 			return (1);
@@ -52,36 +59,47 @@ static int	split_line(t_list **av_list, char *line)
 	return (0);
 }
 
-#include <stdio.h> //
-
-static void     debug_editline(t_line *l)
+int			read_init(t_list **av_list, t_line *l)
 {
-	do_term("sc");
-	do_goto("cm", 0, 15);
-	do_term("cd");
-	printf("count = %d, largeur = %d, size = %d, sizeprompt = %d\n STR = %s\n", l->count,\
-		   l->largeur, l->size, l->sizeprompt, l->str);
-	do_term("rc");
-}
-
-int			read_init(t_list **av_list)
-{
-	char	*line;
-
-	*av_list = NULL;
-	ft_init_line(l);
+	ft_init_read(l, av_list);
 	while (1)
 	{
 		ft_bzero(l->buffer, 6);
-		if (read(0, l->buffer, 6) == -1)
-			return (1);
-		if (l->buffer[0] == 10)
+		read(0, l->buffer, 6);
+		if (ENTER)
 		{
 			ft_putchar('\n');
 			break ;
 		}
-		if (action(l) == 1)
+		else if (LEFT)
+			ft_left(l);
+		else if (RIGHT)
+			ft_right(l);
+		else if (BACKSPACE)
+			ft_backspace(l);
+		else if (CTRL_R)
+			ft_ctrl_r(l);
+		else if (CTRL_L)
+			ft_ctrl_l(l);
+		else if (HOME)
+			ft_home(l);
+		else if (END)
+			ft_end(l);
+		else if (CUT)
+			ft_cut(l);
+		else if (PASTE)
+			ft_paste(l);
+		else if (CTRL_UP)
+			ft_ctrl_up(l);
+		else if (CTRL_DOWN)
+			ft_ctrl_down(l);
+		else
 			ft_print_key(l);
+		do_term("sc");
+		do_goto("cm", 0, 15);
+		do_term("cd");
+		printf("count = %d, largeur = %d, size = %d, sizeprompt = %d\n STR = %s\n", l->count, l->largeur, l->size, l->sizeprompt, l->str);
+		do_term("rc");
 	}
-	return (split_line(av_list, line));
+	return (split_line(av_list, l->str));
 }

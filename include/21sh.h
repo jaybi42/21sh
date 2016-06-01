@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/31 12:57:29 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/01 17:23:55 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 */
 
 # include "libft.h"
+# include "edit_line.h"
 
 # define INIT_ALL(CMD,AV1,AV2) (char *[]){CMD, AV1, AV2, NULL}
 # define INIT_ARG(AV1,AV2) (char *[]){AV1, AV2, NULL}
@@ -29,7 +30,6 @@
 # define STDOUT	1
 
 typedef void	(*t_sig) (int);
-
 typedef int		(*t_red_func)();
 
 typedef struct	s_red
@@ -37,22 +37,6 @@ typedef struct	s_red
 	t_red_func	func;
 	char		*value;
 }				t_red;
-
-typedef struct	s_line
-{
-	int			nbline;
-	int			line1;
-	int			sizeprompt;
-	int			hauteur;
-	int			largeur;
-	int			var;
-	char		buffer[6];
-	char		*str;
-	char		*strcpy;
-	int			count;
-	int			tmp;
-	int			size;
-}				t_line;
 
 typedef struct	s_env
 {
