@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 14:25:24 by malaine           #+#    #+#             */
-/*   Updated: 2016/05/31 14:53:36 by malaine          ###   ########.fr       */
+/*   Updated: 2016/06/02 17:12:15 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 #include <curses.h>
 #include <sys/types.h>
 #include <sys/uio.h>
-#include <unistd.h>
 #include <term.h>
-#include <stdlib.h>
 
 void	do_term(char *str)
 {

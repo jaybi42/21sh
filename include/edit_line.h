@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/01 17:56:31 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/02 18:23:50 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 */
 
 # include "libft.h"
-# include <termios.h>
-# include <term.h>
-# include <curses.h>
 # include <sys/ioctl.h>
 
 # define H_RED		"\033[1;91m"
@@ -64,13 +61,6 @@ typedef struct	s_actions
 	char		*key;
 }				t_actions;
 
-typedef struct	s_error
-{
-	bool		cmd;
-	char		*str;
-	bool		arg;
-}				t_error;
-
 /*
 **Name: Init
 **File:
@@ -86,7 +76,7 @@ void			ft_init_line(t_line *l);
 **Desc: Actions you do once you enter a special Key with the keybord
 */
 
-int				actions(char *buf, t_line *l);
+int				actions(t_line *l);
 void			ft_backspace(t_line *l);
 void			ft_right(t_line *l);
 void			ft_left(t_line *l);
@@ -107,8 +97,8 @@ void			ft_ctrl_l(t_line *l);
 
 void			do_goto(char *key, int val1, int val2);
 void			do_term(char *key);
-void			ft_go_up_bitch(t_line *l);
-void			ft_go_down_bitch(t_line *l);
+void			go_up(t_line *l);
+void			go_down(t_line *l);
 void			ft_paste_print(t_line *l, int var, int tmp);
 char			*ft_delete_char(int cursor, char *str, int size);
 char			*ft_insertion(int cursor, char *str, int size, char c);

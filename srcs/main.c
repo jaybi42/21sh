@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/31 13:00:41 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/02 17:07:49 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int		sh21(t_list **g_env, t_list **l_env)
 	{
 		catch_signal((t_prompt){nbr, *g_env, *l_env, 0, &l});
 		print_prompt(nbr, *g_env, *l_env, &l);
-		if (read_init(&av) == 1)
+		if (read_init(&av, &l) == 1)
 			exit(0);
 		if (shell(av, g_env, l_env) == 1)
 			return (1);

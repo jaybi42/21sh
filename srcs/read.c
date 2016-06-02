@@ -6,11 +6,12 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/01 18:19:34 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/02 17:14:32 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+#include <unistd.h>
 
 static void	fill_av(t_av *av, char *str)
 {
@@ -33,16 +34,16 @@ static int	split_line(t_list **av_list, char *line)
 {
 	t_list	*temp;
 	t_av	av;
-	char	**tab;
+	char	**tab_av;
 	int		i;
 
 	i = 0;
-	tab = ft_strsplit(line, ';');
-	if (tab == NULL)
+	tab_av = ft_strsplit(line, ';');
+	if (tab_av == NULL)
 		return (1);
-	while (tab[i] != NULL)
+	while (tab_av[i] != NULL)
 	{
-		fill_av(&av, tab[i]);
+		fill_av(&av, tab_av[i]);
 		temp = ft_lstnew((void *)&av, sizeof(t_av));
 		if (temp == NULL)
 			return (1);
@@ -64,10 +65,8 @@ static void     debug_editline(t_line *l)
 	do_term("rc");
 }
 
-int			read_init(t_list **av_list)
+int			read_init(t_list **av_list, t_line *l)
 {
-	char	*line;
-
 	*av_list = NULL;
 	ft_init_line(l);
 	while (1)
@@ -82,6 +81,7 @@ int			read_init(t_list **av_list)
 		}
 		if (action(l) == 1)
 			ft_print_key(l);
+		debug_editline(l);
 	}
-	return (split_line(av_list, line));
+	return (split_line(av_list, l->str));
 }
