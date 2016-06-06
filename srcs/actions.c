@@ -6,19 +6,18 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 13:49:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/02 18:17:16 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/06 19:12:52 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
-#include <unistd.h>
 
 static t_actions const	g_actions[16] = {
 	{ft_right, {27, 91, 65, 0, 0, 0}, "UP"},
 	{ft_left, {27, 91, 66, 0, 0, 0}, "DOWN"},
 	{ft_right, {27, 91, 67, 0, 0, 0}, "RIGHT"},
 	{ft_left, {27, 91, 68, 0, 0, 0}, "LEFT"},
-	{ft_delete_char, {27, 91, 51, 126, 0, 0}, "DELETE"},
+	{ft_backspace, {27, 91, 51, 126, 0, 0}, "DELETE"},
 	{ft_backspace, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
 	{ft_ctrl_r, {0, 0, 0, 0, 0, 67}, "CTRL R"},
 	{ft_ctrl_l, {0, 0, 0, 0, 0, 68}, "CTRL L"},

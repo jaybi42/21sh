@@ -6,11 +6,11 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/02 17:20:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/02 17:21:40 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/06 19:05:49 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "edit_line.h"
 
 void	check_is_space_l(t_line *l)
 {

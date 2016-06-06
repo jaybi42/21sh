@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 14:25:24 by malaine           #+#    #+#             */
-/*   Updated: 2016/06/02 17:12:15 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/06 18:59:12 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,31 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <term.h>
+#include <unistd.h>
 
-void	do_term(char *str)
+int			int_putchar(int c)
 {
-	tputs(tgetstr(str, NULL), 1, putchar_s);
+	write(2, &c, 1);
+	return (0);
 }
 
-void	do_goto(char *str, int val1, int val2)
+int			do_goto(char *key, int col, int row)
 {
-	tputs(tgoto(tgetstr(str, NULL), val1, val2), 1, putchar_s);
+	char	*ret;
+
+	if ((ret = tgetstr(key, NULL)) == NULL)
+		return (1);
+	ret = tgoto(ret, col, row);
+	tputs(ret, 0, int_putchar);
+	return (0);
+}
+
+int			do_term(char *key)
+{
+	char	*ret;
+
+	if ((ret = tgetstr(key, NULL)) == NULL)
+		return (1);
+	tputs(ret, 0, int_putchar);
+	return (0);
 }

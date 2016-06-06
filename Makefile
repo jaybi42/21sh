@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/06/02 17:23:49 by jguthert         ###   ########.fr        #
+#    Updated: 2016/06/06 19:13:53 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -56,11 +56,21 @@ FILES =					main			\
 						print_prompt	\
 						do_exec			\
 						catch_sig		\
+										\
 						actions			\
 						do_termcaps		\
+						go_up_down		\
+						ft_key			\
+						ft_init_line	\
+						ft_insertion	\
+						ft_print_key	\
+						home_end		\
+						cut_cpy_paste	\
 						check_space		\
 						check_word		\
-						go_up_down		\
+
+
+
 
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))

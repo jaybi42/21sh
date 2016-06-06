@@ -6,11 +6,11 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 12:13:07 by malaine           #+#    #+#             */
-/*   Updated: 2016/05/31 14:51:32 by malaine          ###   ########.fr       */
+/*   Updated: 2016/06/06 19:10:45 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "edit_line.h"
 #include <stdlib.h>
 
 char	*ft_insertion(int cursor, char *str, int size, char c)

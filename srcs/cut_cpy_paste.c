@@ -6,17 +6,11 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 17:51:23 by malaine           #+#    #+#             */
-/*   Updated: 2016/05/31 14:54:27 by malaine          ###   ########.fr       */
+/*   Updated: 2016/06/06 19:11:48 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
-#include <curses.h>
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <unistd.h>
-#include <term.h>
-#include <stdlib.h>
+#include "edit_line.h"
 
 void	ft_cut(t_line *l)
 {

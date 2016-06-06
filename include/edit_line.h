@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/02 18:23:50 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/06 19:48:51 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void			ft_ctrl_l(t_line *l);
 **Desc: Termcaps actions
 */
 
-void			do_goto(char *key, int val1, int val2);
-void			do_term(char *key);
+int				do_goto(char *key, int col, int row);
+int				do_term(char *key);
 void			go_up(t_line *l);
 void			go_down(t_line *l);
 void			ft_paste_print(t_line *l, int var, int tmp);
@@ -109,10 +109,10 @@ char			*ft_insertion(int cursor, char *str, int size, char c);
 **Desc: Check functions
 */
 
-void			ft_check_is_space_l(t_line *l);
-void			ft_check_space_l(t_line *l);
 int				ft_check_first_word(t_line *l);
 int				ft_check_last_word(t_line *l);
+void			ft_check_is_space_l(t_line *l);
+void			ft_check_space_l(t_line *l);
 void			ft_check_space_r(t_line *l);
 void			ft_check_is_space_r(t_line *l);
 
@@ -122,7 +122,7 @@ void			ft_check_is_space_r(t_line *l);
 **Desc: Print functions
 */
 
-int				putchar_s(int c);
+int				int_putchar(int c);
 void			ft_print_first(t_line *l);
 void			ft_print_rest(t_line *l);
 void			ft_print_insert(t_line *l);
