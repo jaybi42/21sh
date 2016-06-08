@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/06/08 15:26:15 by jguthert         ###   ########.fr        #
+#    Updated: 2016/06/08 16:05:36 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -71,9 +71,6 @@ FILES =					main			\
 						init_term		\
 
 
-
-
-
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
 
@@ -90,6 +87,7 @@ $(LIB):
 	@make -C libft
 
 obj/%.o: srcs/%.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(IFLAGS) -o $@ -c $<
 
 clean:
