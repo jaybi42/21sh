@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 13:49:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/06 19:12:52 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/08 15:59:44 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static t_actions const	g_actions[16] = {
 	{ft_backspace, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
 	{ft_ctrl_r, {0, 0, 0, 0, 0, 67}, "CTRL R"},
 	{ft_ctrl_l, {0, 0, 0, 0, 0, 68}, "CTRL L"},
-	{ft_home, {0, 91, 72, 0, 0, 0}, "HOME"},
-	{ft_end, {0, 91, 70, 0, 0, 0}, "END"},
+	{ft_home, {27, 91, 72, 0, 0, 0}, "HOME"},
+	{ft_end, {27, 91, 70, 0, 0, 0}, "END"},
 	{ft_cut, {11, 0, 0, 0, 0, 0}, "CUT"},
 	{ft_paste, {16, 0, 0, 0, 0, 0}, "PASTE"},
 	{ft_ctrl_up, {0, 0, 0, 59, 53, 65}, "CTRL UP"},

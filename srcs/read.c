@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/08 15:37:16 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/08 15:43:20 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ static int	split_line(t_list **av_list, char *line)
 static void     debug_editline(t_line *l)
 {
 	do_term("sc");
+	do_goto("DO", 0, 5);
 	do_term("cd");
-	do_goto("DO", 0, 10);
+	do_goto("DO", 0, 5);
 	printf("count = %d, largeur = %d, size = %d, sizeprompt = %d\n STR = %s\n", l->count,\
 		   l->largeur, l->size, l->sizeprompt, l->str);
 	do_term("rc");

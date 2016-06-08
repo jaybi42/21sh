@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/08 15:25:42 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/08 15:54:50 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static int		sh21(t_list **g_env, t_list **l_env)
 	ft_bzero(&l, sizeof(t_line));
 	srand(time(NULL));
 	nbr = rand();
-	init_term();
+	if (init_term() == -1)
+		return (1);
 	while (1)
 	{
 		catch_signal((t_prompt){nbr, *g_env, *l_env, 0, &l});
