@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/06/06 19:13:53 by jguthert         ###   ########.fr        #
+#    Updated: 2016/06/08 15:26:15 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -68,6 +68,7 @@ FILES =					main			\
 						cut_cpy_paste	\
 						check_space		\
 						check_word		\
+						init_term		\
 
 
 

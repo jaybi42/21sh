@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init_read.c                                     :+:      :+:    :+:   */
+/*   ft_init_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:13:34 by malaine           #+#    #+#             */
-/*   Updated: 2016/06/06 19:06:20 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/08 15:10:25 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 #include <sys/ioctl.h>
 
-void	ft_init_read(t_line *l)
+void	ft_init_line(t_line *l)
 {
 	struct winsize w;
 

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/06 19:48:51 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/08 15:23:47 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ typedef struct	s_actions
 
 int				init_env(t_list **g_env, t_list **l_env);
 void			ft_init_line(t_line *l);
+void			ft_init_read(t_line *l);
+int				init_term(void);
 
 /*
 **Name: Actions
@@ -109,12 +111,12 @@ char			*ft_insertion(int cursor, char *str, int size, char c);
 **Desc: Check functions
 */
 
-int				ft_check_first_word(t_line *l);
-int				ft_check_last_word(t_line *l);
-void			ft_check_is_space_l(t_line *l);
-void			ft_check_space_l(t_line *l);
-void			ft_check_space_r(t_line *l);
-void			ft_check_is_space_r(t_line *l);
+int				check_first_word(t_line *l);
+int				check_last_word(t_line *l);
+void			check_is_space_l(t_line *l);
+void			check_space_l(t_line *l);
+void			check_space_r(t_line *l);
+void			check_is_space_r(t_line *l);
 
 /*
 **Name: Print

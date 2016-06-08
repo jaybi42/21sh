@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 13:16:09 by malaine           #+#    #+#             */
-/*   Updated: 2016/06/06 19:05:27 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/08 14:39:25 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,27 +54,27 @@ void		ft_backspace(t_line *l)
 
 void		ft_ctrl_r(t_line *l)
 {
-	if (ft_check_last_word(l) == 0)
+	if (check_last_word(l) == 0)
 	{
 		if (l->str[l->count] == ' ')
-			ft_check_is_space_r(l);
+			check_is_space_r(l);
 		else
 		{
-			ft_check_space_r(l);
-			ft_check_is_space_r(l);
+			check_space_r(l);
+			check_is_space_r(l);
 		}
 	}
 	else
-		ft_check_space_r(l);
+		check_space_r(l);
 }
 
 void		ft_ctrl_l(t_line *l)
 {
 	if (l->str[l->count - 1] != ' ')
-		ft_check_space_l(l);
+		check_space_l(l);
 	else
 	{
-		ft_check_is_space_l(l);
-		ft_check_space_l(l);
+		check_is_space_l(l);
+		check_space_l(l);
 	}
 }
