@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/31 12:56:27 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/09 15:48:14 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@ static void	sig_action(void *action)
 
 static void	is_sig(int signum)
 {
-	ft_putchar('\n');
-	ft_putstr("signal: ");
-	ft_putnbr(signum);
-	ft_putendl(" received.");
-	if (g_prompt.son == 0)
+	struct winsize w;
+
+	if (signum == SIGWINCH && g_prompt.l != NULL)
+	{
+		ioctl(0, TIOCGWINSZ, &w);
+		g_prompt.l->largeur = w.ws_col;
+		g_prompt.l->hauteur = w.ws_row;
+	}
+	else if (g_prompt.son == 0)
 		print_prompt(g_prompt.rand, g_prompt.g_env, g_prompt.l_env, g_prompt.l);
 }
 
@@ -38,6 +42,7 @@ void	catch_signal(t_prompt prompt)
 {
 	g_prompt = prompt;
 	signal(SIGINT, is_sig);
+	signal(SIGWINCH, is_sig);
 	signal(SIGTSTP, is_sig);
 	signal(SIGQUIT, is_sig);
 }
