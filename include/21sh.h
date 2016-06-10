@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/09 15:45:28 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/10 17:52:48 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct	s_prompt
 	bool		son;
 	t_line		*l;
 }				t_prompt;
+
+typedef struct s_history
 
 typedef struct	s_error
 {
