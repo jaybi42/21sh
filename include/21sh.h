@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/10 17:52:48 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/06/10 18:51:36 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,18 @@ typedef struct	s_prompt
 	t_line		*l;
 }				t_prompt;
 
-typedef struct s_history
-
 typedef struct	s_error
 {
 	bool		cmd;
 	char		*str;
 	bool		arg;
 }				t_error;
+
+typedef struct	s_hist
+{
+	t_ftl_node	*node;
+	char		*str;
+}				t_hist;
 
 typedef struct	s_av
 {
@@ -98,6 +102,14 @@ int				shell(t_list *av_list, t_list **g_env, t_list **l_env);
 int				do_exec(t_av av, t_list *g_env, t_list *l_env);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l);
 void			catch_signal(t_prompt prompt);
+
+/*
+**Name: builtin
+**File: builtin.c bi_*.c
+**Desc: Do the builtin if it exist
+*/
+
+void			history(void);
 
 /*
 **Name: builtin
