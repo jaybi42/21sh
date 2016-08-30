@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/09 15:39:36 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/08/30 17:10:47 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ static void     debug_editline(t_line *l)
 	do_term("rc");
 }
 
-int			read_init(t_list **av_list, t_line *l)
+int			read_init(t_list **av_list, t_line *l, t_ftl_root *hist)
 {
 	*av_list = NULL;
-	ft_init_line(l);
+	ft_init_line(l, hist);
 	while (1)
 	{
 		ft_bzero(l->buffer, 6);
@@ -80,7 +80,7 @@ int			read_init(t_list **av_list, t_line *l)
 			ft_putchar('\n');
 			break ;
 		}
-		else if (actions(l) == 1)
+		else if (actions(l, hist) == 1)
 			ft_print_key(l);
 		debug_editline(l);
 	}

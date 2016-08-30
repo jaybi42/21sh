@@ -6,14 +6,14 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:13:34 by malaine           #+#    #+#             */
-/*   Updated: 2016/06/08 15:10:25 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/08/30 17:36:21 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 #include <sys/ioctl.h>
 
-void	ft_init_line(t_line *l)
+void	ft_init_line(t_line *l, t_ftl_root *hist)
 {
 	struct winsize w;
 
@@ -27,4 +27,6 @@ void	ft_init_line(t_line *l)
 	l->size = 0;
 	l->count = 0;
 	l->strcpy = NULL;
+	l->hist = hist;
+	l->hist_size = 30;
 }

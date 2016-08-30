@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/10 18:51:36 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/08/24 16:04:02 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct	s_error
 
 typedef struct	s_hist
 {
-	t_ftl_node	*node;
+	t_ftl_node	node;
 	char		*str;
 }				t_hist;
 
@@ -89,7 +89,7 @@ typedef struct	s_builtin
 **Desc: Parse read and env
 */
 
-int				read_init(t_list **av_list, t_line *l);
+int				read_init(t_list **av_list, t_line *l, t_ftl_root *hist);
 int				init_env(t_list **g_env, t_list **l_env);
 
 /*

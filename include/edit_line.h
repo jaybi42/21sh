@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/08 15:23:47 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/08/30 17:35:57 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct	s_line
 	int			count;
 	int			tmp;
 	int			size;
+	t_ftl_root	*hist;
+	int			hist_size;
 }				t_line;
 
 typedef struct	s_elem
@@ -68,7 +70,7 @@ typedef struct	s_actions
 */
 
 int				init_env(t_list **g_env, t_list **l_env);
-void			ft_init_line(t_line *l);
+void			ft_init_line(t_line *l, t_ftl_root *hist);
 void			ft_init_read(t_line *l);
 int				init_term(void);
 
