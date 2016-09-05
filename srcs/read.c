@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/08/30 17:10:47 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/08/31 13:50:41 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int			read_init(t_list **av_list, t_line *l, t_ftl_root *hist)
 			ft_putchar('\n');
 			break ;
 		}
-		else if (actions(l, hist) == 1)
+		else if (actions(l) == 1)
 			ft_print_key(l);
 		debug_editline(l);
 	}

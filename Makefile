@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/08/22 13:41:00 by jguthert         ###   ########.fr        #
+#    Updated: 2016/08/31 13:51:06 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -52,6 +52,7 @@ FILES =					main			\
 						bi_exit			\
 						bi_getenv		\
 						bi_echo			\
+						bi_history		\
 						print_error		\
 						print_prompt	\
 						do_exec			\

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/08/24 16:04:02 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/05 18:25:06 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,18 +98,20 @@ int				init_env(t_list **g_env, t_list **l_env);
 **Desc: Do shell functions
 */
 
-int				shell(t_list *av_list, t_list **g_env, t_list **l_env);
+int				shell(t_list *av_list, t_list **g_env, t_list **l_env, t_ftl_root *hist);
 int				do_exec(t_av av, t_list *g_env, t_list *l_env);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l);
 void			catch_signal(t_prompt prompt);
 
 /*
-**Name: builtin
-**File: builtin.c bi_*.c
-**Desc: Do the builtin if it exist
+**Name: history
+**File: history.c
+**Desc: Function to use history builtin
 */
 
 void			history(void);
+int				put_history(t_ftl_root *root);
+int				get_history(t_ftl_root *root);
 
 /*
 **Name: builtin
@@ -117,7 +119,8 @@ void			history(void);
 **Desc: Do the builtin if it exist
 */
 
-int				builtin(t_av av, t_list **g_env, t_list **l_env);
+int				builtin(t_av av, t_list **g_env, t_list **l_env,
+						t_ftl_root *hist);
 int				bi_cd(t_av av, t_list **g_env, t_list **l_env);
 int				bi_env(t_av av, t_list **g_env, t_list **l_env);
 int				bi_unsetenv(t_av av, t_list **g_env, t_list **l_env);
@@ -125,6 +128,7 @@ int				bi_setenv(t_av av, t_list **g_env, t_list **l_env);
 int				bi_exit(t_av av, t_list **g_env, t_list **l_env);
 int				bi_getenv(t_av av, t_list **g_env, t_list **l_env);
 int				bi_echo(t_av av, t_list **g_env, t_list **l_env);
+int				bi_history(t_av av, t_ftl_root *hist);
 
 /*
 **Name: Free list
