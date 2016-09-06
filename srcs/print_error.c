@@ -6,13 +6,13 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/19 19:08:29 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/25 16:55:53 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/06 18:06:03 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-static t_error const	g_print[9] = {
+static t_error const	g_print[10] = {
 	{1, ": too many arguments.", 0},
 	{1, ": string not in pwd: ", 1},
 	{1, ": no such file or directory: ", 1},
@@ -22,6 +22,7 @@ static t_error const	g_print[9] = {
 	{0, "Fork is fucked.", 0},
 	{1, ": command not found: ", 1},
 	{0, "Pipe error.", 0},
+	{1, "numeric argument required", 0},
 };
 
 int		print_error(t_av av, int error)

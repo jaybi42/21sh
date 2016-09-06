@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/08/31 13:51:06 by jguthert         ###   ########.fr        #
+#    Updated: 2016/09/06 17:31:18 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -58,6 +58,7 @@ FILES =					main			\
 						do_exec			\
 						catch_sig		\
 						history			\
+						parse_history	\
 										\
 						actions			\
 						do_termcaps		\
