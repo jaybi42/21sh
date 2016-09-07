@@ -6,13 +6,13 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 13:49:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/08/30 17:17:21 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/07 16:24:31 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 
-static t_actions const	g_actions[16] = {
+static t_actions const	g_actions[17] = {
 	{ft_right, {27, 91, 65, 0, 0, 0}, "UP"},
 	{ft_left, {27, 91, 66, 0, 0, 0}, "DOWN"},
 	{ft_right, {27, 91, 67, 0, 0, 0}, "RIGHT"},
@@ -27,6 +27,7 @@ static t_actions const	g_actions[16] = {
 	{ft_paste, {16, 0, 0, 0, 0, 0}, "PASTE"},
 	{ft_ctrl_up, {27, 91, 49, 59, 53, 65}, "CTRL UP"},
 	{ft_ctrl_down, {27, 91, 49, 59, 53, 66}, "CTRL DOWN"},
+	{ft_autocomp, {9, 0, 0, 0, 0, 0}, "TAB"},
 	{NULL, {10, 0, 0, 0, 0, 0}, "ENTER"},
 	{ft_print_key, {0, 0, 0, 0, 0, 0}, "Normal Key"},
 };

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/08/30 17:35:57 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/07 16:23:51 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void			ft_home(t_line *l);
 void			ft_end(t_line *l);
 void			ft_ctrl_r(t_line *l);
 void			ft_ctrl_l(t_line *l);
+void			ft_autocomp(t_line *l);
 
 /*
 **Name: Termcaps

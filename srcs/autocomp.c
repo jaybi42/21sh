@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   autocomp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/25 16:44:13 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/25 16:49:34 by jguthert         ###   ########.fr       */
+/*   Created: 2016/09/07 16:22:22 by jguthert          #+#    #+#             */
+/*   Updated: 2016/09/07 16:23:08 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-#include <unistd.h>
 
-void		test_pipe(t_av av)
+void	ft_autocomp(t_line *l)
 {
-	int		pipefd[2];
-
-	if (pipe(pipefd) == -1)
-		return ;
-
+	(void)l;
 }

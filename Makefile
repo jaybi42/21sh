@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/09/06 17:31:18 by jguthert         ###   ########.fr        #
+#    Updated: 2016/09/07 16:24:03 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -72,6 +72,7 @@ FILES =					main			\
 						check_space		\
 						check_word		\
 						init_term		\
+						autocomp		\
 
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
