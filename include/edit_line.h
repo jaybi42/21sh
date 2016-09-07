@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/07 16:23:51 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/07 18:01:06 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ typedef struct	s_line
 	int			hist_size;
 }				t_line;
 
+typedef struct	s_quotes
+{
+	bool		squote;
+	bool		dquote;
+	bool		bquote;
+}				t_quotes;
+
 typedef struct	s_elem
 {
 	t_ftl_node	node;
@@ -73,6 +80,13 @@ int				init_env(t_list **g_env, t_list **l_env);
 void			ft_init_line(t_line *l, t_ftl_root *hist);
 void			ft_init_read(t_line *l);
 int				init_term(void);
+
+/*
+**Name: Parse quote
+**File:
+**Desc: Parsing quotes
+*/
+
 
 /*
 **Name: Actions

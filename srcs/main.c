@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/05 17:57:56 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/07 19:01:12 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ static int		sh21(t_list **g_env, t_list **l_env)
 	put_history(&hist);
 }
 
+int         main_quote(void);//
 
 int				main(void)
 {
+	main_quote();//
 	t_list		*l_env;
 	t_list		*g_env;
 
