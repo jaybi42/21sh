@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/30 17:13:12 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/06 18:24:27 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/09 15:42:25 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,24 +71,21 @@ int				bi_history(t_av av, t_ftl_root *hist)
 {
 	if (hist == NULL || hist->next == (t_ftl_node*)hist)
 		return (0);
-	else if (av.argc == 1 && ft_strncmp(*av.arg, "-", 1) == 0)
+	else if (*av.arg && ft_strncmp(*av.arg, "-", 1) == 0 &&
+			 ft_strcmp(*av.arg, "-c") != 0)
 	{
 		ft_putendl_fd("history: usage: history [-c] [-d offset] [n]", 2);
 		return (1);
 	}
-	else if (ft_strcmp("history", av.cmd) == 0)
-	{
-		if (*av.arg == NULL)
-			return (print_history(hist, 15));
-		else if (!ft_strcmp(*av.arg, "-d"))
-			return (pop_line(hist, ft_atoi(av.arg[1])));
-		else if (!ft_strcmp(*av.arg, "-c"))
-			ftl_release(hist, del_history);
-		else if (!ft_strisnum(*av.arg))
-			return (print_error(av, 9));
-		else if (av.argc > 2)
-			return (print_error(av, 0));
-		return (print_history(hist, ft_atoi(*av.arg)));
-	}
-	return (parse_history(av, hist));
+	if (*av.arg == NULL)
+		return (print_history(hist, 15));
+	else if (!ft_strcmp(*av.arg, "-d"))
+		return (pop_line(hist, ft_atoi(av.arg[1])));
+	else if (!ft_strcmp(*av.arg, "-c"))
+		ftl_release(hist, del_history);
+	else if (!ft_strisnum(*av.arg))
+		return (print_error(av, 9));
+	else if (av.argc > 2)
+		return (print_error(av, 0));
+	return (print_history(hist, ft_atoi(*av.arg)));
 }

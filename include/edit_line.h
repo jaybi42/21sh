@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/09 13:23:43 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/09 16:21:50 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,13 @@ void			ft_init_read(t_line *l);
 int				init_term(void);
 
 /*
-**Name: Parse quote
-**File:
-**Desc: Parsing quotes
+**Name: Parse editing
+**File: parse_quotes.c parse_history.c
+**Desc: Parsing quotes, history
 */
 
+char			*parse_history(char *cmd, t_ftl_root *hist);
+int				parse_quote(char *line);
 
 /*
 **Name: Actions

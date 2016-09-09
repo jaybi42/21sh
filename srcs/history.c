@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 13:02:57 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/06 17:37:25 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/09 15:19:46 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,60 +53,3 @@ int				get_history(t_ftl_root *root)
 		return (ERROR);
 	return (0);
 }
-
-/*
-#include <stdlib.h>
-
-static void print_history(t_ftl_root *root)
-{
-	t_ftl_node	*node;
-
-	if ((t_ftl_node *)root->next == NULL)
-		return ;
-	node = (t_ftl_node *)root->next;
-	while (node != (t_ftl_node *)root)
-	{
-		ft_putendl_fd(((t_hist *)node)->str, 2);
-		node = node->next;
-	}
-	ft_putendl("-------------------");
-}
-
-static int fill_root(t_ftl_root *root, char *str1, char *str2)
-{
-	t_hist	hist;
-
-	ft_bzero(&hist, (sizeof(t_hist)));
-	if ((hist.str = ft_strdup(str1)) != NULL)
-	{
-		if (ftl_push_front(root, (FTL_NODE *)(&hist)) != 0)
-			return (ERROR);
-	}
-	if ((hist.str = ft_strdup(str2)) != NULL)
-	{
-		if (ftl_push_front(root, (FTL_NODE *)(&hist)) != 0)
-			return (ERROR);
-	}
-	return (0);
-}
-
-static void	del_history(t_ftl_node *temp)
-{
-	ft_strdel(&(((t_hist *)temp)->str));
-}
-
-void			history(void)
-{
-	t_ftl_root	root1;
-	t_ftl_root	root2;
-	char		str1[] = "je\ntest\nquatres\nlignes";
-	char		str2[] = "jetestuneligne";
-
-	ftl_init(&root1, sizeof(t_hist));
-	fill_root(&root1, str1, str2);
-	put_history(&root1);
-	get_history(&root2);
-	ftl_release(&root1, del_history);
-	print_history(&root1);
-}
-*/
