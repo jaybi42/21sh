@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/07 18:01:06 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/09 13:23:43 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct	s_quotes
 	bool		squote;
 	bool		dquote;
 	bool		bquote;
+	bool		escape;
 }				t_quotes;
 
 typedef struct	s_elem

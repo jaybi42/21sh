@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:47:07 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/07 21:31:10 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/09 14:53:39 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,23 @@ static void		init_quotes(t_quotes *quotes)
 	quotes->squote = 0;
 	quotes->dquote = 0;
 	quotes->bquote = 0;
+	quotes->escape = 0;
 }
 
 static void		check_quotes(t_quotes *quotes, char *line)
 {
 	while (*line)
 	{
-		if (*line == '"' && quotes->squote == 0)
-			quotes->dquote ^= 1;
-		else if (*line == '\'' && quotes->dquote == 0 && quotes->bquote == 1)
+		if (*line == '\\')
+			quotes->escape ^= 1;
+		else if (*line == '"' && quotes->squote == 0 && quotes->bquote == 0)
+			quotes->dquote ^= !quotes->escape;
+		else if (*line == '\'' && quotes->dquote == 0 && quotes->bquote == 0)
 			quotes->squote ^= 1;
-		else if (*line == '`')
-			quotes->bquote ^= 1;
+		else if (*line == '`' && quotes->squote == 0)
+			quotes->bquote ^= !quotes->escape;
+		else
+			quotes->escape = 0;
 		line++;
 	}
 }
