@@ -6,13 +6,26 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/09 15:24:56 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/10 15:34:19 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <stdlib.h>
 #include <time.h>
+
+void		clean_exit(t_list *av, t_ftl_root *hist)
+{
+	int		nbr;
+
+	nbr = 0;
+	if (*((t_av *)av->content)->arg != NULL)
+		nbr = ft_atoi(*((t_av *)av->content)->arg);
+	ft_lstdel(&av, free_av);
+	put_history(hist);
+	exit (nbr);
+}
+
 
 static int		sh21(t_list **g_env, t_list **l_env)
 {
@@ -30,12 +43,11 @@ static int		sh21(t_list **g_env, t_list **l_env)
 		catch_signal((t_prompt){nbr, *g_env, *l_env, 0, &l});
 		print_prompt(nbr, *g_env, *l_env, &l);
 		if (read_init(&av, &l, &hist) == 1)
-			exit(0);
+			clean_exit(av, &hist);
 		if (shell(av, g_env, l_env, &hist) == 1)
-			return (1);
-		ft_lstdel(&av, free_av);
+			clean_exit(av, &hist);
 	}
-	put_history(&hist);
+	return (0);
 }
 
 int				main(void)
