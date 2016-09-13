@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/09 16:08:03 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/13 19:00:56 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ int				init_env(t_list **g_env, t_list **l_env);
 */
 
 int				shell(t_list *av_list, t_list **g_env, t_list **l_env, t_ftl_root *hist);
-int				do_exec(t_av av, t_list *g_env, t_list *l_env);
+int				do_fork(char *bin, char **all, char **env);
+int				check_bin(t_av av, t_list *g_env, t_list *l_env);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l);
 void			catch_signal(t_prompt prompt);
 

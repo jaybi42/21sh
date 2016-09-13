@@ -1,5 +1,16 @@
-#include <string.h>
-#include "libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/13 13:23:03 by jguthert          #+#    #+#             */
+/*   Updated: 2016/09/13 14:49:47 by jguthert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "21sh.h"
 
 void	check_char(char c, int *option_n)
 {
@@ -28,7 +39,7 @@ void	check_char(char c, int *option_n)
 	}
 }
 
-int	check_options(char *s, int *option_n, int *option_control)
+int		check_options(char *s, int *option_n, int *option_control)
 {
 	int	i;
 
@@ -54,13 +65,14 @@ int	check_options(char *s, int *option_n, int *option_control)
 	return (1);
 }
 
-int main(int argc, char *argv[])
+int		bi_echo(t_av av, t_list **g_env, t_list **l_env)
 {
 	int	*options;
-	int	end_option = 0;
+	int	end_option;
 	int	i = -1;
 	int	x = 1;
 
+	end_option = 0;
 	if ((options = (int *)ft_memalloc(sizeof(int) * 2)) == NULL)
 		return (1);
 	while(argv[x] != NULL)

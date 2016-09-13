@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/09/07 19:00:05 by jguthert         ###   ########.fr        #
+#    Updated: 2016/09/13 18:39:01 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -55,10 +55,11 @@ FILES =					main			\
 						bi_history		\
 						print_error		\
 						print_prompt	\
-						do_exec			\
+						do_fork			\
 						catch_sig		\
 						history			\
 						parse_history	\
+						check_bin		\
 										\
 						actions			\
 						do_termcaps		\

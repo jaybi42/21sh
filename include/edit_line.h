@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/09 16:21:50 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/10 17:25:47 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,9 @@ void			check_is_space_r(t_line *l);
 */
 
 int				int_putchar(int c);
-void			ft_print_first(t_line *l);
-void			ft_print_rest(t_line *l);
-void			ft_print_insert(t_line *l);
+//void			ft_print_first(t_line *l);
+//void			ft_print_rest(t_line *l);
+//void			ft_print_insert(t_line *l);
 void			ft_print_key(t_line *l);
 
 #endif

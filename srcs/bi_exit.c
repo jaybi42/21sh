@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 19:53:32 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/10 15:37:45 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/13 16:32:46 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /*
 ** - Clean g_env and l_env
-** - return the value to exit shell
+** - return -1 to exit shell
 */
 
 

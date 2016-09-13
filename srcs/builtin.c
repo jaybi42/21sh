@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:03:36 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/09 16:04:38 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/13 15:36:27 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int			builtin(t_av av, t_list **g_env, t_list **l_env, t_ftl_root *hist)
 	while (i < 7)
 	{
 		if (ft_strcmp(g_builtin_list[i].key, av.cmd) == 0)
-			return(g_builtin_list[i].value(av, g_env, l_env));
+			return (g_builtin_list[i].value(av, g_env, l_env));
 		i++;
 	}
 	return (1);

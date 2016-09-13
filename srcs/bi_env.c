@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:25:51 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 17:58:17 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/13 19:07:46 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,16 @@ int				bi_env(t_av av, t_list **g_env, t_list **l_env)
 	int			ret;
 	t_av		new_av;
 
-	ret = fork();
-	if (ret == 0)
+	ret = parse_env(av, g_env, l_env);
+	new_av.argc = av.argc - ret;
+	if (new_av.argc >= 1)
 	{
-		ret = parse_env(av, g_env, l_env);
-		new_av.argc = av.argc - ret;
-		if (new_av.argc >= 1)
-		{
-			new_av.cmd = av.arg[ret];
-			new_av.arg = av.arg + ret + 1;
-			new_av.all = av.all + ret + 1;
-			do_exec(new_av, *g_env, *l_env);
-		}
-		else
-			print_env(*g_env);
-		bi_exit(INIT_AV(NULL, NULL, NULL, 0), NULL, NULL);
+		new_av.cmd = av.arg[ret];
+		new_av.arg = av.arg + ret + 1;
+		new_av.all = av.all + ret + 1;
+		check_bin(new_av, *g_env, *l_env);
 	}
-	else if (ret == -1)
-		return (print_error(av, 6));
 	else
-		ret = wait(NULL);
+		print_env(*g_env);
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   do_exec.c                                          :+:      :+:    :+:   */
+/*   check_bin.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/24 16:57:26 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 18:00:11 by jguthert         ###   ########.fr       */
+/*   Created: 2016/09/13 18:36:16 by jguthert          #+#    #+#             */
+/*   Updated: 2016/09/13 19:15:05 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-static char	*get_path(t_list *g_env, t_list *l_env)
+static char *get_path(t_list *g_env, t_list *l_env)
 {
 	while (g_env != NULL)
 	{
@@ -31,7 +31,7 @@ static char	*get_path(t_list *g_env, t_list *l_env)
 	return (NULL);
 }
 
-static char	**convert_env(t_list *g_env, t_list *l_env)
+static char **convert_env(t_list *g_env, t_list *l_env)
 {
 	t_list	*env;
 	char	**tab;
@@ -53,7 +53,7 @@ static char	**convert_env(t_list *g_env, t_list *l_env)
 	return (tab);
 }
 
-static char	**get_allpath(char *cmd, char *path)
+static char **get_allpath(char *cmd, char *path)
 {
 	char	**temp;
 	char	**allpath;
@@ -75,33 +75,38 @@ static char	**get_allpath(char *cmd, char *path)
 	return (temp);
 }
 
-static void	exec_path(char **arg, char **path, char **env)
+static int	 exec_path(char **arg, char **path, char **env)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (path[i] != NULL)
 	{
-		if (access(path[i], X_OK) != -1 && execve(path[i], arg, env) == 0)
-			return ;
+		if (access(path[i], X_OK) != -1)
+			return (do_fork(path[i], arg, env));
 		i++;
 	}
+	return (-2);
 }
 
-int			do_exec(t_av av, t_list *g_env, t_list *l_env)
+int		check_bin(t_av av, t_list *g_env, t_list *l_env)
 {
 	char	**env;
 	char	**path;
 	char	*str;
+	int		ret;
 
+	ret = -2;
 	env = convert_env(g_env, l_env);
 	str = get_path(g_env, l_env);
-	if (access(av.cmd, X_OK) != -1)
-		execve(av.cmd, av.all, env);
 	path = get_allpath(av.cmd, str);
-	exec_path(av.all, path, env);
-	print_error(INIT_AV("minishell", av.cmd, NULL, 1), 7);
+	if (access(av.cmd, X_OK) != -1)
+		ret = do_fork(av.cmd, av.all, env);
+	else
+		ret = exec_path(av.all, path, env);
 	ft_tabdel(path);
 	ft_tabdel(env);
-	return (bi_exit(INIT_AV(NULL, NULL, NULL, 1), NULL, NULL));
+	if (ret == -2)
+		return (print_error(INIT_AV("minishell", av.cmd, NULL, 1), 7));
+	return (ret);
 }
