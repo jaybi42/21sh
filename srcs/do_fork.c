@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/24 16:57:26 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/13 19:21:18 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/14 14:35:57 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int				do_fork(char *bin, char **all, char **env)
 	if (ret == 0)
 		exit(execve(bin, all, env));
 	else if (ret == -1)
-		return (ERROR);
+		return (print_error(INIT_AV(NULL, NULL, NULL, 0), 6));
 	else
 	{
 		ret = waitpid(-1, &wait_status, WUNTRACED);
