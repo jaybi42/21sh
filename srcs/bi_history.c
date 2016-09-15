@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/30 17:13:12 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/09 15:42:25 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/15 15:31:19 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int				bi_history(t_av av, t_ftl_root *hist)
 	else if (!ft_strcmp(*av.arg, "-c"))
 		ftl_release(hist, del_history);
 	else if (!ft_strisnum(*av.arg))
-		return (print_error(av, 9));
+		return (print_error(av, 11));
 	else if (av.argc > 2)
 		return (print_error(av, 0));
 	return (print_history(hist, ft_atoi(*av.arg)));

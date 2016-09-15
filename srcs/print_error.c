@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/19 19:08:29 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/10 15:35:02 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/15 15:25:23 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_error const	g_print[12] = {
 	{0, "Fork is fucked.", 0},
 	{1, ": command not found: ", 1},
 	{0, "Pipe error.", 0},
-	{1, "numeric argument required", 0},
+	{1, ": numeric argument required", 0},
 	{1, ": Expression Syntax.", 0},
 	{1, ": Badly formed number.", 0},
 };
