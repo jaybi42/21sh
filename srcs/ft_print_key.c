@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/09/15 16:58:29 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/15 17:04:50 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,28 @@ static void	ft_print_insert(t_line *l)
 	l->size++;
 	if ((l->size + l->sizeprompt) % l->largeur == 0)
 		do_term("nd");
+}
+
+void		ft_print_line(t_line *l)
+{
+	int		pos_cur;
+	int		i;
+
+	i = -1;
+	pos_cur = l->count;
+	ft_home(l);
+	do_term("cd");
+	while(l->str[++i] != '\0')
+	{
+		ft_putchar(l->str[i]);
+		l->count++;
+	}
+	i = -1;
+	while (++i < (l->size - pos_cur))
+	{
+		do_term("le");
+		l->count--;
+	}
 }
 
 void		ft_print_key(t_line *l)
