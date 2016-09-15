@@ -6,11 +6,30 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/09/15 15:18:49 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/15 16:58:29 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
+
+static void ft_print_rest(t_line *l)
+{
+	char	*temp;
+
+	l->count++;
+	temp = ft_strjoin(l->str, &l->buffer[0]);
+	if (temp == NULL)
+	{
+		l->count--;
+		return ;
+	}
+	ft_strdel(&(l->str));
+	l->str = temp;
+	ft_putstr(&l->buffer[0]);
+	if ((l->count + l->sizeprompt) % l->largeur == 0)
+		do_term("do");
+	l->size++;
+}
 
 static void	ft_print_insert(t_line *l)
 {
@@ -40,7 +59,12 @@ static void	ft_print_insert(t_line *l)
 
 void		ft_print_key(t_line *l)
 {
-	if (l->str == NULL)
-		l->str = ft_strdup(&l->buffer[0]);
-	ft_print_insert(l);
+	if (l->str != NULL && l->count == l->size)
+		ft_print_rest(l);
+	else
+	{
+		if (l->str == NULL)
+			l->str = ft_strdup(&l->buffer[0]);
+		ft_print_insert(l);
+	}
 }
