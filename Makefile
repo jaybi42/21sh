@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/09/13 18:39:01 by jguthert         ###   ########.fr        #
+#    Updated: 2016/09/16 16:22:07 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -75,6 +75,7 @@ FILES =					main			\
 						init_term		\
 						autocomp		\
 						parse_quote		\
+						search_history	\
 
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))

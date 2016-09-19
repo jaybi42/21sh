@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/15 17:05:24 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/16 16:54:46 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 # define END		"\033[0m"
 
 # define TIOCGETD	_IOR('t', 26, int)
+
+//# define CTRL_R {27, 91, 49, 59, 53, 67}
+//# define BACKSPACE {27, 91, 51, 126, 0, 0}
+# define CTRL_R "\e[1;5C"
+# define BACKSPACE "\e[1;5C"
 
 typedef struct	s_line
 {
@@ -110,6 +115,7 @@ void			ft_end(t_line *l);
 void			ft_ctrl_r(t_line *l);
 void			ft_ctrl_l(t_line *l);
 void			ft_autocomp(t_line *l);
+void			get_line_history(t_line *l, t_ftl_root *root);
 
 /*
 **Name: Termcaps

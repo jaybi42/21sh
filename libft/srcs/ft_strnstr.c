@@ -6,7 +6,7 @@
 /*   By: tsilberm <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 17:34:13 by tsilberm          #+#    #+#             */
-/*   Updated: 2015/11/24 12:00:19 by tsilberm         ###   ########.fr       */
+/*   Updated: 2016/09/19 18:43:16 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ char	*ft_strnstr(char *str, char *to_find, int n)
 		j = 0;
 		i++;
 	}
-	return (0);
+	return (NULL);
 }

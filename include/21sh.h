@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/13 19:00:56 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/16 14:01:07 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void			catch_signal(t_prompt prompt);
 void			history(void);
 int				put_history(t_ftl_root *root);
 int				get_history(t_ftl_root *root);
+int				add_history(char *str, t_ftl_root *root);
 
 /*
 **Name: builtin

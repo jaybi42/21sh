@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/13 14:10:31 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/06 18:11:35 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/16 16:44:57 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void				ft_striter(char *s, void (*f)(char *));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_strmap(char const *s, char (*f)(char));
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-void				ft_tabdel(char **tab);
 int					ft_strisnum(char *str);
 
 /*
@@ -121,6 +120,13 @@ int					ft_strisnum(char *str);
 int					ft_nbrlen(uint64_t nbr);
 int					ft_tablen(char **tab);
 int					ft_listlen(t_list *list);
+
+/*
+**	##=-  Table manipulation  -=##
+*/
+
+void				ft_tabdel(char **tab);
+int					ft_tabncmp(int *tab1, int *tab2, int size);
 
 /*
 **	##=-  Adaptator  -=##

@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 12:13:07 by malaine           #+#    #+#             */
-/*   Updated: 2016/09/10 18:07:41 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/16 15:48:49 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_insertion(int cursor, char *str, int size, char c)
 
 	count = 0;
 	count2 = 0;
-	str_cpy = malloc(sizeof(char) * (ft_strlen(str) + 2));
+	str_cpy = (char *)malloc(sizeof(char) * (ft_strlen(str) + 2));
 	if (str_cpy == NULL)
 		return (NULL);
 	while (count < size + 1)
@@ -47,7 +47,7 @@ char	*ft_delete_char(int cursor, char *str, int size)
 
 	count = 0;
 	count2 = 0;
-	str_cpy = malloc(sizeof(char) * (size));
+	str_cpy = (char *)malloc(sizeof(char) * (size));
 	if (str_cpy == NULL)
 		return (NULL);
 	while (count < size)
