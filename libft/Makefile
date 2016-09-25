@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/12 14:57:16 by jguthert          #+#    #+#              #
-#    Updated: 2016/09/16 16:43:19 by jguthert         ###   ########.fr        #
+#    Updated: 2016/09/25 18:46:21 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -68,6 +68,7 @@ SRCFILES = 	ft_isprint.c ft_memset.c ft_bzero.c			\
 			ft_strisalnum.c	ft_print_tab.c ft_listlen.c	\
 			ftl_init.c ftl_insert.c ft_memdup.c			\
 			ftl_destruct.c ft_strisnum.c ft_tabncmp.c	\
+			ft_first_word.c								\
 
 ##=- Process -=##
 

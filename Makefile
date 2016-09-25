@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/09/16 16:22:07 by jguthert         ###   ########.fr        #
+#    Updated: 2016/09/25 17:18:57 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -59,6 +59,8 @@ FILES =					main			\
 						catch_sig		\
 						history			\
 						parse_history	\
+						parse_quote		\
+						parse_line		\
 						check_bin		\
 										\
 						actions			\
