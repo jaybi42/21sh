@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   storage_new_var.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/25 18:56:29 by jguthert          #+#    #+#             */
+/*   Updated: 2016/09/25 18:56:30 by jguthert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <21sh.h>
 
@@ -44,7 +55,7 @@ int		check_if_key_exist(char *new_var, t_list **g_env)
 	if (temp == NULL)
 		return (1);
 	if (value == 0)
-		return (0);	
+		return (0);
 	if (((t_env *)temp->content)->value != NULL)
 		ft_strdel(&((t_env *)temp->content)->value);
 	if (((t_env *)temp->content)->str != NULL)
