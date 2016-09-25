@@ -45,6 +45,7 @@ FILES =					main			\
 						shell			\
 						builtin			\
 						free_list		\
+						bi_export		\
 						bi_env			\
 						bi_unsetenv		\
 						bi_setenv		\
@@ -78,7 +79,7 @@ FILES =					main			\
 						autocomp		\
 						parse_quote		\
 						search_history	\
-
+						storage_new_var
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))

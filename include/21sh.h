@@ -103,7 +103,7 @@ int				do_fork(char *bin, char **all, char **env);
 int				check_bin(t_av av, t_list *g_env, t_list *l_env);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l);
 void			catch_signal(t_prompt prompt);
-
+void			storage_env(t_list **e, char *new_var);
 /*
 **Name: history
 **File: history.c parse_history.c
@@ -131,6 +131,7 @@ int				bi_exit(t_av av, t_list **g_env, t_list **l_env);
 int				bi_getenv(t_av av, t_list **g_env, t_list **l_env);
 int				bi_echo(t_av av, t_list **g_env, t_list **l_env);
 int				bi_history(t_av av, t_ftl_root *hist);
+int				bi_export(t_av av, t_list **g_env, t_list **l_env);
 
 /*
 **Name: Free list
