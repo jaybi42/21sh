@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:47:07 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/09 15:30:43 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/25 19:06:48 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,13 @@ static void		check_quotes(t_quotes *quotes, char *line)
 static int		is_quotes_ok(t_quotes quotes)
 {
 	if (quotes.squote == 1)
-		ft_putendl_fd("\033[31m   Unmatched '.\033[0m", 2);
+		ft_putendl_fd("Unmatched '.", 2);
 	else if (quotes.dquote == 1)
-		ft_putendl_fd("\033[31m   Unmatched \".\033[0m", 2);
+		ft_putendl_fd("Unmatched \".", 2);
 	else if (quotes.bquote == 1)
-		ft_putendl_fd("\033[31m   Unmatched `.\033[0m", 2);
+		ft_putendl_fd("Unmatched `.", 2);
 	else
-	{
-		ft_putendl_fd("\033[32m   Everything is ok\033[0m", 2);
 		return (1);
-	}
 	return (0);
 }
 

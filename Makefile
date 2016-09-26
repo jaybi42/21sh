@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/09/25 17:18:57 by jguthert         ###   ########.fr        #
+#    Updated: 2016/09/25 19:11:52 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -59,10 +59,8 @@ FILES =					main			\
 						do_fork			\
 						catch_sig		\
 						history			\
-						parse_history	\
-						parse_quote		\
-						parse_line		\
 						check_bin		\
+						storage_new_var \
 										\
 						actions			\
 						do_termcaps		\
@@ -78,8 +76,10 @@ FILES =					main			\
 						init_term		\
 						autocomp		\
 						parse_quote		\
+						parse_history	\
+						get_event		\
 						search_history	\
-						storage_new_var
+						parse_line		\
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
