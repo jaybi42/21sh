@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/25 19:11:33 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/26 17:04:35 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int				parse_line(t_line *l, t_ftl_root *hist);
 */
 
 int				actions(t_line *l);
+void			ft_real_backspace(t_line *l);
 void			ft_backspace(t_line *l);
 void			ft_right(t_line *l);
 void			ft_left(t_line *l);

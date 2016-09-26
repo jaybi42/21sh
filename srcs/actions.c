@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 13:49:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/16 16:24:22 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/26 17:05:55 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_actions const	g_actions[17] = {
 	{ft_left, {27, 91, 66, 0, 0, 0}, "DOWN"},
 	{ft_right, {27, 91, 67, 0, 0, 0}, "RIGHT"},
 	{ft_left, {27, 91, 68, 0, 0, 0}, "LEFT"},
-	{ft_backspace, {27, 91, 51, 126, 0, 0}, "DELETE"},
+	{ft_real_backspace, {27, 91, 51, 126, 0, 0}, "DELETE"},
 	{ft_backspace, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
 	{ft_ctrl_l, {27, 91, 49, 59, 53, 68}, "CTRL L"},
 	{ft_home, {27, 91, 72, 0, 0, 0}, "HOME"},
