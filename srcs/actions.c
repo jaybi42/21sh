@@ -6,15 +6,15 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 13:49:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/26 17:05:55 by malaine          ###   ########.fr       */
+/*   Updated: 2016/09/26 17:11:34 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 
 static t_actions const	g_actions[17] = {
-	{ft_right, {27, 91, 65, 0, 0, 0}, "UP"},
-	{ft_left, {27, 91, 66, 0, 0, 0}, "DOWN"},
+	{ft_ctrl_up, {27, 91, 65, 0, 0, 0}, "UP"},
+	{ft_ctrl_down, {27, 91, 66, 0, 0, 0}, "DOWN"},
 	{ft_right, {27, 91, 67, 0, 0, 0}, "RIGHT"},
 	{ft_left, {27, 91, 68, 0, 0, 0}, "LEFT"},
 	{ft_real_backspace, {27, 91, 51, 126, 0, 0}, "DELETE"},
