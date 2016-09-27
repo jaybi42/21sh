@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 18:36:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/13 19:15:05 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/27 16:13:42 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,6 @@ int		check_bin(t_av av, t_list *g_env, t_list *l_env)
 	ft_tabdel(path);
 	ft_tabdel(env);
 	if (ret == -2)
-		return (print_error(INIT_AV("minishell", av.cmd, NULL, 1), 7));
+		return (print_error(INIT_AV("42sh", av.cmd, NULL, 1), 7));
 	return (ret);
 }

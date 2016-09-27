@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/19 19:08:29 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/15 15:25:23 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/27 18:37:11 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** {is cmd printed, "message", is arg[0] printed} // list start at line 20
 */
 
-static t_error const	g_print[12] = {
+static t_error const	g_print[13] = {
 	{1, ": too many arguments.", 0},
 	{1, ": string not in pwd: ", 1},
 	{1, ": no such file or directory: ", 1},
@@ -29,6 +29,7 @@ static t_error const	g_print[12] = {
 	{1, ": numeric argument required", 0},
 	{1, ": Expression Syntax.", 0},
 	{1, ": Badly formed number.", 0},
+	{1, " : Event not found.", 0},
 };
 
 int		print_error(t_av av, int error)

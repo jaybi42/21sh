@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/26 17:04:35 by malaine          ###   ########.fr       */
+/*   Updated: 2016/09/27 16:49:24 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int				init_term(void);
 **Desc: Parsing quotes, history
 */
 
-void			parse_history(t_line *l, t_ftl_root *hist);
+int				parse_history(t_line *l, t_ftl_root *hist);
 char			*get_event(char *str, t_ftl_root *hist);
 int				parse_quote(char *line);
 int				parse_line(t_line *l, t_ftl_root *hist);
@@ -130,7 +130,7 @@ int				do_goto(char *key, int col, int row);
 int				do_term(char *key);
 void			go_up(t_line *l);
 void			go_down(t_line *l);
-void			ft_paste_print(t_line *l, int var, int tmp);
+void			ft_paste_print(t_line *l, int var);
 char			*ft_delete_char(int cursor, char *str, int size);
 char			*ft_insertion(int cursor, char *str, int size, char c);
 

@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/09/15 17:04:50 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/27 18:10:21 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void ft_print_rest(t_line *l)
 	ft_strdel(&(l->str));
 	l->str = temp;
 	ft_putstr(&l->buffer[0]);
-	if ((l->count + l->sizeprompt) % l->largeur == 0)
+	if (l->largeur != 0 && ((l->count + l->sizeprompt) % l->largeur == 0))
 		do_term("do");
 	l->size++;
 }

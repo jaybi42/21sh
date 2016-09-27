@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 13:16:09 by malaine           #+#    #+#             */
-/*   Updated: 2016/09/19 16:18:23 by malaine          ###   ########.fr       */
+/*   Updated: 2016/09/27 18:14:42 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void		ft_backspace(t_line *l)
 	int		tmp;
 	int		nblines;
 
-	nblines = (l->size + l->sizeprompt) / l->largeur;
+	if (l->largeur != 0)
+		nblines = (l->size + l->sizeprompt) / l->largeur;
 	if (l->count > 0)
 	{
 		go_up(l);

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/25 15:53:31 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/27 18:33:35 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int			read_init(t_list **av_list, t_line *l, t_ftl_root *hist)
 		if (l->buffer[0] == 10)
 		{
 			ft_putchar('\n');
-			add_history(l->str, hist);
 			break ;
 		}
 		if (l->buffer[0] == 18)
@@ -90,6 +89,9 @@ int			read_init(t_list **av_list, t_line *l, t_ftl_root *hist)
 //		debug_editline(l);
 	}
 	if (parse_line(l, hist) == 0)
+	{
+		add_history(l->str, hist);
 		return (split_line(av_list, l->str));
+	}
 	return (0);
 }
