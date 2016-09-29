@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 18:36:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/27 16:13:42 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/27 14:18:28 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	 exec_path(char **arg, char **path, char **env)
 	return (-2);
 }
 
-int		check_bin(t_av av, t_list *g_env, t_list *l_env)
+int		check_bin(t_list *g_env, t_list *l_env, t_av av)
 {
 	char	**env;
 	char	**path;
@@ -101,12 +101,12 @@ int		check_bin(t_av av, t_list *g_env, t_list *l_env)
 	str = get_path(g_env, l_env);
 	path = get_allpath(av.cmd, str);
 	if (access(av.cmd, X_OK) != -1)
-		ret = do_fork(av.cmd, av.all, env);
+		ret = do_fork(av.cmd, av.argv, env);
 	else
-		ret = exec_path(av.all, path, env);
+		ret = exec_path(av.argv, path, env);
 	ft_tabdel(path);
 	ft_tabdel(env);
 	if (ret == -2)
-		return (print_error(INIT_AV("42sh", av.cmd, NULL, 1), 7));
+		return (print_error(INIT_AV("minishell", av.cmd, NULL, 1), 7));
 	return (ret);
 }

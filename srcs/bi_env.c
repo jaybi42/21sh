@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:25:51 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/13 19:07:46 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/27 14:17:26 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ int				bi_env(t_av av, t_list **g_env, t_list **l_env)
 	{
 		new_av.cmd = av.arg[ret];
 		new_av.arg = av.arg + ret + 1;
-		new_av.all = av.all + ret + 1;
-		check_bin(new_av, *g_env, *l_env);
+		new_av.argv = av.argv + ret + 1;
+		check_bin(*g_env, *l_env, new_av);
 	}
 	else
 		print_env(*g_env);

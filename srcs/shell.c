@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/15 15:56:51 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/27 16:50:52 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,20 @@
 ** if -1, exit has been typed
 */
 
-int				shell(t_list *av_list, t_list **g_env, t_list **l_env,
-					  t_ftl_root *hist)
+int				shell(t_av **av, t_list **g_env, t_list **l_env, t_ftl_root *hist)
 {
-	int			ret;
-	t_av		av;
+	int i;
+	int ret;
 
-	while (av_list != NULL)
+	i = -1;
+	while (av[++i] != NULL)
 	{
-		av = *((t_av *)av_list->content);
-		if (av.all == NULL)
-			return (0);
-		ret = builtin(av, g_env, l_env, hist);
-		if (ret == 1)
-			ret = check_bin(av, *g_env, *l_env);
+		if (av[i]->argv[0] == NULL)
+			continue;
+		if ((ret = builtin(g_env, l_env, hist, av[i])) == 1)
+			ret = check_bin(*g_env, *l_env, (*av)[i]);
 		else if (ret == -1)
 			return (1);
-		av_list = av_list->next;
 	}
 	return (0);
 }

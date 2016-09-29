@@ -65,7 +65,10 @@ int				parse_history(t_line *l, t_ftl_root *hist)
 		else if ((i == 0 || (l->str[i - 1] != '\\' && l->str[i - 1] != '!'))
 				 && l->str[i + 1] != '\0' && ft_isspace(l->str[i + 1]) == 0)
 		{
-			tofind = ft_first_word(l->str + i);
+			/*
+				jb probleme a cette ligne (commenté):
+			*/
+			//tofind = ft_first_word(l->str + i);
 			if (tofind == NULL)
 				return (1);
 			new_entry = get_event(tofind, hist);

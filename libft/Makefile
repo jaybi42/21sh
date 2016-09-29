@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/12 14:57:16 by jguthert          #+#    #+#              #
-#    Updated: 2016/09/25 18:46:21 by jguthert         ###   ########.fr        #
+#    Updated: 2016/09/06 18:10:01 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -67,9 +67,12 @@ SRCFILES = 	ft_isprint.c ft_memset.c ft_bzero.c			\
 			ft_strsplit_space.c ft_strsplit_blank.c		\
 			ft_strisalnum.c	ft_print_tab.c ft_listlen.c	\
 			ftl_init.c ftl_insert.c ft_memdup.c			\
-			ftl_destruct.c ft_strisnum.c ft_tabncmp.c	\
-			ft_first_word.c								\
-
+			ftl_destruct.c ft_strisnum.c \
+			ft_puttab.c ft_printf.c ft_printf_find.c \
+	    	      ft_printf_find2.c ft_printf_flag.c ft_litoa.c ft_putw.c ft_putc.c \
+	          ft_printf_printv.c ft_printf_printc.c ft_printf_utils.c \
+	          ft_printf_bonus.c ft_printf_flag2.c ft_putc2.c ft_latoi.c \
+	          ft_dela_to_b.c ft_tlen.c ft_putstr_dbcote.c \
 ##=- Process -=##
 
 all: $(NAME)

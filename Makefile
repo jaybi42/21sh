@@ -80,6 +80,8 @@ FILES =					main			\
 						get_event		\
 						search_history	\
 						parse_line		\
+						storage_all_cmds \
+						garbage_collector
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))

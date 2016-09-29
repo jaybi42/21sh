@@ -23,8 +23,8 @@ void		free_av(void *content, size_t size)
 	av = (t_av *)content;
 	if (av != NULL)
 	{
-		if (av->all != NULL)
-			ft_tabdel(av->all);
+		if (av->argv != NULL)
+			ft_tabdel(av->argv);
 		if (av->arg != NULL)
 			ft_strdel(av->arg);
 		free(content);

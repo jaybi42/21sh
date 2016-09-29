@@ -6,15 +6,19 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/01 15:35:21 by jguthert          #+#    #+#             */
-/*   Updated: 2015/12/12 16:29:22 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/27 15:58:31 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <unistd.h>
 
 int	ft_strcmp(char const *s1, char const *s2)
 {
 	int	i;
 
 	i = 0;
+	if (s1 == NULL || s2 == NULL)
+		return (-1);
 	while (s1[i] && s2[i])
 	{
 		if (s1[i] != s2[i])

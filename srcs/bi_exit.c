@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 19:53:32 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/13 16:32:46 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/27 16:50:16 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ int			bi_exit(t_av av, t_list **g_env, t_list **l_env)
 	}
 	ft_lstdel(g_env, free_env);
 	ft_lstdel(l_env, free_env);
+	ret_exit(SET, (av.argv[1] != NULL) ? ft_atoi(av.argv[1]) : 0);
 	return (-1);
 }

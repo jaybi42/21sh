@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/27 18:33:35 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/27 13:48:57 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ static void	fill_av(t_av *av, char *str)
 	int		k;
 
 	ft_bzero(av, sizeof(t_av));
-	av->all = ft_strsplit_blank(str);
+	av->argv = ft_strsplit_blank(str);
 	k = 0;
-	if (av->all != NULL)
+	if (av->argv != NULL)
 	{
-		av->cmd = av->all[0];
-		av->arg = av->all + 1;
+		av->cmd = av->argv[0];
+		av->arg = av->argv + 1;
 		while (av->arg[k] != NULL)
 			k++;
 	}
@@ -68,30 +68,21 @@ static void     debug_editline(t_line *l)
 }
 */
 
-int			read_init(t_list **av_list, t_line *l, t_ftl_root *hist)
+t_av	**read_init(t_line *l, t_ftl_root *hist)
 {
-	*av_list = NULL;
 	ft_init_line(l, hist);
 	while (1)
 	{
 		ft_bzero(l->buffer, 6);
 		if (read(0, l->buffer, 6) == -1)
-			return (1);
+			return (NULL);
 		if (l->buffer[0] == 10)
 		{
 			ft_putchar('\n');
 			break ;
 		}
-		if (l->buffer[0] == 18)
-			get_line_history(l, hist);
-		if (actions(l) == 1)
+		else if (actions(l) == 1)
 			ft_print_key(l);
-//		debug_editline(l);
 	}
-	if (parse_line(l, hist) == 0)
-	{
-		add_history(l->str, hist);
-		return (split_line(av_list, l->str));
-	}
-	return (0);
+	return (parse_commands(l->str));
 }

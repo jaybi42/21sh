@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/13 14:10:31 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/25 18:46:48 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/06 18:11:35 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,90 @@ typedef struct		s_ftv
 }					t_ftv;
 
 /*
+**	##=- ft_printf -=##
+*/
+# include <stdarg.h>
+# include <string.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <errno.h>
+
+typedef struct  s_type
+{
+        int                                             n;
+        long int                                ln;
+        long long int                   lln;
+        unsigned long int               lu;
+        unsigned long long int  llu;
+        char                                    *str;
+        wchar_t                                 *wstr;
+        uintmax_t                               ju;
+        intmax_t                                j;
+        char                                    c;
+        size_t                                  z;
+        double                                  f;
+        unsigned int                    octal;
+        unsigned int                    u;
+        unsigned int                    x;
+        void                                    *ptr;
+}                               t_type;
+
+typedef struct  s_flag
+{
+        int             sp_b;
+        int             less_b;
+        int             sign_b;
+        int             zero_b;
+        int             diese_b;
+        int             end;
+        int             preci;
+        int             preci_b;
+        int             p_b;
+        int             mini;
+        int             bonus_base;
+        char    modif[2];
+}                               t_flag;
+
+void    	ft_putstr_dbcote(const char *s);
+void                    writex(char *str, size_t length, int print);
+char                    *ft_dela_to_b(char *s, int a, int b);
+char                    *ft_litoa(unsigned long long nb);
+char                    *ft_itoa_base(unsigned long long nb, char base, int size);
+int                             ft_printf(const char *restrict format, ...);
+int                             ft_addmodif(const char *restrict pf, t_flag *f);
+int                             ft_findflag3(const char *restrict pf, t_flag *f);
+int                             ft_findbonus(const char *restrict format);
+int                             ft_print_wc(unsigned int c, t_flag *f);
+int                             ft_print_char(char c, t_flag *f);
+int                             ft_print_s(char *s, t_flag *f);
+int                             ft_print_ws(wchar_t *s, t_flag *f);
+int                             ft_print_valu(unsigned long long int n, t_flag *f, int base);
+int                             ft_print_val(long long int n, t_flag *f);
+void                    ft_putnorme(int base, t_flag *f, int upper);
+void                    ft_mini(int longueur, t_flag *f, long long int *nb);
+void                    ft_miniu(int longueur, t_flag *f, int b);
+void                    ft_putns(char *s, int n);
+void                    ft_putc_r(int q, char c);
+int                             ret_val(int val, int first);
+void                    ft_putc(char c);
+void                    ft_puts(char *s);
+void                    ft_putnws(wchar_t *s, size_t len);
+void                    ft_putwchar(unsigned int c);
+size_t                  ft_wwlen(wchar_t c);
+size_t                  ft_wwstrlen(wchar_t *s);
+size_t                  ft_wwstrlen(wchar_t *s);
+int                             find_ubase(char type, t_flag *f);
+int                             tbase(char type);
+int                             utbase(char type);
+int                             find_dioux(char type, va_list pa, t_flag *f, t_type *t);
+int                             find_scp(char type, va_list pa, t_flag *flag, t_type *t);
+int                             ft_findflag(const char *restrict pf, t_flag *f, va_list pa);
+void                    ft_initflag(t_flag *flag);
+int				get_fd(int fd);
+int                             find_bonus(char type);
+
+/*
 **	##=-  Print  -=##
 */
 
@@ -111,8 +195,8 @@ void				ft_striter(char *s, void (*f)(char *));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_strmap(char const *s, char (*f)(char));
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+void				ft_tabdel(char **tab);
 int					ft_strisnum(char *str);
-char				*ft_first_word(char *str);
 
 /*
 **	##=-  Get information  -=##
@@ -123,19 +207,12 @@ int					ft_tablen(char **tab);
 int					ft_listlen(t_list *list);
 
 /*
-**	##=-  Table manipulation  -=##
-*/
-
-void				ft_tabdel(char **tab);
-int					ft_tabncmp(int *tab1, int *tab2, int size);
-
-/*
 **	##=-  Adaptator  -=##
 */
 
 int					ft_atoi(const char *str);
 char				*ft_itoa(int n);
-char				*ft_itoa_base(int nbr, int base);
+//char				*ft_itoa_base(int nbr, int base);
 char				*ft_ulltoa_base(uint64_t nbr, int base, char *str);
 int					ft_getnbr(char *str);
 
