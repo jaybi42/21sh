@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 16:58:08 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/27 18:52:30 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/30 20:56:07 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,50 @@
 ** transform, will replace a word in "str" at pos "i" by "new_entry"
 */
 
+static int		concat_str(char *t, char *new_i, char *t2, t_line *l)
+{
+	char	*t3;
+
+	if (t != NULL)
+	{
+		t3 = ft_strjoin(t, new_i);
+		if (t3 == NULL)
+			return (1);
+		ft_strdel(&new_i);
+		ft_strdel(&t);
+		new_i = t3;
+	}
+	if (t2 != NULL)
+	{
+		t3 = ft_strjoin(new_i, t2);
+		if (t3 == NULL)
+			return (1);
+		ft_strdel(&new_i);
+		ft_strdel(&t2);
+		new_i = t3;
+	}
+	if (l->str != NULL)
+		ft_strdel(&(l->str));
+	l->str = new_i;
+	return (0);
+}
+
 static int		transform_str(t_line *l, char *new_entry, int i)
 {
 	char	*temp;
 	char	*temp2;
 
+	temp = NULL;
+	temp2 = NULL;
 	if (new_entry == NULL)
 		return (0);
 	if (i != 0)
-	{
 		temp = ft_strndup(l->str, i);
-		if (temp == NULL)
-			return (1);
-		temp2 = ft_strjoin(temp, new_entry);
-		ft_strdel(&temp);
-		ft_strdel(&new_entry);
-		if (temp2 == NULL)
-			return (1);
-	}
 	while (l->str[i] != '\0' && ft_isspace(l->str[i]) == 0)
 		i++;
-	temp = ft_strjoin(temp2, l->str + i);
-	if (temp == NULL)
-		return (1);
-	ft_strdel(&(l->str));
-	l->str = temp;
-	return (0);
+	if (l->str + i != '\0')
+		temp2 = ft_strdup(l->str + i);
+	return (concat_str(temp, new_entry, temp2, l));
 }
 
 /*
@@ -65,10 +83,7 @@ int				parse_history(t_line *l, t_ftl_root *hist)
 		else if ((i == 0 || (l->str[i - 1] != '\\' && l->str[i - 1] != '!'))
 				 && l->str[i + 1] != '\0' && ft_isspace(l->str[i + 1]) == 0)
 		{
-			/*
-				jb probleme a cette ligne (commenté):
-			*/
-			//tofind = ft_first_word(l->str + i);
+			tofind = ft_first_word(l->str + i);
 			if (tofind == NULL)
 				return (1);
 			new_entry = get_event(tofind, hist);
@@ -76,8 +91,9 @@ int				parse_history(t_line *l, t_ftl_root *hist)
 			if (new_entry == NULL)
 				return (1);
 			transform_str(l, new_entry, i);
-			ft_putendl(l->str);
+			i = -1;
 		}
 	}
+	ft_putendl(l->str);
 	return (0);
 }

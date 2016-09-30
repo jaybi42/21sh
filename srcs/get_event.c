@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/25 19:08:36 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/27 18:43:56 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/30 20:54:53 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int		is_match(char *str, char *tofind)
 {
 	if (str == NULL || tofind == NULL)
 		return (0);
-	while (*str != '\0' && ft_isblank(*str) == 1)
+	while (*str != '\0' && ft_isspace(*str) == 1)
 		str++;
 	while (*str == *tofind)
 	{
@@ -51,7 +51,7 @@ static char		*get_event_byid(int pos, t_ftl_root *hist)
 	node = (t_ftl_node *)hist->next;
 	while (--pos > 0)
 		node = node->next;
-	return (((t_hist *)node)->str);
+	return (ft_strdup(((t_hist *)node)->str));
 }
 
 static char		*get_event_bystr(char *str, t_ftl_root *hist)
@@ -62,7 +62,7 @@ static char		*get_event_bystr(char *str, t_ftl_root *hist)
 	while (node != (t_ftl_node *)hist)
 	{
 		if (is_match(((t_hist *)node)->str, str) == 1)
-			return (((t_hist *)node)->str);
+			return (ft_strdup(((t_hist *)node)->str));
 		node = node->prev;
 	}
 	return (NULL);

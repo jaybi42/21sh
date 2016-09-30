@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/28 22:16:21 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/09/27 16:58:49 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/09/30 19:45:59 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct		s_redirect_info
 		char *name;
 }									t_redirect_info;
 
+/*
 static t_redirect_info const	g_redirect[NUMBER_REDIRECT] =
 {
 	{">>"},
@@ -32,7 +33,7 @@ static t_redirect_info const	g_redirect[NUMBER_REDIRECT] =
 	{"<<"},
 	{"<"}
 };
-
+*/
 typedef struct		s_delimiter
 {
 	char 			*name;
@@ -311,7 +312,7 @@ t_redirect *get_redirection(char *s)
 	if (!(redirect = malloc(sizeof(t_redirect))) || s == NULL)
 		return (NULL);
 	i = 0;
-	int fd;
+//	int fd;
 	int len;
 	int fd_in = 1;
 	int op;
@@ -431,10 +432,10 @@ t_av **updated(t_av **av)
 
 t_av	**parse_commands(char *expr)
 {
-	int			tmp;
+//	int			tmp;
 	t_parse		**tp;
 	int			*ti;
-	int			current;
+//	int			current;
 	int			pa;
 
 	if (!(tp = malloc(sizeof(t_parse **) * (ft_strlen(expr) + 1)))
@@ -463,7 +464,7 @@ t_av	**parse_commands(char *expr)
 if (!(cmds = malloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
 return (NULL);
 int ic = 0;
-int skip_it = FALSE;
+//int skip_it = FALSE;
 int oldi = 0;
 pa = 0;
 while (tp[pa] != NULL)

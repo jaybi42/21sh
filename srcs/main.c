@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/27 17:00:44 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/09/30 19:44:46 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void		clean_exit(int ret, t_ftl_root *hist, t_line *l)
 
 void			ft_printmem(t_av **av)
 {
-
+	(void)av;
 }
 
 static int		sh21(t_list **g_env, t_list **l_env)

@@ -6,13 +6,14 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/27 13:48:57 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/09/30 20:40:29 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <unistd.h>
 
+/*
 static void	fill_av(t_av *av, char *str)
 {
 	int		k;
@@ -29,7 +30,8 @@ static void	fill_av(t_av *av, char *str)
 	}
 	av->argc = k;
 }
-
+*/
+/*
 static int	split_line(t_list **av_list, char *line)
 {
 	t_list	*temp;
@@ -52,7 +54,7 @@ static int	split_line(t_list **av_list, char *line)
 	}
 	return (0);
 }
-
+*/
 /*
 #include <stdio.h> //
 
@@ -84,5 +86,7 @@ t_av	**read_init(t_line *l, t_ftl_root *hist)
 		else if (actions(l) == 1)
 			ft_print_key(l);
 	}
-	return (parse_commands(l->str));
+	if (parse_line(l, hist) == 0)
+		return (parse_commands(l->str));
+	return (parse_commands(""));
 }

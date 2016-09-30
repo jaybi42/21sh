@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/13 14:10:31 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/06 18:11:35 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/09/30 19:52:14 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ char				*ft_strmap(char const *s, char (*f)(char));
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_tabdel(char **tab);
 int					ft_strisnum(char *str);
+char				*ft_first_word(char *str);
 
 /*
 **	##=-  Get information  -=##
