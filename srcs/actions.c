@@ -6,19 +6,20 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 13:49:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/26 17:11:34 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/04 14:24:53 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 
-static t_actions const	g_actions[17] = {
+static t_actions const	g_actions[18] = {
 	{ft_ctrl_up, {27, 91, 65, 0, 0, 0}, "UP"},
 	{ft_ctrl_down, {27, 91, 66, 0, 0, 0}, "DOWN"},
 	{ft_right, {27, 91, 67, 0, 0, 0}, "RIGHT"},
 	{ft_left, {27, 91, 68, 0, 0, 0}, "LEFT"},
 	{ft_real_backspace, {27, 91, 51, 126, 0, 0}, "DELETE"},
 	{ft_backspace, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
+	{ft_ctrl_r, {27, 91, 49, 59, 53, 67}, "CTRL R"},
 	{ft_ctrl_l, {27, 91, 49, 59, 53, 68}, "CTRL L"},
 	{ft_home, {27, 91, 72, 0, 0, 0}, "HOME"},
 	{ft_end, {27, 91, 70, 0, 0, 0}, "END"},
