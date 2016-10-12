@@ -1,2 +1,3 @@
 quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'appairessent)
 - Faire une fonction FT_READ pour eviter les caracteres indesirables qui plantent les termcaps
+- e;e => segfault

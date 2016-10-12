@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:13:34 by malaine           #+#    #+#             */
-/*   Updated: 2016/10/12 14:38:51 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/12 17:43:12 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ void	ft_init_line(t_line *l, t_ftl_root *hist)
 	l->strcpy = NULL;
 	l->hist = hist;
 	l->hist_size = 30;
-	l->hist_pos = 0;
+	l->hist_pos = hist->size;
 	l->oldstr = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/09/27 18:10:21 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/12 16:49:36 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void		ft_print_line(t_line *l)
 
 void		ft_print_key(t_line *l)
 {
+	l->oldstr = NULL;
 	if (l->str != NULL && l->count == l->size)
 		ft_print_rest(l);
 	else
