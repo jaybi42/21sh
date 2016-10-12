@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 16:58:08 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/30 20:56:07 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/12 15:22:42 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,33 @@ static int		transform_str(t_line *l, char *new_entry, int i)
 	return (concat_str(temp, new_entry, temp2, l));
 }
 
+static int		replace_history(t_line *l, int i, t_ftl_root *hist)
+{
+	char	*new_entry;
+	char	*tofind;
+
+	tofind = ft_first_word(l->str + i);
+	if (tofind == NULL)
+		return (1);
+	new_entry = get_event(tofind, hist);
+	ft_strdel(&tofind);
+	if (new_entry == NULL)
+		return (1);
+	transform_str(l, new_entry, i);
+	return (0);
+}
+
 /*
 ** We check that "!" is not alone and not escaped
 */
 
 int				parse_history(t_line *l, t_ftl_root *hist)
 {
-	char	*new_entry;
-	char	*tofind;
 	int		i;
+	bool	found;
 
 	i = -1;
+	found = 0;
 	while (l->str[++i] != '\0')
 	{
 		if (l->str[i] != '!')
@@ -83,17 +99,13 @@ int				parse_history(t_line *l, t_ftl_root *hist)
 		else if ((i == 0 || (l->str[i - 1] != '\\' && l->str[i - 1] != '!'))
 				 && l->str[i + 1] != '\0' && ft_isspace(l->str[i + 1]) == 0)
 		{
-			tofind = ft_first_word(l->str + i);
-			if (tofind == NULL)
+			if (replace_history(l, i, hist) == 1)
 				return (1);
-			new_entry = get_event(tofind, hist);
-			ft_strdel(&tofind);
-			if (new_entry == NULL)
-				return (1);
-			transform_str(l, new_entry, i);
+			found = 1;
 			i = -1;
 		}
 	}
-	ft_putendl(l->str);
+	if (found == 1)
+		ft_putendl(l->str);
 	return (0);
 }

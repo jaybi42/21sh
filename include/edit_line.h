@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/27 16:49:24 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/12 14:39:10 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ typedef struct	s_line
 	char		buffer[6];
 	char		*str;
 	char		*strcpy;
+	char		*oldstr;
 	int			count;
 	int			tmp;
 	int			size;
 	t_ftl_root	*hist;
 	int			hist_size;
+	int			hist_pos;
 }				t_line;
 
 typedef struct	s_quotes
@@ -118,6 +120,8 @@ void			ft_end(t_line *l);
 void			ft_ctrl_r(t_line *l);
 void			ft_ctrl_l(t_line *l);
 void			ft_autocomp(t_line *l);
+void			ft_up(t_line *l);
+void			ft_down(t_line *l);
 void			get_line_history(t_line *l, t_ftl_root *root);
 
 /*
