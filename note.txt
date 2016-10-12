@@ -1,4 +1,2 @@
 quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'appairessent)
 - Faire une fonction FT_READ pour eviter les caracteres indesirables qui plantent les termcaps
-- Segfault apres un clean un free de hist avec la commande "hist -c"
-- parsing quotes avant parsing ';' avant parsing history
