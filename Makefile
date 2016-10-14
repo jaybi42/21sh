@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/10/12 14:28:06 by jguthert         ###   ########.fr        #
+#    Updated: 2016/10/14 20:29:27 by mseinic          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -76,6 +76,9 @@ FILES =					main			\
 						check_word		\
 						init_term		\
 						autocomp		\
+						autocomp_utils	\
+						autocomp_utils_1 \
+						autocomp_utils_2 \
 						parse_quote		\
 						parse_history	\
 						get_event		\
