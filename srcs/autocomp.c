@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:22:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/14 20:29:06 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/10/15 19:41:18 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,16 @@
 static t_actions const  g_actions[1] = {
 	{NULL, {9, 0, 0, 0, 0, 0}, "TAB"},
 };
+
+static void		copy_tab(char *tab, char *data, int *j, int *k)
+{
+	while (data[*j] != '\0')
+	{
+		tab[*k] = data[*j];
+		*j = *j + 1;
+		*k = *k + 1;
+	}
+}
 
 void			insert_in_string(char **str, int i, char *data)
 {
@@ -36,18 +46,8 @@ void			insert_in_string(char **str, int i, char *data)
 		tmp[k] = tmp2[k];
 		k++;
 	}
-	while (data[j] != '\0')
-	{
-		tmp[k] = data[j];
-		j++;
-		k++;
-	}
-	while (tmp2[i] != '\0')
-	{
-		tmp[k] = tmp2[i];
-		k++;
-		i++;
-	}
+	copy_tab(tmp, data, &j, &k);
+	copy_tab(tmp, tmp2, &i, &k);
 	tmp[k] = '\0';
 	free(*str);
 	free(tmp2);
@@ -71,6 +71,8 @@ int				test_if_fnc(int i, char *str)
 	}
 	return (0);
 }
+
+
 
 void			ft_autocomp(t_line *l)
 {
@@ -99,6 +101,7 @@ void			ft_autocomp(t_line *l)
 		tab = ret_match(complete);
 	else
 		tab = command_fnc(complete);	
+	
 	char *ptr;
 	ptr = ft_strrchr(complete, '/');
 
