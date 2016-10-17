@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/10/14 20:29:27 by mseinic          ###   ########.fr        #
+#    Updated: 2016/10/17 18:18:01 by agadhgad         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -85,7 +85,9 @@ FILES =					main			\
 						search_history	\
 						parse_line		\
 						storage_all_cmds \
-						garbage_collector
+						garbage_collector \
+						file_get_contents \
+						glob \
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))

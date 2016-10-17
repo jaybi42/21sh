@@ -6,12 +6,16 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/28 22:16:21 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/09/30 19:45:59 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/17 14:57:21 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 
 #define NUMBER_DELIMITER 22
 #define NUMBER_REDIRECT 5
@@ -21,52 +25,52 @@
 
 typedef struct		s_redirect_info
 {
-		char *name;
+	char *name;
 }									t_redirect_info;
 
 /*
-static t_redirect_info const	g_redirect[NUMBER_REDIRECT] =
-{
-	{">>"},
-	{">&"},
-	{">"},
-	{"<<"},
-	{"<"}
-};
-*/
+   static t_redirect_info const	g_redirect[NUMBER_REDIRECT] =
+   {
+   {">>"},
+   {">&"},
+   {">"},
+   {"<<"},
+   {"<"}
+   };
+   */
 typedef struct		s_delimiter
 {
 	char 			*name;
 	char 			*description;
 	int				wait;
 	/*
-			boolean for check if we must have to go to the next line
-			and wait an output if the user type it at last (if wait_another == false)
-			or (wait another == true) and the another isn't here
-	*/
+	   boolean for check if we must have to go to the next line
+	   and wait an output if the user type it at last (if wait_another == false)
+	   or (wait another == true) and the another isn't here
+	   */
 	int				wait_another;
 	/*
-			boolean for check if we must wait another of this,
-			for example the " have to wait another ".
-	*/
+	   boolean for check if we must wait another of this,
+	   for example the " have to wait another ".
+	   */
 	int				do_recursivity;
 	/*
-			if true we consider the stuff inside as a new command to parse!
-			false: we do nothing (it can be by example a simple redirection)
-	*/
+	   if true we consider the stuff inside as a new command to parse!
+false: we do nothing (it can be by example a simple redirection)
+*/
 	int				dont_give_shit_about_whitespace;
 	/*
-			true: we split the white spaces inside,
-			otherwise we don't touch it :)
-	*/
+true: we split the white spaces inside,
+otherwise we don't touch it :)
+*/
 	int				is_redirection;
 	/*
-			don't consider it as a command, consider it as a redirection
-	*/
+	   don't consider it as a command, consider it as a redirection
+	   */
 	int				is_arg;
 	/*
-		 it's not a new command, it's still an arg
-	*/
+	   it's not a new command, it's still an arg
+	   */
 }					t_delimiter;
 
 static t_delimiter const	g_delimiter[NUMBER_DELIMITER] =
@@ -94,30 +98,32 @@ static t_delimiter const	g_delimiter[NUMBER_DELIMITER] =
 	{"<<", "heredoc", 0, 0, 0, 1, 1, 1},
 	{"<", "<", 0, 0, 0, 1, 1, 1},
 };
+
 /*
 
-typedef struct s_redirector
-{
-	int *def;
-	int name;
-	int special;
-	int open_waiter;
-	int is_file;
-	int fd_in;
-	int fd_out;
-}							t_redirector;
+   typedef struct s_redirector
+   {
+   int *def;
+   int name;
+   int special;
+   int open_waiter;
+   int is_file;
+   int fd_in;
+   int fd_out;
+   }							t_redirector;
 
-static t_redirector const g_delimiter[] =
-{
-{">>", "",1, 1, 0, 1, -1},
-{">&","", 0, 0, 0, 1, -1},
-{">", "", 0, 0, 0, 1, 1},
-{"1>","", 0, 0, 0,  1, 1},
-{"<<","heredoc", 1, 1, 0, -1, 0},
-{"<", "", 1, 0, 1, -1, 0},
-};
-*/
-typedef struct s_parse
+   static t_redirector const g_delimiter[] =
+   {
+   {">>", "",1, 1, 0, 1, -1},
+   {">&","", 0, 0, 0, 1, -1},
+   {">", "", 0, 0, 0, 1, 1},
+   {"1>","", 0, 0, 0,  1, 1},
+   {"<<","heredoc", 1, 1, 0, -1, 0},
+   {"<", "", 1, 0, 1, -1, 0},
+   };
+   */
+
+typedef struct	s_parse
 {
 	int	*begin;
 	int	*end;
@@ -126,7 +132,7 @@ typedef struct s_parse
 	int	current;
 	int	one_arg;
 	int dec;
-}		t_parse;
+}				t_parse;
 
 #define EMPTY -1
 #define ENDI -2
@@ -134,14 +140,14 @@ typedef struct s_parse
 int			char_is_whitespace(char c)
 {
 	/*
-	useful notice:
-	' '      space
-	'\t'     horizontal tab
-	'\n'     newline
-	'\v'     vertical tab
-	'\f'     feed
-	'\r'     carriage return
-	*/
+	   useful notice:
+	   ' '      space
+	   '\t'     horizontal tab
+	   '\n'     newline
+	   '\v'     vertical tab
+	   '\f'     feed
+	   '\r'     carriage return
+	   */
 	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
 		return (TRUE);
 	else
@@ -150,12 +156,12 @@ int			char_is_whitespace(char c)
 
 void reset_current(t_parse *p, int index)
 {
-		p->nb++;
-		p->current = EMPTY;
-		p->begin[p->nb] = index + 1;
-		p->end[p->nb] = 0;
-		p->type[p->nb] = EMPTY;
-		p->one_arg = FALSE;
+	p->nb++;
+	p->current = EMPTY;
+	p->begin[p->nb] = index + 1;
+	p->end[p->nb] = 0;
+	p->type[p->nb] = EMPTY;
+	p->one_arg = FALSE;
 }
 
 void update_new(t_parse *p, int index, int delimiter_index)
@@ -164,6 +170,8 @@ void update_new(t_parse *p, int index, int delimiter_index)
 	p->current = delimiter_index;
 	p->type[p->nb] = delimiter_index;
 	p->begin[p->nb] = index + ft_strlen(g_delimiter[delimiter_index].name);
+	if (g_delimiter[delimiter_index].is_redirection == TRUE)
+		p->begin[p->nb] = index;
 	p->one_arg = FALSE;
 }
 
@@ -174,42 +182,42 @@ void		handle_delimiter(char *expr, int *i, t_parse *p)
 	a = 0;
 	while (a < NUMBER_DELIMITER) //check for every delimiters if no error
 	{
-			if (ft_strncmp(expr + (*i), g_delimiter[a].name,
+		if (ft_strncmp(expr + (*i), g_delimiter[a].name,
 					ft_strlen(g_delimiter[a].name)) == 0)
+		{
+			if (p->current != EMPTY && g_delimiter[p->current].wait_another == TRUE
+					&& p->current == a)
 			{
-				if (p->current != EMPTY && g_delimiter[p->current].wait_another == TRUE
-				&& p->current == a)
-				{
-						//that's mean we find for example the second " of ""
-						p->end[p->nb] = (*i);
-						reset_current(p, (*i));
-				}
-				else if (p->current != EMPTY && g_delimiter[p->current].do_recursivity == TRUE
-				&& p->current == a)
-				{
-						//that's mean we find for example another |
-						update_new(p, (*i), a);
-				}
-				else if (p->current == EMPTY)
-				{
-					update_new(p, (*i), a);
-				}
-				(*i) += 1;
-				return ;
-			}
-			a++;
-	}
-	if (p->current != EMPTY && g_delimiter[p->current].is_redirection == TRUE
-		&& p->one_arg == FALSE
-		&& char_is_whitespace(expr[(*i)]) == FALSE)
-			p->one_arg = TRUE;
-	else if (p->current != EMPTY && g_delimiter[p->current].is_redirection == TRUE
-		&& p->one_arg == TRUE 		&& char_is_whitespace(expr[(*i)]) == TRUE)
-			{
+				//that's mean we find for example the second " of ""
 				p->end[p->nb] = (*i);
 				reset_current(p, (*i));
 			}
-		(*i) += 1;
+			else if (p->current != EMPTY && g_delimiter[p->current].do_recursivity == TRUE
+					&& p->current == a)
+			{
+				//that's mean we find for example another |
+				update_new(p, (*i), a);
+			}
+			else if (p->current == EMPTY)
+			{
+				update_new(p, (*i), a);
+			}
+			(*i) += 1;
+			return ;
+		}
+		a++;
+	}
+	if (p->current != EMPTY && g_delimiter[p->current].is_redirection == TRUE
+			&& p->one_arg == FALSE
+			&& char_is_whitespace(expr[(*i)]) == FALSE)
+		p->one_arg = TRUE;
+	else if (p->current != EMPTY && g_delimiter[p->current].is_redirection == TRUE
+			&& p->one_arg == TRUE 		&& char_is_whitespace(expr[(*i)]) == TRUE)
+	{
+		p->end[p->nb] = (*i);
+		reset_current(p, (*i));
+	}
+	(*i) += 1;
 }
 
 char		*cpy_a_to_b(char *str, int a, int b)
@@ -220,40 +228,40 @@ char		*cpy_a_to_b(char *str, int a, int b)
 
 	len = (b - a < 0) ? 0: b - a;
 	if (!(new_str = malloc(sizeof(char) * (len + 1))))
-					return (NULL);
-		i = 0;
-		while (a + i < b)
-		{
-			new_str[i] = str[a + i];
-			i++;
-		}
-		new_str[i] = '\0';
-		return (new_str);
+		return (NULL);
+	i = 0;
+	while (a + i < b)
+	{
+		new_str[i] = str[a + i];
+		i++;
+	}
+	new_str[i] = '\0';
+	return (new_str);
 }
 
 char            **fstrsplit(char *str, int len, int (*is_whatever)(char))
 {
-        char **t_str;
-        int i;
-        int a;
-        int beg;
+	char **t_str;
+	int i;
+	int a;
+	int beg;
 
-        if (!(t_str = malloc(sizeof(char **) * (len + 1))))
-                return (NULL);
-        t_str[0] = NULL;
-        i = 0;
-        a = 0;
-        beg = 0;
-        while (i < len && str[i] != '\0')
-        {
-                while (i < len && is_whatever(str[i]) && str[i++] != '\0');
-                beg = i;
-                while (i < len && !is_whatever(str[i]) && str[i++] != '\0');
-                if (beg != i)
-                        t_str[a++] = cpy_a_to_b(str, beg, i);
-        }
-        t_str[a] = NULL;
-        return(t_str);
+	if (!(t_str = malloc(sizeof(char **) * (len + 1))))
+		return (NULL);
+	t_str[0] = NULL;
+	i = 0;
+	a = 0;
+	beg = 0;
+	while (i < len && str[i] != '\0')
+	{
+		while (i < len && is_whatever(str[i]) && str[i++] != '\0');
+		beg = i;
+		while (i < len && !is_whatever(str[i]) && str[i++] != '\0');
+		if (beg != i)
+			t_str[a++] = cpy_a_to_b(str, beg, i);
+	}
+	t_str[a] = NULL;
+	return(t_str);
 }
 
 t_parse *parse_it(char *expr, int len)
@@ -262,7 +270,7 @@ t_parse *parse_it(char *expr, int len)
 	t_parse *p;
 	//printf("[%.*s] - connector: %s\n", sh->nb_stack, "++++++++++++++++++++++++++++++++", sh->connector == NULL ? "none" : sh->connector);
 	if (!(p = malloc(sizeof(t_parse))) ||
-	!(p->begin = malloc(sizeof(int) * ft_strlen(expr))) ||
+			!(p->begin = malloc(sizeof(int) * ft_strlen(expr))) ||
 			!(p->end = malloc(sizeof(int) * ft_strlen(expr))) ||
 			!(p->type = malloc(sizeof(int) * ft_strlen(expr))))
 		exit(0);
@@ -304,56 +312,113 @@ int		t_len(char ***t, int len)
 	return (r);
 }
 
+/*
+   char	*clear_whitespace(char *s)
+   {
+   int i;
+   int a;
+
+   i = 0;
+   a = 0;
+   while (s[i])
+   {
+   if (!char_is_whitespace(s[i]))
+   {
+   s[a] = s[i];
+   a++;
+   }
+   i++;
+   }
+   s[a] = '\0';
+   return (s);
+   }
+ */
+void print_redirect(t_redirect *redirect)
+{
+	if (redirect == NULL)
+	{
+		printf("NULL\n");
+		return ;
+	}
+	if (redirect->type == 1)
+	{
+		printf("redirection: type '<' --> |%.*s|\n", redirect->len_in, redirect->s_in);
+	}
+	else
+	{
+		printf("redirection: type '>' --> %d to %d\n", redirect->fd_in, redirect->fd_out);
+	}
+}
 t_redirect *get_redirection(char *s)
 {
-	t_redirect *redirect;
 	int i;
+	t_redirect *redirect;
 
+	//s = clear_whitespace(s);
 	if (!(redirect = malloc(sizeof(t_redirect))) || s == NULL)
 		return (NULL);
 	i = 0;
-//	int fd;
 	int len;
-	int fd_in = 1;
-	int op;
-	char **decontenanceur;
-	op = -1;
+	int open_flag;
+	redirect->fd_in = 1;
+	redirect->type = 1;
+	open_flag = O_CREAT | O_RDWR;
 	len = 0;
-	#define DBF 2
-	#define F 1
-	#define FR 3 //<
-	#define DBFR 4
-	if (ft_isdigit(s[0]))
+	if (ft_isdigit(s[i]))
 	{
-		len++;
-		fd_in = s[0];
+		redirect->fd_in = atoi(s + i);
+		i++;
 	}
-	if (ft_strncmp(s + len, ">>", 2) == 0)
+	if (ft_strncmp(s + i, ">>", 2) == 0)
 	{
-		op = DBF;
-		len += 2;
+		redirect->type = 0;
+		open_flag |= O_APPEND;
+		i += 2;
 	}
-	else if (ft_strncmp(s + len, ">", 1) == 0)
+	else if (ft_strncmp(s + i, ">", 1) == 0)
 	{
-		op = F;
-		len += 1;
+		redirect->type = 0;
+		i += 1;
 	}
-	else if (ft_strncmp(s + len, "<", 1) == 0)
+	else if (ft_strncmp(s + i, "<<", 2) == 0)
 	{
-		op = FR;
-		len += 1;
+		ft_printf("parsing info: didn't handle yet <<\n");
+		return (NULL);
 	}
-	else if (ft_strncmp(s + len, "<<", 2) == 0)
+	else if (ft_strncmp(s + i, "<", 1) == 0)
 	{
-		op = FR;
-		len += 1;
+		i++;
+		char **t = fstrsplit(s + i, ft_strlen(s + i), char_is_whitespace);
+		int fd = open(t[0], open_flag, 0666);
+		if (fd == -1)
+			return (NULL);
+		if (!fd_get_binary(fd, &redirect->s_in, &redirect->len_in))
+			return (NULL);
+		return (redirect);
 	}
+	if (redirect->type == 0) //&& ft_strncmp(s + i, "&", 1) == 0)
+	{
+		if (ft_strncmp(s + i, "&", 1) == 0)
+		{
+		 	if (ft_isdigit(s[i + 1]) && !((open_flag & O_APPEND) != 0))
+			{
+				redirect->fd_out = ft_atoi(s + i + 1);
+				return (redirect);
+			}
+			else
+				i++;
+		}
+	}
+		//we get the file
+		char **t = fstrsplit(s + i, ft_strlen(s + i ), char_is_whitespace);
+		if (t == NULL && t[0] != NULL)
+			return (NULL);
 
-	if (ft_strncmp(s, ">>", 2) == 0)
-	{
-		decontenanceur = fstrsplit(s + 2, ft_strlen(s + 2), char_is_whitespace);
-	}
-	ft_memdel((void **)&s);
+		//for(int i = 0; t[i] != NULL;i++){ft_printf("->: %s\n", t[i]);}
+
+		redirect->fd_out = open(t[0], open_flag, 0666);
+		if (redirect->fd_out == -1)
+			return (NULL);
 	return (redirect);
 }
 
@@ -483,13 +548,15 @@ while (tp[pa] != NULL)
 				//creating a command
 				int ra;
 				int a;
-
 				if (!(cmds[ic] = malloc(sizeof(t_av)))
 				|| !(cmds[ic]->redirect = malloc(sizeof(void *) * (ft_strlen(expr) + 1)))
-				|| !(cmds[ic]->bitcode = malloc(sizeof(void *) * (ft_strlen(expr) + 1))))
+				|| !(cmds[ic]->bitcode = malloc(sizeof(void *) * (ft_strlen(expr) + 1)))
+				|| !(cmds[ic]->argcmd = malloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
 						return (NULL);
 				ra = 0;
+				int argcmd_i = 0;
 				cmds[ic]->bitcode[ra] = 0;
+				cmds[ic]->type = 0;
 				cmds[ic]->redirect[ra] = NULL;
 				//its for separate each command
 				char ***t_tstr;
@@ -511,18 +578,23 @@ while (tp[pa] != NULL)
 										int	fd_out;
 								}			t_redirect;
 						*/
-						#define REDIRECT_TRNC 0
-						#define REDIRECT_NORMAL 1
 						//redirect_stuff
-						ft_printf("int %s: %d(%c) to %d(%c)\n", (expr + tp[pa]->dec), tp[pa]->begin[ti[pa] + a + ra], expr[tp[pa]->begin[ti[pa] + a + ra]], tp[pa]->end[ti[pa] + a + ra], expr[tp[pa]->end[ti[pa] + a + ra]]);
-						cmds[ic]->redirect[ra] = get_redirection(cpy_a_to_b((expr + tp[pa]->dec), tp[pa]->begin[ti[pa] + a + ra], tp[pa]->end[ti[pa] + a + ra]));
+						//ft_printf("int %s: %d(%c) to %d(%c)\n", (expr + tp[pa]->dec), tp[pa]->begin[ti[pa] + a + ra], expr[tp[pa]->begin[ti[pa] + a + ra]], tp[pa]->end[ti[pa] + a + ra], expr[tp[pa]->end[ti[pa] + a + ra]]);
+						cmds[ic]->redirect[ra] = get_redirection(
+						cpy_a_to_b((expr + tp[pa]->dec),
+						tp[pa]->begin[ti[pa] + a + ra],
+						tp[pa]->end[ti[pa] + a + ra]));
+						//print_redirect(cmds[ic]->redirect[ra]);
 						cmds[ic]->bitcode[ra + a] = 0;
 						ra++;
 					}
 					else if (tp[pa]->type[ti[pa] + a + ra] != EMPTY && g_delimiter[tp[pa]->type[ti[pa] + a + ra]].do_recursivity)
 					{
-						cmds[ic]->argcmd = parse_commands(cpy_a_to_b((expr + tp[pa]->dec), tp[pa]->begin[ti[pa] + a + ra], tp[pa]->end[ti[pa] + a + ra]));
+						cmds[ic]->argcmd[argcmd_i++] = parse_commands(cpy_a_to_b((expr + tp[pa]->dec), tp[pa]->begin[ti[pa] + a + ra],
+						tp[pa]->end[ti[pa] + a + ra]));
 						cmds[ic]->bitcode[ra + a] = 0;
+						if (ft_strcmp(g_delimiter[tp[pa]->type[ti[pa] + a + ra]].name, "|") == 0)
+							cmds[ic]->type = TYPE_PIPE;
 						t_tstr[a++] = NULL;
 					}
 					else
@@ -558,6 +630,7 @@ while (tp[pa] != NULL)
 					//free(t_tstr[i]);
 				}
 				cmds[ic]->argv[argv_i] = NULL;
+				cmds[ic]->argcmd[argcmd_i] = NULL;
 				ic++;
 			}
 			else

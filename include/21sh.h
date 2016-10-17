@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/27 16:51:29 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/10/17 18:19:51 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 # define INIT_ALL(CMD,AV1,AV2) (char *[]){CMD, AV1, AV2, NULL}
 # define INIT_ARG(AV1,AV2) (char *[]){AV1, AV2, NULL}
-# define INIT_AV(A,B,C,D) ((t_av){A, INIT_ARG(B, C), D, INIT_ALL(A, B, C), NULL, NULL, NULL})
+# define INIT_AV(A,B,C,D) ((t_av){A, INIT_ARG(B, C), D, INIT_ALL(A, B, C), NULL, NULL, NULL, 0})
 # define STAT	struct stat
 # define PW_T	struct passwd
 
@@ -64,9 +64,11 @@ typedef struct	s_prompt
 
 typedef struct          s_redirect
 {
-                int     type;
+                int     type; //0 for redirect basic or 1 for <
                 int     fd_in;
                 int     fd_out;
+				char	*s_in;
+				int		len_in;
 }                       t_redirect;
 
 typedef struct          s_command
@@ -100,10 +102,10 @@ typedef struct	s_av
 	char		**arg;
 	int			argc;
 	char		**argv;
-	struct s_av        **argcmd;
+	struct s_av        ***argcmd;
 	struct s_redirect **redirect;
     int     *bitcode;
-	
+	int		type;
 }				t_av;
 
 typedef int		(*t_bi_fptr)();
@@ -115,9 +117,9 @@ typedef struct	s_builtin
 }				t_builtin;
 
 /*
-**	
-**	Garbage collector like by anis
-**	
+**
+**	Garbage collector like
+**
 */
 
 //same behaviour as malloc
@@ -199,7 +201,13 @@ int				print_error(t_av av, int error);
 /*
 ** added by a
 */
+#define TYPE_PIPE 1
+
 t_av **parse_commands(char *expr);
 int				ret_exit(int state, int value);
+int			fd_get_binary(int fd, char **str, int *len);
+int			char_is_whitespace(char c);
+char            **fstrsplit(char *str, int len, int (*is_whatever)(char));
+char	**ft_globing(char *expr, char **words);
 
 #endif
