@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 14:26:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/12 18:32:28 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/22 19:56:48 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void			ft_up(t_line *l)
 
 	if (l->hist == NULL || l->hist->prev == NULL)
 		return ;
-	if ((int)l->hist->size == l->hist_pos && l->str != NULL)
-		add_history(l->str, l->hist);
+/*	if ((int)l->hist->size == l->hist_pos && l->str != NULL
+		&& l->str[0] != '\0')
+		add_history(l->str, l->hist);*/
 	new_in = get_hist_pos(l->hist, l->hist_pos, -1, l);
 	if (new_in != NULL)
 	{
