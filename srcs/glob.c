@@ -164,7 +164,6 @@ void finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 					(*p_d)[a_w] += strlen(g->exprs);
 					//printf("info: nor: find %s\n", g->exprs);
 					find = 1;
-					break;
 				}
 			}
 		}
