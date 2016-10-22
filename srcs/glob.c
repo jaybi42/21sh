@@ -126,10 +126,9 @@ void finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 			}
 			else
 			{
-			//	printf("try to force! %d - %c with %d - %c\n",j, g->exprs[j], (*p_d)[a_w], words[a_w][(*p_d)[a_w]]);
+				//printf("try to force! with %d - %c\n", (*p_d)[a_w], words[a_w][(*p_d)[a_w]]);
 				if (g->list == 1)
 				{
-					//strncmp((*p_d_bannish))
 					//printf("info: nor: we have a list[%s], check everyone...\n", g->exprs);
 					int i;
 					i = 0;
@@ -154,6 +153,11 @@ void finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 						find = 1;
 						//printf("info: nor: didn't find it, but ^ so it's ok\n");
 					}
+				}
+				else if (g->length_one == 1)
+				{
+					if (words[a_w][(*p_d)[a_w]] == g->exprs[0])
+						find = 1;
 				}
 				else if (!strncmp(words[a_w] + (*p_d)[a_w], g->exprs, strlen(g->exprs)))
 				{
@@ -279,11 +283,6 @@ t_globbing *rec_g(char *expr, int *i, int iquare)
 			//can have pblm... to correct
 			break;
 		}
-		/*
-		if (icolade && expr[(*i) + c] == '{')
-		{
-			break;
-		}*/
 		c++;
 	}
 	g->is_looking = 1;
@@ -316,7 +315,6 @@ char	**find_globbing(t_globbing **gs, int a, char **words)
 	while (++a_g < a)
 	{
 		//printf(">%d\n", a_g);
-		//write(1, "2k\n", 3);
 		finder(gs[a_g], &d, &d_bannish, words);
 	}
 	char **ret;
@@ -627,6 +625,7 @@ void close_t(char ***p_t, int **p_i_a, int *p_ta)
 	int i;
 
 	i = 0;
+
 	while (i < (*p_ta))
 	{
 		(*p_t)[i][(*p_i_a)[i]] = '\0';
@@ -751,7 +750,13 @@ char	**ft_globing(char *expr, char **words)
 				return (NULL);
 			gti[ta]++;
 		}
-		tgs[ta][gta[ta]] = NULL;
+		if (!(tgs[ta][gta[ta]] = malloc(sizeof(t_globbing))))
+			return (NULL);
+		tgs[ta][gta[ta]]->exprs = strdup("");	
+		tgs[ta][gta[ta]]->is_looking = 1;
+		tgs[ta][gta[ta]]->list = 0;
+		tgs[ta][gta[ta]]->length_one = 1;
+		tgs[ta][++gta[ta]] = NULL;
 		ta++;
 	}
 	tgs[ta] = NULL;
@@ -762,7 +767,7 @@ char	**ft_globing(char *expr, char **words)
 		x = 0;
 		while (tgs[ta][x])
 		{
-			//		printf("|%s| %d\n", tgs[ta][x]->exprs, tgs[ta][x]->list);
+			//printf("|%s| %d\n", tgs[ta][x]->exprs, tgs[ta][x]->list);
 			x++;
 		}
 		ta++;
