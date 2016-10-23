@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/23 13:40:57 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/23 15:27:15 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/23 15:31:15 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*join_all(char *ans, char *search, bool isok)
 	char	*tmp1;
 	char	*tmp2;
 
-	if (ans == NULL || search == NULL || prompt == NULL)
+	if (ans == NULL || search == NULL)
 		return (NULL);
 	if (isok)
 		tmp1 = ft_strjoin(ans, "\n  research : ");

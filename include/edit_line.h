@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/23 15:04:50 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/23 15:32:14 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,6 @@ void			check_is_space_r(t_line *l);
 int				int_putchar(int c);
 void			ft_print_line(t_line *l);
 void			ft_print_key(t_line *l);
-void			constructor_search(char *ans, bool isok, t_line *l);
+int				constructor_search(char *ans, char *search, bool isok, t_line *l);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 13:16:09 by malaine           #+#    #+#             */
-/*   Updated: 2016/10/23 13:48:41 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/23 15:32:37 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void		ft_backspace(t_line *l)
 	}
 }
 
-/*void		ft_ctrl_r(t_line *l)
+void		ft_ctrl_r(t_line *l)
 {
 	if (check_last_word(l) == 0)
 	{
@@ -87,7 +87,7 @@ void		ft_backspace(t_line *l)
 	}
 	else
 		check_space_r(l);
-		}*/
+}
 
 void		ft_ctrl_l(t_line *l)
 {
