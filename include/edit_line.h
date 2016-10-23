@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/12 14:39:10 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/23 15:04:50 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,13 @@ int				init_term(void);
 **Desc: Parsing quotes, history
 */
 
+
+/*
+**Name: Parse editing
+**File: parse_quotes.c parse_history.c
+**Desc: Parsing quotes, history
+*/
+
 int				parse_history(t_line *l, t_ftl_root *hist);
 char			*get_event(char *str, t_ftl_root *hist);
 int				parse_quote(char *line);
@@ -107,6 +114,8 @@ int				parse_line(t_line *l, t_ftl_root *hist);
 */
 
 int				actions(t_line *l);
+int				key_is_special(t_line *l);
+void			ctrl_r(t_line *l);
 void			ft_real_backspace(t_line *l);
 void			ft_backspace(t_line *l);
 void			ft_right(t_line *l);
@@ -119,6 +128,7 @@ void			ft_home(t_line *l);
 void			ft_end(t_line *l);
 void			ft_ctrl_r(t_line *l);
 void			ft_ctrl_l(t_line *l);
+void			ft_forward(t_line *l);
 void			ft_autocomp(t_line *l);
 void			ft_up(t_line *l);
 void			ft_down(t_line *l);
@@ -160,5 +170,6 @@ void			check_is_space_r(t_line *l);
 int				int_putchar(int c);
 void			ft_print_line(t_line *l);
 void			ft_print_key(t_line *l);
+void			constructor_search(char *ans, bool isok, t_line *l);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/12 16:48:53 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/23 13:38:13 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,15 @@ t_av	**read_init(t_line *l, t_ftl_root *hist)
 		ft_bzero(l->buffer, 6);
 		if (read(0, l->buffer, 6) == -1)
 			return (NULL);
+		if (l->buffer[0] != 10)
+			actions(l);
+		if (l->buffer[0] != 10 && ft_isprint(l->buffer[0]) == 1)
+			ft_print_key(l);
 		if (l->buffer[0] == 10)
 		{
 			ft_putchar('\n');
 			break ;
 		}
-		else if (actions(l) == 1)
-			ft_print_key(l);
 	}
 	if (parse_line(l, hist) == 0)
 		return (parse_commands(l->str));

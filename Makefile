@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/10/17 18:18:01 by agadhgad         ###   ########.fr        #
+#    Updated: 2016/10/23 13:50:56 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -77,17 +77,21 @@ FILES =					main			\
 						init_term		\
 						autocomp		\
 						autocomp_utils	\
-						autocomp_utils_1 \
-						autocomp_utils_2 \
+						autocomp_utils_1	\
+						autocomp_utils_2	\
 						parse_quote		\
 						parse_history	\
 						get_event		\
 						search_history	\
 						parse_line		\
-						storage_all_cmds \
-						garbage_collector \
-						file_get_contents \
-						glob \
+						storage_all_cmds	\
+						garbage_collector	\
+						file_get_contents	\
+						glob 			\
+						ft_ctrl_r		\
+						ft_forward		\
+						print_ctrl_r	\
+						key_is_special	\
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
