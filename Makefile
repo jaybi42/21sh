@@ -89,7 +89,6 @@ FILES =					main			\
 						file_get_contents	\
 						glob 			\
 						ft_ctrl_r		\
-						ft_forward		\
 						print_ctrl_r	\
 						key_is_special	\
 

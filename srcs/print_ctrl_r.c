@@ -22,17 +22,19 @@ static char	*construct_search(char *search)
 	return (tmp);
 }
 
-static char	*join_all(char *ans, char *search, bool isok)
+static char	*join_all(t_line *l, char *search, bool isok)
 {
 	char	*tmp1;
 	char	*tmp2;
 
-	if (ans == NULL || search == NULL)
+	if (l->ans == NULL)
+		l->ans = ft_strdup("");
+	if (l->ans == NULL)
 		return (NULL);
 	if (isok)
-		tmp1 = ft_strjoin(ans, "\n  research : ");
+		tmp1 = ft_strjoin(l->ans, "\n  research : ");
 	else
-		tmp1 = ft_strjoin(ans, "\n  failing searching : ");
+		tmp1 = ft_strjoin(l->ans, "\n  failing searching : ");
 	if (tmp1 == NULL)
 		return (NULL);
 	tmp2 = ft_strjoin(tmp1, search);
@@ -40,15 +42,16 @@ static char	*join_all(char *ans, char *search, bool isok)
 	return (tmp2);
 }
 
-int			constructor_search(char *ans, char *search, bool isok, t_line *l)
+int			constructor_search(bool isok, t_line *l)
 {
 	char	*full_str;
 	char	*new_search;
 
-	new_search = construct_search(search);
+	new_search = construct_search(l->search);
 	if (new_search == NULL)
 		return (1);
-	full_str = join_all(ans, new_search, isok);
+	full_str = join_all(l, new_search, isok);
+	ft_strdel(&new_search);
 	if (full_str == NULL)
 		return (1);
 	l->str = full_str;

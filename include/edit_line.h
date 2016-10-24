@@ -43,6 +43,8 @@ typedef struct	s_line
 	char		*str;
 	char		*strcpy;
 	char		*oldstr;
+	char		*search;
+	char		*ans;
 	int			count;
 	int			tmp;
 	int			size;
@@ -128,10 +130,11 @@ void			ft_home(t_line *l);
 void			ft_end(t_line *l);
 void			ft_ctrl_r(t_line *l);
 void			ft_ctrl_l(t_line *l);
-void			ft_forward(t_line *l);
 void			ft_autocomp(t_line *l);
 void			ft_up(t_line *l);
 void			ft_down(t_line *l);
+void			ft_bp(t_line *l);
+void			ft_fw(t_line *l);
 void			get_line_history(t_line *l, t_ftl_root *root);
 
 /*
@@ -170,6 +173,6 @@ void			check_is_space_r(t_line *l);
 int				int_putchar(int c);
 void			ft_print_line(t_line *l);
 void			ft_print_key(t_line *l);
-int				constructor_search(char *ans, char *search, bool isok, t_line *l);
+int				constructor_search(bool isok, t_line *l);
 
 #endif
