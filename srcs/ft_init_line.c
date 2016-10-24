@@ -29,6 +29,6 @@ void	ft_init_line(t_line *l, t_ftl_root *hist)
 	l->strcpy = NULL;
 	l->hist = hist;
 	l->hist_size = 30;
-	l->hist_pos = hist->size;
+	l->hist_pos = -1;
 	l->oldstr = NULL;
 }

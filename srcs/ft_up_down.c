@@ -21,36 +21,58 @@ static char		*get_hist_pos(t_ftl_root *hist, int pos, int dir, t_line *l)
 		node = node->prev;
 	if (dir == 1)
 		node = node->next;
-	else
+	else if (dir == -1) 
 		node = node->prev;
-	if (node == (t_ftl_node *)hist)
-		return (NULL);
-	if (!((l->hist_pos == 0 && dir == -1)
-		  || (l->hist_pos == (int)hist->size && dir == 1)))
-		l->hist_pos += dir;
+	l->hist_pos += dir;
 	return (((t_hist *)node)->str);
 }
 
+static char		*get_str_in_hist(t_line *l, int dir)
+{
+	if (l->hist_pos == -1)
+	{
+		if (dir == 1)
+			return (NULL);
+		l->hist_pos = l->hist->size;
+		return (get_hist_pos(l->hist, l->hist_pos, 0, l));
+	}
+	else if (l->hist_pos == (int)l->hist->size && dir == 1)
+	{
+		l->hist_pos = -1;
+		return ("");
+	}
+	else if (l->hist_pos == 1 && dir == -1)
+		return (NULL);
+	else
+		return (get_hist_pos(l->hist, l->hist_pos, dir, l));
+}
+
+static void		dup_print(char *new_in, t_line *l)
+{
+	char	*tmp;
+
+	if (new_in != NULL)
+	{
+		tmp = ft_strdup(new_in);
+		if (tmp == NULL)
+		  return ;
+		if (l->str != NULL)
+			ft_strdel(&l->str);
+		l->str = tmp;
+		l->count = ft_strlen(l->str);
+		l->size = l->count;
+		ft_print_line(l);
+	}
+}
 
 void			ft_up(t_line *l)
 {
 	char	*new_in;
 
-	if (l->hist == NULL || l->hist->prev == NULL)
+	if (l->hist == NULL || l->hist->prev == (t_ftl_node *)l->hist)
 		return ;
-/*	if ((int)l->hist->size == l->hist_pos && l->str != NULL
-		&& l->str[0] != '\0')
-		add_history(l->str, l->hist);*/
-	new_in = get_hist_pos(l->hist, l->hist_pos, -1, l);
-	if (new_in != NULL)
-	{
-		if (l->str != NULL)
-			ft_strdel(&l->str);
-		l->str = ft_strdup(new_in);
-		l->count = ft_strlen(l->str);
-		l->size = l->count;
-		ft_print_line(l);
-	}
+	new_in = get_str_in_hist(l, -1);
+	dup_print(new_in, l);
 }
 
 void			ft_down(t_line *l)
@@ -59,14 +81,6 @@ void			ft_down(t_line *l)
 
 	if (l->hist == NULL || l->hist->next == (t_ftl_node *)l->hist)
 		return ;
-	new_in = get_hist_pos(l->hist, l->hist_pos, 1, l);
-	if (new_in != NULL)
-	{
-		if (l->str != NULL)
-			ft_strdel(&l->str);
-		l->str = ft_strdup(new_in);
-		l->count = ft_strlen(l->str);
-		l->size = l->count;
-		ft_print_line(l);
-	}
+	new_in = get_str_in_hist(l, 1);
+	dup_print(new_in, l);
 }

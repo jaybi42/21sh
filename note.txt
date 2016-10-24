@@ -2,3 +2,4 @@ quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'ap
 - Faire une fonction FT_READ pour eviter les caracteres indesirables qui plantent les termcaps
 - e;e => segfault
 - gestion caracteres speciaux
+- Comportement aléatoire sur le setenv (WTF)

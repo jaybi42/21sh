@@ -1,41 +1,28 @@
+test 1
+history
+history
+history
+exit
+exit
+ls
+exit
+history
+exit
+exit
+exit
+history
+exit
+history
 a
 b
 c
 d
 e
-f
+r
 g
 h
 i
-f
-f
 exit
-pwd
-ls
-ls /Users
-ls /Users/bocal
-ls
-cd /Users/agadhgad
-ls
-ll
-la
-ls -la
-cd ..
-cd jguthert/projects
-cd 21sh
-ls
-ls
+ks
 exit
-ls obj
-exit
-ls
-ls include
-rm 21sh.h
-ls
-ls testing
-ls testing
-exit
-exit
-dedededed
-ls srcs
 exit
