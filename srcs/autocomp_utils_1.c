@@ -6,11 +6,44 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 20:12:54 by mseinic           #+#    #+#             */
-/*   Updated: 2016/10/22 20:05:42 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/10/24 20:22:19 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "autocomp.h"
+
+char			**ret_globing(char *tmp, char *path)
+{
+	char **tab = NULL;
+	char **tab2 = NULL;
+	int	size = 0;
+	int	n = 0;
+	char **ret;
+
+	ret = NULL;
+	tab = ret_tab("", path);
+	if (tab != NULL)
+		tab2 = ft_globing(tmp, tab);
+	if (tab2 == NULL || tab2[0] == NULL)
+		return (tab2);
+	n = ft_strlen(path) + 1;
+	for (int i = 0; tab2[i] != NULL; i++)
+		size += (ft_strlen(tab2[i]) + n + 1);
+	ret = (char**)malloc(sizeof(char *) * 2);
+	if ((ret[0] = (char *)malloc(sizeof(char) * (size + 1))) != NULL)
+	{
+		ret[0][0] = '\0';
+		for (int i = 0; tab2[i] != NULL; i++)
+		{
+			ft_strcat(ret[0], path);
+			ft_strcat(ret[0], "/");
+			ft_strcat(ret[0], tab2[i]);
+			ft_strcat(ret[0], " ");
+		}
+	}
+	ret[1] = NULL;
+	return (ret);
+}
 
 char            **ret_match(char *str)
 {
@@ -18,11 +51,9 @@ char            **ret_match(char *str)
 	char            *tmp;
 	char            *path;
 	char            *str1;
-	char			**tab2;
 
 	str1 = ft_strdup(str);
 	tab = NULL;
-	tab2 = NULL;
 	tmp = ft_strrchr(str1, '/');
 	if (tmp != NULL)
 	{
@@ -38,48 +69,7 @@ char            **ret_match(char *str)
 	if (ft_strlen(path) == 0)
 		path = "/";
 	if (ft_strchr(tmp, '*') != NULL)
-	{
-		//printf("[%s] ",tmp);
-		tab = ret_tab("", path);
-		for (int i = 0; tab[i] != NULL; i++)
-			printf("[%s] ", tab[i]);
-		if (tab != NULL)
-			tab2 = ft_globing(tmp, tab);
-		
-		int	size = 0;
-		int	n = 0;
-		int	test = 0;
-
-		if (ft_strcmp(path, "."))
-		{
-			test = 1;
-			n = ft_strlen(path) + 1;
-		}
-		for (int i = 0; tab2[i] != NULL; i++)
-		{
-			size += (ft_strlen(tab2[i]) + n + 1);
-		}
-		char **ret = (char**)malloc(sizeof(char *) * 2);
-		ret[0] = (char *)malloc(sizeof(char) * (size + 1 - (n - 1)));
-		ft_bzero(ret[0], size + 1 - (n - 1));
-		for (int i = 0; tab2[i] != NULL; i++)
-		{
-			if (tab2[i][0] != '.')
-			{
-				if (test)
-				{
-					ft_strcat(ret[0], path);
-					ft_strcat(ret[0], "/");
-				}
-				ft_strcat(ret[0], tab2[i]);
-				ft_strcat(ret[0], " ");
-			}
-		}
-
-			printf("[%s] ", ret[0]);
-		ret[1] = NULL;
-		return (ret);
-	}
+		tab = ret_globing(tmp, path);
 	else
 		tab = ret_tab(tmp, path);
 	free(str1);
@@ -120,8 +110,9 @@ int             count_files(char *path, char *str)
 		while ((info.dp = readdir(info.dirp)) != NULL)
 		{
 			info.tmp = ft_strdup(info.dp->d_name);
-			info.tmp[info.len] = '\0';
-			if (ft_strcmp(info.tmp, str) == 0)
+			if (info.len <= ft_strlen(info.tmp))
+				info.tmp[info.len] = '\0';
+			if (ft_strcmp(info.dp->d_name, ".") != 0 && ft_strcmp(info.dp->d_name, "..") != 0 && ft_strcmp(info.tmp, str) == 0)
 				info.size++;
 			free(info.tmp);
 		}
@@ -144,8 +135,9 @@ char    **ret_tab(char *tmp, char *path)
 		while ((info.dp = readdir(info.dirp)) != NULL)
 		{
 			info.tmp = ft_strdup(info.dp->d_name);
-			info.tmp[info.len] = '\0';
-			if (ft_strcmp(info.tmp, tmp) == 0)
+			if (info.len <= ft_strlen(info.tmp))
+				info.tmp[info.len] = '\0';
+			if (ft_strcmp(info.dp->d_name, ".") != 0 && ft_strcmp(info.dp->d_name, "..") && ft_strcmp(info.tmp, tmp) == 0)
 			{
 				info.tab[info.i] = ft_strdup(info.dp->d_name);
 				info.i++;
