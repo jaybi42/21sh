@@ -21,7 +21,7 @@ static char		*get_hist_pos(t_ftl_root *hist, int pos, int dir, t_line *l)
 		node = node->prev;
 	if (dir == 1)
 		node = node->next;
-	else if (dir == -1) 
+	else if (dir == -1)
 		node = node->prev;
 	l->hist_pos += dir;
 	return (((t_hist *)node)->str);
@@ -34,12 +34,14 @@ static char		*get_str_in_hist(t_line *l, int dir)
 		if (dir == 1)
 			return (NULL);
 		l->hist_pos = l->hist->size;
+		l->oldstr = l->str;
+		l->str = NULL;
 		return (get_hist_pos(l->hist, l->hist_pos, 0, l));
 	}
 	else if (l->hist_pos == (int)l->hist->size && dir == 1)
 	{
 		l->hist_pos = -1;
-		return ("");
+		return (l->oldstr);
 	}
 	else if (l->hist_pos == 1 && dir == -1)
 		return (NULL);
