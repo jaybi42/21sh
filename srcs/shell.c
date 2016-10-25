@@ -224,7 +224,7 @@ int		x_strjoins(char **s1, size_t *len1, char *s2, size_t len2)
 }
 
 int		exec_builtin(int (*fnct)(), char **argv, t_redirect **r,
-		t_av av, t_list **g_env, t_list **l_env)
+		t_av av)
 {
 	t_f **f;
 	int a = 0;
@@ -255,7 +255,7 @@ int		exec_builtin(int (*fnct)(), char **argv, t_redirect **r,
 		i++;
 	}
 
-	fnct(av, g_env, l_env);
+	fnct(av, &g_env, &l_env);
 
 	i = 0;
 	while (f[i])
@@ -407,7 +407,7 @@ int	set_in(t_redirect **r, char **s, size_t len)
 }
 
 t_output do_exec(t_exec ex, int ret,
-		t_av av, t_list **g_env, t_list **l_env, char *in, int inlen)
+		t_av av, char *in, int inlen)
 {
 	t_output o;
 
@@ -417,7 +417,7 @@ t_output do_exec(t_exec ex, int ret,
 	//dprintf(2, "putting in stdin: %d|%.*s|\n",inlen, inlen, in);
 	o.ret_code = 0;
 	if (ex.type == BUILTIN)
-		o.ret_code = exec_builtin(ex.fnct, ex.argv, ex.r,av, g_env, l_env);
+		o.ret_code = exec_builtin(ex.fnct, ex.argv, ex.r,av);
 	else
 		o.ret_code = exec_bin(ex.path, ex.argv, ex.r, in, inlen);
 	if (ret != 0)
@@ -445,7 +445,7 @@ void clear_output(t_output *o)
 		{dprintf(2, "malloc error.. leaving...\n");exit(1);}
 	o->string[0] = '\0';
 }
-t_output	shell(t_av **av, t_list **g_env, t_list **l_env, t_ftl_root *hist, int ret)
+t_output	shell(t_av **av, int ret)
 {
 	int fd_in[2];
 	int i_cmd;
@@ -464,7 +464,7 @@ t_output	shell(t_av **av, t_list **g_env, t_list **l_env, t_ftl_root *hist, int 
 	{
 		if (av[a]->argv[0] == NULL)
 			continue;
-		ex = make_exec(av[a], g_env, l_env);
+		ex = make_exec(av[a], &g_env, &l_env);
 		//check AND and OR
 		if (av[a]->type == TYPE_OR || av[a]->type == TYPE_AND)
 		{
@@ -491,7 +491,7 @@ t_output	shell(t_av **av, t_list **g_env, t_list **l_env, t_ftl_root *hist, int 
 			clear_output(&output);
 		if (av[a]->type == TYPE_PIPE && output.ret_code != 0)
 			continue;
-		output = do_exec(ex, (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) ? 1 : ret, *av[a],g_env,l_env,
+		output = do_exec(ex, (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) ? 1 : ret, *av[a],
 			output.string, output.len);
 
 		if (ret)
@@ -504,9 +504,9 @@ t_output	shell(t_av **av, t_list **g_env, t_list **l_env, t_ftl_root *hist, int 
 ** give him a expr (example: echo ok | cat -e)
 ** give you the return output and the last ret_code
 */
-t_output shell_exec(char *expr, t_list **g_env, t_list **l_env, t_ftl_root *hist)
+t_output shell_exec(char *expr)
 {
 	t_av **av;
 	av = parse_commands(expr);
-	return (shell(av, g_env, l_env, hist, 1));
+	return (shell(av, 1));
 }

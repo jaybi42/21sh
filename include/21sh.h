@@ -172,7 +172,7 @@ void			storage_env(t_list **e, char *new_var);
 **Desc: Do shell functions
 */
 
-t_output	shell(t_av **av, t_list **g_env, t_list **l_env, t_ftl_root *hist, int ret);
+t_output	shell(t_av **av, int ret);
 int				do_fork(char *bin, char **all, char **env);
 int				check_bin(t_list *g_env, t_list *l_env, t_av av);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l);
@@ -203,7 +203,7 @@ int				bi_setenv(t_av av, t_list **g_env, t_list **l_env);
 int				bi_exit(t_av av, t_list **g_env, t_list **l_env);
 int				bi_getenv(t_av av, t_list **g_env, t_list **l_env);
 int				bi_echo(t_av av, t_list **g_env, t_list **l_env);
-int				bi_history(t_av av, t_ftl_root *hist);
+int				bi_history(t_av av, t_list **g_env, t_list **l_env);
 int                             bi_export(t_av av, t_list **g_env, t_list **l_env);
 
 /*
@@ -238,6 +238,15 @@ int			fd_get_binary(int fd, char **str, int *len);
 int			char_is_whitespace(char c);
 char            **fstrsplit(char *str, int len, int (*is_whatever)(char));
 char	**ft_globing(char *expr, char **words);
-t_output shell_exec(char *expr, t_list **g_env, t_list **l_env, t_ftl_root *hist);
+t_output shell_exec(char *expr);
+
+
+/*
+** global
+*/
+extern t_list		*l_env;
+extern t_list		*g_env;
+extern t_ftl_root g_hist;
+
 
 #endif

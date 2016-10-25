@@ -14,6 +14,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+t_list		*l_env;
+t_list		*g_env;
+t_ftl_root g_hist;
+
 int				ret_exit(int state, int value)
 {
 	static int data = 0;
@@ -43,29 +47,28 @@ void			ft_printmem(t_av **av)
 	(void)av;
 }
 
-static int		sh21(t_list **g_env, t_list **l_env)
+static int		sh21(void)
 {
 //	t_list		*av;
 	t_av **av;
 	t_line		l;
 	uint64_t	nbr;
-	t_ftl_root	hist;
 	t_output o;
 	ft_bzero(&l, sizeof(t_line));
 	srand(time(NULL));
 	nbr = rand();
-	get_history(&hist);
+	get_history(&g_hist);
 	av = NULL;
 	while (1)
 	{
-		catch_signal((t_prompt){nbr, *g_env, *l_env, 0, &l});
-		print_prompt(nbr, *g_env, *l_env, &l);
-		if ((av = read_init(&l, &hist)) == NULL)
+		catch_signal((t_prompt){nbr, g_env, l_env, 0, &l});
+		print_prompt(nbr, g_env, l_env, &l);
+		if ((av = read_init(&l, &g_hist)) == NULL)
 		{
 			printf("special error\n");
-			clean_exit(53, &hist, &l);
+			clean_exit(53, &g_hist, &l);
 		}
-		o = shell(av, g_env, l_env, &hist, 0);
+		o = shell(av, 0);
 		//xmasterfree();
 	}
 	return (1);
@@ -73,14 +76,13 @@ static int		sh21(t_list **g_env, t_list **l_env)
 
 int				main(void)
 {
-	t_list		*l_env;
-	t_list		*g_env;
-
+	g_env = NULL;
+	l_env = NULL;
 	if (init_env(&g_env, &l_env) == 1)
 		return (1);
 	if (init_term() == -1)
 		return (1);
-	if (sh21(&g_env, &l_env) == 1)
+	if (sh21() == 1)
 		return (1);
 	return (0);
 }

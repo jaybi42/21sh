@@ -67,8 +67,11 @@ static int			pop_line(t_ftl_root *hist, int pos)
 	return (0);
 }
 
-int				bi_history(t_av av, t_ftl_root *hist)
+int				bi_history(t_av av, t_list **g_env, t_list **l_env)
 {
+	 t_ftl_root *hist;
+
+	hist = &g_hist;
 	if (hist == NULL || hist->next == (t_ftl_node*)hist)
 		return (0);
 	else if (*av.arg == NULL)
