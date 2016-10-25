@@ -12,9 +12,26 @@
 
 #include "edit_line.h"
 
+static int  count_n_char(char *str, size_t n, char c)
+{
+    int     i;
+
+    i = 0;
+    while (*str && n--)
+    {
+        if (*str == c)
+            i++;
+        str++;
+    }
+    return (i);
+}
+
 void	ft_home(t_line *l)
 {
+	if (l->largeur == 0)
+		l->largeur = 1;
 	l->nbline = (l->count + l->sizeprompt) / l->largeur;
+	l->nbline += count_n_char(l->str, (size_t)l->count, '\n');
 	do_goto("ch", 0, l->sizeprompt);
 	if (l->nbline != 0)
 		do_goto("UP", l->nbline, l->nbline);

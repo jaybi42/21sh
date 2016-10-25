@@ -38,7 +38,6 @@ typedef struct	s_line
 	int			sizeprompt;
 	int			hauteur;
 	int			largeur;
-	int			var;
 	char		buffer[6];
 	char		*str;
 	char		*strcpy;

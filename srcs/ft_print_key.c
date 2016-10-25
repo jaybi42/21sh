@@ -60,23 +60,17 @@ static void	ft_print_insert(t_line *l)
 void		ft_print_line(t_line *l)
 {
 	int		pos_cur;
-	int		i;
 
-	i = -1;
 	pos_cur = l->count;
 	ft_home(l);
 	do_term("cd");
-	while(l->str[++i] != '\0')
-	{
-		ft_putchar(l->str[i]);
-		l->count++;
-	}
-	i = -1;
-	while (++i < (l->size - pos_cur))
-	{
-		do_term("le");
-		l->count--;
-	}
+	l->count = -1;
+	while(l->str[++l->count] != '\0')
+		ft_putchar(l->str[l->count]);
+	ft_home(l);
+	l->count = -1;
+	while (++l->count < pos_cur)
+		ft_putchar(l->str[l->count]);
 }
 
 void		ft_print_key(t_line *l)

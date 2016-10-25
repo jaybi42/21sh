@@ -14,18 +14,33 @@
 
 static t_actions const  g_actions[18] = {
 	{ft_bp, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
-	{ft_fw, {27, 91, 49, 59, 53, 67}, "CTRL R"},
+	{ft_fw, {61, 0, 0, 0, 0, 0}, "CTRLR MAGUEULE"},//
+//	{ft_fw, {27, 91, 49, 59, 53, 67}, "CTRL R"},
 	{NULL, {10, 0, 0, 0, 0, 0}, "ENTER"},
 };
 
 void			ft_fw(t_line *l)
 {
-	l->hist_pos -= 1;
+	if (ft_strcmp(l->ans, "") != 0 && l->hist_pos > 0)
+		l->hist_pos -= 1;
 }
 
 void			ft_bp(t_line *l)
 {
-	(void)l;
+	char	*new_str;
+	int		len;
+
+	if (l->search == NULL)
+		return ;
+	len = ft_strlen(l->search);
+	if (len <= 1)
+		new_str = ft_strdup("");
+	else
+		new_str = ft_strndup(l->search, len - 1);
+	if (new_str == NULL)
+		return ;
+	ft_strdel(&l->search);
+	l->search = new_str;
 }
 
 static int		cmp_buf(int *value, char *buf)
