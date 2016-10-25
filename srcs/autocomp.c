@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:22:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/24 20:22:17 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/10/25 14:36:20 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ int				test_if_fnc(int i, char *str, int *glob)
 {
 	char	*ptr;
 
-	if ((ptr = ft_strchr(str, '*')) != NULL)
+	if ((ptr = ft_strchr(str, '*')) != NULL || ft_strchr(str, '{') != NULL ||
+			 ft_strchr(str, '[') != NULL || ft_strchr(str, '?') != NULL)
 	{
 		*glob = 1;
 		return (0);
@@ -122,7 +123,8 @@ int				test_if_fnc(int i, char *str, int *glob)
 
 
 typedef struct s_tab_info
-{
+{	
+	//1024 bug to fix
 	char		complete[1024];
 	char		aux[1024];
 	char		**tab;
@@ -161,7 +163,6 @@ void			get_prepared(t_tab_info *info, t_line *l)
 		ptr++;
 		ft_strcpy(info->complete, ptr);
 	}
-
 }
 
 int				nothing_to_do(t_tab_info *info)
