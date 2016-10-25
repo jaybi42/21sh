@@ -437,6 +437,7 @@ t_output do_exec(t_exec ex, int ret,
 	}
 	return (o);
 }
+
 void clear_output(t_output *o)
 {
 	o->len = 0;
@@ -445,7 +446,8 @@ void clear_output(t_output *o)
 		{dprintf(2, "malloc error.. leaving...\n");exit(1);}
 	o->string[0] = '\0';
 }
-t_output	shell(t_av **av, int ret)
+
+t_output		shell(t_av **av, int ret)
 {
 	int fd_in[2];
 	int i_cmd;
@@ -500,13 +502,16 @@ t_output	shell(t_av **av, int ret)
 	}
 	return (all);
 }
+
 /*
-** give him a expr (example: echo ok | cat -e)
+** give him an expr (example: echo ok | cat -e)
 ** give you the return output and the last ret_code
 */
 t_output shell_exec(char *expr)
 {
 	t_av **av;
+	t_output o;
 	av = parse_commands(expr);
-	return (shell(av, 1));
+	o = shell(av, 1);
+	return (o);
 }

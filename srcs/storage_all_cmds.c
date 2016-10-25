@@ -99,29 +99,39 @@ static t_delimiter const	g_delimiter[NUMBER_DELIMITER] =
 	{"<", "<", 0, 0, 0, 1, 1, 1},
 };
 
-/*
+static t_delimiter const	g_delimiter_red[14] =
+{
+	{">>", ">>", 0, 0, 0, 1, 1, 1},
+	{">&", ">&", 0, 0, 0, 1, 1, 1},
+	{">", ">", 0, 0, 0, 1, 1, 1},
+	{"1>", "1>", 0, 0, 0, 1, 1, 1},
+	{"2>", "2>", 0, 0, 0, 1, 1, 1},
+	{"3>", "3>", 0, 0, 0, 1, 1, 1},
+	{"4>", "4>", 0, 0, 0, 1, 1, 1},
+	{"5>", "5>", 0, 0, 0, 1, 1, 1},
+	{"6>", "6>", 0, 0, 0, 1, 1, 1},
+	{"7>", "7>", 0, 0, 0, 1, 1, 1},
+	{"8>", "8>", 0, 0, 0, 1, 1, 1},
+	{"9>", "9>", 0, 0, 0, 1, 1, 1},
+	{"<<", "heredoc", 0, 0, 0, 1, 1, 1},
+	{"<", "<", 0, 0, 0, 1, 1, 1}
+};
 
-   typedef struct s_redirector
-   {
-   int *def;
-   int name;
-   int special;
-   int open_waiter;
-   int is_file;
-   int fd_in;
-   int fd_out;
-   }							t_redirector;
+static t_delimiter const	g_delimiter_quo[3] =
+{
+	{"\"", "dquote", 1, 1, 0, 0, 0, 1},
+	{"\'", "quote", 1, 1, 0, 0, 0, 1},
+	{"`", "bquote", 1, 1, 1, 1, 0, 1}
+};
 
-   static t_redirector const g_delimiter[] =
-   {
-   {">>", "",1, 1, 0, 1, -1},
-   {">&","", 0, 0, 0, 1, -1},
-   {">", "", 0, 0, 0, 1, 1},
-   {"1>","", 0, 0, 0,  1, 1},
-   {"<<","heredoc", 1, 1, 0, -1, 0},
-   {"<", "", 1, 0, 1, -1, 0},
-   };
-   */
+static t_delimiter const	g_delimiter_sep[5] =
+{
+	{"\\", "", 1, 0, 0, 0, 0, 1},
+	{"||", "cmdor", 1, 0, 1, 1, 0, 0},
+	{";", "pvrig", 1, 0, 1, 1, 0, 0},
+	{"&&", "cmdand", 1, 0, 1, 1, 0, 0},
+	{"|", "pipe", 1, 0, 1, 1, 0, 0}
+};
 
 typedef struct	s_parse
 {
@@ -220,6 +230,51 @@ void		handle_delimiter(char *expr, int *i, t_parse *p)
 	(*i) += 1;
 }
 
+void		handle_delimiter2(char *expr, int *i, t_parse *p, t_delimiter *d, int l)
+{
+	int a;
+
+	a = 0;
+	while (a < l) //check for every delimiters if no error
+	{
+		if (ft_strncmp(expr + (*i), d[a].name,
+					ft_strlen(d[a].name)) == 0)
+		{
+			if (p->current != EMPTY && d[p->current].wait_another == TRUE
+					&& p->current == a)
+			{
+				//that's mean we find for example the second " of ""
+				p->end[p->nb] = (*i);
+				reset_current(p, (*i));
+			}
+			else if (p->current != EMPTY && d[p->current].do_recursivity == TRUE
+					&& p->current == a)
+			{
+				//that's mean we find for example another
+				update_new(p, (*i), a);
+			}
+			else if (p->current == EMPTY)
+			{
+				update_new(p, (*i), a);
+			}
+			(*i) += 1;
+			return ;
+		}
+		a++;
+	}
+	if (p->current != EMPTY && d[p->current].is_redirection == TRUE
+			&& p->one_arg == FALSE
+			&& char_is_whitespace(expr[(*i)]) == FALSE)
+		p->one_arg = TRUE;
+	else if (p->current != EMPTY && d[p->current].is_redirection == TRUE
+			&& p->one_arg == TRUE 		&& char_is_whitespace(expr[(*i)]) == TRUE)
+	{
+		p->end[p->nb] = (*i);
+		reset_current(p, (*i));
+	}
+	(*i) += 1;
+}
+
 char		*cpy_a_to_b(char *str, int a, int b)
 {
 	char *new_str;
@@ -262,6 +317,32 @@ char            **fstrsplit(char *str, int len, int (*is_whatever)(char))
 	}
 	t_str[a] = NULL;
 	return(t_str);
+}
+
+t_parse		*parse_it2(char *expr, int len, t_delimiter *d, int l)
+{
+	int i;
+	t_parse *p;
+
+	if (!(p = malloc(sizeof(t_parse))) ||
+			!(p->begin = malloc(sizeof(int) * ft_strlen(expr))) ||
+			!(p->end = malloc(sizeof(int) * ft_strlen(expr))) ||
+			!(p->type = malloc(sizeof(int) * ft_strlen(expr))))
+		exit(0);
+	i = 0;
+	p->nb = 0;
+	p->current = -1;
+	p->begin[0] = 0;
+	p->type[0] = -1;
+	while (i < len && expr[i] != '\0')
+		handle_delimiter2(expr, &i, p, d, l);
+	if (p->current != EMPTY && d[p->current].wait_another == TRUE)
+		ft_printf("[!] we were waiting another |%s| adding one for u\n", d[p->current].name);
+	if (p->current != EMPTY && d[p->current].is_redirection == TRUE && p->one_arg == FALSE)
+		ft_printf("[!] we were waiting another stuff to redirect! outrepassing\n");
+	p->end[p->nb] = i;
+	p->nb++;
+	return (p);
 }
 
 t_parse *parse_it(char *expr, int len)
@@ -335,6 +416,8 @@ int		t_len(char ***t, int len)
  */
 void print_redirect(t_redirect *redirect)
 {
+	//no output
+	return;
 	if (redirect == NULL)
 	{
 		printf("redirection: NULL\n");
@@ -491,6 +574,135 @@ t_av **updated(t_av **av)
 	return (av);
 }
 
+char **check_var(char *s)
+{
+	char **env;
+	int i;
+	char **tmp;
+
+	env = convert_env(g_env, l_env);
+	i = 0;
+	while (env[i])
+	{
+		tmp = ft_strsplit(env[i], '=');
+		if (tmp != NULL && tmp[0] != NULL && tmp[1] != NULL)
+			if (ft_strncmp(s, tmp[0], ft_strlen(tmp[0])) == 0)
+			{
+				char **ret;
+				ret = xmalloc(sizeof(char *) * 3);
+				if (!ret)
+					return (NULL);
+				ret[0] = tmp[0];
+				ret[1] = tmp[1];
+				ret[2] = NULL;
+				return (ret);
+			}
+		i++;
+	}
+	return (NULL);
+}
+
+/*
+** check the var from the env!
+*/
+char *join_string_array(char **a)
+{
+	int i;
+	size_t len;
+	char *ns;
+
+	len = 0;
+	i = -1;
+	while (a[++i])
+		len += ft_strlen(a[i]) + 1;
+	ns = malloc(sizeof(char) * (len + 1));
+	i = 0;
+	len = 0;
+	while (a[i])
+	{
+		x_strjoins(&ns, &len, a[i], ft_strlen(a[i]));
+		x_strjoins(&ns, &len, " ", 1);
+		i++;
+	}
+	ns[len] = '\0';
+	return (ns);
+}
+
+char *apply_var(char *s)
+{
+	int i;
+	char *ns;
+	char **tmp;
+	int ret;
+	int len;
+
+	i = -1;
+	len = 0;
+	while (s[++i])
+	{
+		if (s[i] == '$' && (tmp = check_var(s + i + 1)) != NULL)
+			len += ft_strlen(tmp[1]);
+		else
+			len += 1;
+	}
+	if (!(ns = xmalloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	i = -1;
+	len = 0;
+	while (s[++i])
+	{
+		if (s[i] == '$' && (tmp = check_var(s + i + 1)) != NULL)
+		{
+				x_strjoins(&ns,(size_t *)&len,tmp[1],ft_strlen(tmp[1]));
+				i += ft_strlen(tmp[1]);
+		}
+		else
+			ns[len++] = s[i];
+	}
+	ns[len] = '\0';
+	return (ns);
+}
+
+//retourne une chaine de charactere parsé, globbé, variable env et separer par des espaces!
+char *decortique_parse(char *expr, size_t l)
+{
+	char **ts;
+	char *s;
+	t_parse *p;
+	/*
+		int	*begin;
+		int	*end;
+		int	*type;
+		int	nb;
+		int	current;
+		int	one_arg;
+		int dec;
+	*/
+	ts = xmalloc(sizeof(char*) * (l + 1));
+	ts[0] = NULL;
+	p = parse_it2(expr, l,(t_delimiter *)&g_delimiter_quo, 3);
+	int i = 0;
+	while (i < p->nb)
+	{
+		if (p->type[i] == 2)
+		{
+				t_output o;
+				o = shell_exec(cpy_a_to_b(expr, p->begin[i], p->end[i]));
+				ts[i] = apply_var(o.string);
+		}
+		else if (p->type[i] == 1)
+				ts[i] = cpy_a_to_b(expr, p->begin[i],p->end[i]);
+		else
+				ts[i] = apply_var(cpy_a_to_b(expr, p->begin[i],p->end[i]));
+		i++;
+	}
+	ts[i] = NULL;
+//	for (int j = 0;ts[j];j++){dprintf(2, "%d:[%s]\n",j, ts[j]);}
+	//printf("ended..\n");
+	return (join_string_array(ts));
+}
+
+
 t_av	**parse_commands(char *expr)
 {
 //	int			tmp;
@@ -508,6 +720,9 @@ t_av	**parse_commands(char *expr)
 	waiting_type[0] = 0;
 	pa = 0;
 	ti[pa] = 0;
+	//dprintf(2, "before: |%s|\n", expr);
+	expr = decortique_parse(expr, ft_strlen(expr));
+	//dprintf(2, "after: |%s|\n---\n", expr);
 	tp[pa] = parse_it(expr, ft_strlen(expr));
 	tp[pa]->dec = 0;
 	tp[pa + 1] = NULL;
@@ -566,13 +781,6 @@ while (tp[pa] != NULL)
 						cmds[ic]->bitcode[ra + a] = 0;
 						ra++;
 					}
-					else if (tp[pa]->type[ti[pa] + a + ra] != EMPTY && g_delimiter[tp[pa]->type[ti[pa] + a + ra]].do_recursivity)
-					{
-						cmds[ic]->argcmd[argcmd_i++] = parse_commands(cpy_a_to_b((expr + tp[pa]->dec), tp[pa]->begin[ti[pa] + a + ra],
-						tp[pa]->end[ti[pa] + a + ra]));
-						cmds[ic]->bitcode[ra + a] = 0;
-						t_tstr[a++] = NULL;
-					}
 					else
 					{
 						t_tstr[a] = fstrsplit((expr + tp[pa]->dec) + tp[pa]->begin[ti[pa] + a + ra], tp[pa]->end[ti[pa] + a + ra] - tp[pa]->begin[ti[pa] + a + ra], char_is_whitespace);
@@ -580,17 +788,6 @@ while (tp[pa] != NULL)
 							cmds[ic]->bitcode[ra + a] = 0;
 						else
 							cmds[ic]->bitcode[ra + a] = 1;
-						//	dprintf(2, "okii->%.*s\n"g_delimiter[tp[pa]->type[tp[pa]->type[ti[pa] + a + ra]]].name);
-							/*if (tp[pa]->type[ti[pa] + a + ra] == -1)
-								cmds[ic]->type = TYPE_OTHER;
-							else if (ft_strcmp(g_delimiter[tp[pa]->type[ti[pa] + a + ra]].name, "|") == 0)
-								cmds[ic]->type = TYPE_PIPE;
-							else if (ft_strcmp(g_delimiter[tp[pa]->type[ti[pa] + a + ra]].name, "||") == 0)
-									cmds[ic]->type = TYPE_OR;
-							else if (ft_strcmp(g_delimiter[tp[pa]->type[ti[pa] + a + ra]].name, "&&") == 0)
-									cmds[ic]->type = TYPE_AND;
-							else
-								cmds[ic]->type = TYPE_OTHER;*/
 						a++;
 					}
 				}
@@ -619,10 +816,7 @@ while (tp[pa] != NULL)
 				cmds[ic]->argc = argv_i;
 				cmds[ic]->redirect[ra] = NULL;
 				if (waiting_type[0] > 0)
-				{
-						cmds[ic]->type = waiting_type[waiting_type[0]];
-						waiting_type[0]--;
-				}
+						cmds[ic]->type = waiting_type[waiting_type[0]--];
 				else
 					cmds[ic]->type = TYPE_OTHER;
 				ic++;
