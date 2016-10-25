@@ -432,6 +432,31 @@ void print_redirect(t_redirect *redirect)
 		printf("redirection: type '>' --> %d to %d\n", redirect->fd_in, redirect->fd_out);
 	}
 }
+void handle_heredoc(char *expected, t_redirect **r)
+{
+	int i;
+	size_t len;
+	char *tmp;
+	(*r)->s_in = malloc(sizeof(char) * 2);
+	(*r)->len_in = 0;
+	(*r)->s_in[0] = '\0';
+
+	i = 0;
+	len = 0;
+	while (1)
+	{
+		tmp = get_input("heredoc>");
+		if (ft_strcmp(expected, tmp) == 0)
+			break;
+		else
+		{
+			x_strjoins(&(*r)->s_in, &len, tmp, ft_strlen(tmp));
+			x_strjoins(&(*r)->s_in, &len, "\n", 1);
+		}
+	}
+	(*r)->s_in[len] = '\0';
+	(*r)->len_in = (int)(len);
+}
 
 t_redirect *get_redirection(char *s)
 {
@@ -463,8 +488,15 @@ t_redirect *get_redirection(char *s)
 	}
 	else if (ft_strncmp(s + i, "<<", 2) == 0)
 	{
-		ft_printf("parsing info: didn't handle yet <<\n");
-		return (NULL);
+		char **t = fstrsplit(s + i + 2, ft_strlen(s + i + 2), char_is_whitespace);
+		//ft_printf("parsing info: didn't handle yet <<\n");
+		if (t[0] == NULL)
+			return (NULL);
+		else
+		{
+			handle_heredoc(t[0], &redirect);
+			return (redirect);
+		}
 	}
 	else if (ft_strncmp(s + i, "<", 1) == 0)
 	{
@@ -705,11 +737,9 @@ char *decortique_parse(char *expr, size_t l)
 
 t_av	**parse_commands(char *expr)
 {
-//	int			tmp;
 	t_parse		**tp;
 	int			*ti;
 	int			*waiting_type;
-//	int			current;
 	int			pa;
 
 	if (!(tp = malloc(sizeof(t_parse **) * (ft_strlen(expr) + 1)))
