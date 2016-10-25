@@ -6,14 +6,14 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 18:36:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/27 14:18:28 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/10/23 18:23:17 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <unistd.h>
 #include <stdlib.h>
-
+/*
 static char *get_path(t_list *g_env, t_list *l_env)
 {
 	while (g_env != NULL)
@@ -31,7 +31,7 @@ static char *get_path(t_list *g_env, t_list *l_env)
 	return (NULL);
 }
 
-static char **convert_env(t_list *g_env, t_list *l_env)
+char **convert_env(t_list *g_env, t_list *l_env)
 {
 	t_list	*env;
 	char	**tab;
@@ -74,8 +74,8 @@ static char **get_allpath(char *cmd, char *path)
 	ft_tabdel(allpath);
 	return (temp);
 }
-
-static int	 exec_path(char **arg, char **path, char **env)
+*/
+static int	 exec_path2(char **arg, char **path, char **env)
 {
 	int i;
 
@@ -103,7 +103,7 @@ int		check_bin(t_list *g_env, t_list *l_env, t_av av)
 	if (access(av.cmd, X_OK) != -1)
 		ret = do_fork(av.cmd, av.argv, env);
 	else
-		ret = exec_path(av.argv, path, env);
+		ret = exec_path2(av.argv, path, env);
 	ft_tabdel(path);
 	ft_tabdel(env);
 	if (ret == -2)

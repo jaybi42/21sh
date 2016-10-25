@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/28 22:16:21 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/10/17 14:57:21 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/10/23 15:00:53 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void		handle_delimiter(char *expr, int *i, t_parse *p)
 			else if (p->current != EMPTY && g_delimiter[p->current].do_recursivity == TRUE
 					&& p->current == a)
 			{
-				//that's mean we find for example another |
+				//that's mean we find for example another
 				update_new(p, (*i), a);
 			}
 			else if (p->current == EMPTY)
@@ -337,18 +337,19 @@ void print_redirect(t_redirect *redirect)
 {
 	if (redirect == NULL)
 	{
-		printf("NULL\n");
+		printf("redirection: NULL\n");
 		return ;
 	}
 	if (redirect->type == 1)
 	{
-		printf("redirection: type '<' --> |%.*s|\n", redirect->len_in, redirect->s_in);
+		printf("redirection: type '<' --> |%.*s...|\n", 4, redirect->s_in);
 	}
 	else
 	{
 		printf("redirection: type '>' --> %d to %d\n", redirect->fd_in, redirect->fd_out);
 	}
 }
+
 t_redirect *get_redirection(char *s)
 {
 	int i;
@@ -364,19 +365,16 @@ t_redirect *get_redirection(char *s)
 	redirect->type = 1;
 	open_flag = O_CREAT | O_RDWR;
 	len = 0;
-	if (ft_isdigit(s[i]))
-	{
+	if (ft_isdigit(s[i])) {
 		redirect->fd_in = atoi(s + i);
 		i++;
 	}
-	if (ft_strncmp(s + i, ">>", 2) == 0)
-	{
+	if (ft_strncmp(s + i, ">>", 2) == 0) {
 		redirect->type = 0;
 		open_flag |= O_APPEND;
 		i += 2;
 	}
-	else if (ft_strncmp(s + i, ">", 1) == 0)
-	{
+	else if (ft_strncmp(s + i, ">", 1) == 0) {
 		redirect->type = 0;
 		i += 1;
 	}
@@ -394,6 +392,7 @@ t_redirect *get_redirection(char *s)
 			return (NULL);
 		if (!fd_get_binary(fd, &redirect->s_in, &redirect->len_in))
 			return (NULL);
+		close(fd);
 		return (redirect);
 	}
 	if (redirect->type == 0) //&& ft_strncmp(s + i, "&", 1) == 0)
@@ -413,9 +412,6 @@ t_redirect *get_redirection(char *s)
 		char **t = fstrsplit(s + i, ft_strlen(s + i ), char_is_whitespace);
 		if (t == NULL && t[0] != NULL)
 			return (NULL);
-
-		//for(int i = 0; t[i] != NULL;i++){ft_printf("->: %s\n", t[i]);}
-
 		redirect->fd_out = open(t[0], open_flag, 0666);
 		if (redirect->fd_out == -1)
 			return (NULL);
@@ -476,7 +472,7 @@ t_av **updated(t_av **av)
 			if (av[i]->argv[0] != NULL)
 			{
 				av[i]->cmd = av[i]->argv[0];
-				av[i]->arg =copy_array_begin(1, av[i]->argv);
+				av[i]->arg = copy_array_begin(1, av[i]->argv);
 				av[i]->argc--;
 			}
 			else
@@ -500,13 +496,16 @@ t_av	**parse_commands(char *expr)
 //	int			tmp;
 	t_parse		**tp;
 	int			*ti;
+	int			*waiting_type;
 //	int			current;
 	int			pa;
 
 	if (!(tp = malloc(sizeof(t_parse **) * (ft_strlen(expr) + 1)))
 	|| (!(ti = malloc(sizeof(int *) * (ft_strlen(expr) + 1)))))
 		exit(1);
-	pa = 0;
+	if (!(waiting_type = malloc(sizeof(int) * (ft_strlen(expr) + 1))))
+		exit(1);
+	waiting_type[0] = 0;
 	pa = 0;
 	ti[pa] = 0;
 	tp[pa] = parse_it(expr, ft_strlen(expr));
@@ -514,16 +513,6 @@ t_av	**parse_commands(char *expr)
 	tp[pa + 1] = NULL;
 	ti[pa + 1] = EMPTY;
 
-	/*
-	typedef struct		s_c mmand
-	{
-	int	type;
-	int	argc;
-	char	**argv;
-	struct s_command	**argcmd;
-	struct s_redirect **redirect;
-	}	t_command;
-	*/
 	t_av **cmds;
 
 if (!(cmds = malloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
@@ -537,8 +526,8 @@ while (tp[pa] != NULL)
 	//for each parsed params:
 	while (ti[pa] < tp[pa]->nb)
 	{
-		oldi = ti[pa];
-		while (ti[pa] + oldi < tp[pa]->nb && (tp[pa]->type[ti[pa] + oldi] == EMPTY ||
+			oldi = ti[pa];
+			while (ti[pa] + oldi < tp[pa]->nb && (tp[pa]->type[ti[pa] + oldi] == EMPTY ||
 			g_delimiter[tp[pa]->type[ti[pa] + oldi]].is_arg == TRUE))
 			{
 				oldi++;
@@ -549,14 +538,14 @@ while (tp[pa] != NULL)
 				int ra;
 				int a;
 				if (!(cmds[ic] = malloc(sizeof(t_av)))
-				|| !(cmds[ic]->redirect = malloc(sizeof(void *) * (ft_strlen(expr) + 1)))
+				|| !(cmds[ic]->redirect = malloc(sizeof(t_redirect *) * (ft_strlen(expr) + 1)))
 				|| !(cmds[ic]->bitcode = malloc(sizeof(void *) * (ft_strlen(expr) + 1)))
 				|| !(cmds[ic]->argcmd = malloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
 						return (NULL);
 				ra = 0;
 				int argcmd_i = 0;
 				cmds[ic]->bitcode[ra] = 0;
-				cmds[ic]->type = 0;
+				cmds[ic]->type = tp[pa]->type[ti[pa]];
 				cmds[ic]->redirect[ra] = NULL;
 				//its for separate each command
 				char ***t_tstr;
@@ -566,25 +555,14 @@ while (tp[pa] != NULL)
 				a = 0;
 				while (ti[pa] + a + ra < oldi)
 				{
-					//if it's a redirection stuff!!
+						//if it's a redirection stuff!!
 					if (tp[pa]->type[ti[pa] + a + ra] != EMPTY && g_delimiter[tp[pa]->type[ti[pa] + a + ra]].is_redirection)
 					{
-						/*
-								struct s_redirect **redirect;
-								typedef struct		s_redirect
-								{
-										int	type;
-										int	fd_in;
-										int	fd_out;
-								}			t_redirect;
-						*/
 						//redirect_stuff
-						//ft_printf("int %s: %d(%c) to %d(%c)\n", (expr + tp[pa]->dec), tp[pa]->begin[ti[pa] + a + ra], expr[tp[pa]->begin[ti[pa] + a + ra]], tp[pa]->end[ti[pa] + a + ra], expr[tp[pa]->end[ti[pa] + a + ra]]);
 						cmds[ic]->redirect[ra] = get_redirection(
 						cpy_a_to_b((expr + tp[pa]->dec),
 						tp[pa]->begin[ti[pa] + a + ra],
 						tp[pa]->end[ti[pa] + a + ra]));
-						//print_redirect(cmds[ic]->redirect[ra]);
 						cmds[ic]->bitcode[ra + a] = 0;
 						ra++;
 					}
@@ -593,8 +571,6 @@ while (tp[pa] != NULL)
 						cmds[ic]->argcmd[argcmd_i++] = parse_commands(cpy_a_to_b((expr + tp[pa]->dec), tp[pa]->begin[ti[pa] + a + ra],
 						tp[pa]->end[ti[pa] + a + ra]));
 						cmds[ic]->bitcode[ra + a] = 0;
-						if (ft_strcmp(g_delimiter[tp[pa]->type[ti[pa] + a + ra]].name, "|") == 0)
-							cmds[ic]->type = TYPE_PIPE;
 						t_tstr[a++] = NULL;
 					}
 					else
@@ -604,6 +580,17 @@ while (tp[pa] != NULL)
 							cmds[ic]->bitcode[ra + a] = 0;
 						else
 							cmds[ic]->bitcode[ra + a] = 1;
+						//	dprintf(2, "okii->%.*s\n"g_delimiter[tp[pa]->type[tp[pa]->type[ti[pa] + a + ra]]].name);
+							/*if (tp[pa]->type[ti[pa] + a + ra] == -1)
+								cmds[ic]->type = TYPE_OTHER;
+							else if (ft_strcmp(g_delimiter[tp[pa]->type[ti[pa] + a + ra]].name, "|") == 0)
+								cmds[ic]->type = TYPE_PIPE;
+							else if (ft_strcmp(g_delimiter[tp[pa]->type[ti[pa] + a + ra]].name, "||") == 0)
+									cmds[ic]->type = TYPE_OR;
+							else if (ft_strcmp(g_delimiter[tp[pa]->type[ti[pa] + a + ra]].name, "&&") == 0)
+									cmds[ic]->type = TYPE_AND;
+							else
+								cmds[ic]->type = TYPE_OTHER;*/
 						a++;
 					}
 				}
@@ -612,7 +599,6 @@ while (tp[pa] != NULL)
 				int len = t_len(t_tstr, a);
 				if ((cmds[ic]->argv = malloc(sizeof(char *) * (len + 1))) == NULL)
 				return (NULL);
-				cmds[ic]->argc = len;
 				int ia;
 				int i = -1;
 				int argv_i;
@@ -627,14 +613,24 @@ while (tp[pa] != NULL)
 						while (t_tstr[i][++ia] != NULL)
 								cmds[ic]->argv[argv_i++] = t_tstr[i][ia];
 					}
-					//free(t_tstr[i]);
 				}
 				cmds[ic]->argv[argv_i] = NULL;
 				cmds[ic]->argcmd[argcmd_i] = NULL;
+				cmds[ic]->argc = argv_i;
+				cmds[ic]->redirect[ra] = NULL;
+				if (waiting_type[0] > 0)
+				{
+						cmds[ic]->type = waiting_type[waiting_type[0]];
+						waiting_type[0]--;
+				}
+				else
+					cmds[ic]->type = TYPE_OTHER;
 				ic++;
 			}
 			else
 			{
+				waiting_type[0]++;
+				waiting_type[waiting_type[0]] = tp[pa]->type[ti[pa]];
 				tp[pa + 1] = parse_it((expr + tp[pa]->dec) + tp[pa]->begin[ti[pa]],
 				tp[pa]->end[ti[pa]] - tp[pa]->begin[ti[pa]]);
 				tp[pa + 1]->dec = tp[pa]->dec + tp[pa]->begin[ti[pa]];
@@ -658,5 +654,19 @@ while (tp[pa] != NULL)
 			pa++;
 	}
 	cmds[ic] = NULL;
+	int f = 0;
+
+	while (cmds[f])
+	{
+	//	printf("printing for %d\n",f);
+		int dd = 0;
+		//printf("type: %d\n", cmds[f]->type);
+		while (cmds[f]->redirect[dd])
+		{
+			print_redirect(cmds[f]->redirect[dd]);
+			dd++;
+		}
+		f++;
+	}
 	return (updated(cmds));
 }

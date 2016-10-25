@@ -58,7 +58,8 @@ typedef struct	s_prompt
 ---- added by a
 */
 
-
+#define BUILTIN 1
+#define BIN 0
 #define GET 0
 #define SET 1
 
@@ -70,6 +71,21 @@ typedef struct          s_redirect
 				char	*s_in;
 				int		len_in;
 }                       t_redirect;
+typedef struct		s_output
+{
+	int len;
+	char *string;
+	int ret_code;
+}			t_output;
+
+typedef struct	s_exec
+{
+	int type; //-1 = error, 0 = bin, 1 = builtin
+	char *path;
+	char **argv;
+	t_redirect **r;
+	int		(*fnct)();
+}				t_exec;
 
 typedef struct          s_command
 {
@@ -116,6 +132,15 @@ typedef struct	s_builtin
 	t_bi_fptr	value;
 }				t_builtin;
 
+void		clean_exit(int ret, t_ftl_root *hist, t_line *l);
+
+int			fd_get_binary(int fd, char **str, int *len);
+int			file_get_binary(char *filename, char **str, int *len);
+
+char *get_path(t_list *g_env, t_list *l_env);
+char **convert_env(t_list *g_env, t_list *l_env);
+char **get_allpath(char *cmd, char *path);
+
 /*
 **
 **	Garbage collector like
@@ -147,7 +172,7 @@ void			storage_env(t_list **e, char *new_var);
 **Desc: Do shell functions
 */
 
-int				shell(t_av **av, t_list **g_env, t_list **l_env, t_ftl_root *hist);
+t_output	shell(t_av **av, t_list **g_env, t_list **l_env, t_ftl_root *hist, int ret);
 int				do_fork(char *bin, char **all, char **env);
 int				check_bin(t_list *g_env, t_list *l_env, t_av av);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l);
@@ -201,7 +226,11 @@ int				print_error(t_av av, int error);
 /*
 ** added by a
 */
-#define TYPE_PIPE 1
+#define TYPE_OTHER 0
+#define TYPE_PIPE 7
+#define TYPE_OR 4
+#define TYPE_AND 6
+
 
 t_av **parse_commands(char *expr);
 int				ret_exit(int state, int value);
@@ -209,5 +238,6 @@ int			fd_get_binary(int fd, char **str, int *len);
 int			char_is_whitespace(char c);
 char            **fstrsplit(char *str, int len, int (*is_whatever)(char));
 char	**ft_globing(char *expr, char **words);
+t_output shell_exec(char *expr, t_list **g_env, t_list **l_env, t_ftl_root *hist);
 
 #endif

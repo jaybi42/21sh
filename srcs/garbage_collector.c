@@ -15,7 +15,7 @@ void	agrandissment(void ***datas, int len)
 	void **new_d;
 	int i;
 
-	printf("agrandissment\n");
+	//printf("agrandissment\n");
 	new_d = malloc(sizeof(void *) * (len + LEN + 1));
 	i = 0;
 	while (i < len)
@@ -67,7 +67,7 @@ void	print_datas(void **datas, int len)
 	{
 		printf("%d |%p|\n", i, datas[i]);
 	}
-	printf("garbage length: %d\n", len);	
+	printf("garbage length: %d\n", len);
 }
 
 void	*storage(int action, void *package)
@@ -114,7 +114,7 @@ void	xmemdel(void **p)
 */
 void	xmasterfree(void)
 {
-	storage(DELETEALL, NULL);	
+	storage(DELETEALL, NULL);
 }
 
 /*

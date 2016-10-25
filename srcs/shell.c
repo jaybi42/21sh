@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/17 18:17:43 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/10/23 18:41:51 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,320 +16,497 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
+
+
 #define TRUE 1
 #define FALSE 0
-/*
-typedef struct		s_bin_string
+
+
+#define TYPE_REDIRECT_NORMAL 0
+#define TYPE_REDIRECT_TRUNC 1
+
+typedef struct s_f
 {
-	int	len;
-	char	*string;
-}			t_bin_string;
+	    int fd[2];
+		    int oldout;
+			    int tempout;
+				    int fd_to_redir;
+					    int fd_to_write;
+}               t_f;
 
-typedef struct		s_output
+static t_builtin const  g_builtin_list[8] = {
+	{"cd", bi_cd},
+	{"setenv", bi_setenv},
+	{"unsetenv", bi_unsetenv},
+	{"env", bi_env},
+	{"getenv", bi_getenv},
+	{"echo", bi_echo},
+	{"exit", bi_exit},
+	{"history", bi_history},
+};
+
+char *get_path(t_list *g_env, t_list *l_env)
 {
-	int len;
-	char *string;
-	int ret_code;
-
-}			t_output;
-
-typedef struct		s_exec
-{
-	//t_bin_string	out;
-	//t_bin_string	err;
-	int		fd_out;
-	int		fd_err;
-	int		ret_code;
-}			t_exec;
-
-int	t_len2(char **argv)
-{
-	int i;
-
-	i = 0;
-	while (argv[i] != NULL)
+	while (g_env != NULL)
 	{
-		i++;
+		if (ft_strcmp(((t_env *)g_env->content)->name, "PATH") == 0)
+			return (((t_env *)g_env->content)->value);
+		g_env = g_env->next;
 	}
-	return (i);
-}
-static void		ft_affichage(int i, const char *s)
-{
-	printf("%d : |%s|\n", i, s);
-}
-
-void			ft_puttab(char **tabs, int len)
-{
-	int i;
-
-	i = 0;
-	while (i < len)
+	while (l_env != NULL)
 	{
-		ft_affichage(i, tabs[i]);
-		i++;
+		if (ft_strcmp(((t_env *)l_env->content)->name, "PATH") == 0)
+			return (((t_env *)l_env->content)->value);
+		l_env = l_env->next;
 	}
-	ft_affichage(i, "NULL");
+	return (NULL);
 }
 
-#define NEW_AV(TYPE, CMD, ARGV) ((t_av) {TYPE,CMD,(char **)ARGV, t_len2((char **)ARGV), NULL,NULL})
-#define NEW_BIN_STRING(LEN, STRING) ((t_bin_string){LEN, STRING})
-#define die(e) do { fprintf(stderr, "%s\n", e); exit(EXIT_FAILURE); } while (0);
-#define NEW_EXEC() ((t_exec){-1, -1, -1})
-int	str_concat(char **s1,int *l1, char *s2, int l2)
+char **convert_env(t_list *g_env, t_list *l_env)
 {
-	char *ns;
-	int i;
-	int i2;
+	t_list	*env;
+	char	**tab;
+	int		i;
 
-	i = 0;
-	ns = malloc(sizeof(char) * ((*l1) + l2 + 1));
-	if (ns == NULL)
-		return (FALSE);
-	while (i < (*l1))
-	{
-		ns[i] = (*s1)[i];
-		i++;
-	}
-	i2 = 0;
-	while (i2 < l2)
-	{
-		ns[i + i2] = s2[i2];
-		i2++;
-	}
-	ns[i + i2] = '\0';
-	free((*s1));
-	(*s1) = ns;
-	(*l1) += l2;
-	return (TRUE);
-}
-char	**fusion_arrays(char **arr1, int *len, char **arr2, int insert_index)
-{
-	char **narr;
-	int nar_len;
-	int i1;
-	int i2;
-	int ab;
-	if (arr1 == NULL || arr2 == NULL)
+	env = g_env;
+	if (env == NULL)
+		env = l_env;
+	i = ft_listlen(env);
+	tab = (char **)malloc(sizeof(char *) * (i + 1));
+	if (tab == NULL)
 		return (NULL);
-	nar_len = (*len) + t_len2(arr2);
-	narr = malloc(sizeof(char *) * (nar_len + 1));
-	if (narr == NULL)
-		return (NULL);
-	i1 = 0;
-	while (i1 < insert_index && i1 < (*len))
+	tab[i--] = NULL;
+	while (env != NULL)
 	{
-		narr[i1] = arr1[i1];
-		i1++;
+		tab[i--] = ft_strdup(((t_env *)env->content)->str);
+		env = env->next;
 	}
-	i2 = 0;
-	while(i2 < t_len2(arr2))
-	{
-		narr[i1 + i2] = arr2[i2];
-		i2++;
-	}
-//	printf("%d/%d vs %d, %d\n", i1,(*len), i2, insert_index);
-	if (i1 == insert_index)
-		ab = 1;
-	else
-		ab = 0;
-	while (i1 < (*len))
-	{
-		narr[i1 + i2] = arr1[i1 + ab];
-		i1++;
-	}
-	narr[i1 + i2] = NULL;
-//	printf("ainsi///\n");
-//	ft_puttab(narr,nar_len);
-	(*len) = nar_len - 1;
-	return (narr);
+	return (tab);
 }
-int	do_exec_get(char *path, char **argv, t_exec *ex)
-{
-	int link_out[2];
-	int fd_output[2];
-	pid_t pid;
-	int wait_status;
 
-	if (pipe(link_out)==-1)
-		die("pipe");
-	if ((pid = fork()) == -1)
-    		die("fork");
-	if(pid == 0)
-	{
-		dup2 (link_out[1], STDOUT_FILENO);
-		close(link_out[0]);
-		close(link_out[1]);
-		execve(path, argv, NULL);
-		die("execve");
-	}
-	else
-	{
-		close(link_out[1]);
-		//printf("fd_out = %d | fd_err = %d\n", link_out[0], link_err[0]);
-		ex->fd_out = link_out[0];
-		//oklm
-		ex->ret_code = waitpid(-1, &wait_status, WUNTRACED);
-		if (WIFEXITED(wait_status))
-			ex->ret_code = WEXITSTATUS(wait_status);
-	}
-	return (1);
+char **get_allpath(char *cmd, char *path)
+{
+	char	**temp;
+	char	**allpath;
+	int		i;
+
+	i = -1;
+	temp = ft_strsplit(path, ':');
+	allpath = (char **)malloc(sizeof(char *) * (ft_tablen(temp) + 1));
+	while (temp[++i] != NULL)
+		allpath[i] = ft_strjoin(temp[i], "/");
+	allpath[i] = NULL;
+	ft_tabdel(temp);
+	temp = (char **)malloc(sizeof(char *) * (ft_tablen(allpath) + 1));
+	i = -1;
+	while (allpath[++i] != NULL)
+		temp[i] = ft_strjoin(allpath[i], cmd);
+	temp[i] = NULL;
+	ft_tabdel(allpath);
+	return (temp);
 }
-t_exec exec_no_pipe(int fd_stdout, char *path, char **argv, t_redirect **red, int ret)
+
+int	 exec_path(char **arg, char **path, char **env)
+{
+	int i;
+
+	i = 0;
+	while (path[i] != NULL)
+	{
+		if (access(path[i], X_OK) != -1)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+
+t_exec		make_exec_builtin(t_av *av)
 {
 	t_exec ex;
-	int **links;
 	int i;
-	pid_t pid;
-	int fd_out;
-	fd_out = -1;
-	int fd_err;
-	fd_err = -1;
-	int wait_status;
 
-	if ((pid = fork()) == -1)
-    		die("fork");
-	if(pid == 0)
+	i = 0;
+	ex.type = -1;
+	while (i < 8)
 	{
-		i = -1;
-		if (red != NULL)
-			while (red[++i] != NULL)
-			{
-				if (red[i]->fd_in == 1)
-					fd_out = dup(1);
-				if (red[i]->fd_in == 2)
-					fd_err = dup(2);
-				dup2(red[i]->fd_out, red[i]->fd_in);
-			}
-		execve(path, argv, NULL);
-		die("execve");
+		if (ft_strcmp(g_builtin_list[i].key, av->cmd) == 0)
+		{
+			ex.fnct = g_builtin_list[i].value;
+			ex.argv = av->argv;
+			ex.path = NULL;
+			ex.type = BUILTIN;
+			break;
+		}
+		i++;
 	}
-	else
-	{
-		//printf("fd_out = %d | fd_err = %d\n", link_out[0], link_err[0]);
-		//ex->fd_out = link_out[0];
-		//ex->fd_err = link_err[0];
-		//oklm
-		ex.ret_code = waitpid(-1, &wait_status, WUNTRACED);
-		if (WIFEXITED(wait_status))
-			ex.ret_code = WEXITSTATUS(wait_status);
-	}
-	i = -1;
-	if (red != NULL)
-		while (red[++i] != NULL)
-			close(red[i]->fd_out);
-	if (fd_out != -1)
-		dup2(fd_out, 1);
-	if (fd_err != -1)
-		dup2(fd_err, 2);
 	return (ex);
 }
 
-t_bin_string	exec_av(t_av **av, int ret)
+t_exec make_exec_bin(t_av *av, t_list *g_env, t_list *l_env)
 {
-	t_bin_string s_ret;
-	t_bin_string s_tmp;
-	int i_argv;
-	int i_argcmd;
-	int a;
 	t_exec ex;
+	char	**env;
+	char	**path;
+	char	*str;
+	int		ret;
 
-	a = 0;
-	ex = NEW_EXEC();
-	s_ret.string = malloc(sizeof(char));
-	s_ret.string[0] = '\0';
-	s_ret.len = 0;
-	while(av[a] != NULL)
+	ex.type = -1;
+	ex.fnct = NULL;
+	env = convert_env(g_env, l_env);
+	str = get_path(g_env, l_env);
+	path = get_allpath(av->cmd, str);
+	if (access(av->cmd, X_OK) != -1)
 	{
-		//we are ready for launch the exec...
-		if (ret == TRUE)
-		{
-				ex = NEW_EXEC();
-				do_exec_get(av[a]->cmd, av[a]->argv, &ex);
-				fd_get_binary(ex.fd_out, &s_tmp.string, &s_tmp.len);
-				printf("output tmp: |%.*s|\n", s_tmp.len, s_tmp.string);
-				str_concat(&s_ret.string, &s_ret.len, s_tmp.string, s_tmp.len);
-		}
-		else
-		{
-			if (av[a]->type != TYPE_PIPE)
-			{
-				exec_no_pipe(0, av[a]->cmd, av[a]->argv, av[a]->redirect, FALSE);
-			}
-		}
-		a++;
+		ex.path = av->cmd;
+		ex.argv = av->argv;
 	}
-	if (ret == TRUE)
-		return (s_ret);
 	else
-		return (NEW_BIN_STRING(-1, NULL));
-}
-
-int	update_bquote(t_av **av, char ***argv, int *len, int index)
-{
-	char **array_to_add;
-
-	t_bin_string out = exec_av(av, TRUE);
-	printf("output: %.*s\n", out.len, out.string);
-	array_to_add = fstrsplit(out.string, out.len, char_is_whitespace);
-	//printf("splitted array = ..\n");
-	//ft_puttab(array_to_add, t_len(array_to_add));
-	(*argv) = fusion_arrays((*argv), len, array_to_add, index);
-	if ((*argv) != NULL)
-		return (TRUE);
-	else
-		return (FALSE);
-}
-
-void	check_av(t_av ***av)
-{
-	int a;
-	int i_argv;
-	int i_argcmd;
-
-	a = 0;
-	printf("check_av:\n");
-	while ((*av)[a] != NULL)
 	{
-		i_argv = 0;
-		i_argcmd = 0;
-		while (i_argv < (*av)[a]->argc)
+		ret = exec_path(av->argv, path, env);
+		if (ret != -1)
 		{
-			if ((*av)[a]->argv[i_argv] == NULL)
-			{
-			printf("beg\n");
-			ft_puttab((*av)[a]->argv, (*av)[a]->argc);
-			update_bquote((*av)[a]->argcmd[i_argcmd++], &(*av)[a]->argv,&(*av)[a]->argc, i_argv);
-			printf("after\n");
-			ft_puttab((*av)[a]->argv, (*av)[a]->argc);
-			}
-			i_argv++;
+			ex.type = BIN;
+			ex.path = path[ret];
+			ex.argv = av->argv;
 		}
-		a++;
 	}
+	return (ex);
 }
-*/
 
 /*
-** Try the builtin
-** if nothing match try to fork, execve
-** if -1, exit has been typed
-*/
+ ** Try the builtin
+ ** if nothing match try to fork, execve
+ ** if -1, exit has been typed
+ */
+t_exec make_exec(t_av *av, t_list **g_env, t_list **l_env)
+{
+	t_exec ex;
 
-int				shell(t_av **av, t_list **g_env, t_list **l_env, t_ftl_root *hist)
+	ex = make_exec_builtin(av);
+	if (ex.type == -1)
+	{ex = make_exec_bin(av, *g_env,*l_env);
+	}
+		ex.r = av->redirect;
+	return (ex);
+}
+
+/*
+t_output	**exec_tav(t_av **av, int ret)
+{
+
+}*/
+
+int		x_strjoins(char **s1, size_t *len1, char *s2, size_t len2)
 {
 	int i;
-	int ret;
+	int a;
+	char *s;
 
-//	check_av(&av);
+	a = 0;
+	int len;
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	len = (int)((*len1) + len2 + 1);
+	s = malloc(sizeof(char) * len);
+	if (!s)
+		return (0);
 	i = -1;
-	while (av[++i] != NULL)
+	while (++i < (int)(*len1))
+		s[a++] = (*s1)[i];
+	i = -1;
+	while (++i < (int)len2)
+		s[a++] = s2[i];
+	s[a] = '\0';
+	(*s1) = s;
+	(*len1) = a;
+	return (1);
+}
+
+int		exec_builtin(int (*fnct)(), char **argv, t_redirect **r,
+		t_av av, t_list **g_env, t_list **l_env)
+{
+	t_f **f;
+	int a = 0;
+	int i = 0;
+	t_output o;
+	while (r[i])i++;
+	if (!(f = malloc(sizeof(t_f *) * (i + 1)))) { printf("error"); exit(4);}
+	i = -1;
+	a = 0;
+	while (r[++i])
+		if (r[i]->type == 0)
+		{
+			f[a] = malloc(sizeof(t_f) * (2));
+			f[a]->fd_to_redir = r[i]->fd_in;
+			f[a]->fd_to_write = r[i]->fd_out;
+			pipe(f[a++]->fd);
+		}
+	f[a] = NULL;
+	i = 0;
+	while (f[i])
 	{
-		if (av[i]->argv[0] == NULL)
-			continue;
-		if ((ret = builtin(g_env, l_env, hist, av[i])) == 1)
-			ret = check_bin(*g_env, *l_env, (*av)[i]);
-		else if (ret == -1)
-			return (1);
+		if (r[i]->type == 0)
+		{
+		f[i]->oldout = dup(f[i]->fd_to_redir);
+		close(f[i]->fd_to_redir);
+		f[i]->tempout = dup(f[i]->fd[1]);
+		}
+		i++;
+	}
+
+	fnct(av, g_env, l_env);
+
+	i = 0;
+	while (f[i])
+	{
+		close(f[i]->fd[1]);
+		close(f[i]->fd_to_redir);
+		fd_get_binary(f[i]->fd[0], &o.string, &o.len);
+		close(f[i]->fd[0]);
+		write(f[i]->fd_to_write, o.string, o.len);
+		f[i]->tempout = dup(f[i]->oldout);
+		close(f[i]->oldout);
+		i++;
 	}
 	return (0);
+}
+
+int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
+{
+	int ret;
+	int wait_status;
+	pid_t pid;
+	int fd[2];
+	t_f **f;
+	int i;
+	t_output o;
+	int a;
+
+	if (inlen > 0)
+		pipe(fd);
+	i = 0;
+	ret = -1;
+	while (r[i])i++;
+	if (!(f = malloc(sizeof(t_f *) * (i + 1)))) { printf("error"); exit(4);}
+	i = -1;
+	a = 0;
+	while (r[++i]){
+		if (r[i]->type != 0)
+			continue;
+		f[a] = malloc(sizeof(t_f) * (2));
+		f[a]->fd_to_redir = r[i]->fd_in;
+		f[a]->fd_to_write = r[i]->fd_out;
+		pipe(f[a++]->fd);
+		//dprintf(2, "pipe %d<-%d\n", f[i]->fd[0], f[i]->fd[1]);
+	}
+	f[a] = NULL;
+	if ((pid = fork()) == -1)
+	{
+		printf("error\n");
+		exit(0);
+	}
+	if (pid == 0)
+	{
+		i = 0;
+		while (f[i])
+		{
+			dup2(f[i]->fd[1], f[i]->fd_to_redir);
+			i++;
+		}
+		i = 0;
+		while (f[i])
+		{
+			close(f[i]->fd[1]);
+			close(f[i]->fd[0]);
+			i++;
+		}
+		if (inlen > 0)
+		{
+			close(fd[1]);
+			dup2(fd[0], STDIN_FILENO);
+			close(fd[0]);
+		}
+		execve(path, argv, NULL);
+	}
+	else
+	{
+		/*
+		i = 0;
+		while (f[i])
+		{
+	//		close(f[i]->fd[1]);
+			i++;
+		}*/
+		if (inlen > 0)
+		{
+			close(fd[0]);
+			write(fd[1], in, inlen); //writing in stdin
+			close(fd[1]);
+		}
+		ret = waitpid(-1, &wait_status, WUNTRACED);
+		if (WIFEXITED(wait_status))
+			ret = WEXITSTATUS(wait_status);
+		i = 0;
+		while (f[i])
+		{
+			close(f[i]->fd[1]);
+			//dprintf(2, "open %d\n", f[i]->oldout);
+			int last = i;
+			/*
+			int x = 0;
+			while (f[x])
+			{
+				if (f[i]->fd_to_redir == f[x]->fd_to_redir)
+					last = x;
+				x++;
+			}*/
+			fd_get_binary(f[last]->fd[0], &o.string, &o.len);
+			close(f[i]->fd[0]);
+			write(f[i]->fd_to_write, o.string, o.len);
+		//	f[i]->tempout = dup(f[i]->oldout); //reopen the closen one
+		//	close(f[i]->oldout);
+			i++;
+		}
+	}
+	return (ret);
+}
+
+typedef struct s_h
+{
+	int x;
+	int fd[2];
+}							t_h;
+
+int get_out(t_redirect ***r)
+{
+	int i = 0;
+	while((*r)[i])i++;
+	(*r)[i] = malloc(sizeof(t_redirect));
+	(*r)[i]->type = 0;
+	(*r)[i]->fd_in = 1;
+	(*r)[i]->fd_out = open("okalm.txt", O_CREAT | O_RDWR | O_TRUNC, 0666);
+	(*r)[i + 1] = NULL;
+	return (1);
+}
+
+int	set_in(t_redirect **r, char **s, size_t len)
+{
+	int i;
+
+	i = 0;
+	while (r[i])
+	{
+		if (r[i]->type == 1)
+		{
+			int ret = x_strjoins(s, &len, r[i]->s_in, r[i]->len_in);
+		}
+		i++;
+	}
+	return (len);
+}
+
+t_output do_exec(t_exec ex, int ret,
+		t_av av, t_list **g_env, t_list **l_env, char *in, int inlen)
+{
+	t_output o;
+
+	if (ret != 0)
+		get_out(&ex.r);
+	inlen = set_in(ex.r, &in, (size_t)inlen);
+	//dprintf(2, "putting in stdin: %d|%.*s|\n",inlen, inlen, in);
+	o.ret_code = 0;
+	if (ex.type == BUILTIN)
+		o.ret_code = exec_builtin(ex.fnct, ex.argv, ex.r,av, g_env, l_env);
+	else
+		o.ret_code = exec_bin(ex.path, ex.argv, ex.r, in, inlen);
+	if (ret != 0)
+	{
+		int i = 0;
+		while (ex.r[i]) {
+			if (ex.r[i + 1] == NULL)
+				break;
+			if (ex.r[i]->fd_in > 2)
+				close(ex.r[i]->fd_in);
+			if (ex.r[i]->fd_out > 2)
+				close(ex.r[i]->fd_out);
+			i++;
+		}
+		file_get_binary("okalm.txt", &o.string, &o.len);
+		//dprintf(2, "read --> |%.*s|\n", o.len, o.string);
+	}
+	return (o);
+}
+void clear_output(t_output *o)
+{
+	o->len = 0;
+	o->string = xmalloc(2);
+	if (o->string == NULL)
+		{dprintf(2, "malloc error.. leaving...\n");exit(1);}
+	o->string[0] = '\0';
+}
+t_output	shell(t_av **av, t_list **g_env, t_list **l_env, t_ftl_root *hist, int ret)
+{
+	int fd_in[2];
+	int i_cmd;
+	int a;
+	t_exec ex;
+	t_output all;
+	t_output output;
+	int find = -1;
+
+	a = -1;
+	clear_output(&all);
+	clear_output(&output);
+	output.string[0] = '\0';
+	output.ret_code = 0;
+	while (av[++a] != NULL)
+	{
+		if (av[a]->argv[0] == NULL)
+			continue;
+		ex = make_exec(av[a], g_env, l_env);
+		//check AND and OR
+		if (av[a]->type == TYPE_OR || av[a]->type == TYPE_AND)
+		{
+			if (find == 0)
+			{
+				if ((output.ret_code == 0 && av[a]->type == TYPE_OR) ||
+					(output.ret_code != 0 && av[a]->type == TYPE_AND))
+				{
+					find = 1;
+					continue;
+				}
+			}
+			else
+				continue;
+		}
+		if (av[a + 1] != NULL && (av[a + 1]->type == TYPE_OR || av[a + 1]->type == TYPE_AND)
+			&& (find == -1))
+					find = 0;
+		else
+					find = -1;
+		if (ex.type == -1)
+				{	ft_printf("unknown command bro\n");output.ret_code = 1; continue;}
+		if (av[a]->type != TYPE_PIPE)
+			clear_output(&output);
+		if (av[a]->type == TYPE_PIPE && output.ret_code != 0)
+			continue;
+		output = do_exec(ex, (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) ? 1 : ret, *av[a],g_env,l_env,
+			output.string, output.len);
+
+		if (ret)
+			x_strjoins(&all.string,(size_t *)&all.len,output.string,output.len);
+		all.ret_code = output.ret_code; //get the last retcode
+	}
+	return (all);
+}
+/*
+** give him a expr (example: echo ok | cat -e)
+** give you the return output and the last ret_code
+*/
+t_output shell_exec(char *expr, t_list **g_env, t_list **l_env, t_ftl_root *hist)
+{
+	t_av **av;
+	av = parse_commands(expr);
+	return (shell(av, g_env, l_env, hist, 1));
 }

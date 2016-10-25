@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/30 19:44:46 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/23 18:02:51 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int				ret_exit(int state, int value)
 	return (data);
 }
 
-static void		clean_exit(int ret, t_ftl_root *hist, t_line *l)
+void		clean_exit(int ret, t_ftl_root *hist, t_line *l)
 {
 	int		nbr;
 
@@ -50,7 +50,7 @@ static int		sh21(t_list **g_env, t_list **l_env)
 	t_line		l;
 	uint64_t	nbr;
 	t_ftl_root	hist;
-
+	t_output o;
 	ft_bzero(&l, sizeof(t_line));
 	srand(time(NULL));
 	nbr = rand();
@@ -61,9 +61,11 @@ static int		sh21(t_list **g_env, t_list **l_env)
 		catch_signal((t_prompt){nbr, *g_env, *l_env, 0, &l});
 		print_prompt(nbr, *g_env, *l_env, &l);
 		if ((av = read_init(&l, &hist)) == NULL)
+		{
+			printf("special error\n");
 			clean_exit(53, &hist, &l);
-		if (shell(av, g_env, l_env, &hist) == 1)
-			clean_exit(ret_exit(GET, 0), &hist, &l);
+		}
+		o = shell(av, g_env, l_env, &hist, 0);
 		//xmasterfree();
 	}
 	return (1);
