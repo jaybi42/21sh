@@ -378,14 +378,15 @@ typedef struct s_h
 	int fd[2];
 }							t_h;
 
-int get_out(t_redirect ***r)
+int get_out(t_redirect ***r, int fd_out)
 {
 	int i = 0;
 	while((*r)[i])i++;
 	(*r)[i] = malloc(sizeof(t_redirect));
 	(*r)[i]->type = 0;
 	(*r)[i]->fd_in = 1;
-	(*r)[i]->fd_out = open("okalm.txt", O_CREAT | O_RDWR | O_TRUNC, 0666);
+	(*r)[i]->fd_out = fd_out;
+	//(*r)[i]->fd_out = open("okalm.txt", O_CREAT | O_RDWR | O_TRUNC, 0666);
 	(*r)[i + 1] = NULL;
 	return (1);
 }
@@ -410,9 +411,13 @@ t_output do_exec(t_exec ex, int ret,
 		t_av av, char *in, int inlen)
 {
 	t_output o;
+	int fd[2];
 
 	if (ret != 0)
-		get_out(&ex.r);
+	{
+		pipe(fd);
+		get_out(&ex.r, fd[1]);
+	}
 	inlen = set_in(ex.r, &in, (size_t)inlen);
 	//dprintf(2, "putting in stdin: %d|%.*s|\n",inlen, inlen, in);
 	o.ret_code = 0;
@@ -432,7 +437,9 @@ t_output do_exec(t_exec ex, int ret,
 				close(ex.r[i]->fd_out);
 			i++;
 		}
-		file_get_binary("okalm.txt", &o.string, &o.len);
+		close(fd[1]);
+		fd_get_binary(fd[0], &o.string, &o.len);
+		close(fd[0]);
 		//dprintf(2, "read --> |%.*s|\n", o.len, o.string);
 	}
 	return (o);
