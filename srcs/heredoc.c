@@ -12,10 +12,6 @@
 
 #include "21sh.h"
 
-/*
-** prompt heredoc = "heredoc>"
-*/
-
 static char	*clean_return(t_line *l)
 {
 	return (l->str);
@@ -23,10 +19,9 @@ static char	*clean_return(t_line *l)
 
 static int	init_heredoc(t_line *l, char *prompt)
 {
-	l->str = NULL;
+	ft_init_line(l, NULL);
 	l->sizeprompt = ft_strlen(prompt);
-	l->size = 0;
-	l->count = 0;
+	l->line1 = l->largeur - l->sizeprompt;
 	return (0);
 }
 
@@ -40,7 +35,6 @@ char		*get_input(char *prompt)
 	while (1)
     {
 		ft_bzero(l.buffer, 6);
-            ft_print_line(&l);
         if (read(0, l.buffer, 6) == -1)
             return (clean_return(&l));
         if (l.buffer[0] != 10)

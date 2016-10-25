@@ -17,7 +17,7 @@ static int  count_n_char(char *str, size_t n, char c)
     int     i;
 
     i = 0;
-    while (*str && n--)
+    while (*str != '\0' && n--)
     {
         if (*str == c)
             i++;
