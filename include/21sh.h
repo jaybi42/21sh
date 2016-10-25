@@ -166,6 +166,7 @@ t_av**			read_init(t_line *l, t_ftl_root *hist);
 int				init_env(t_list **g_env, t_list **l_env);
 void			storage_env(t_list **e, char *new_var);
 int		x_strjoins(char **s1, size_t *len1, char *s2, size_t len2);
+char			*get_input(char *prompt);
 
 /*
 **Name: Shell

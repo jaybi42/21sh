@@ -61,6 +61,7 @@ FILES =					main			\
 						history			\
 						check_bin		\
 						storage_new_var \
+						heredoc			\
 										\
 						actions			\
 						do_termcaps		\

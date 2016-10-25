@@ -14,8 +14,7 @@
 
 static t_actions const  g_actions[18] = {
 	{ft_bp, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
-	{ft_fw, {61, 0, 0, 0, 0, 0}, "CTRLR MAGUEULE"},//
-//	{ft_fw, {27, 91, 49, 59, 53, 67}, "CTRL R"},
+	{ft_fw, {27, 91, 49, 59, 53, 67}, "CTRL R"},
 	{NULL, {10, 0, 0, 0, 0, 0}, "ENTER"},
 };
 

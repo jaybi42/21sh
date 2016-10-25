@@ -102,6 +102,7 @@ void		ctrl_r(t_line *l)
 	{
 		if (constructor_search(isok, l) == 0)
 			ft_print_line(l);
+		ft_bzero(l->buffer, 6);
 		if (read(0, l->buffer, 6) == -1)
 			return (clean_ctrl_r(l));
 		if (key_is_special(l) == 0)

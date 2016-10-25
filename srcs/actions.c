@@ -17,10 +17,9 @@ static t_actions const	g_actions[18] = {
 	{ft_down, {27, 91, 66, 0, 0, 0}, "DOWN"},
 	{ft_right, {27, 91, 67, 0, 0, 0}, "RIGHT"},
 	{ft_left, {27, 91, 68, 0, 0, 0}, "LEFT"},
-	{ctrl_r, {61, 0, 0, 0, 0, 0}, "CTRLR MAGUEULE"},
-//	{ft_real_backspace, {27, 91, 51, 126, 0, 0}, "DELETE"},
+	{ft_real_backspace, {27, 91, 51, 126, 0, 0}, "DELETE"},
 	{ft_backspace, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
-	{ft_ctrl_r, {27, 91, 49, 59, 53, 67}, "CTRL R"},
+	{ctrl_r, {27, 91, 49, 59, 53, 67}, "CTRL R"},//Il manque l'autre ctrlR pour naviguer dans les termcaps
 	{ft_ctrl_l, {27, 91, 49, 59, 53, 68}, "CTRL L"},
 	{ft_home, {27, 91, 72, 0, 0, 0}, "HOME"},
 	{ft_end, {27, 91, 70, 0, 0, 0}, "END"},
