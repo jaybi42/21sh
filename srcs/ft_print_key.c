@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/10/22 14:58:36 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/26 16:04:58 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,34 @@ static void	ft_print_insert(t_line *l)
 		do_term("nd");
 }
 
-void		ft_print_line(t_line *l)
+void        ft_print_line(t_line *l)
 {
-	int		pos_cur;
+    int     pos_cur;
 
-	pos_cur = l->count;
-	ft_home(l);
-	do_term("cd");
-	l->count = -1;
-	while(l->str[++l->count] != '\0')
-		ft_putchar(l->str[l->count]);
-	ft_home(l);
-	l->count = -1;
-	while (++l->count < pos_cur)
-		ft_putchar(l->str[l->count]);
+    pos_cur = l->count;
+    l->count = -1;
+    while(l->str[++l->count] != '\0')
+        ft_putchar(l->str[l->count]);
+    ft_home(l);
+    l->count = -1;
+    while (++l->count < pos_cur)
+        ft_putchar(l->str[l->count]);
+}
+
+void        ft_clean(t_line *l, int a, char *str)
+{
+    int     pos_cur;
+    char    *tmp;
+
+    pos_cur = l->count;
+    l->count = a;
+    tmp = ft_strdup(l->str);
+    l->str = ft_strdup(str);
+    ft_home(l);
+    do_term("cd");
+    l->count = pos_cur;
+    l->str = ft_strdup(tmp);
+    ft_print_line(l);
 }
 
 void		ft_print_key(t_line *l)
