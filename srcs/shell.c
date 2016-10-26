@@ -28,7 +28,10 @@ void file_put_contents(char *f, char *s)
 	write(fd, s, ft_strlen(s));
 	while(1);
 	*/
+	(void)f;
+	(void)s;
 }
+
 #define TYPE_REDIRECT_NORMAL 0
 #define TYPE_REDIRECT_TRUNC 1
 
@@ -119,6 +122,8 @@ int	 exec_path(char **arg, char **path, char **env)
 {
 	int i;
 
+	(void)arg;
+	(void)env;
 	i = 0;
 	while (path[i] != NULL)
 	{
@@ -231,6 +236,14 @@ int		x_strjoins(char **s1, size_t *len1, char *s2, size_t len2)
 	(*len1) = a;
 	return (1);
 }
+typedef struct s_multi_redic
+{
+	char *string;
+	int len;
+	int fd_to_redir;
+	int oldout;
+	int tempout;
+}						t_multi_redic;
 
 int		exec_builtin(int (*fnct)(), char **argv, t_redirect **r,
 		t_av av)
@@ -238,7 +251,8 @@ int		exec_builtin(int (*fnct)(), char **argv, t_redirect **r,
 	t_f **f;
 	int a = 0;
 	int i = 0;
-	t_output o;
+	(void)argv;
+
 	while (r[i])i++;
 	if (!(f = malloc(sizeof(t_f *) * (i + 1)))) { printf("error"); exit(4);}
 	i = -1;
@@ -255,28 +269,61 @@ int		exec_builtin(int (*fnct)(), char **argv, t_redirect **r,
 	i = 0;
 	while (f[i])
 	{
-		if (r[i]->type == 0)
-		{
-		f[i]->oldout = dup(f[i]->fd_to_redir);
-		close(f[i]->fd_to_redir);
-		f[i]->tempout = dup(f[i]->fd[1]);
-		}
+			f[i]->oldout = dup(f[i]->fd_to_redir);
+			close(f[i]->fd_to_redir);
+			f[i]->tempout = dup(f[i]->fd[1]);
 		i++;
 	}
 
+
 	fnct(av, &g_env, &l_env);
 
+	t_multi_redic **to;
+	int x;
+
 	i = 0;
-	while (f[i])
+	while (f[i])i++;
+	x = 0;
+	to = xmalloc(sizeof(t_multi_redic *) * (i + 2));
+	to[x] = NULL;
+	i--;
+	while (i >= 0)
 	{
 		close(f[i]->fd[1]);
+		int conti = FALSE;
+		for (int j = 0; to[j]; j++)
+			if (to[j]->fd_to_redir == f[i]->fd_to_redir)
+			{
+				conti = TRUE;
+				break;
+			}
+		if (conti == TRUE)
+		{
+			close(f[i]->fd[0]);
+			i--;
+			continue;
+		}
+		to[x] = xmalloc(sizeof(t_multi_redic));
+		to[x]->fd_to_redir = f[i]->fd_to_redir;
+	//	to[x]->fd_to_write = f[i]->fd_to_write;
+		to[x]->oldout = f[i]->oldout;
+		to[x]->tempout = f[i]->tempout;
 		close(f[i]->fd_to_redir);
-		fd_get_binary(f[i]->fd[0], &o.string, &o.len);
+		fd_get_binary(f[i]->fd[0], &to[x]->string, &to[x]->len);
 		close(f[i]->fd[0]);
-		write(f[i]->fd_to_write, o.string, o.len);
-		f[i]->tempout = dup(f[i]->oldout);
-		close(f[i]->oldout);
-		i++;
+		x++;
+		to[x] = NULL;
+		i--;
+	}
+	for (int j = 0; to[j];j++)
+	{
+		for (int k = 0; f[k];k++)
+		{
+			if (f[k]->fd_to_redir == to[j]->fd_to_redir)
+			write(f[k]->fd_to_write, to[j]->string, to[j]->len);
+			to[j]->tempout = dup(to[j]->oldout);
+			close(to[j]->oldout);
+		}
 	}
 	return (0);
 }
@@ -289,7 +336,6 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
 	int fd[2];
 	t_f **f;
 	int i;
-	t_output o;
 	int a;
 
 	if (inlen > 0)
@@ -358,27 +404,46 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
 		ret = waitpid(-1, &wait_status, WUNTRACED);
 		if (WIFEXITED(wait_status))
 			ret = WEXITSTATUS(wait_status);
+		t_multi_redic **to;
+		int x;
+
 		i = 0;
-		while (f[i])
+		while (f[i])i++;
+		x = 0;
+		to = xmalloc(sizeof(t_multi_redic *) * (i + 2));
+		to[x] = NULL;
+		i--;
+		while (i >= 0)
 		{
+
 			close(f[i]->fd[1]);
-			//dprintf(2, "open %d\n", f[i]->oldout);
-			int last = i;
-			/*
-			int x = 0;
-			while (f[x])
+			int conti = FALSE;
+			for (int j = 0; to[j]; j++)
+				if (to[j]->fd_to_redir == f[i]->fd_to_redir)
+				{
+					conti = TRUE;
+					break;
+				}
+			if (conti == TRUE)
 			{
-				if (f[i]->fd_to_redir == f[x]->fd_to_redir)
-					last = x;
-				x++;
-			}*/
-			fd_get_binary(f[last]->fd[0], &o.string, &o.len);
+				close(f[i]->fd[0]);
+				i--;
+				continue;
+			}
+			to[x] = xmalloc(sizeof(t_multi_redic));
+			to[x]->fd_to_redir = f[i]->fd_to_redir;
+			to[x]->oldout = f[i]->oldout;
+			to[x]->tempout = f[i]->tempout;
+			fd_get_binary(f[i]->fd[0], &to[x]->string, &to[x]->len);
 			close(f[i]->fd[0]);
-			write(f[i]->fd_to_write, o.string, o.len);
-		//	f[i]->tempout = dup(f[i]->oldout); //reopen the closen one
-		//	close(f[i]->oldout);
-			i++;
+			x++;
+			to[x] = NULL;
+			i--;
 		}
+		for (int j = 0; to[j];j++)
+			for (int k = 0; f[k];k++)
+				if (f[k]->fd_to_redir == to[j]->fd_to_redir)
+					write(f[k]->fd_to_write, to[j]->string, to[j]->len);
 	}
 	return (ret);
 }
@@ -412,6 +477,7 @@ int	set_in(t_redirect **r, char **s, size_t len)
 		if (r[i]->type == 1)
 		{
 			int ret = x_strjoins(s, &len, r[i]->s_in, r[i]->len_in);
+			ret = 0;
 		}
 		i++;
 	}
@@ -430,7 +496,6 @@ t_output do_exec(t_exec ex, int ret,
 		get_out(&ex.r, fd[1]);
 	}
 	inlen = set_in(ex.r, &in, (size_t)inlen);
-	//dprintf(2, "putting in stdin: %d|%.*s|\n",inlen, inlen, in);
 	o.ret_code = 0;
 	if (ex.type == BUILTIN)
 		o.ret_code = exec_builtin(ex.fnct, ex.argv, ex.r,av);
@@ -469,8 +534,6 @@ void clear_output(t_output *o)
 
 t_output		shell(t_av **av, int ret)
 {
-	int fd_in[2];
-	int i_cmd;
 	int a;
 	t_exec ex;
 	t_output all;
@@ -508,16 +571,19 @@ t_output		shell(t_av **av, int ret)
 		else
 					find = -1;
 		if (ex.type == -1)
-				{	ft_printf("unknown command bro\n");output.ret_code = 1; continue;}
+				{	ft_printf("21sh: unknown command bro: %s\n", av[a]->cmd);
+				handle_var(KV_SET, "?", "127");
+				;continue;}
 		if (av[a]->type != TYPE_PIPE)
 			clear_output(&output);
 		if (av[a]->type == TYPE_PIPE && output.ret_code != 0)
 			continue;
 		output = do_exec(ex, (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) ? 1 : ret, *av[a],
 			output.string, output.len);
+		handle_var(KV_SET, "?", ft_litoa((unsigned char)output.ret_code));
 		if (ret)
 			x_strjoins(&all.string,(size_t *)&all.len,output.string,output.len);
-		all.ret_code = output.ret_code; //get the last retcode
+		all.ret_code = output.ret_code;
 	}
 	return (all);
 }

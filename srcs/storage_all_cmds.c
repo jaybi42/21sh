@@ -99,6 +99,7 @@ static t_delimiter const	g_delimiter[NUMBER_DELIMITER] =
 	{"<", "<", 0, 0, 0, 1, 1, 1},
 };
 
+/*
 static t_delimiter const	g_delimiter_red[14] =
 {
 	{">>", ">>", 0, 0, 0, 1, 1, 1},
@@ -115,7 +116,7 @@ static t_delimiter const	g_delimiter_red[14] =
 	{"9>", "9>", 0, 0, 0, 1, 1, 1},
 	{"<<", "heredoc", 0, 0, 0, 1, 1, 1},
 	{"<", "<", 0, 0, 0, 1, 1, 1}
-};
+};*/
 
 static t_delimiter const	g_delimiter_quo[3] =
 {
@@ -123,7 +124,7 @@ static t_delimiter const	g_delimiter_quo[3] =
 	{"\'", "quote", 1, 1, 0, 0, 0, 1},
 	{"`", "bquote", 1, 1, 1, 1, 0, 1}
 };
-
+/*
 static t_delimiter const	g_delimiter_sep[5] =
 {
 	{"\\", "", 1, 0, 0, 0, 0, 1},
@@ -131,7 +132,7 @@ static t_delimiter const	g_delimiter_sep[5] =
 	{";", "pvrig", 1, 0, 1, 1, 0, 0},
 	{"&&", "cmdand", 1, 0, 1, 1, 0, 0},
 	{"|", "pipe", 1, 0, 1, 1, 0, 0}
-};
+};*/
 
 typedef struct	s_parse
 {
@@ -611,6 +612,21 @@ char **check_var(char *s)
 	char **env;
 	int i;
 	char **tmp;
+	char *tmpe;
+
+	tmpe = handle_var(KV_GET, s, NULL);
+	if (tmpe != NULL)
+	{
+		char **ret;
+
+		ret = xmalloc(sizeof(char *) * 3);
+		if (!ret)
+			return (NULL);
+		ret[0] = s;
+		ret[1] = tmpe;
+		ret[2] = NULL;
+		return (ret);
+	}
 
 	env = convert_env(g_env, l_env);
 	i = 0;
@@ -665,8 +681,7 @@ char *apply_var(char *s)
 	int i;
 	char *ns;
 	char **tmp;
-	int ret;
-	int len;
+	size_t len;
 
 	i = -1;
 	len = 0;
@@ -685,7 +700,7 @@ char *apply_var(char *s)
 	{
 		if (s[i] == '$' && (tmp = check_var(s + i + 1)) != NULL)
 		{
-				x_strjoins(&ns,(size_t *)&len,tmp[1],ft_strlen(tmp[1]));
+				x_strjoins(&ns,&len, tmp[1],ft_strlen(tmp[1]));
 				i += ft_strlen(tmp[1]);
 		}
 		else
@@ -699,7 +714,6 @@ char *apply_var(char *s)
 char *decortique_parse(char *expr, size_t l)
 {
 	char **ts;
-	char *s;
 	t_parse *p;
 	/*
 		int	*begin;

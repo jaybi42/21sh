@@ -21,6 +21,9 @@
 
 int			bi_clear(t_av av, t_list **g_env, t_list **l_env)
 {
+	(void)g_env;
+	(void)av;
+	(void)l_env;
 	do_term("cl");
 	return (0);
 }

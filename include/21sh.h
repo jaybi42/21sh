@@ -17,6 +17,10 @@
 ** TODO: Suppr stdio
 */
 
+#define KV_SET 0
+#define KV_GET 1
+#define KV_DEL 2
+
 # include "libft.h"
 # include "edit_line.h"
 
@@ -92,6 +96,9 @@ typedef struct          s_command
 /*
 ----
 */
+
+
+char *handle_var(int state, char *key, char *value);
 
 typedef struct	s_error
 {
