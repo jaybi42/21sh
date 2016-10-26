@@ -21,7 +21,14 @@
 #define TRUE 1
 #define FALSE 0
 
-
+void file_put_contents(char *f, char *s)
+{
+/*
+	int fd = open(f, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	write(fd, s, ft_strlen(s));
+	while(1);
+	*/
+}
 #define TYPE_REDIRECT_NORMAL 0
 #define TYPE_REDIRECT_TRUNC 1
 
@@ -34,7 +41,8 @@ typedef struct s_f
 					    int fd_to_write;
 }               t_f;
 
-static t_builtin const  g_builtin_list[8] = {
+#define NB_BUILT 9
+static t_builtin const  g_builtin_list[NB_BUILT] = {
 	{"cd", bi_cd},
 	{"setenv", bi_setenv},
 	{"unsetenv", bi_unsetenv},
@@ -42,6 +50,7 @@ static t_builtin const  g_builtin_list[8] = {
 	{"getenv", bi_getenv},
 	{"echo", bi_echo},
 	{"exit", bi_exit},
+	{"clear", bi_clear},
 	{"history", bi_history},
 };
 
@@ -65,23 +74,23 @@ char *get_path(t_list *g_env, t_list *l_env)
 char **convert_env(t_list *g_env, t_list *l_env)
 {
 	t_list	*env;
-	char	**tab;
+	char	**t;
 	int		i;
 
 	env = g_env;
 	if (env == NULL)
 		env = l_env;
 	i = ft_listlen(env);
-	tab = (char **)malloc(sizeof(char *) * (i + 1));
-	if (tab == NULL)
+	t = (char **)malloc(sizeof(char *) * (i + 1));
+	if (t == NULL)
 		return (NULL);
-	tab[i--] = NULL;
+	t[i--] = NULL;
 	while (env != NULL)
 	{
-		tab[i--] = ft_strdup(((t_env *)env->content)->str);
+		t[i--] = ft_strdup(((t_env *)env->content)->str);
 		env = env->next;
 	}
-	return (tab);
+	return (t);
 }
 
 char **get_allpath(char *cmd, char *path)
@@ -128,7 +137,7 @@ t_exec		make_exec_builtin(t_av *av)
 
 	i = 0;
 	ex.type = -1;
-	while (i < 8)
+	while (i < NB_BUILT)
 	{
 		if (ft_strcmp(g_builtin_list[i].key, av->cmd) == 0)
 		{
@@ -288,7 +297,9 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
 	i = 0;
 	ret = -1;
 	while (r[i])i++;
-	if (!(f = malloc(sizeof(t_f *) * (i + 1)))) { printf("error"); exit(4);}
+	if (!(f = malloc(sizeof(t_f *) * (i + 1)))) { printf("error");
+	file_put_contents("okalm.txt", "error m2");
+	 exit(4);}
 	i = -1;
 	a = 0;
 	while (r[++i]){
@@ -303,7 +314,7 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
 	f[a] = NULL;
 	if ((pid = fork()) == -1)
 	{
-		printf("error\n");
+		file_put_contents("okalm.txt", "error forked");
 		exit(0);
 	}
 	if (pid == 0)
@@ -450,7 +461,9 @@ void clear_output(t_output *o)
 	o->len = 0;
 	o->string = xmalloc(2);
 	if (o->string == NULL)
-		{dprintf(2, "malloc error.. leaving...\n");exit(1);}
+		{dprintf(2, "malloc error.. leaving...\n");
+		file_put_contents("okalm.txt", "error m");
+		exit(1);}
 	o->string[0] = '\0';
 }
 
@@ -502,7 +515,6 @@ t_output		shell(t_av **av, int ret)
 			continue;
 		output = do_exec(ex, (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) ? 1 : ret, *av[a],
 			output.string, output.len);
-
 		if (ret)
 			x_strjoins(&all.string,(size_t *)&all.len,output.string,output.len);
 		all.ret_code = output.ret_code; //get the last retcode

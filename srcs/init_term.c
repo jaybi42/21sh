@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <term.h>
 #include <curses.h>
-
+/*
 int					init_term(void)
 {
 	char			*name_term;
@@ -38,4 +38,4 @@ int					init_term(void)
 	do_term("ti");
 	do_term("cl");
 	return (0);
-}
+}*/

@@ -29,16 +29,10 @@ int				ret_exit(int state, int value)
 	return (data);
 }
 
-void		clean_exit(int ret, t_ftl_root *hist, t_line *l)
+void		clean_exit(int ret)
 {
-	int		nbr;
-
-	(void)l; //free_line to do
-	nbr = 0;
-	//if (av != NULL && *(av->arg != NULL)
-	//	nbr = ft_atoi(*((t_av *)av->content)->arg);
-	//ft_lstdel(&av, free_av);
-	put_history(hist);
+	put_history(&g_hist);
+	a_stop(0);
 	exit(ret);
 }
 
@@ -49,7 +43,6 @@ void			ft_printmem(t_av **av)
 
 static int		sh21(void)
 {
-//	t_list		*av;
 	t_av **av;
 	t_line		l;
 	uint64_t	nbr;
@@ -66,10 +59,10 @@ static int		sh21(void)
 		if ((av = read_init(&l, &g_hist)) == NULL)
 		{
 			printf("special error\n");
-			clean_exit(53, &g_hist, &l);
+			clean_exit(53);
 		}
 		o = shell(av, 0);
-		//xmasterfree();
+		xmasterfree();
 	}
 	return (1);
 }
@@ -80,7 +73,7 @@ int				main(void)
 	l_env = NULL;
 	if (init_env(&g_env, &l_env) == 1)
 		return (1);
-	if (init_term() == -1)
+	if (a_init() == -1)
 		return (1);
 	if (sh21() == 1)
 		return (1);

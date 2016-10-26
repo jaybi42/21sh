@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	ft_print_tab(char **tab, char *name)
+void	ft_print_tab(char **tab2, char *name)
 {
 	int	i;
 
@@ -20,11 +20,11 @@ void	ft_print_tab(char **tab, char *name)
 	ft_putstr("----- ");
 	ft_putstr(name);
 	ft_putendl(" -----");
-	while (tab[i] != NULL)
+	while (tab2[i] != NULL)
 	{
 		ft_putnbr(i);
 		ft_putstr(" : [");
-		ft_putstr(tab[i]);
+		ft_putstr(tab2[i]);
 		ft_putstr("]\n");
 		i++;
 	}

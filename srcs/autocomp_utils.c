@@ -26,45 +26,45 @@ int	cmp_buf(int *value, char *buf)
 	return (0);
 }
 
-void		del_tab(char **tab)
+void		del_tab(char **t)
 {
 	int i;
 
 	i = 0;
-	if (tab != NULL)
+	if (t != NULL)
 	{
-		while (tab[i] != NULL)
+		while (t[i] != NULL)
 		{
-			free(tab[i]);
+			free(t[i]);
 			i++;
 		}
-		free(tab);
+		free(t);
 	}
 }
 
-int			tab_size(char **tab)
+int			tab_size(char **t)
 {
 	int i;
 
 	i = 0;
-	while (tab[i] != NULL)
+	while (t[i] != NULL)
 		i++;
 	return (i);
 }
 
-char		**tab_dup(char **tab)
+char		**tab_dup(char **t)
 {
 	char		**ret;
 	int			i;
 
 	i = 0;
-	while (tab[i] != NULL)
+	while (t[i] != NULL)
 		i++;
 	ret = (char **)ft_memalloc(sizeof(char *) * (i + 1));
 	i = 0;
-	while (tab[i] != NULL)
+	while (t[i] != NULL)
 	{
-		ret[i] = ft_strdup(tab[i]);
+		ret[i] = ft_strdup(t[i]);
 		i++;
 	}
 	ret[i] = NULL;

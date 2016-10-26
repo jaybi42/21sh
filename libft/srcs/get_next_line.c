@@ -48,12 +48,12 @@ static t_gnl	*retrieve_gnl_for_fd(t_gnl *gnl, int fd)
 
 static int		get_ret(t_gnl *gnl, char **line, int ret)
 {
-	char	*newline;
+	char	*nl;
 	char	buff[BUFF_SIZE + 1];
 	char	*tmp;
 
-	newline = ft_strchr(gnl->tmp, '\n');
-	if (newline == NULL)
+	nl = ft_strchr(gnl->tmp, '\n');
+	if (nl == NULL)
 	{
 		if ((ret = read(gnl->fd, buff, BUFF_SIZE)) < 0)
 			return (-1);
@@ -65,8 +65,8 @@ static int		get_ret(t_gnl *gnl, char **line, int ret)
 		gnl->tmp = tmp;
 		return (ret);
 	}
-	*line = ft_strsub(gnl->tmp, 0, newline - gnl->tmp);
-	tmp = ft_strsub(newline, 1, ft_strlen(newline) - 1);
+	*line = ft_strsub(gnl->tmp, 0, nl - gnl->tmp);
+	tmp = ft_strsub(nl, 1, ft_strlen(nl) - 1);
 	if (*line == NULL || tmp == NULL)
 		return (-1);
 	free(gnl->tmp);

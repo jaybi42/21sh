@@ -18,11 +18,11 @@ static t_actions const  g_actions[1] = {
 	{NULL, {9, 0, 0, 0, 0, 0}, "TAB"},
 };
 
-static void		copy_tab(char *tab, char *data, int *j, int *k)
+static void		copy_tab(char *t, char *data, int *j, int *k)
 {
 	while (data[*j] != '\0')
 	{
-		tab[*k] = data[*j];
+		t[*k] = data[*j];
 		*j = *j + 1;
 		*k = *k + 1;
 	}
@@ -74,7 +74,7 @@ void			insert_ontop_string(char **str, int i, char *data)
 		return ;
 	j = 0;
 	k = 0;
-	ft_bzero(&tmp, k);	
+	ft_bzero(&tmp, k);
 	//printf(" ->( %s )<- ", *str);
 	//printf(" ->( %s )<- ", data);
 	tmp2 = ft_strdup(*str);
@@ -123,11 +123,11 @@ int				test_if_fnc(int i, char *str, int *glob)
 
 
 typedef struct s_tab_info
-{	
+{
 	//1024 bug to fix
 	char		complete[1024];
 	char		aux[1024];
-	char		**tab;
+	char		**t;
 	int			function;
 	int			index;
 	char		*copy;
@@ -152,9 +152,9 @@ void			get_prepared(t_tab_info *info, t_line *l)
 	}
 	info->complete[info->k] = '\0';
 	if (!info->function)
-		info->tab = ret_match(info->complete);
+		info->t = ret_match(info->complete);
 	else
-		info->tab = command_fnc(info->complete);
+		info->t = command_fnc(info->complete);
 
 	ft_strcpy(info->aux, info->complete);
 	ptr = ft_strrchr(info->complete, '/');
@@ -167,7 +167,7 @@ void			get_prepared(t_tab_info *info, t_line *l)
 
 int				nothing_to_do(t_tab_info *info)
 {
-	if (info->tab == NULL)
+	if (info->t == NULL)
 	{
 		free(info->copy);
 		return (1);
@@ -205,21 +205,21 @@ void			ft_autocomp(t_line *l)
 			read(STDIN_FILENO, buff, MAX_CANON);
 		if (cmp_buf((int *)g_actions[0].value, buff) == 0)
 		{
-			if (info.tab[j] == NULL)
+			if (info.t[j] == NULL)
 				j = 0;
-			if (info.tab[j] != NULL)
+			if (info.t[j] != NULL)
 			{
 				if (info.globing == 1)
-					insert_ontop_string(&tmp2, info.index - test2, (info.tab[j]));
+					insert_ontop_string(&tmp2, info.index - test2, (info.t[j]));
 				else
-					insert_in_string(&tmp2, info.index, (info.tab[j]) + test1);
+					insert_in_string(&tmp2, info.index, (info.t[j]) + test1);
 				free(l->str);
 				l->str = ft_strdup(tmp2);
 				l->size = ft_strlen(l->str);
 				if (info.globing == 1)
-					l->count = (info.index - test2) + ft_strlen(info.tab[j]);
+					l->count = (info.index - test2) + ft_strlen(info.t[j]);
 				else
-					l->count = info.index + ft_strlen((info.tab[j]) + test1);
+					l->count = info.index + ft_strlen((info.t[j]) + test1);
 				ft_print_line(l);
 				j++;
 			}
@@ -234,6 +234,6 @@ void			ft_autocomp(t_line *l)
 			tmp2 = NULL;
 		}
 	}
-	del_tab(info.tab);
+	del_tab(info.t);
 	free(info.copy);
 }

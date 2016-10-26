@@ -30,48 +30,48 @@ static char			**get_info(void)
 {
 	struct stat		stat;
 	struct passwd	*pw;
-	char			**tab;
+	char			**t;
 
-	tab = NULL;
+	t = NULL;
 	if (lstat(".", &stat) == -1)
 		return (NULL);
 	if ((pw = getpwuid(stat.st_uid)) == NULL)
 		return (NULL);
-	tab = (char **)malloc(sizeof(char *) * 7);
-	tab[6] = NULL;
-	tab[0] = ft_strdup\
+	t = (char **)malloc(sizeof(char *) * 7);
+	t[6] = NULL;
+	t[0] = ft_strdup\
 ("/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/munki");
-	tab[1] = ft_strdup(pw->pw_dir);
-	tab[2] = ft_strdup(pw->pw_name);
-	tab[3] = ft_strdup(pw->pw_name);
-	tab[4] = ft_strdup(getwd(NULL));
-	tab[5] = ft_strdup(pw->pw_shell);
-	return (tab);
+	t[1] = ft_strdup(pw->pw_dir);
+	t[2] = ft_strdup(pw->pw_name);
+	t[3] = ft_strdup(pw->pw_name);
+	t[4] = ft_strdup(getwd(NULL));
+	t[5] = ft_strdup(pw->pw_shell);
+	return (t);
 }
 
 static int			set_lenv(t_list **e)
 {
-	char			**tab;
+	char			**t;
 	t_env			env;
 	t_list			*tamp;
 	int				i;
 
 	i = 0;
-	tab = get_info();
+	t = get_info();
 	while (i < 6)
 	{
 		env.name = ft_strdup((char *)g_initenv[i].name);
-		env.value = tab[i];
-		env.str = ft_strjoin((char *)g_initenv[i].str, tab[i]);
+		env.value = t[i];
+		env.str = ft_strjoin((char *)g_initenv[i].str, t[i]);
 		tamp = ft_lstnew((void *)&env, sizeof(env));
 		if (tamp == NULL)
 			return (1);
 		ft_lstadd_last(e, tamp);
 		i++;
 	}
-	if (tab != NULL)
-		free(tab);
-	tab = NULL;
+	if (t != NULL)
+		free(t);
+	t = NULL;
 	return (0);
 }
 

@@ -71,12 +71,6 @@ typedef struct          s_redirect
 				char	*s_in;
 				int		len_in;
 }                       t_redirect;
-typedef struct		s_output
-{
-	int len;
-	char *string;
-	int ret_code;
-}			t_output;
 
 typedef struct	s_exec
 {
@@ -132,10 +126,8 @@ typedef struct	s_builtin
 	t_bi_fptr	value;
 }				t_builtin;
 
-void		clean_exit(int ret, t_ftl_root *hist, t_line *l);
+void		clean_exit(int ret);
 
-int			fd_get_binary(int fd, char **str, int *len);
-int			file_get_binary(char *filename, char **str, int *len);
 
 char *get_path(t_list *g_env, t_list *l_env);
 char **convert_env(t_list *g_env, t_list *l_env);
@@ -205,6 +197,7 @@ int				bi_setenv(t_av av, t_list **g_env, t_list **l_env);
 int				bi_exit(t_av av, t_list **g_env, t_list **l_env);
 int				bi_getenv(t_av av, t_list **g_env, t_list **l_env);
 int				bi_echo(t_av av, t_list **g_env, t_list **l_env);
+int				bi_clear(t_av av, t_list **g_env, t_list **l_env);
 int				bi_history(t_av av, t_list **g_env, t_list **l_env);
 int                             bi_export(t_av av, t_list **g_env, t_list **l_env);
 

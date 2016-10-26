@@ -14,25 +14,13 @@
 #include <stdlib.h>
 
 /*
-** - Clean g_env and l_env
-** - return -1 to exit shell
+** - clean screen
 */
 
 
 
-int			bi_exit(t_av av, t_list **g_env, t_list **l_env)
+int			bi_clear(t_av av, t_list **g_env, t_list **l_env)
 {
-	if (*av.arg != NULL && !ft_strisnum(*av.arg))
-	{
-		if (ft_isdigit(*av.arg[0]))
-			print_error(av, 11);
-		else
-			print_error(av, 10);
-		return (0);
-	}
-	ft_lstdel(g_env, free_env);
-	ft_lstdel(l_env, free_env);
-	ret_exit(SET, (av.argv[1] != NULL) ? ft_atoi(av.argv[1]) : 0);
-	clean_exit(0);
-	exit(0);
+	do_term("cl");
+	return (0);
 }

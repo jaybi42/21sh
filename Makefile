@@ -87,12 +87,11 @@ FILES =					main			\
 						parse_line		\
 						storage_all_cmds	\
 						garbage_collector	\
-						file_get_contents	\
 						glob 			\
 						ft_ctrl_r		\
 						print_ctrl_r	\
 						key_is_special	\
-
+						bi_clear
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
 

@@ -17,6 +17,8 @@
 # include <stdbool.h>
 # include <stddef.h>
 
+# include "acurse.h"
+
 # define BUFF_SIZE 512
 
 # define ERROR ft_error(__FILE__, __FUNCTION__, __LINE__)
@@ -26,6 +28,14 @@
 
 # define FTL_NODE	struct s_ftl_node
 # define FTL_NODEC	struct s_ftl_node const
+
+typedef struct		s_output
+{
+	int len;
+	char *string;
+	int ret_code;
+}			t_output;
+
 
 typedef struct		s_ftl_node
 {
@@ -62,6 +72,10 @@ typedef struct		s_ftv
 	size_t			size;
 	size_t			element_size;
 }					t_ftv;
+
+int			fd_get_binary(int fd, char **str, int *len);
+int			file_get_binary(char *filename, char **str, int *len);
+
 
 /*
 **	##=- ft_printf -=##
@@ -159,7 +173,6 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl_fd(char const *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
-void				ft_print_tab(char **tab, char *name);
 
 /*
 **	##=-  String  -=##
@@ -195,16 +208,17 @@ void				ft_striter(char *s, void (*f)(char *));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_strmap(char const *s, char (*f)(char));
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-void				ft_tabdel(char **tab);
+void				ft_tabdel(char **tab2);
 int					ft_strisnum(char *str);
 char				*ft_first_word(char *str);
+void	ft_print_tab(char **tab2, char *name);
 
 /*
 **	##=-  Get information  -=##
 */
 
 int					ft_nbrlen(uint64_t nbr);
-int					ft_tablen(char **tab);
+int					ft_tablen(char **tab2);
 int					ft_listlen(t_list *list);
 
 /*

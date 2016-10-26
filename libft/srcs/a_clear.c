@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*   a_clear.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/29 16:41:46 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/29 16:42:46 by jguthert         ###   ########.fr       */
+/*   Created: 2016/04/01 00:04:39 by agadhgad          #+#    #+#             */
+/*   Updated: 2016/04/01 00:04:40 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "acurse.h"
 
-int		ft_tablen(char **tab2)
+void	a_init_clear(void)
 {
-	int	i;
+	char *s;
 
-	i = 0;
-	while (tab2[i] != 0)
-		i++;
-	return (i);
+	s = tgetstr("cl", &s);
+	ft_putstr_fd(s, get_fd(0));
+}
+
+void	a_clear(void)
+{
+	static char *s;
+
+	a_mv(0, 0);
+	if (!s)
+		s = tgetstr("cd", &s);
+	ft_putstr_fd(s, get_fd(0));
 }

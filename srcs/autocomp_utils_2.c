@@ -12,19 +12,19 @@
 
 #include "autocomp.h"
 
-static void			fill_in(char **tab, char **fill, int i)
+static void			fill_in(char **t, char **fill, int i)
 {
 	int				j;
 
 	j = 0;
 	while (fill[j] != NULL)
 	{
-		tab[i + j] = ft_strdup(fill[j]);
+		t[i + j] = ft_strdup(fill[j]);
 		j++;
 	}
 }
 
-char            **append_found(char **tab, char *str, char *path)
+char            **append_found(char **t, char *str, char *path)
 {
 	char        **ret;
 	char        **tmp;
@@ -35,13 +35,13 @@ char            **append_found(char **tab, char *str, char *path)
 	i = 0;
 	j = 0;
 	tmp = ret_tab(str, path);
-	if (tab != NULL)
-			i = tab_size(tab);
+	if (t != NULL)
+			i = tab_size(t);
 	if (tmp != NULL)
 			j = tab_size(tmp);
 	ret = (char **)malloc(sizeof(char *) * (i + j + 1));
-	if (tab != NULL)
-		fill_in(ret, tab, 0);
+	if (t != NULL)
+		fill_in(ret, t, 0);
 	if (tmp != NULL)
 		fill_in(ret, tmp, i);
 	del_tab(tmp);

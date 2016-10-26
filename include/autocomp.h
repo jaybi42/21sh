@@ -26,17 +26,17 @@ typedef struct  s_aut_info
 	size_t			size;
 	char			*tmp;
 	int				i;
-	char			**tab;
+	char			**t;
 }					t_aut_info;
 
 char            **ret_match(char *str);
 char            **command_fnc(char *str);
 int             count_files(char *path, char *str);
 char    **ret_tab(char *tmp, char *path);
-void        del_tab(char **tab);
-int         tab_size(char **tab);
-char        **tab_dup(char **tab);
-char            **append_found(char **tab, char *str, char *path);
+void        del_tab(char **t);
+int         tab_size(char **t);
+char        **tab_dup(char **t);
+char            **append_found(char **t, char *str, char *path);
 int cmp_buf(int *value, char *buf);
 
 #endif

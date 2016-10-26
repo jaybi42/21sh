@@ -12,13 +12,13 @@
 
 #include "libft.h"
 
-void		ft_tabdel(char **tab)
+void		ft_tabdel(char **tab2)
 {
 	int		i;
 
 	i = 0;
-	while (tab[i] != NULL)
-		ft_strdel(&tab[i++]);
-	if (tab != NULL)
-		ft_strdel(tab);
+	while (tab2[i] != NULL)
+		ft_strdel(&tab2[i++]);
+	if (tab2 != NULL)
+		ft_strdel(tab2);
 }

@@ -1,23 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*   a_mode.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/29 16:41:46 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/29 16:42:46 by jguthert         ###   ########.fr       */
+/*   Created: 2016/03/31 23:59:16 by agadhgad          #+#    #+#             */
+/*   Updated: 2016/03/31 23:59:17 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "acurse.h"
 
-int		ft_tablen(char **tab2)
+void	a_mode_video_inverted(void)
 {
-	int	i;
+	a_tputs("mr");
+}
 
-	i = 0;
-	while (tab2[i] != 0)
-		i++;
-	return (i);
+void	a_mode_surlight(void)
+{
+	a_tputs("us");
+}
+
+void	a_mode_off(void)
+{
+	a_tputs("me");
+}
+
+void	a_cursor_off(void)
+{
+	a_tputs("vi");
+}
+
+void	a_cursor_on(void)
+{
+	a_tputs("ve");
 }
