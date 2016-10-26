@@ -5,3 +5,5 @@ quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'ap
 - ctrlC doit restart au début de la fonction et on doit free structure line
 - Faire plusieurs dossier pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc, et l'intégrer au makefile
 - Faire plusieurs header file pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc
+- Permettre les CtrlD CtrlL
+- il faut gérer les guillemets
