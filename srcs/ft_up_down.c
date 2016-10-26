@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 14:26:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/22 19:56:48 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/26 18:15:57 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void		dup_print(char *new_in, t_line *l)
 	{
 		tmp = ft_strdup(new_in);
 		if (tmp == NULL)
-		  return ;
+			return ;
 		if (l->str != NULL)
 			ft_strdel(&l->str);
 		l->str = tmp;

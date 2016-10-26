@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/06/09 15:48:14 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/26 18:15:14 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ static void	is_sig(int signum)
 		g_prompt.l->hauteur = w.ws_row;
 	}
 	else if (g_prompt.son == 0)
+	{
+		ft_putstr("\n");
 		print_prompt(g_prompt.rand, g_prompt.g_env, g_prompt.l_env, g_prompt.l);
+	}
 }
 
 void	catch_signal(t_prompt prompt)
