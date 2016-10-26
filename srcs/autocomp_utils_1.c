@@ -6,130 +6,99 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 20:12:54 by mseinic           #+#    #+#             */
-/*   Updated: 2016/10/26 16:46:23 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/10/26 21:58:00 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "autocomp.h"
 
-char			**ret_globing(char *tmp, char *path)
+static void			ft_skip(char **ret, char *path, char **tab2, char *tmp)
 {
-	char **t = NULL;
-	char **tab2 = NULL;
-	int	size = 0;
-	int	n = 0;
-	char **ret;
+	int		i;
 
+	i = 0;
+	while (tab2[i] != NULL)
+	{
+		if (tmp[0] != '.')
+			while (tab2[i] != NULL && tab2[i][0] == '.')
+				i++;
+		else
+			while (tab2[i] != NULL && tab2[i][0] != '.')
+				i++;
+		if (tab2[i] == NULL)
+			break ;
+		if (ft_strcmp(path, ".") != 0)
+		{
+			ft_strcat(ret[0], path);
+			if (ft_strcmp(path, "/") != 0)
+				ft_strcat(ret[0], "/");
+		}
+		ft_strcat(ret[0], tab2[i]);
+		ft_strcat(ret[0], " ");
+		i++;
+	}
+}
+
+static char			**get_table(char **tab2, int n, char *path, char *tmp)
+{
+	char	**ret;
+	int		i;
+	int		size;
+
+	i = -1;
+	size = 0;
+	while (tab2[++i] != NULL)
+		size += (ft_strlen(tab2[i]) + n + 1);
+	i = 0;
+	ret = (char**)malloc(sizeof(char *) * 2);
+	ret[0] = NULL;
+	if ((ret[0] = ft_strnew(size)) != NULL)
+		ft_skip(ret, path, tab2, tmp);
+	ret[1] = NULL;
+	return (ret);
+}
+
+char				**ret_globing(char *tmp, char *path)
+{
+	char	**t;
+	char	**tab2;
+	int		n;
+	char	**ret;
+
+	n = 0;
+	t = NULL;
+	tab2 = NULL;
 	ret = NULL;
 	t = ret_tab("", path);
 	if (t != NULL)
 		tab2 = ft_globing(tmp, t);
 	if (tab2 == NULL || tab2[0] == NULL)
 		return (tab2);
-	n = ft_strlen(path) + 1;
-	for (int i = 0; tab2[i] != NULL; i++)
-		size += (ft_strlen(tab2[i]) + n + 1);
-	ret = (char**)malloc(sizeof(char *) * 2);
-	if ((ret[0] = ft_strnew(size)) != NULL)
-	{
-		for (int i = 0; tab2[i] != NULL; i++)
-		{
-			ft_strcat(ret[0], path);
-			ft_strcat(ret[0], "/");
-			ft_strcat(ret[0], tab2[i]);
-			ft_strcat(ret[0], " ");
-		}
-	}
-	ret[1] = NULL;
+	if (ft_strcmp(path, ".") != 0 && ft_strcmp(path, "/") != 0)
+		n = ft_strlen(path) + 1;
+	else
+		n = 2;
+	ret = get_table(tab2, n, path, tmp);
 	return (ret);
 }
 
-char            **ret_match(char *str)
+int					auto_my_cmp(char *d_name, char *tmp, char *str)
 {
-	char            **t;
-	char            *tmp;
-	char            *path;
-	char            *str1;
-
-	str1 = ft_strdup(str);
-	t = NULL;
-	tmp = ft_strrchr(str1, '/');
-	if (tmp != NULL)
-	{
-		*tmp = '\0';
-		tmp++;
-		path = str1;
-	}
-	else
-	{
-		path = ".";
-		tmp = str1;
-	}
-	if (ft_strlen(path) == 0)
-		path = "/";
-	if (ft_strchr(tmp, '*') != NULL || ft_strchr(tmp, '{') != NULL ||
-			ft_strchr(tmp, '[') != NULL || ft_strchr(tmp, '?') != NULL)
-		t = ret_globing(tmp, path);
-	else
-		t = ret_tab(tmp, path);
-	free(str1);
-	return (t);
+	return (ft_strcmp(d_name, ".") != 0
+			&& ft_strcmp(d_name, "..") != 0
+			&& ft_strcmp(tmp, str) == 0);
 }
 
-char            **command_fnc(char *str)
-{
-	char        **tab_path;
-	char        **tab_ret;
-	char        **tmp;
-	int         i;
-
-	i = 0;
-	tab_ret = NULL;
-	tmp = NULL;
-	tab_path = ft_strsplit(getenv("PATH"), ':');
-	while (tab_path[i] != NULL)
-	{
-		tmp = append_found(tab_ret, str, tab_path[i]);
-		del_tab(tab_ret);
-		tab_ret = tab_dup(tmp);
-		del_tab(tmp);
-		i++;
-	}
-	del_tab(tab_path);
-	return (tab_ret);
-}
-
-int             count_files(char *path, char *str)
-{
-	t_aut_info  info;
-
-	info.size = 0;
-	if ((info.dirp = opendir(path)) != NULL)
-	{
-		info.len = ft_strlen(str);
-		while ((info.dp = readdir(info.dirp)) != NULL)
-		{
-			info.tmp = ft_strdup(info.dp->d_name);
-			if (info.len <= ft_strlen(info.tmp))
-				info.tmp[info.len] = '\0';
-			if (ft_strcmp(info.dp->d_name, ".") != 0 && ft_strcmp(info.dp->d_name, "..") != 0 && ft_strcmp(info.tmp, str) == 0)
-				info.size++;
-			free(info.tmp);
-		}
-		closedir(info.dirp);
-	}
-	return (info.size);
-}
-
-char    **ret_tab(char *tmp, char *path)
+char				**ret_tab(char *tmp, char *path)
 {
 	t_aut_info info;
 
-	info.i = 0;
-	info.tab_ret = NULL;
+	ft_bzero(&info, sizeof(t_aut_info));
 	if ((info.size = count_files(path, tmp)) > 0)
 	{
-		info.tab_ret = (char **)malloc(sizeof(char *) * (info.size + 1));
+		if (!(info.tab_ret = (char **)malloc(sizeof(char *)
+						* (info.size + 1))))
+			return (NULL);
 		info.len = ft_strlen(tmp);
 		info.dirp = opendir(path);
 		while ((info.dp = readdir(info.dirp)) != NULL)
@@ -137,11 +106,8 @@ char    **ret_tab(char *tmp, char *path)
 			info.tmp = ft_strdup(info.dp->d_name);
 			if (info.len <= ft_strlen(info.tmp))
 				info.tmp[info.len] = '\0';
-			if (ft_strcmp(info.dp->d_name, ".") != 0 && ft_strcmp(info.dp->d_name, "..") && ft_strcmp(info.tmp, tmp) == 0)
-			{
-				info.tab_ret[info.i] = ft_strdup(info.dp->d_name);
-				info.i++;
-			}
+			if (auto_my_cmp(info.dp->d_name, info.tmp, tmp))
+				info.tab_ret[info.i++] = ft_strdup(info.dp->d_name);
 			free(info.tmp);
 		}
 		info.tab_ret[info.i] = NULL;
@@ -149,4 +115,3 @@ char    **ret_tab(char *tmp, char *path)
 	}
 	return (info.tab_ret);
 }
-

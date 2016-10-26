@@ -6,13 +6,13 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 17:24:52 by mseinic           #+#    #+#             */
-/*   Updated: 2016/10/14 20:25:03 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/10/26 20:29:11 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "autocomp.h"
 
-int	cmp_buf(int *value, char *buf)
+int			cmp_buf(int *value, char *buf)
 {
 	int		i;
 

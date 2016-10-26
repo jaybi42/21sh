@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/10/23 13:50:56 by jguthert         ###   ########.fr        #
+#    Updated: 2016/10/26 21:47:36 by mseinic          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -80,6 +80,8 @@ FILES =					main			\
 						autocomp_utils	\
 						autocomp_utils_1	\
 						autocomp_utils_2	\
+						autocomp_utils_3	\
+						autocomp_utils_4	\
 						parse_quote		\
 						parse_history	\
 						get_event		\
