@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:22:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/26 16:04:20 by malaine          ###   ########.fr       */
+/*   Updated: 2016/10/26 16:52:37 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,33 @@ static t_actions const  g_actions[1] = {
 	{NULL, {9, 0, 0, 0, 0, 0}, "TAB"},
 };
 
-typedef struct s_tab_info
+typedef struct s_ft_info
 {	
 	char		*complete;
 	int			size;
 	int			complete_size;
 	char		*aux;
-	char		**tab;
+	char		**tab_ret;
 	int			function;
 	int			index;
 	char		*copy;
 	int			k;
 	int			globing;
-}				t_tab_info;
+}				t_ft_info;
 
 
 
-static void		copy_tab(char *tab, char *data, int j, int *k)
+static void		ft_copy_tab(char *tab_ret, char *data, int j, int *k)
 {
 	while (data[j] != '\0')
 	{
-		tab[*k] = data[j];
+		tab_ret[*k] = data[j];
 		j = j + 1;
 		*k = *k + 1;
 	}
 }
 
-void			insert_in_string(t_tab_info *info, t_line *l, char *data)
+void			insert_in_string(t_ft_info *info, t_line *l, char *data)
 {
 	char		*tmp;
 
@@ -57,8 +57,8 @@ void			insert_in_string(t_tab_info *info, t_line *l, char *data)
 		tmp[info->k] = info->copy[info->k];
 		info->k++;
 	}
-	copy_tab(tmp, data, 0, &info->k);
-	copy_tab(tmp, info->copy, info->index, &info->k);
+	ft_copy_tab(tmp, data, 0, &info->k);
+	ft_copy_tab(tmp, info->copy, info->index, &info->k);
 	tmp[info->k] = '\0';
 	ft_strdel(&(l->str));
 	l->str = tmp;
@@ -67,7 +67,7 @@ void			insert_in_string(t_tab_info *info, t_line *l, char *data)
 }
 
 
-void			insert_ontop_string(t_tab_info *info, t_line *l, char *data)
+void			insert_ontop_string(t_ft_info *info, t_line *l, char *data)
 {
 	char		*tmp;
 	int			size;
@@ -86,8 +86,8 @@ void			insert_ontop_string(t_tab_info *info, t_line *l, char *data)
 		tmp[size] = info->copy[size];
 		size++;
 	}
-	copy_tab(tmp, data, 0, &size);
-	copy_tab(tmp, info->copy, info->index, &size);
+	ft_copy_tab(tmp, data, 0, &size);
+	ft_copy_tab(tmp, info->copy, info->index, &size);
 	tmp[size] = '\0';
 	ft_strdel(&(l->str));
 	l->str = tmp;
@@ -123,7 +123,7 @@ int				test_if_fnc(int i, char *str, int *glob)
 
 
 
-void			init(t_tab_info *info, t_line *l)
+void			init(t_ft_info *info, t_line *l)
 {
 	info->size = ft_strlen(l->str);
 	info->copy = ft_strdup(l->str);
@@ -143,15 +143,15 @@ void			init(t_tab_info *info, t_line *l)
 	ft_strcpy(info->aux, info->complete);
 }
 
-void			get_prepared(t_tab_info *info, t_line *l)
+void			get_prepared(t_ft_info *info, t_line *l)
 {
 	char	*ptr;
 
 	init(info, l);
 	if (!info->function)
-		info->tab = ret_match(info->complete);
+		info->tab_ret = ret_match(info->complete);
 	else
-		info->tab = command_fnc(info->complete);
+		info->tab_ret = command_fnc(info->complete);
 	if ((ptr = ft_strrchr(info->complete, '/')) != NULL)
 	{
 		ptr++;
@@ -161,9 +161,9 @@ void			get_prepared(t_tab_info *info, t_line *l)
 	info->complete_size = ft_strlen(info->complete);
 }
 
-int				nothing_to_do(t_tab_info *info)
+int				nothing_to_do(t_ft_info *info)
 {
-	if (info->tab == NULL)
+	if (info->tab_ret == NULL)
 	{
 		ft_strdel(&info->copy);
 		return (1);
@@ -171,30 +171,28 @@ int				nothing_to_do(t_tab_info *info)
 	return (0);
 }
 
-void			do_autocomp(t_tab_info *info, t_line *l, int j, int tab)
+void			do_autocomp(t_ft_info *info, t_line *l, int j, int option)
 {
 	while (1)
 	{
 		ft_bzero(l->buffer, 6);
-		if (tab == 0 && (tab = 1))
+		if (option == 0 && (option = 1))
 			l->buffer[0] = 9;
 		else
 			read(STDIN_FILENO, l->buffer, 6);
 		if (cmp_buf((int *)g_actions[0].value, l->buffer) == 0)
 		{
-			if (info->tab[j] == NULL)
+			if (info->tab_ret[j] == NULL)
 				j = 0;
-			if (info->tab[j] != NULL)
+			if (ft_strcmp(info->tab_ret[j], info->complete) == 0)
+				j++;
+			if (info->tab_ret[j] != NULL)
 			{
 				if (info->globing == 1)
-					insert_ontop_string(info, l, (info->tab[j]));
+					insert_ontop_string(info, l, (info->tab_ret[j]));
 				else
-					insert_in_string(info, l, (info->tab[j]) + info->complete_size);
-				int a;
-				char *str;
-				a = 4;
-				str = ft_strdup("ls *");
-				ft_clean(l, a, str);
+					insert_in_string(info, l, (info->tab_ret[j]) + info->complete_size);
+				ft_print_line(l);
 				j++;
 			}
 		}
@@ -207,14 +205,14 @@ void			do_autocomp(t_tab_info *info, t_line *l, int j, int tab)
 
 void			ft_autocomp(t_line *l)
 {
-	t_tab_info	info;
+	t_ft_info	info;
 
-	ft_bzero(&info, sizeof(t_tab_info));
+	ft_bzero(&info, sizeof(t_ft_info));
 	get_prepared(&info, l);
 
 	if (nothing_to_do(&info))
 		return ;
 	do_autocomp(&info, l, 0, 0);
-	del_tab(info.tab);
+	del_tab(info.tab_ret);
 	ft_strdel(&info.copy);
 }

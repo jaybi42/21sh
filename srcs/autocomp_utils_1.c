@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 20:12:54 by mseinic           #+#    #+#             */
-/*   Updated: 2016/10/26 12:55:13 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/10/26 16:46:23 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 char			**ret_globing(char *tmp, char *path)
 {
-	char **tab = NULL;
+	char **t = NULL;
 	char **tab2 = NULL;
 	int	size = 0;
 	int	n = 0;
 	char **ret;
 
 	ret = NULL;
-	tab = ret_tab("", path);
-	if (tab != NULL)
-		tab2 = ft_globing(tmp, tab);
+	t = ret_tab("", path);
+	if (t != NULL)
+		tab2 = ft_globing(tmp, t);
 	if (tab2 == NULL || tab2[0] == NULL)
 		return (tab2);
 	n = ft_strlen(path) + 1;
@@ -46,13 +46,13 @@ char			**ret_globing(char *tmp, char *path)
 
 char            **ret_match(char *str)
 {
-	char            **tab;
+	char            **t;
 	char            *tmp;
 	char            *path;
 	char            *str1;
 
 	str1 = ft_strdup(str);
-	tab = NULL;
+	t = NULL;
 	tmp = ft_strrchr(str1, '/');
 	if (tmp != NULL)
 	{
@@ -69,11 +69,11 @@ char            **ret_match(char *str)
 		path = "/";
 	if (ft_strchr(tmp, '*') != NULL || ft_strchr(tmp, '{') != NULL ||
 			ft_strchr(tmp, '[') != NULL || ft_strchr(tmp, '?') != NULL)
-		tab = ret_globing(tmp, path);
+		t = ret_globing(tmp, path);
 	else
-		tab = ret_tab(tmp, path);
+		t = ret_tab(tmp, path);
 	free(str1);
-	return (tab);
+	return (t);
 }
 
 char            **command_fnc(char *str)
@@ -126,10 +126,10 @@ char    **ret_tab(char *tmp, char *path)
 	t_aut_info info;
 
 	info.i = 0;
-	info.tab = NULL;
+	info.tab_ret = NULL;
 	if ((info.size = count_files(path, tmp)) > 0)
 	{
-		info.tab = (char **)malloc(sizeof(char *) * (info.size + 1));
+		info.tab_ret = (char **)malloc(sizeof(char *) * (info.size + 1));
 		info.len = ft_strlen(tmp);
 		info.dirp = opendir(path);
 		while ((info.dp = readdir(info.dirp)) != NULL)
@@ -139,14 +139,14 @@ char    **ret_tab(char *tmp, char *path)
 				info.tmp[info.len] = '\0';
 			if (ft_strcmp(info.dp->d_name, ".") != 0 && ft_strcmp(info.dp->d_name, "..") && ft_strcmp(info.tmp, tmp) == 0)
 			{
-				info.tab[info.i] = ft_strdup(info.dp->d_name);
+				info.tab_ret[info.i] = ft_strdup(info.dp->d_name);
 				info.i++;
 			}
 			free(info.tmp);
 		}
-		info.tab[info.i] = NULL;
+		info.tab_ret[info.i] = NULL;
 		closedir(info.dirp);
 	}
-	return (info.tab);
+	return (info.tab_ret);
 }
 
