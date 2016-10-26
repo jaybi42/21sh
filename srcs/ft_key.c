@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 13:16:09 by malaine           #+#    #+#             */
-/*   Updated: 2016/10/23 15:32:37 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/10/26 17:41:45 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void		ft_real_backspace(t_line *l)
 {
 	int tmp;
 
-	if (l->count > 0 && l->count < l->size)
+	if (l->count >= 0 && l->count < l->size)
 	{
 		tmp = l->count;
 		l->size--;
