@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 21:20:34 by mseinic           #+#    #+#             */
-/*   Updated: 2016/10/26 21:50:57 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/10/27 16:43:30 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ int				count_files(char *path, char *str)
 		info.len = ft_strlen(str);
 		while ((info.dp = readdir(info.dirp)) != NULL)
 		{
-			info.tmp = ft_strdup(info.dp->d_name);
-			if (info.len <= ft_strlen(info.tmp))
-				info.tmp[info.len] = '\0';
-			if (auto_my_cmp(info.dp->d_name, info.tmp, str))
-				info.size++;
-			free(info.tmp);
+			if (!(info.dp->d_name[0] == '.' && str[0] == '\0'))
+			{
+				info.tmp = ft_strdup(info.dp->d_name);
+				if (info.len <= ft_strlen(info.tmp))
+					info.tmp[info.len] = '\0';
+				if (auto_my_cmp(info.dp->d_name, info.tmp, str))
+					info.size++;
+				ft_strdel(&info.tmp);
+			}
 		}
 		closedir(info.dirp);
 	}

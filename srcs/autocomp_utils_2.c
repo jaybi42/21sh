@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 20:28:06 by mseinic           #+#    #+#             */
-/*   Updated: 2016/10/26 21:15:21 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/10/27 16:58:57 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char				**ret_match(char *str)
 		t = ret_globing(tmp, path);
 	else
 		t = ret_tab(tmp, path);
-	free(str1);
+	ft_strdel(&str1);
 	return (t);
 }
 

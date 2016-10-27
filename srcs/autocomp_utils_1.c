@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 20:12:54 by mseinic           #+#    #+#             */
-/*   Updated: 2016/10/26 21:58:00 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/10/27 16:50:37 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ char				**ret_globing(char *tmp, char *path)
 	t = NULL;
 	tab2 = NULL;
 	ret = NULL;
-	t = ret_tab("", path);
+	if (tmp[0] == '.')
+		t = ret_tab(".", path);
+	else
+		t = ret_tab("", path);
 	if (t != NULL)
 		tab2 = ft_globing(tmp, t);
 	if (tab2 == NULL || tab2[0] == NULL)
@@ -79,6 +82,8 @@ char				**ret_globing(char *tmp, char *path)
 	else
 		n = 2;
 	ret = get_table(tab2, n, path, tmp);
+	del_tab(t);
+	del_tab(tab2);
 	return (ret);
 }
 
@@ -103,12 +108,15 @@ char				**ret_tab(char *tmp, char *path)
 		info.dirp = opendir(path);
 		while ((info.dp = readdir(info.dirp)) != NULL)
 		{
-			info.tmp = ft_strdup(info.dp->d_name);
-			if (info.len <= ft_strlen(info.tmp))
-				info.tmp[info.len] = '\0';
-			if (auto_my_cmp(info.dp->d_name, info.tmp, tmp))
-				info.tab_ret[info.i++] = ft_strdup(info.dp->d_name);
-			free(info.tmp);
+			if (!(info.dp->d_name[0] == '.' && tmp[0] == '\0'))
+			{
+				info.tmp = ft_strdup(info.dp->d_name);
+				if (info.len <= ft_strlen(info.tmp))
+					info.tmp[info.len] = '\0';
+				if (auto_my_cmp(info.dp->d_name, info.tmp, tmp))
+					info.tab_ret[info.i++] = ft_strdup(info.dp->d_name);
+				ft_strdel(&info.tmp);
+			}
 		}
 		info.tab_ret[info.i] = NULL;
 		closedir(info.dirp);
