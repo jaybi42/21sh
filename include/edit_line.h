@@ -135,6 +135,7 @@ void			ft_down(t_line *l);
 void			ft_bp(t_line *l);
 void			ft_fw(t_line *l);
 void			get_line_history(t_line *l, t_ftl_root *root);
+int				get_nbline(t_line *l);
 
 /*
 **Name: Termcaps

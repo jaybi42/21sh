@@ -74,7 +74,8 @@ static void			do_autocomp(t_ft_info *info, t_line *l, int j, int *option)
 				else
 					insert_in_string(info, l,
 							(info->tab_ret[j]) + info->complete_size);
-				ft_clean(l, info->count, info->copy2);
+				l->count = ft_strlen(l->str);
+				ft_print_line(l);
 				j++;
 			}
 		}

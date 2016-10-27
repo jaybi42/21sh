@@ -62,6 +62,8 @@ void        ft_print_line(t_line *l)
     int     pos_cur;
 
     pos_cur = l->count;
+	ft_home(l);
+	do_term("cd");
     l->count = -1;
     while(l->str[++l->count] != '\0')
         ft_putchar(l->str[l->count]);
@@ -71,6 +73,7 @@ void        ft_print_line(t_line *l)
         ft_putchar(l->str[l->count]);
 }
 
+/*
 void        ft_clean(t_line *l, int a, char *str)
 {
     int     pos_cur;
@@ -86,6 +89,7 @@ void        ft_clean(t_line *l, int a, char *str)
     l->str = ft_strdup(tmp);
     ft_print_line(l);
 }
+*/
 
 void		ft_print_key(t_line *l)
 {
@@ -100,4 +104,5 @@ void		ft_print_key(t_line *l)
 			l->str = ft_strdup(&l->buffer[0]);
 		ft_print_insert(l);
 	}
+	l->nbline = get_nbline(l);
 }
