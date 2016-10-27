@@ -72,6 +72,7 @@ static void     debug_editline(t_line *l)
 
 t_av	**read_init(t_line *l, t_ftl_root *hist)
 {
+	g_line = l;
 	ft_init_line(l, hist);
 	while (1)
 	{

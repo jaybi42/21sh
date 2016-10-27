@@ -38,6 +38,7 @@ static void	is_sig(int signum)
 	{
 		ft_putstr("\n");
 		print_prompt(g_prompt.rand, g_prompt.g_env, g_prompt.l_env, g_prompt.l);
+		if (g_line != NULL){ g_line->str = ft_strdup("\0");}
 	}
 }
 

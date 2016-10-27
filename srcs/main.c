@@ -17,6 +17,7 @@
 t_list		*l_env;
 t_list		*g_env;
 t_ftl_root g_hist;
+t_line *g_line;
 
 int				ret_exit(int state, int value)
 {
@@ -161,6 +162,7 @@ void			ft_printmem(t_av **av)
 	(void)av;
 }
 
+
 static int		sh21(void)
 {
 	t_av **av;
@@ -175,13 +177,16 @@ static int		sh21(void)
 	handle_var(KV_SET, "?", "0");
 	while (1)
 	{
+
 		catch_signal((t_prompt){nbr, g_env, l_env, 0, &l});
 		print_prompt(nbr, g_env, l_env, &l);
+		g_line = NULL;
 		if ((av = read_init(&l, &g_hist)) == NULL)
 		{
 			printf("special error\n");
 			clean_exit(53);
 		}
+		g_line = NULL;
 		o = shell(av, 0);
 		xmasterfree();
 	}
@@ -192,6 +197,7 @@ int				main(void)
 {
 	g_env = NULL;
 	l_env = NULL;
+	g_line = NULL;
 	if (init_env(&g_env, &l_env) == 1)
 		return (1);
 	if (a_init() == -1)

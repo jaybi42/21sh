@@ -607,9 +607,8 @@ t_av **updated(t_av **av)
 	return (av);
 }
 
-char **check_var(char *s)
+char **check_var(char *s, char **env)
 {
-	char **env;
 	int i;
 	char **tmp;
 	char *tmpe;
@@ -628,7 +627,6 @@ char **check_var(char *s)
 		return (ret);
 	}
 
-	env = convert_env(g_env, l_env);
 	i = 0;
 	while (env[i])
 	{
@@ -676,18 +674,22 @@ char *join_string_array(char **a)
 	return (ns);
 }
 
-char *apply_var(char *s)
+char *apply_var(char *s, int do_extra)
 {
 	int i;
 	char *ns;
 	char **tmp;
 	size_t len;
-
+	char **env;
+	int find_tilde;
+	
+	find_tilde = 1; //to_modify
+	env = convert_env(g_env, l_env);
 	i = -1;
 	len = 0;
 	while (s[++i])
 	{
-		if (s[i] == '$' && (tmp = check_var(s + i + 1)) != NULL)
+		if (s[i] == '$' && (tmp = check_var(s + i + 1, env)) != NULL)
 			len += ft_strlen(tmp[1]);
 		else
 			len += 1;
@@ -698,13 +700,21 @@ char *apply_var(char *s)
 	len = 0;
 	while (s[++i])
 	{
-		if (s[i] == '$' && (tmp = check_var(s + i + 1)) != NULL)
+		if (s[i] == '$' && (tmp = check_var(s + i + 1, env)) != NULL)
 		{
 				x_strjoins(&ns,&len, tmp[1],ft_strlen(tmp[1]));
 				i += ft_strlen(tmp[1]);
 		}
+		
+		else if (do_extra && !find_tilde)
+		{
+				
+		}
 		else
+		{
 			ns[len++] = s[i];
+			find_tilde = 1;
+		}
 	}
 	ns[len] = '\0';
 	return (ns);
@@ -734,12 +744,12 @@ char *decortique_parse(char *expr, size_t l)
 		{
 				t_output o;
 				o = shell_exec(cpy_a_to_b(expr, p->begin[i], p->end[i]));
-				ts[i] = apply_var(o.string);
+				ts[i] = apply_var(o.string, FALSE);
 		}
 		else if (p->type[i] == 1)
 				ts[i] = cpy_a_to_b(expr, p->begin[i],p->end[i]);
 		else
-				ts[i] = apply_var(cpy_a_to_b(expr, p->begin[i],p->end[i]));
+				ts[i] = apply_var(cpy_a_to_b(expr, p->begin[i],p->end[i]), TRUE);
 		i++;
 	}
 	ts[i] = NULL;

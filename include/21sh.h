@@ -249,6 +249,6 @@ t_output shell_exec(char *expr);
 extern t_list		*l_env;
 extern t_list		*g_env;
 extern t_ftl_root g_hist;
-
+extern t_line *g_line;
 
 #endif
