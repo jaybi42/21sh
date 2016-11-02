@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/26 18:15:14 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/02 10:31:26 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static void	is_sig(int signum)
 	else if (g_prompt.son == 0)
 	{
 		ft_putstr("\n");
+		g_line->count = 0;
+		g_line->size = 0;
 		print_prompt(g_prompt.rand, g_prompt.g_env, g_prompt.l_env, g_prompt.l);
 		if (g_line != NULL){ g_line->str = ft_strdup("\0");}
 	}
