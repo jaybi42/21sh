@@ -6,27 +6,27 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 17:35:38 by malaine           #+#    #+#             */
-/*   Updated: 2016/06/06 19:12:28 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/02 10:38:17 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 
-static int  count_n_char(char *str, size_t n, char c)
+static int		count_n_char(char *str, size_t n, char c)
 {
-    int     i;
+	int		i;
 
-    i = 0;
-    while (*str != '\0' && n--)
-    {
-        if (*str == c)
-            i++;
-        str++;
-    }
-    return (i);
+	i = 0;
+	while (*str != '\0' && n--)
+	{
+		if (*str == c)
+			i++;
+		str++;
+	}
+	return (i);
 }
 
-int			get_nbline(t_line *l)
+int				get_nbline(t_line *l)
 {
 	int		i;
 
@@ -37,7 +37,7 @@ int			get_nbline(t_line *l)
 	return (i);
 }
 
-void	ft_home(t_line *l)
+void			ft_home(t_line *l)
 {
 	do_goto("ch", 0, l->sizeprompt);
 	if (l->nbline != 0)
@@ -46,7 +46,7 @@ void	ft_home(t_line *l)
 	l->count = 0;
 }
 
-void	ft_end(t_line *l)
+void			ft_end(t_line *l)
 {
 	while (l->count < l->size)
 		go_down(l);

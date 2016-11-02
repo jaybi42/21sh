@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/10/26 21:47:36 by mseinic          ###   ########.fr        #
+#    Updated: 2016/11/02 11:06:04 by malaine          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -66,8 +66,10 @@ FILES =					main			\
 						actions			\
 						do_termcaps		\
 						ft_up_down		\
+						go_up_down_2	\
 						go_up_down		\
 						ft_key			\
+						ft_key_2		\
 						ft_init_line	\
 						ft_insertion	\
 						ft_print_key	\

@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 17:51:23 by malaine           #+#    #+#             */
-/*   Updated: 2016/09/27 16:48:06 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/02 11:07:41 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void		ft_putstr_count(t_line *l)
 		a++;
 		l->count++;
 	}
-
 }
 
 void		ft_paste_print(t_line *l, int var)
@@ -71,6 +70,6 @@ void		ft_paste_print(t_line *l, int var)
 	do_term("cd");
 	ft_putstr_count(l);
 	ft_home(l);
-	while(l->count < var)
+	while (l->count < var)
 		go_down(l);
 }
