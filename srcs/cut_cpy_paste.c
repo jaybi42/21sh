@@ -6,27 +6,18 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 17:51:23 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/05 15:47:03 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/06 15:16:27 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
-
-void    ft_home_2(t_line *l)
-{
-    l->nbline = (l->count + l->sizeprompt) / l->largeur;
-    do_goto("ch", 0, l->sizeprompt);
-    if (l->nbline != 0)
-        do_goto("UP", l->nbline, l->nbline);
-    l->count = 0;
-}
 
 void		print(t_line *l)
 {
 	int a;
 
 	a = -1;
-	ft_home_2(l);
+	ft_home(l);
 	do_term("cd");
 	while (l->str[++a] != '\0')
 	{
@@ -35,7 +26,7 @@ void		print(t_line *l)
 			do_term("do");
 		l->count++;
 	}
-	ft_home_2(l);
+	ft_home(l);
 	while (l->count < l->final_count)
 	{
 		if (l->count != 0 && (l->count + l->sizeprompt + 1) % l->largeur == 0)

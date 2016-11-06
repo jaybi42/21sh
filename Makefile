@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/11/02 11:06:04 by malaine          ###   ########.fr        #
+#    Updated: 2016/11/06 16:05:28 by malaine          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -95,7 +95,9 @@ FILES =					main			\
 						ft_ctrl_r		\
 						print_ctrl_r	\
 						key_is_special	\
-						bi_clear
+						bi_clear		\
+						reset_line		\
+
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
 
