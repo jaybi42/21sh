@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ctrl_r.c                                        :+:      :+:    :+:   */
+/*   newfile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/23 13:14:43 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 16:54:19 by jguthert         ###   ########.fr       */
+/*   Created: 2016/11/06 18:39:18 by jguthert          #+#    #+#             */
+/*   Updated: 2016/11/06 18:40:39 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static bool		get_ans(t_ftl_root *h, int h_pos, t_line *l)
 	return (0);
 }
 
-static void	ft_addchar(t_line *l)
+static void		ft_addchar(t_line *l)
 {
-	char	*tmp;
+	char		*tmp;
 
 	if (l->search == NULL)
 		tmp = ft_strdup(&l->buffer[0]);
@@ -47,13 +47,13 @@ static void	ft_addchar(t_line *l)
 		tmp = ft_strjoin(l->search, &l->buffer[0]);
 		ft_strdel(&(l->search));
 	}
-    if (tmp == NULL)
-        return ;
+	if (tmp == NULL)
+		return ;
 	l->search = tmp;
 	l->hist_pos = 0;
 }
 
-static void	clean_ctrl_r(t_line *l)
+static void		clean_ctrl_r(t_line *l)
 {
 	l->hist_pos = -1;
 	if (l->str != NULL)
@@ -70,10 +70,9 @@ static void	clean_ctrl_r(t_line *l)
 	}
 	ft_strdel(&l->oldstr);
 	print(l);
-//	ft_putstr(l->ans);
 }
 
-static int	init_ctrl_r(t_line *l)
+static int		init_ctrl_r(t_line *l)
 {
 	l->search = ft_strdup("");
 	l->ans = ft_strdup("");
@@ -94,7 +93,7 @@ static int	init_ctrl_r(t_line *l)
 	return (0);
 }
 
-void		ctrl_r(t_line *l)
+void			ctrl_r(t_line *l)
 {
 	bool	isok;
 

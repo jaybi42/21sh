@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   garbage_collector.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/06 18:44:59 by jguthert          #+#    #+#             */
+/*   Updated: 2016/11/06 18:51:41 by jguthert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
@@ -10,12 +21,11 @@
 
 #define LEN 10
 
-void	agrandissment(void ***datas, int len)
+void			agrandissment(void ***datas, int len)
 {
-	void **new_d;
-	int i;
+	void	**new_d;
+	int		i;
 
-	//printf("agrandissment\n");
 	new_d = malloc(sizeof(void *) * (len + LEN + 1));
 	i = 0;
 	while (i < len)
@@ -28,7 +38,7 @@ void	agrandissment(void ***datas, int len)
 	(*datas) = new_d;
 }
 
-int	delete_data(void ***datas, int len, void *to_del)
+int				delete_data(void ***datas, int len, void *to_del)
 {
 	int i;
 
@@ -44,7 +54,7 @@ int	delete_data(void ***datas, int len, void *to_del)
 	return (0);
 }
 
-void	delete_all(void ***datas, int *len)
+void			delete_all(void ***datas, int *len)
 {
 	int i;
 
@@ -54,11 +64,11 @@ void	delete_all(void ***datas, int *len)
 			free((*datas)[i]);
 	free((*datas));
 	if (!((*datas) = malloc(sizeof(void *) * (LEN + 1))))
-			return ;
+		return ;
 	(*len) = 0;
 }
 
-void	print_datas(void **datas, int len)
+void			print_datas(void **datas, int len)
 {
 	int i;
 
@@ -70,10 +80,10 @@ void	print_datas(void **datas, int len)
 	printf("garbage length: %d\n", len);
 }
 
-void	*storage(int action, void *package)
+void			*storage(int action, void *package)
 {
 	static void **datas = NULL;
-	static int len = 0;
+	static int	len = 0;
 
 	if (action == INSERT)
 	{
@@ -94,7 +104,7 @@ void	*storage(int action, void *package)
 	return (NULL);
 }
 
-void *xmalloc(size_t size)
+void			*xmalloc(size_t size)
 {
 	void *al;
 
@@ -104,23 +114,26 @@ void *xmalloc(size_t size)
 	return (al);
 }
 
-void	xmemdel(void **p)
+void			xmemdel(void **p)
 {
 	storage(DELETE, (*p));
 	(*p) = NULL;
 }
+
 /*
-	delete all the mem created in a safe way!
+**	delete all the mem created in a safe way!
 */
-void	xmasterfree(void)
+
+void			xmasterfree(void)
 {
 	storage(DELETEALL, NULL);
 }
 
 /*
-	print the mem allocated
+**	print the mem allocated
 */
-void	xprintmem(void)
+
+void			xprintmem(void)
 {
 	storage(PRINT, NULL);
 }

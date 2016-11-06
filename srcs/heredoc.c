@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/30 18:20:40 by jguthert          #+#    #+#             */
-/*   Updated: 2016/02/16 17:05:31 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 18:53:17 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,20 @@ char		*get_input(char *prompt)
 		return (NULL);
 	ft_putstr(prompt);
 	while (1)
-    {
+	{
 		ft_bzero(l.buffer, 6);
-        if (read(0, l.buffer, 6) == -1)
-            return (clean_return(&l));
-        if (l.buffer[0] != 10)
-            actions(&l);
-        if (l.buffer[0] != 10 && ft_isprint(l.buffer[0]) ==\
+		if (read(0, l.buffer, 6) == -1)
+			return (clean_return(&l));
+		if (l.buffer[0] != 10)
+			actions(&l);
+		if (l.buffer[0] != 10 && ft_isprint(l.buffer[0]) ==\
 			1)
-            ft_print_key(&l);
-        if (l.buffer[0] == 10)
-        {
-            ft_putchar('\n');
-            break ;
-        }
-    }
+			ft_print_key(&l);
+		if (l.buffer[0] == 10)
+		{
+			ft_putchar('\n');
+			break ;
+		}
+	}
 	return (clean_return(&l));
 }

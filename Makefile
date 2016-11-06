@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/11/06 16:05:28 by malaine          ###   ########.fr        #
+#    Updated: 2016/11/06 18:57:50 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -77,7 +77,6 @@ FILES =					main			\
 						cut_cpy_paste	\
 						check_space		\
 						check_word		\
-						init_term		\
 						autocomp		\
 						autocomp_utils	\
 						autocomp_utils_1	\

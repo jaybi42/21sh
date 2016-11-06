@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/26 18:14:08 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/06 19:07:27 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 
 t_list		*l_env;
 t_list		*g_env;
-t_ftl_root g_hist;
-t_line *g_line;
+t_ftl_root	g_hist;
+t_line		*g_line;
 
 int				ret_exit(int state, int value)
 {
-	static int data = 0;
+	static int	data = 0;
 
 	if (state == SET)
 	{
@@ -40,10 +40,10 @@ void		clean_exit(int ret)
 }
 
 
-int insert_arr(char ***a, char *s)
+int			insert_arr(char ***a, char *s)
 {
-	int i;
-	char **na;
+	int		i;
+	char	**na;
 
 	i = 0;
 	if (!a || !(*a) || !s)
@@ -64,7 +64,7 @@ int insert_arr(char ***a, char *s)
 	return (0);
 }
 
-int search_key_values(char **keys, char **values, char *key)
+int			search_key_values(char **keys, char **values, char *key)
 {
 	int i;
 
@@ -82,7 +82,7 @@ int search_key_values(char **keys, char **values, char *key)
 	return (-1);
 }
 
-char *delete_key(char ***keys, char ***values, char *key)
+char		*delete_key(char ***keys, char ***values, char *key)
 {
 	int i;
 	int success;
@@ -109,7 +109,7 @@ char *delete_key(char ***keys, char ***values, char *key)
 	return (NULL);
 }
 
-char *handle_var(int state, char *key, char *value)
+char		*handle_var(int state, char *key, char *value)
 {
 	static char **keys = NULL;
 	static char **values = NULL;

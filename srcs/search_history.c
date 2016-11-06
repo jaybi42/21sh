@@ -6,52 +6,36 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/16 16:17:59 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/19 18:53:45 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 19:04:14 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <unistd.h>
 
-/*
-static void		print_search(t_line *l, char *search)
-{
-	int		pos_cur;
-
-	pos_cur = l->count;
-	do_term("sc");
-	ft_end(l);
-	ft_putstr("\nbck-i-search: ");
-	if (search != NULL)
-		ft_putstr(search);
-	do_term("rc");
-	l->count = pos_cur;
-}
-*/
-
 static int		ft_search_str(char *str, char *to_find)
 {
-    int i;
-    int j;
-    int size;
+	int i;
+	int j;
+	int size;
 
-    i = 0;
-    j = 0;
-    size = ft_strlen(to_find);
-    if (to_find == NULL)
-        return (-1);
-    while (str[i])
-    {
-        while (to_find[j] == str[i + j])
-        {
-            if (j == size - 1)
-                return (i);
-            j++;
-        }
-        j = 0;
-        i++;
-    }
-    return (-1);
+	i = 0;
+	j = 0;
+	size = ft_strlen(to_find);
+	if (to_find == NULL)
+		return (-1);
+	while (str[i])
+	{
+		while (to_find[j] == str[i + j])
+		{
+			if (j == size - 1)
+				return (i);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	return (-1);
 }
 
 static void		find_history(t_line *l, t_ftl_root *root, char *to_search)

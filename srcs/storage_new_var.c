@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/25 18:56:29 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/25 18:56:30 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 19:05:39 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ char	*isolate(char *new_var, int obj)
 	i = (-1);
 	if (obj == 0)
 	{
-		while(new_var[++i] != '=' && new_var[i] != '\0')
+		while (new_var[++i] != '=' && new_var[i] != '\0')
 			;
-		elem = ((new_var[i] == '=' || new_var[i] == '\0') ? ft_strsub(new_var, 0, i) : NULL);
+		elem = ((new_var[i] == '=' || new_var[i] == '\0')
+				? ft_strsub(new_var, 0, i) : NULL);
 	}
 	else
 	{

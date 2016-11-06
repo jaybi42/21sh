@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 16:58:08 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/12 15:22:42 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 18:59:02 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int				parse_history(t_line *l, t_ftl_root *hist)
 		if (l->str[i] != '!')
 			continue ;
 		else if ((i == 0 || (l->str[i - 1] != '\\' && l->str[i - 1] != '!'))
-				 && l->str[i + 1] != '\0' && ft_isspace(l->str[i + 1]) == 0)
+				&& l->str[i + 1] != '\0' && ft_isspace(l->str[i + 1]) == 0)
 		{
 			if (replace_history(l, i, hist) == 1)
 				return (1);

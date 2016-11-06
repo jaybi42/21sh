@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_is_special.c                                   :+:      :+:    :+:   */
+/*   newfile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/23 13:15:58 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 16:57:01 by jguthert         ###   ########.fr       */
+/*   Created: 2016/11/06 18:55:33 by jguthert          #+#    #+#             */
+/*   Updated: 2016/11/06 18:57:19 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 
-static t_actions const  g_actions[18] = {
+static t_actions const g_actions[18] = {
 	{ft_bp, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
-	{ft_fw, {18, 0, 0, 0 , 0, 0}, "CTRL R"},
+	{ft_fw, {18, 0, 0, 0, 0, 0}, "CTRL R"},
 	{NULL, {10, 0, 0, 0, 0, 0}, "ENTER"},
 };
 
@@ -44,31 +44,31 @@ void			ft_bp(t_line *l)
 
 static int		cmp_buf(int *value, char *buf)
 {
-    int         i;
+	int		i;
 
-    i = 0;
-    while (i < 6)
-    {
-        if (buf[i] != value[i])
-            return (1);
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (i < 6)
+	{
+		if (buf[i] != value[i])
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int				key_is_special(t_line *l)
 {
-    int         i;
+	int		i;
 
-    i = 0;
-    while (g_actions[i].action != NULL)
-    {
-        if (cmp_buf((int *)g_actions[i].value, l->buffer) == 0)
-        {
-            g_actions[i].action(l);
-            return (1);
-        }
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (g_actions[i].action != NULL)
+	{
+		if (cmp_buf((int *)g_actions[i].value, l->buffer) == 0)
+		{
+			g_actions[i].action(l);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }

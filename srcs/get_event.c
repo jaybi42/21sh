@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/25 19:08:36 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/30 20:54:53 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 18:52:11 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ char			*get_event(char *tofind, t_ftl_root *hist)
 {
 	char		*new_entry;
 
-	if (ft_isdigit(tofind[1]) || (tofind[1] == '-' && ft_isdigit(tofind[2]) == 1))
+	if (ft_isdigit(tofind[1])
+		|| (tofind[1] == '-' && ft_isdigit(tofind[2]) == 1))
 		new_entry = get_event_byid(ft_atoi(tofind + 1), hist);
 	else if (tofind[1] == '!')
 		new_entry = get_event_byid(-1, hist);
