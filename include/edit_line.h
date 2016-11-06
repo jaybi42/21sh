@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 16:23:08 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 20:12:50 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,8 @@ int				do_term(char *key);
 void			go_up(t_line *l);
 void			go_down(t_line *l);
 void			ft_paste_print(t_line *l, int var);
-char			*ft_delete_char(int cursor, char *str, int size);
-char			*ft_insertion(int cursor, char *str, int size, char c);
+int				ft_delete_char(t_line *l);
+int				ft_insertion(t_line *l);
 
 /*
 **Name: Check

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:25:51 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 19:19:11 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 19:31:20 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ static int		set_new_arg(char *arg, t_list **g_env, t_list **l_env)
 	if (arg[i] != '=')
 		return (1);
 	my_cmd = ft_strsub(arg, 0, i);
-	my_arg = ft_strchr(arg, '=') + 1;//TODO: TO FREE
+	my_arg = ft_strchr(arg, '=') + 1;
 	bi_setenv(INIT_AV("setenv", my_cmd, my_arg, 2), g_env, l_env);
 	if (my_cmd != NULL)
 		ft_strdel(&my_cmd);
+	if (my_arg != NULL)//fresh fix
+		ft_strdel(&my_arg);
 	return (0);
 }
 

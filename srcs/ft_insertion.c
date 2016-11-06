@@ -6,14 +6,14 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 12:13:07 by malaine           #+#    #+#             */
-/*   Updated: 2016/09/16 15:48:49 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 20:13:24 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 #include <stdlib.h>
 
-char	*ft_insertion(int cursor, char *str, int size, char c)
+int			ft_insertion(t_line *l)
 {
 	char	*str_cpy;
 	int		count;
@@ -21,25 +21,27 @@ char	*ft_insertion(int cursor, char *str, int size, char c)
 
 	count = 0;
 	count2 = 0;
-	str_cpy = (char *)malloc(sizeof(char) * (ft_strlen(str) + 2));
+	str_cpy = (char *)malloc(sizeof(char) * (ft_strlen(l->str) + 2));
 	if (str_cpy == NULL)
-		return (NULL);
-	while (count < size + 1)
+		return (1);
+	while (count < l->size + 1)
 	{
-		if (count == cursor)
-			str_cpy[count] = c;
+		if (count == l->count)
+			str_cpy[count] = l->buffer[0];
 		else
 		{
-			str_cpy[count] = str[count2];
+			str_cpy[count] = l->str[count2];
 			count2++;
 		}
 		count++;
 	}
 	str_cpy[count] = '\0';
-	return (str_cpy);
+	ft_strdel(&l->str);
+	l->str = str_cpy;
+	return (0);
 }
 
-char	*ft_delete_char(int cursor, char *str, int size)
+int			ft_delete_char(t_line *l)
 {
 	char	*str_cpy;
 	int		count;
@@ -47,23 +49,19 @@ char	*ft_delete_char(int cursor, char *str, int size)
 
 	count = 0;
 	count2 = 0;
-	str_cpy = (char *)malloc(sizeof(char) * (size));
+	str_cpy = (char *)malloc(sizeof(char) * (l->size));
 	if (str_cpy == NULL)
-		return (NULL);
-	while (count < size)
+		return (1);
+	while (count < l->size)
 	{
-		if (count == cursor)
-		{
+		str_cpy[count] = l->str[count2];
+		if (count == l->count)
 			count2++;
-			cursor = -1;
-		}
-		else
-		{
-			str_cpy[count] = str[count2];
-			count++;
-			count2++;
-		}
+		count++;
+		count2++;
 	}
 	str_cpy[count] = '\0';
-	return (str_cpy);
+	ft_strdel(&l->str);
+	l->str = str_cpy;
+	return (0);
 }

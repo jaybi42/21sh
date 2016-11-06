@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/06 15:37:32 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/06 20:09:14 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static void		ft_print_insert(t_line *l)
 	int i;
 
 	i = -1;
-	l->str = ft_insertion(l->count, l->str, l->size, l->buffer[0]);
+	if (ft_insertion(l) == 1)
+		return ;
 	pos_cur = l->count;
 	ft_home(l);
 	do_term("cd");

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 19:07:27 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 19:34:30 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,10 +165,11 @@ void			ft_printmem(t_av **av)
 
 static int		sh21(void)
 {
-	t_av **av;
+	t_av		**av;
 	t_line		l;
 	uint64_t	nbr;
-	t_output o;
+	t_output	o;
+
 	ft_bzero(&l, sizeof(t_line));
 	srand(time(NULL));
 	nbr = rand();
