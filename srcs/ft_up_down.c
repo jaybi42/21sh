@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   newfile.c                                          :+:      :+:    :+:   */
+/*   ft_up_down.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/06 18:43:33 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 19:21:53 by jguthert         ###   ########.fr       */
+/*   Created: 2016/11/06 20:41:47 by jguthert          #+#    #+#             */
+/*   Updated: 2016/11/06 20:41:57 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static char		*get_str_in_hist(t_line *l, int dir)
 		if (dir == 1)
 			return (NULL);
 		l->hist_pos = l->hist->size;
+		if (l->oldstr != NULL)
+			ft_strdel(&l->oldstr);
 		l->oldstr = l->str;
 		l->str = NULL;
 		return (get_hist_pos(l->hist, l->hist_pos, 0, l));
