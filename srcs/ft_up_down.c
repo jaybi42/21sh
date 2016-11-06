@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:43:33 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 18:44:15 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 19:21:53 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void		dup_print(char *new_in, t_line *l)
 			ft_strdel(&l->str);
 		l->str = tmp;
 		l->final_count = ft_strlen(l->str);
-		l->size = l->count;
+		l->size = l->final_count;
 		print(l);
 	}
 	else
