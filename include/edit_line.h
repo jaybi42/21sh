@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/26 16:05:17 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/05 15:36:08 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	s_line
 	int			sizeprompt;
 	int			hauteur;
 	int			largeur;
+	int			final_count;
 	char		buffer[6];
 	char		*str;
 	char		*strcpy;
@@ -170,10 +171,13 @@ void			check_is_space_r(t_line *l);
 **Desc: Print functions
 */
 
+void			print(t_line *l);
+void			ft_home_2(t_line *l);
 void			ft_clean(t_line *l, int a, char *str);
 int				int_putchar(int c);
 void			ft_print_line(t_line *l);
 void			ft_print_key(t_line *l);
 int				constructor_search(bool isok, t_line *l);
 
+void			debug_editline(t_line *l);
 #endif

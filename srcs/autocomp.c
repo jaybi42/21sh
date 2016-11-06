@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:22:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/27 17:07:51 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/11/06 14:47:26 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,11 @@ static void			do_autocomp(t_ft_info *info, t_line *l, int j, int *option)
 				else
 					insert_in_string(info, l,
 							(info->tab_ret[j]) + info->complete_size);
-				ft_print_line(l);
+				int tmp;
+				tmp = l->final_count;
+				l->final_count = l->count;
+				l->count = tmp;
+				print(l);
 				j++;
 			}
 		}

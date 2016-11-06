@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/02 11:04:03 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/04 03:10:54 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,4 @@ void			ft_print_key(t_line *l)
 			l->str = ft_strdup(&l->buffer[0]);
 		ft_print_insert(l);
 	}
-	l->nbline = get_nbline(l);
 }

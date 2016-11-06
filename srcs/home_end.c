@@ -6,13 +6,13 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 17:35:38 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/02 10:38:17 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/04 03:12:10 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 
-static int		count_n_char(char *str, size_t n, char c)
+/*static int		count_n_char(char *str, size_t n, char c)
 {
 	int		i;
 
@@ -24,26 +24,33 @@ static int		count_n_char(char *str, size_t n, char c)
 		str++;
 	}
 	return (i);
-}
+	}*/
 
-int				get_nbline(t_line *l)
+/*int				get_nbline(t_line *l)
 {
 	int		i;
-
+//	debug_editline(l);
 	if (l->largeur == 0)
 		return (0);
+	if ((l->count + l->sizeprompt) % l->largeur == 0)
+		return ((l->count + l->sizeprompt) / l->largeur -1);
 	i = (l->count + l->sizeprompt) / l->largeur;
 	i += count_n_char(l->str, (size_t)l->count, '\n');
 	return (i);
-}
+	}*/
 
 void			ft_home(t_line *l)
 {
-	do_goto("ch", 0, l->sizeprompt);
+	l->nbline = (l->count + l->sizeprompt) / l->largeur;
+    do_goto("ch", 0, l->sizeprompt);
+    if (l->nbline != 0)
+        do_goto("UP", l->nbline, l->nbline);
+    l->count = 0;
+	/*do_goto("ch", 0, l->sizeprompt);
 	if (l->nbline != 0)
 		do_goto("UP", l->nbline, l->nbline);
 	l->nbline = get_nbline(l);
-	l->count = 0;
+	l->count = 0;*/
 }
 
 void			ft_end(t_line *l)

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/23 13:38:13 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/05 15:14:05 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ static int	split_line(t_list **av_list, char *line)
 	return (0);
 }
 */
-/*
+
 #include <stdio.h> //
 
-static void     debug_editline(t_line *l)
+void     debug_editline(t_line *l)
 {
 	do_term("sc");
 	do_goto("DO", 0, 5);
@@ -68,7 +68,7 @@ static void     debug_editline(t_line *l)
 		   l->largeur, l->size, l->sizeprompt, l->str);
 	do_term("rc");
 }
-*/
+
 
 t_av	**read_init(t_line *l, t_ftl_root *hist)
 {
@@ -83,6 +83,7 @@ t_av	**read_init(t_line *l, t_ftl_root *hist)
 			actions(l);
 		if (l->buffer[0] != 10 && ft_isprint(l->buffer[0]) == 1)
 			ft_print_key(l);
+//		debug_editline(l);
 		if (l->buffer[0] == 10)
 		{
 			ft_putchar('\n');
