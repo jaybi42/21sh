@@ -278,3 +278,12 @@ cat << stop
 ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
 exit
 exit
+test << stop
+exit
+c
+clear
+efefesfegfesegege
+exit
+exit
+exit
+exit
