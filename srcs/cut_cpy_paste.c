@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 17:51:23 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/06 17:22:50 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 21:26:35 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,57 @@ void		print(t_line *l)
 
 void		ft_cut(t_line *l)
 {
+	char	*tmp;
+
 	do_term("cd");
+	if (l->strcpy != NULL)
+		ft_strdel(&l->strcpy);
 	l->strcpy = ft_strsub(l->str, l->count, l->size);
+	if (l->strcpy == NULL)
+		return ;
 	if (l->count != 0)
-	{
-		l->str = ft_strsub(l->str, 0, l->count);
-		l->size = ft_strlen(l->str);
-	}
+		tmp = ft_strsub(l->str, 0, l->count);
 	else
-	{
-		l->str = ft_strdup("\0");
-		l->size = 0;
-	}
+		tmp = ft_strdup("\0");
+	if (tmp == NULL)
+		return ;
+	ft_strdel(&l->str);
+	l->str = tmp;
+	l->size = ft_strlen(l->str);
+}
+
+static void	do_join_paste(char *tmp, char *tmp2, t_line *l)
+{
+	char	*str;
+	char	*str2;
+
+	str = ft_strjoin(tmp, l->strcpy);
+	if (str == NULL)
+		return ;
+	str2 = ft_strjoin(str, tmp2);
+	ft_strdel(&str);
+	if (str2 == NULL)
+		return ;
+	ft_strdel(&l->str);
+	l->str = str2;
 }
 
 void		ft_paste(t_line *l)
 {
-	char	*sauv;
-	char	*sauv2;
+	char	*tmp;
+	char	*tmp2;
 
 	if (l->strcpy != NULL)
 	{
-		if (l->str[0] != '\0')
-		{
-			sauv2 = ft_strsub(l->str, l->count, l->size);
-			sauv = ft_strsub(l->str, 0, l->count);
-			l->str = ft_strjoin(sauv, l->strcpy);
-			l->str = ft_strjoin(l->str, sauv2);
-		}
-		else
-			l->str = ft_strdup(l->strcpy);
+		tmp = ft_strsub(l->str, 0, l->count);
+		if (tmp == NULL)
+			return ;
+		tmp2 = ft_strsub(l->str, l->count, l->size);
+		if (tmp2 == NULL)
+			return ;
+		do_join_paste(tmp, tmp2, l);
+		ft_strdel(&tmp);
+		ft_strdel(&tmp2);
 		l->size = ft_strlen(l->str);
 		l->final_count = l->count + ft_strlen(l->strcpy);
 		print(l);
