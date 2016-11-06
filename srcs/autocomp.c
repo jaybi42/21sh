@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:22:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 19:44:33 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/11/06 20:18:28 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void			do_autocomp(t_ft_info *info, t_line *l, int j, int *option)
 				int tmp;
 				tmp = l->final_count;
 				l->final_count = l->count;
-				l->count = tmp - 1;
+				l->count = tmp;
 				print(l);
 				j++;
 			}
