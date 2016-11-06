@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/30 17:13:12 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/12 13:00:38 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 17:16:41 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void		del_history(t_ftl_node *temp)
 
 static int		print_history(t_ftl_root *root, int size)
 {
-	t_ftl_node  *node;
+	t_ftl_node	*node;
 	int			i;
 
 	if ((t_ftl_root *)root->next == root)
@@ -52,7 +52,7 @@ static int		print_history(t_ftl_root *root, int size)
 	return (0);
 }
 
-static int			pop_line(t_ftl_root *hist, int pos)
+static int		pop_line(t_ftl_root *hist, int pos)
 {
 	t_ftl_node	*node;
 
@@ -69,10 +69,10 @@ static int			pop_line(t_ftl_root *hist, int pos)
 
 int				bi_history(t_av av, t_list **g_env, t_list **l_env)
 {
-	 t_ftl_root *hist;
+	t_ftl_root *hist;
 
 	(void)g_env;
- 	(void)l_env;
+	(void)l_env;
 	hist = &g_hist;
 	if (hist == NULL || hist->next == (t_ftl_node*)hist)
 		return (0);

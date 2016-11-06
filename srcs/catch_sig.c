@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 16:01:42 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/06 17:21:31 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 
 static t_prompt	g_prompt = {0, NULL, NULL, 0, NULL};
 
-static void	sig_action(void *action)
+static void				sig_action(void *action)
 {
-	struct sigaction sig;
+	struct sigaction	sig;
 
 	sig.sa_flags = 0;
 	sig.sa_handler = action;
 	sigaction(SIGINT, &sig, 0);
 }
 
-static void	is_sig(int signum)
+static void				is_sig(int signum)
 {
-	struct winsize w;
+	struct winsize		w;
 
 	if (signum == SIGWINCH && g_prompt.l != NULL)
 	{
@@ -37,16 +37,13 @@ static void	is_sig(int signum)
 	else if (g_prompt.son == 0)
 	{
 		ft_putstr("\n");
-//		g_line->count = 0;
-//		g_line->size = 0;
 		print_prompt(g_prompt.rand, g_prompt.g_env, g_prompt.l_env, g_prompt.l);
 		if (g_line != NULL)
 			reset_line();
-//			g_line->str = ft_strdup("\0");}
 	}
 }
 
-void	catch_signal(t_prompt prompt)
+void					catch_signal(t_prompt prompt)
 {
 	g_prompt = prompt;
 	signal(SIGINT, is_sig);
@@ -55,12 +52,12 @@ void	catch_signal(t_prompt prompt)
 	signal(SIGQUIT, is_sig);
 }
 
-void		sig_on(void)
+void					sig_on(void)
 {
 	sig_action(SIG_DFL);
 }
 
-void		sig_off(void)
+void					sig_off(void)
 {
 	sig_action(SIG_IGN);
 }

@@ -6,11 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2016/11/06 16:00:06 by malaine          ###   ########.fr       */
-=======
-/*   Updated: 2016/11/06 15:28:03 by jguthert         ###   ########.fr       */
->>>>>>> 41128a95ae11978fac30fe53d717f64f57299d91
+/*   Updated: 2016/11/06 16:23:08 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +129,8 @@ void			ft_paste(t_line *l);
 void			ft_cut(t_line *l);
 void			ft_home(t_line *l);
 void			ft_end(t_line *l);
-void			ft_ctrl_r(t_line *l);
-void			ft_ctrl_l(t_line *l);
+void			ft_ctrl_right(t_line *l);
+void			ft_ctrl_left(t_line *l);
 void			ft_autocomp(t_line *l);
 void			ft_up(t_line *l);
 void			ft_down(t_line *l);

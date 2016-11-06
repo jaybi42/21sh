@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 20:30:39 by mseinic           #+#    #+#             */
-/*   Updated: 2016/11/06 14:46:03 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/06 17:11:45 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int				test_if_fnc(int i, char *str, int *glob)
 void			init(t_ft_info *info, t_line *l)
 {
 	info->count = l->count;
-	l->final_count = l->count; 
+	l->final_count = l->count;
 	info->size = ft_strlen(l->str);
 	info->copy = ft_strdup(l->str);
 	info->copy2 = ft_strdup(l->str);

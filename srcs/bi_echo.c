@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 14:42:14 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/29 18:37:38 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 17:15:49 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	print_args(char *s, int *end_option, int **options)
 	i = (-1);
 	if (*end_option == 0)
 		*end_option = check_options(s, &(*(options[0])), &(*(options[1])));
-	while(s[++i] != '\0' && *end_option == 1)
+	while (s[++i] != '\0' && *end_option == 1)
 	{
 		if (s[i] == '\\' && *options[1] == 1)
 		{
@@ -99,7 +99,7 @@ int		bi_echo(t_av av, t_list **g_env, t_list **l_env)
 	end_option = 0;
 	i = (-1);
 	x = 0;
-	while(av.arg[x] != NULL)
+	while (av.arg[x] != NULL)
 	{
 		print_args(av.arg[x], &end_option, &options);
 		++x;

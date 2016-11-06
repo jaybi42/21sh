@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 13:49:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/12 14:27:15 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 16:24:29 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static t_actions const	g_actions[18] = {
 	{ft_left, {27, 91, 68, 0, 0, 0}, "LEFT"},
 	{ft_real_backspace, {27, 91, 51, 126, 0, 0}, "DELETE"},
 	{ft_backspace, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
-	{ctrl_r, {27, 91, 49, 59, 53, 67}, "CTRL R"},//Il manque l'autre ctrlR pour naviguer dans les termcaps
-	{ft_ctrl_l, {27, 91, 49, 59, 53, 68}, "CTRL L"},
+	{ft_ctrl_right, {27, 91, 49, 59, 53, 67}, "CTRL Right"},
+	{ft_ctrl_left, {27, 91, 49, 59, 53, 68}, "CTRL Left"},
 	{ft_home, {27, 91, 72, 0, 0, 0}, "HOME"},
 	{ft_end, {27, 91, 70, 0, 0, 0}, "END"},
 	{ft_cut, {11, 0, 0, 0, 0, 0}, "CUT"},
@@ -28,9 +28,9 @@ static t_actions const	g_actions[18] = {
 	{ft_ctrl_up, {27, 91, 49, 59, 53, 65}, "CTRL UP"},
 	{ft_ctrl_down, {27, 91, 49, 59, 53, 66}, "CTRL DOWN"},
 	{ft_autocomp, {9, 0, 0, 0, 0, 0}, "TAB"},
+	{ctrl_r, {18, 0, 0, 0, 0, 0}, "CTRL R"},
 	{NULL, {10, 0, 0, 0, 0, 0}, "ENTER"},
 	{ft_print_key, {0, 0, 0, 0, 0, 0}, "Normal Key"},
-	{NULL, {27, 91, 49, 59, 53, 67}, "CTRL R"},
 };
 
 static int		cmp_buf(int *value, char *buf)

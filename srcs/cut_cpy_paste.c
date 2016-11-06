@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 17:51:23 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/06 15:16:27 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/06 17:22:50 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void		print(t_line *l)
 	while (l->count < l->final_count)
 	{
 		if (l->count != 0 && (l->count + l->sizeprompt + 1) % l->largeur == 0)
-            do_term("do");
+			do_term("do");
 		else
 			do_term("nd");
-        l->count++;
+		l->count++;
 	}
 }
 
@@ -62,7 +62,6 @@ void		ft_paste(t_line *l)
 	{
 		if (l->str[0] != '\0')
 		{
-			
 			sauv2 = ft_strsub(l->str, l->count, l->size);
 			sauv = ft_strsub(l->str, 0, l->count);
 			l->str = ft_strjoin(sauv, l->strcpy);

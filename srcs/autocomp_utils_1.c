@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 20:12:54 by mseinic           #+#    #+#             */
-/*   Updated: 2016/10/27 16:50:37 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/11/06 17:12:52 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ char				**ret_tab(char *tmp, char *path)
 	ft_bzero(&info, sizeof(t_aut_info));
 	if ((info.size = count_files(path, tmp)) > 0)
 	{
-		if (!(info.tab_ret = (char **)malloc(sizeof(char *)
-						* (info.size + 1))))
+		if (!(info.tab_ret = (char **)malloc(sizeof(char *) * (info.size + 1))))
 			return (NULL);
 		info.len = ft_strlen(tmp);
 		info.dirp = opendir(path);

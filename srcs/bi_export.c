@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/25 18:56:55 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/25 18:56:56 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 17:17:03 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,19 @@ int		check_option(char *s)
 	int	i;
 
 	i = 1;
-	if (s != NULL)
+	if (s != NULL && s[0] == '-')
 	{
-		if (s[0] == '-')
+		while (s[i] == 'p' && s[i] != '\0')
+			++i;
+		if (s[i] == '\0' && i != 1)
+			return (1);
+		if (s[i] != '\0')
 		{
-			while (s[i] == 'p' && s[i] != '\0')
-				++i;
-			if (s[i] == '\0' && i != 1)
-				return (1);
-			if (s[i] != '\0')
-			{
-				ft_putstr_fd("42sh: export: -", 2);
-				ft_putchar_fd(s[i], 2);
-				ft_putstr_fd(": invalid option\n", 2);
-				ft_putstr_fd("export: usage: export [-p] [name[=value] ...]\n", 2);
-				return (-1);
-			}
+			ft_putstr_fd("42sh: export: -", 2);
+			ft_putchar_fd(s[i], 2);
+			ft_putstr_fd(": invalid option\n", 2);
+			ft_putstr_fd("export: usage: export [-p] [name[=value] ...]\n", 2);
+			return (-1);
 		}
 	}
 	return (0);
@@ -62,13 +59,13 @@ void	print_all_exported_variables(t_list *env)
 	while (env != NULL)
 	{
 		ft_putstr("export ");
-       	if (((t_env *)env->content)->name != NULL)
-       		ft_putstr(((t_env *)env->content)->name);
-       	ft_putstr("=\"");
-       	if (((t_env *)env->content)->value != NULL)
-       		ft_putstr(((t_env *)env->content)->value);
-       	ft_putendl("\"");
-       	env = env->next;
+		if (((t_env *)env->content)->name != NULL)
+			ft_putstr(((t_env *)env->content)->name);
+		ft_putstr("=\"");
+		if (((t_env *)env->content)->value != NULL)
+			ft_putstr(((t_env *)env->content)->value);
+		ft_putendl("\"");
+		env = env->next;
 	}
 }
 

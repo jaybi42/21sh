@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/23 13:14:43 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/23 15:30:52 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 16:54:19 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,14 @@ static void	clean_ctrl_r(t_line *l)
 	if (l->ans != NULL)
 	{
 		l->str = l->ans;
-		l->count = ft_strlen(l->str);
+		l->final_count = 0;
+		l->count = 0;
 		l->size = l->count;
 		l->ans = NULL;
 	}
 	ft_strdel(&l->oldstr);
-	ft_print_line(l);
+	print(l);
+//	ft_putstr(l->ans);
 }
 
 static int	init_ctrl_r(t_line *l)

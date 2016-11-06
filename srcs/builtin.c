@@ -6,13 +6,14 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:03:36 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/27 16:47:58 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/11/06 17:19:25 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
 #define NB_BUILTIN 9
+
 static t_builtin const	g_builtin_list[NB_BUILTIN] = {
 	{"cd", bi_cd},
 	{"setenv", bi_setenv},
@@ -25,7 +26,7 @@ static t_builtin const	g_builtin_list[NB_BUILTIN] = {
 	{"history", bi_history},
 };
 
-int			builtin(t_list **g_env, t_list **l_env, t_ftl_root *hist,t_av *av)
+int			builtin(t_list **g_env, t_list **l_env, t_ftl_root *hist, t_av *av)
 {
 	int i;
 

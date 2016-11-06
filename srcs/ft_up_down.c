@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/12 14:26:25 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 15:40:27 by jguthert         ###   ########.fr       */
+/*   Created: 2016/11/06 17:24:09 by jguthert          #+#    #+#             */
+/*   Updated: 2016/11/06 17:24:12 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static void		dup_print(char *new_in, t_line *l)
 		l->size = l->count;
 		print(l);
 	}
+	else
+		l->size = 0;
 }
 
 void			ft_up(t_line *l)
