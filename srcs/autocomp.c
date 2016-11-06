@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:22:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 14:47:26 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/06 19:44:33 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,16 @@ static void			do_autocomp(t_ft_info *info, t_line *l, int j, int *option)
 				int tmp;
 				tmp = l->final_count;
 				l->final_count = l->count;
-				l->count = tmp;
+				l->count = tmp - 1;
 				print(l);
 				j++;
 			}
 		}
 		else
+		{
+			actions(l);
 			break ;
+		}
 		if (info->globing == 1)
 			break ;
 	}
