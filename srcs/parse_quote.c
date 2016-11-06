@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:47:07 by jguthert          #+#    #+#             */
-/*   Updated: 2016/09/25 19:06:48 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/06 15:34:50 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		init_quotes(t_quotes *quotes)
 	quotes->escape = 0;
 }
 
-static void		check_quotes(t_quotes *quotes, char *line)
+static int		check_quotes(t_quotes *quotes, char *line)
 {
 	while (*line)
 	{
@@ -36,26 +36,47 @@ static void		check_quotes(t_quotes *quotes, char *line)
 			quotes->escape = 0;
 		line++;
 	}
+	return (quotes->bquote && quotes->squote && quotes->dquote);
 }
 
-static int		is_quotes_ok(t_quotes quotes)
+static int		concat_str(t_line *l, char *input)
 {
-	if (quotes.squote == 1)
-		ft_putendl_fd("Unmatched '.", 2);
-	else if (quotes.dquote == 1)
-		ft_putendl_fd("Unmatched \".", 2);
-	else if (quotes.bquote == 1)
-		ft_putendl_fd("Unmatched `.", 2);
-	else
+	char	*tmp;
+
+	tmp = ft_strjoin(l->str, input);
+	ft_strdel(&input);
+	if (tmp == NULL)
 		return (1);
+	ft_strdel(&l->str);
+	l->str = tmp;
 	return (0);
 }
 
-int				parse_quote(char *line)
+static int		close_quotes(t_quotes *q, t_line *l)
+{
+	char	*input;
+
+	input = NULL;
+	if (q->bquote == 1)
+		input = get_input("bquote>");
+	else if (q->squote == 1)
+		input = get_input("quote>");
+	else if (q->dquote == 1)
+		input = get_input("dquote>");
+	if (input == NULL)
+		return (1);
+	return (concat_str(l, input));
+}
+
+int				parse_quote(t_line *l)
 {
 	t_quotes	quotes;
 
 	init_quotes(&quotes);
-	check_quotes(&quotes, line);
-	return (is_quotes_ok(quotes));
+	while (check_quotes(&quotes, l->str) == 1)
+	{
+		if (close_quotes(&quotes, l) == 1)
+			return (1);
+	}
+	return (0);
 }
