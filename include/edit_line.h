@@ -6,7 +6,11 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2016/11/06 16:00:06 by malaine          ###   ########.fr       */
+=======
 /*   Updated: 2016/11/06 15:28:03 by jguthert         ###   ########.fr       */
+>>>>>>> 41128a95ae11978fac30fe53d717f64f57299d91
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +94,7 @@ int				init_env(t_list **g_env, t_list **l_env);
 void			ft_init_line(t_line *l, t_ftl_root *hist);
 void			ft_init_read(t_line *l);
 int				init_term(void);
+void			reset_line(void);
 
 /*
 **Name: Parse editing
