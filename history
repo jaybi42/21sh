@@ -269,6 +269,7 @@ qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
 exit
 clear
 exit
+<<<<<<< HEAD
 ls *
 ls *
 exit
@@ -295,5 +296,14 @@ ls
 clear
 clear
 exit
+=======
+ke ste
+test
+"test
+exit
+test << stop
+cat << stop
+ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+>>>>>>> 41128a95ae11978fac30fe53d717f64f57299d91
 exit
 exit
