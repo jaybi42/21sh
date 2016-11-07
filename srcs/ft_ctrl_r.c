@@ -71,7 +71,7 @@ static void		clean_ctrl_r(t_line *l)
 		l->ans = NULL;
 	}
 	ft_strdel(&l->oldstr);
-//	print(l);
+	print(l);
 }
 
 static int		init_ctrl_r(t_line *l)
