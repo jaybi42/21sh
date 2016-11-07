@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/06 20:09:14 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/07 21:13:43 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,22 @@ static void		ft_print_rest(t_line *l)
 {
 	char	*temp;
 
-	l->count++;
+	//l->count++;
 	temp = ft_strjoin(l->str, &l->buffer[0]);
 	if (temp == NULL)
 	{
-		l->count--;
+		//l->count--;
 		return ;
 	}
 	ft_strdel(&(l->str));
 	l->str = temp;
-	ft_putstr(&l->buffer[0]);
+	l->final_count = ft_strlen(l->str);
+	l->size = l->final_count;;
+	print(l);
+	/*ft_putstr(&l->buffer[0]);
 	if (l->largeur != 0 && ((l->count + l->sizeprompt) % l->largeur == 0))
 		do_term("do");
-	l->size++;
+		l->size++;*/
 }
 
 static void		ft_print_insert(t_line *l)
