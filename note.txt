@@ -1,10 +1,12 @@
-quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'appairessent)
+- Quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'appairessent)
 - Faire une fonction FT_READ pour eviter les caracteres indesirables qui plantent les termcaps
 - Comportement aléatoire sur le setenv (WTF)
 - Faire plusieurs dossier pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc, et l'intégrer au makefile
 - Faire plusieurs header file pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc
 - Permettre les CtrlD CtrlL
 - CtrlC pendant CTRL R (recherche historique)
+- "ls > >" on a une alerte nous disant qu'une autre expression est attendu à la suite de la première redirection, pourtant le ficher ">" est bien créer.
+- Il ne devrait pas être possible de faire ceci non plus "ls ||||||||". Actuellement le ls s'execute.
 
 ____________________________
             LEAKS
