@@ -18,9 +18,11 @@ static bool		get_ans(t_ftl_root *h, int h_pos, t_line *l)
 	int			i;
 
 	i = 0;
-	node = (t_ftl_node *)h->prev;
-	while (++h_pos != (int)h->size)
-		node = node->prev;
+	node = (t_ftl_node *)h->next;
+	if (h_pos == -1)
+		h_pos = (int)h->size;
+	while (++h_pos !=  (int)h->size)
+		node = node->next;
 	while (node != (t_ftl_node *)h)
 	{
 		if (ft_strstr(((t_hist *)node)->str, l->search) != NULL)
@@ -69,7 +71,7 @@ static void		clean_ctrl_r(t_line *l)
 		l->ans = NULL;
 	}
 	ft_strdel(&l->oldstr);
-	print(l);
+//	print(l);
 }
 
 static int		init_ctrl_r(t_line *l)
@@ -102,7 +104,7 @@ void			ctrl_r(t_line *l)
 	while (1)
 	{
 		if (constructor_search(isok, l) == 0)
-			ft_print_line(l);
+			print(l);
 		ft_bzero(l->buffer, 6);
 		if (read(0, l->buffer, 6) == -1)
 			return (clean_ctrl_r(l));
@@ -116,6 +118,6 @@ void			ctrl_r(t_line *l)
 			else
 				return (clean_ctrl_r(l));
 		}
-		isok = get_ans(l->hist, l->hist_pos + 1, l);
+		isok = get_ans(l->hist, l->hist_pos, l);
 	}
 }

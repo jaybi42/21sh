@@ -56,7 +56,8 @@ int			constructor_search(bool isok, t_line *l)
 	if (full_str == NULL)
 		return (1);
 	l->str = full_str;
-	l->count = ft_strlen(l->ans);
+	l->final_count = ft_strlen(l->ans);
+	l->count = l->final_count;
 	l->size = ft_strlen(full_str);
 	return (0);
 }
