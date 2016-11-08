@@ -33,22 +33,24 @@ static char			**get_info(void)
 	char			**t;
 	char			*tmp;
 
-	t = NULL;
-	if (lstat(".", &stat) == -1)
+	if (lstat(".", &stat) == -1 || (pw = getpwuid(stat.st_uid)) == NULL)
 		return (NULL);
-	if ((pw = getpwuid(stat.st_uid)) == NULL)
+	if ((t = (char **)malloc(sizeof(char *) * 7)) == NULL)
 		return (NULL);
-	t = (char **)malloc(sizeof(char *) * 7);
 	t[6] = NULL;
 	t[0] = ft_strdup\
 ("/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/munki");
 	t[1] = ft_strdup(pw->pw_dir);
 	t[2] = ft_strdup(pw->pw_name);
 	t[3] = ft_strdup(pw->pw_name);
+	t[5] = ft_strdup(pw->pw_shell);
 	tmp = getwd(NULL);
+	if (tmp == NULL)
+		return (NULL);
 	t[4] = ft_strdup(tmp);
 	free(tmp);
-	t[5] = ft_strdup(pw->pw_shell);
+	if (!t[0] || !t[1] || !t[2] || !t[3] || !t[4] || !t[5])
+		return (NULL);
 	return (t);
 }
 
@@ -61,6 +63,8 @@ static int			set_lenv(t_list **e)
 
 	i = 0;
 	t = get_info();
+	if (t == NULL)
+		return (1);
 	while (i < 6)
 	{
 		env.name = ft_strdup((char *)g_initenv[i].name);
@@ -72,8 +76,7 @@ static int			set_lenv(t_list **e)
 		ft_lstadd_last(e, tamp);
 		i++;
 	}
-	if (t != NULL)
-		free(t);
+	free(t);
 	t = NULL;
 	return (0);
 }
