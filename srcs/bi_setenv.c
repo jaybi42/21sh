@@ -30,6 +30,8 @@ static int	arg_isin(char *name, char *value, char *str, t_list **g_env)
 	if (((t_env *)temp->content)->str != NULL)
 		ft_strdel(&((t_env *)temp->content)->str);
 	((t_env *)temp->content)->value = ft_strdup(value);
+	if (((t_env *)temp->content)->value)
+		return (1);
 	((t_env *)temp->content)->str = str;
 	return (0);
 }
@@ -43,6 +45,8 @@ static int	arg_isout(char *name, char *value, char *str, t_list **g_env)
 	env.str = str;
 	env.value = ft_strdup(value);
 	new_link = ft_lstnew((void *)&env, sizeof(t_env));
+	if (env.name == NULL || env.value == NULL || new_link == NULL)
+		return (1);
 	ft_lstadd_last(g_env, new_link);
 	return (0);
 }

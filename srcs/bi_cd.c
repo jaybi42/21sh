@@ -21,6 +21,7 @@ static int	mod_pwd(t_list **g_e, t_list **l_e)
 	t_list	*temp;
 	t_env	*env;
 	char	*pwd;
+	char	*tmp;
 
 	temp = *g_e;
 	while (temp != NULL)
@@ -32,7 +33,10 @@ static int	mod_pwd(t_list **g_e, t_list **l_e)
 	}
 	if (temp != NULL && env->value != NULL)
 		bi_setenv(INIT_AV("setenv", "OLDPWD", env->value, 2), g_e, l_e);
-	pwd = ft_strdup(getwd(NULL));
+	if ((tmp = getwd(NULL)) == NULL)
+		return (1);
+	pwd = ft_strdup(tmp);
+	ft_strdel(&tmp);
 	bi_setenv(INIT_AV("setenv", "PWD", pwd, 2), g_e, l_e);
 	if (pwd != NULL)
 		ft_strdel(&pwd);
@@ -98,8 +102,8 @@ int			bi_cd(t_av av, t_list **g_env, t_list **l_env)
 		return (print_error(av, 3));
 	if (*av.arg != NULL)
 	{
-		if (chdir(*av.arg) == 0)
-			mod_pwd(g_env, l_env);
+		if (chdir(*av.arg) == 0 || mod_pwd(g_env, l_env) == 1)
+			return (1);
 		return (0);
 	}
 	return (0);

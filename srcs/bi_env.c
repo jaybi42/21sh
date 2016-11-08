@@ -37,10 +37,12 @@ static int		set_new_arg(char *arg, t_list **g_env, t_list **l_env)
 		return (1);
 	my_cmd = ft_strsub(arg, 0, i);
 	my_arg = ft_strchr(arg, '=') + 1;
+	if (my_cmd == NULL || my_arg == NULL)
+		return (1);
 	bi_setenv(INIT_AV("setenv", my_cmd, my_arg, 2), g_env, l_env);
 	if (my_cmd != NULL)
 		ft_strdel(&my_cmd);
-	if (my_arg != NULL)//fresh fix
+	if (my_arg != NULL)
 		ft_strdel(&my_arg);
 	return (0);
 }
