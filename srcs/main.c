@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 19:34:30 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/08 15:47:59 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ t_list		*l_env;
 t_list		*g_env;
 t_ftl_root	g_hist;
 t_line		*g_line;
+t_prompt	g_prompt;
 
-int				ret_exit(int state, int value)
+int			ret_exit(int state, int value)
 {
 	static int	data = 0;
 
@@ -30,15 +31,12 @@ int				ret_exit(int state, int value)
 	return (data);
 }
 
-
-
 void		clean_exit(int ret)
 {
 	put_history(&g_hist);
 	a_stop(0);
 	exit(ret);
 }
-
 
 int			insert_arr(char ***a, char *s)
 {
@@ -48,7 +46,7 @@ int			insert_arr(char ***a, char *s)
 	i = 0;
 	if (!a || !(*a) || !s)
 		return (-1);
-	while((*a)[i++]);
+	while ((*a)[i++]);
 	if (!(na = malloc(sizeof(char *) * (i + 2))))
 		clean_exit(8);
 	i = 0;
@@ -181,6 +179,7 @@ static int		sh21(void)
 
 		catch_signal((t_prompt){nbr, g_env, l_env, 0, &l});
 		print_prompt(nbr, g_env, l_env, &l);
+		g_prompt = (t_prompt){nbr, g_env, l_env, 0, &l};
 		g_line = NULL;
 		if ((av = read_init(&l, &g_hist)) == NULL)
 		{

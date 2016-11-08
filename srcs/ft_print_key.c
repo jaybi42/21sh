@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/07 21:13:43 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/08 15:44:55 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,49 +16,23 @@ static void		ft_print_rest(t_line *l)
 {
 	char	*temp;
 
-	//l->count++;
 	temp = ft_strjoin(l->str, &l->buffer[0]);
 	if (temp == NULL)
-	{
-		//l->count--;
 		return ;
-	}
 	ft_strdel(&(l->str));
 	l->str = temp;
 	l->final_count = ft_strlen(l->str);
-	l->size = l->final_count;;
+	l->size = l->final_count;
 	print(l);
-	/*ft_putstr(&l->buffer[0]);
-	if (l->largeur != 0 && ((l->count + l->sizeprompt) % l->largeur == 0))
-		do_term("do");
-		l->size++;*/
 }
 
 static void		ft_print_insert(t_line *l)
 {
-	int pos_cur;
-	int i;
-
-	i = -1;
 	if (ft_insertion(l) == 1)
 		return ;
-	pos_cur = l->count;
-	ft_home(l);
-	do_term("cd");
-	while (l->str[++i] != '\0')
-	{
-		ft_putchar(l->str[i]);
-		l->count++;
-	}
-	i = -1;
-	while (++i < (l->size - pos_cur))
-	{
-		do_term("le");
-		l->count--;
-	}
-	l->size++;
-	if ((l->size + l->sizeprompt) % l->largeur == 0)
-		do_term("nd");
+	l->final_count = l->count + 1;
+	l->size = ft_strlen(l->str);
+	print(l);
 }
 
 void			ft_print_line(t_line *l)
