@@ -51,6 +51,7 @@ typedef struct	s_line
 	t_ftl_root	*hist;
 	int			hist_size;
 	int			hist_pos;
+	int			bp;
 }				t_line;
 
 typedef struct	s_quotes

@@ -33,7 +33,10 @@ static bool		get_ans(t_ftl_root *h, int h_pos, t_line *l)
 			return (1);
 		}
 		i++;
-		node = node->prev;
+		if (l->bp == 1)
+			node = node->next;
+		else
+			node = node->prev;
 	}
 	return (0);
 }
@@ -58,6 +61,7 @@ static void		ft_addchar(t_line *l)
 static void		clean_ctrl_r(t_line *l)
 {
 	l->hist_pos = -1;
+	l->bp = 0;
 	if (l->str != NULL)
 		ft_strdel(&l->str);
 	if (l->search != NULL)
@@ -78,6 +82,7 @@ static int		init_ctrl_r(t_line *l)
 {
 	l->search = ft_strdup("");
 	l->ans = ft_strdup("");
+	l->bp = 0;
 	if (l->search == NULL || l->ans == NULL)
 		return (1);
 	if (l->str == NULL)
@@ -106,7 +111,7 @@ void			ctrl_r(t_line *l)
 		if (constructor_search(isok, l) == 0)
 		{
 			print(l);
-			debug_editline(l);
+//			debug_editline(l);
 		}
 		ft_bzero(l->buffer, 6);
 		if (read(0, l->buffer, 6) == -1)
@@ -122,5 +127,6 @@ void			ctrl_r(t_line *l)
 				return (clean_ctrl_r(l));
 		}
 		isok = get_ans(l->hist, l->hist_pos, l);
+		l->bp = 0;
 	}
 }

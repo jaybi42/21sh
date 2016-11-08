@@ -35,7 +35,7 @@ static char	*join_all(t_line *l, char *search, bool isok)
 	if (isok)
 		tmp1 = ft_strjoin(l->ans, "  research :  ");
 	else
-		tmp1 = ft_strjoin(l->ans, "  faling search : ");
+		tmp1 = ft_strjoin(l->ans, "  failing search : ");
 	if (tmp1 == NULL)
         return (NULL);
     tmp2 = ft_strjoin(tmp1, search);

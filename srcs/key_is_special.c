@@ -40,6 +40,7 @@ void			ft_bp(t_line *l)
 		return ;
 	ft_strdel(&l->search);
 	l->search = new_str;
+	l->bp = 1;
 }
 
 static int		cmp_buf(int *value, char *buf)
