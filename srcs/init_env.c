@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/15 16:48:27 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 17:59:11 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/08 16:15:16 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static char			**get_info(void)
 	struct stat		stat;
 	struct passwd	*pw;
 	char			**t;
+	char			*tmp;
 
 	t = NULL;
 	if (lstat(".", &stat) == -1)
@@ -44,7 +45,9 @@ static char			**get_info(void)
 	t[1] = ft_strdup(pw->pw_dir);
 	t[2] = ft_strdup(pw->pw_name);
 	t[3] = ft_strdup(pw->pw_name);
-	t[4] = ft_strdup(getwd(NULL));
+	tmp = getwd(NULL);
+	t[4] = ft_strdup(tmp);
+	free(tmp);
 	t[5] = ft_strdup(pw->pw_shell);
 	return (t);
 }
