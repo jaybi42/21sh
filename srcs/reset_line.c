@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 16:00:51 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/06 19:03:42 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/09 22:36:19 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void		reset_line(void)
 	ft_strdel(&l->str);
 	l->str = ft_strdup("\0");
 	l->tmp = 0;
+	l->final_count = 0;
 	l->size = 0;
 	l->count = 0;
 	l->nbline = 0;
