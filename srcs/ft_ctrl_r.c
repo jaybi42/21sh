@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:39:18 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/07 19:20:50 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/09 23:50:15 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,26 @@ static void		ft_addchar(t_line *l)
 
 static void		clean_ctrl_r(t_line *l)
 {
-	l->hist_pos = -1;
-	l->bp = 0;
-	if (l->str != NULL)
-		ft_strdel(&l->str);
-	if (l->search != NULL)
-		ft_strdel(&l->search);
-	if (l->ans != NULL)
+	if (l->quit != -1)
 	{
-		l->str = l->ans;
-		//l->final_count = 0;
-		//l->count = 0;
-		l->size = ft_strlen(l->str);
-		l->ans = NULL;
+		l->hist_pos = -1;
+		l->bp = 0;
+		if (l->str != NULL)
+			ft_strdel(&l->str);
+		if (l->search != NULL)
+			ft_strdel(&l->search);
+		if (l->ans != NULL)
+		{
+			l->str = l->ans;
+			//l->final_count = 0;
+			//l->count = 0;
+			l->size = ft_strlen(l->str);
+			l->ans = NULL;
+		}
+		ft_strdel(&l->oldstr);
+		print(l);
 	}
-	ft_strdel(&l->oldstr);
-	print(l);
+	l->quit = 0;
 }
 
 static int		init_ctrl_r(t_line *l)
@@ -114,7 +118,7 @@ void			ctrl_r(t_line *l)
 //			debug_editline(l);
 		}
 		ft_bzero(l->buffer, 6);
-		if (read(0, l->buffer, 6) == -1)
+		if (read(0, l->buffer, 6) == -1 || l->quit == -1)
 			return (clean_ctrl_r(l));
 		if (key_is_special(l) == 0)
 		{
