@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 12:13:07 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/06 20:13:24 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/09 20:32:38 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int			ft_delete_char(t_line *l)
 	while (count < l->size)
 	{
 		str_cpy[count] = l->str[count2];
-		if (count == l->count)
+		if (count == l->count - 1)
 			count2++;
 		count++;
 		count2++;

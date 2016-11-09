@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/02 10:52:44 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/02 10:54:55 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/09 20:13:47 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		go_up(t_line *l)
 	if (((l->count + l->sizeprompt) % l->largeur) == 0)
 	{
 		do_term("up");
-		do_goto("ch", 0, l->largeur);
+		do_goto("ch", 0, l->largeur - 1);
 	}
 	else
 		do_term("le");
