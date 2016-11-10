@@ -11,6 +11,7 @@
 - pas les bons resultats quand on veut mettre le result de "wc" dans un fichier
 - cat ne quite pas quand on fait un ls | cat et que le dossier est vide 
 -touch ne fonctionne pas impossible de creer des fichiers
+-ctrl R ne propose pas le meme choix suivant si on ecrit ou si on efface
 ____________________________
             LEAKS
  Tous les leaks, c'est ici !
