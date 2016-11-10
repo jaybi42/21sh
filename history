@@ -766,3 +766,61 @@ exit
 exit
 exit
 exit
+clear
+car
+cat
+clear
+ls
+ls | cart
+ls | cat
+exit
+ls | cat | wc -c > fifi
+ls | cat | wc -c > fifi | cat fifi
+rm fifi
+ls | cat | wc -c > fifi | cat fifi
+s | cat | wc -c > fifi | cat fifi
+rm fifi
+ls -a ; ls | cat | wc -c > fifi | cat fifi
+mkdir test ; cd test ;ls -a ; ls | cat | wc -c > fifi | cat fifi
+..
+ls
+..
+cd ..
+rm fifi
+rm -rf test
+mkdir test ; cd test
+cd ..
+rm -rf test
+mkdir test ; cd test ; ls -a
+cd ..
+rm -rf test
+mkdir test ; cd test ; ls -a ; ls | cat
+ls | cat
+..
+cd ..
+rm -rf test
+ls | cat
+mkdir test
+cd test
+ls | cat
+touch t
+touch t
+touch t
+touch test
+ls
+..
+cd ..
+ls
+cd test
+ls | cat
+ls | cat > fifi | fifi
+ls | cat > fifi | cat fifi
+ ls | cat | wc -c > fifi ; cat fifi
+clear
+exit
+clear
+exit
+ls 21sh 21sh.dSYM history include libft Makefile note.txt obj README.md srcs include Makefile include libft ls 21sh 21sh.dSYM history include libft Makefile note.txt obj README.md srcs README.md libft libft libft include obj
+clear
+exit
+exit

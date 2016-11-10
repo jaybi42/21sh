@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 13:16:09 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/06 20:02:02 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/10 02:48:36 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,8 @@ void		ft_backspace(t_line *l)
 			do_term("cd");
 			do_term("sc");
 			tmp = l->count;
-			while (l->str[tmp] != '\0')
-			{
+			while (l->str[tmp++] != '\0')
 				ft_putchar(l->str[tmp]);
-				tmp++;
-			}
 			do_term("rc");
 		}
 	}

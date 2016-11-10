@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:39:18 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/09 23:56:04 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/10 02:47:42 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static bool		get_ans(t_ftl_root *h, int h_pos, t_line *l)
 	node = (t_ftl_node *)h->next;
 	if (h_pos == -1)
 		h_pos = (int)h->size;
-	while (++h_pos !=  (int)h->size)
+	while (++h_pos != (int)h->size)
 		node = node->next;
 	while (node != (t_ftl_node *)h)
 	{
@@ -71,8 +71,6 @@ static void		clean_ctrl_r(t_line *l)
 		if (l->ans != NULL)
 		{
 			l->str = l->ans;
-			//l->final_count = 0;
-			//l->count = 0;
 			l->size = ft_strlen(l->str);
 			l->ans = NULL;
 		}
@@ -113,10 +111,7 @@ void			ctrl_r(t_line *l)
 	while (1)
 	{
 		if (constructor_search(isok, l) == 0)
-		{
 			print(l);
-//			debug_editline(l);
-		}
 		ft_bzero(l->buffer, 6);
 		if (read(0, l->buffer, 6) == -1 || l->quit == -1)
 			return (clean_ctrl_r(l));

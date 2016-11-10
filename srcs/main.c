@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/09 23:53:16 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/10 02:53:36 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ t_prompt	g_prompt;
 
 int			ret_exit(int state, int value)
 {
-	static int	data = 0;
+	static int	data;
 
+	data = 0;
 	if (state == SET)
 	{
 		data = value;
@@ -46,7 +47,8 @@ int			insert_arr(char ***a, char *s)
 	i = 0;
 	if (!a || !(*a) || !s)
 		return (-1);
-	while ((*a)[i++]);
+	while ((*a)[i++])
+		;
 	if (!(na = malloc(sizeof(char *) * (i + 2))))
 		clean_exit(8);
 	i = 0;
@@ -111,7 +113,7 @@ char		*handle_var(int state, char *key, char *value)
 {
 	static char **keys = NULL;
 	static char **values = NULL;
-	int tmp;
+	int			tmp;
 
 	if (!keys && !values)
 	{
@@ -122,7 +124,6 @@ char		*handle_var(int state, char *key, char *value)
 			clean_exit(8);
 		values[0] = NULL;
 	}
-
 	/*a_printf("test handle_var: |%s| and |%s|\n", key, value);
 	for (int i = 0; keys[i]; i++)
 	{
@@ -132,7 +133,7 @@ char		*handle_var(int state, char *key, char *value)
 	{
 		if (key == NULL || value == NULL)
 			return (NULL);
-		if((tmp = search_key_values(keys, values, key)) != -1)
+		if ((tmp = search_key_values(keys, values, key)) != -1)
 		{
 			keys[tmp] = ft_strdup(key);
 			values[tmp] = ft_strdup(value);
@@ -154,12 +155,10 @@ char		*handle_var(int state, char *key, char *value)
 	return (NULL);
 }
 
-
 void			ft_printmem(t_av **av)
 {
 	(void)av;
 }
-
 
 static int		sh21(void)
 {
@@ -176,7 +175,6 @@ static int		sh21(void)
 	handle_var(KV_SET, "?", "0");
 	while (1)
 	{
-
 		catch_signal((t_prompt){nbr, g_env, l_env, 0, &l});
 		print_prompt(nbr, g_env, l_env, &l);
 		g_prompt = (t_prompt){nbr, g_env, l_env, 0, &l};

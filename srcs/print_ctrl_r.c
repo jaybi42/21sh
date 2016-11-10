@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print_ctrl_r.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/23 13:40:57 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/07 19:21:55 by malaine          ###   ########.fr       */
+/*   Created: 2016/11/10 03:00:32 by malaine           #+#    #+#             */
+/*   Updated: 2016/11/10 03:01:56 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 
-static int	inst_ans(t_line *l)
+static int		inst_ans(t_line *l)
 {
 	ft_strdel(&l->ans);
 	l->ans = ft_strdup(l->oldstr);
@@ -21,7 +21,7 @@ static int	inst_ans(t_line *l)
 	return (0);
 }
 
-static char	*join_all(t_line *l, char *search, bool isok)
+static char		*join_all(t_line *l, char *search, bool isok)
 {
 	char	*tmp2;
 	char	*tmp1;
@@ -37,13 +37,13 @@ static char	*join_all(t_line *l, char *search, bool isok)
 	else
 		tmp1 = ft_strjoin(l->ans, "  failing search : ");
 	if (tmp1 == NULL)
-        return (NULL);
-    tmp2 = ft_strjoin(tmp1, search);
-    ft_strdel(&tmp1);
+		return (NULL);
+	tmp2 = ft_strjoin(tmp1, search);
+	ft_strdel(&tmp1);
 	return (tmp2);
 }
 
-int			constructor_search(bool isok, t_line *l)
+int				constructor_search(bool isok, t_line *l)
 {
 	char	*full_str;
 	char	*new_search;
@@ -57,7 +57,6 @@ int			constructor_search(bool isok, t_line *l)
 		return (1);
 	l->str = full_str;
 	l->final_count = ft_strlen(l->ans);
-	//l->count = l->final_count;
 	l->size = ft_strlen(l->ans);
 	return (0);
 }

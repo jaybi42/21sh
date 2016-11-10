@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 17:06:38 by mseinic           #+#    #+#             */
-/*   Updated: 2016/10/26 21:50:25 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/11/10 02:39:09 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct		s_aut_info
 	char			**tab_ret;
 }					t_aut_info;
 
+void				ft_swap_print(t_line *l);
 char				**ret_match(char *str);
 char				**command_fnc(char *str);
 int					count_files(char *path, char *str);

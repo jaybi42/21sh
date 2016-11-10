@@ -7,7 +7,10 @@
 - CtrlC pendant CTRL R (recherche historique)
 - "ls > >" on a une alerte nous disant qu'une autre expression est attendu à la suite de la première redirection, pourtant le ficher ">" est bien créer.
 - Il ne devrait pas être possible de faire ceci non plus "ls ||||||||". Actuellement le ls s'execute.
-
+- deux fois le prompt quand ctrl c apres un cat
+- pas les bons resultats quand on veut mettre le result de "wc" dans un fichier
+- cat ne quite pas quand on fait un ls | cat
+-touch ne fonctionne pas impossible de creer des fichiers
 ____________________________
             LEAKS
  Tous les leaks, c'est ici !

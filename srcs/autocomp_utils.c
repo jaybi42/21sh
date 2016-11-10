@@ -6,11 +6,21 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 17:24:52 by mseinic           #+#    #+#             */
-/*   Updated: 2016/10/27 15:24:23 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/11/10 02:38:30 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "autocomp.h"
+
+void		ft_swap_print(t_line *l)
+{
+	int tmp;
+
+	tmp = l->final_count;
+	l->final_count = l->count;
+	l->count = tmp;
+	print(l);
+}
 
 int			cmp_buf(int *value, char *buf)
 {

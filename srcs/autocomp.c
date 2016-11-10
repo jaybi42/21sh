@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:22:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 20:18:28 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/11/10 02:42:19 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ static void			do_autocomp(t_ft_info *info, t_line *l, int j, int *option)
 		my_read(l, option);
 		if (cmp_buf((int *)g_actions[0].value, l->buffer) == 0)
 		{
-			if (info->tab_ret[j] == NULL)
-				j = 0;
+			j = info->tab_ret[j] == NULL ? 0 : j;
 			if (info->tab_ret[j] != NULL)
 			{
 				if (info->globing == 1)
@@ -74,11 +73,7 @@ static void			do_autocomp(t_ft_info *info, t_line *l, int j, int *option)
 				else
 					insert_in_string(info, l,
 							(info->tab_ret[j]) + info->complete_size);
-				int tmp;
-				tmp = l->final_count;
-				l->final_count = l->count;
-				l->count = tmp;
-				print(l);
+				ft_swap_print(l);
 				j++;
 			}
 		}
