@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/03 14:23:42 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/11/10 02:45:52 by malaine          ###   ########.fr       */
+/*   Updated: 2016/10/17 16:41:17 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 #define READLEN 4096
 
-void			ft_memdel(void **ap)
+void	ft_memdel(void **ap)
 {
 	if (ap != NULL)
 	{
@@ -65,13 +65,13 @@ char			*binary_cpy(char *src, char *dest, int len)
 	return (src);
 }
 
-typedef struct		s_file
+typedef struct s_file
 {
 	int		len_str;
 	int		len_buff;
 	char	*str;
 	char	buffer[READLEN + 1];
-}					t_file;
+}				t_file;
 
 static char		*add_alloc(int fd, int count, t_file *f)
 {
@@ -115,7 +115,7 @@ char			*file_get_contents(char *filename)
 	return (f.str);
 }
 
-int				file_get_binary(char *filename, char **str, int *len)
+int			file_get_binary(char *filename, char **str, int *len)
 {
 	int		fd;
 	t_file	f;
@@ -144,7 +144,7 @@ int				file_get_binary(char *filename, char **str, int *len)
 	return (1);
 }
 
-int				fd_get_binary(int fd, char **str, int *len)
+int			fd_get_binary(int fd, char **str, int *len)
 {
 	t_file	f;
 	int		i;

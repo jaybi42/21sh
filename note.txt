@@ -9,7 +9,7 @@
 - Il ne devrait pas être possible de faire ceci non plus "ls ||||||||". Actuellement le ls s'execute.
 - deux fois le prompt quand ctrl c apres un cat
 - pas les bons resultats quand on veut mettre le result de "wc" dans un fichier
-- cat ne quite pas quand on fait un ls | cat
+- cat ne quite pas quand on fait un ls | cat et que le dossier est vide 
 -touch ne fonctionne pas impossible de creer des fichiers
 ____________________________
             LEAKS
