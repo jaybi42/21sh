@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 19:50:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/24 11:53:51 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/10 01:14:48 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	mod_pwd(t_list **g_e, t_list **l_e)
 		return (1);
 	pwd = ft_strdup(tmp);
 	ft_strdel(&tmp);
+	pwd = ft_strdup(getwd(NULL));
 	bi_setenv(INIT_AV("setenv", "PWD", pwd, 2), g_e, l_e);
 	if (pwd != NULL)
 		ft_strdel(&pwd);
@@ -102,9 +103,13 @@ int			bi_cd(t_av av, t_list **g_env, t_list **l_env)
 		return (print_error(av, 3));
 	if (*av.arg != NULL)
 	{
-		if (chdir(*av.arg) == 0 || mod_pwd(g_env, l_env) == 1)
-			return (1);
-		return (0);
+		if (chdir(*av.arg) == 0)
+            if (mod_pwd(g_env, l_env) == 0)
+				return (0);
+		return (1);
+		//if (chdir(*av.arg) == 0 || mod_pwd(g_env, l_env) == 1)
+		//return (1);
+		//return (0);
 	}
 	return (0);
 }

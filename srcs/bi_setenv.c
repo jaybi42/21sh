@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/20 13:28:44 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 17:58:40 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/10 01:22:15 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	arg_isin(char *name, char *value, char *str, t_list **g_env)
 	if (((t_env *)temp->content)->str != NULL)
 		ft_strdel(&((t_env *)temp->content)->str);
 	((t_env *)temp->content)->value = ft_strdup(value);
-	if (((t_env *)temp->content)->value)
+	if (!((t_env *)temp->content)->value)
 		return (1);
 	((t_env *)temp->content)->str = str;
 	return (0);
