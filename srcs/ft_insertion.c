@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 12:13:07 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/09 20:32:38 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/10 02:10:35 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,15 @@ int			ft_delete_char(t_line *l)
 
 	count = 0;
 	count2 = 0;
-	str_cpy = (char *)malloc(sizeof(char) * (l->size));
+	str_cpy = (char *)malloc(sizeof(char) * (l->size + 1));
 	if (str_cpy == NULL)
 		return (1);
 	while (count < l->size)
 	{
+		if (l->count == 0 && count == l->count)
+			count2++;
 		str_cpy[count] = l->str[count2];
-		if (count == l->count - 1)
+		if (l->count != 0 && count == l->count - 1)
 			count2++;
 		count++;
 		count2++;
