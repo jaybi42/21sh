@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:39:18 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/10 02:47:42 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/16 18:43:52 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static bool		get_ans(t_ftl_root *h, int h_pos, t_line *l)
 
 	i = 0;
 	node = (t_ftl_node *)h->next;
-	if (h_pos == -1)
-		h_pos = (int)h->size;
-	while (++h_pos != (int)h->size)
+	if (h_pos <= -1)
+		node = (t_ftl_node *)h->prev;
+	while (--h_pos > 0)
 		node = node->next;
 	while (node != (t_ftl_node *)h)
 	{
@@ -29,14 +29,14 @@ static bool		get_ans(t_ftl_root *h, int h_pos, t_line *l)
 		{
 			ft_strdel(&l->ans);
 			l->hist_pos -= i;
+			l->bp = 0;
 			l->ans = ft_strdup(((t_hist *)node)->str);
 			return (1);
 		}
 		i++;
-		if (l->bp == 1)
-			node = node->next;
-		else
-			node = node->prev;
+		if (l->bp == 1 && (l->bp = 0) == 0)
+			return (get_ans(h, -1, l));
+		node = node->prev;
 	}
 	return (0);
 }
@@ -55,7 +55,7 @@ static void		ft_addchar(t_line *l)
 	if (tmp == NULL)
 		return ;
 	l->search = tmp;
-	l->hist_pos = 0;
+	l->hist_pos = -1;
 }
 
 static void		clean_ctrl_r(t_line *l)
@@ -98,7 +98,7 @@ static int		init_ctrl_r(t_line *l)
 		l->oldstr = l->str;
 		l->str = NULL;
 	}
-	l->hist_pos = l->hist->size;
+	l->hist_pos = -1;
 	return (0);
 }
 
