@@ -1,5 +1,5 @@
 ---- TODO ----
-- Comportement aléatoire sur le setenv (WTF)
+- Comportement aléatoire sur le setenv (Disparu depuis quelque temps)
 
 ---- ANISIDE BUGS ----
 - Quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'appairessent)
@@ -14,7 +14,6 @@
 - Faire une fonction FT_READ pour eviter les caracteres indesirables qui plantent les termcaps
 - Faire plusieurs dossier pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc, et l'intégrer au makefile
 - Faire plusieurs header file pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc
-- ctrl R ne propose pas le meme choix suivant si on ecrit ou si on efface
 
 
 
