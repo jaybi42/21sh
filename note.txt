@@ -1,20 +1,29 @@
-- Quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'appairessent)
-- Faire une fonction FT_READ pour eviter les caracteres indesirables qui plantent les termcaps
-- Comportement aléatoire sur le setenv (WTF)
-- Faire plusieurs dossier pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc, et l'intégrer au makefile
-- Faire plusieurs header file pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc
-- Permettre les CtrlD CtrlL
+---- TODO ----
 - CtrlC pendant CTRL R (recherche historique)
+- emacs ne fonctionne pas
+- Quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'appairessent)
+- Comportement aléatoire sur le setenv (WTF)
+
+---- ANISIDE BUGS ----
 - "ls > >" on a une alerte nous disant qu'une autre expression est attendu à la suite de la première redirection, pourtant le ficher ">" est bien créer.
 - Il ne devrait pas être possible de faire ceci non plus "ls ||||||||". Actuellement le ls s'execute.
-- deux fois le prompt quand ctrl c apres un cat
 - pas les bons resultats quand on veut mettre le result de "wc" dans un fichier
-- cat ne quite pas quand on fait un ls | cat et que le dossier est vide 
--touch ne fonctionne pas impossible de creer des fichiers
--ctrl R ne propose pas le meme choix suivant si on ecrit ou si on efface
+- cat ne quite pas quand on fait un ls | cat et que le dossier est vide
+-----------------------
+
+
+- Faire une fonction FT_READ pour eviter les caracteres indesirables qui plantent les termcaps
+- Faire plusieurs dossier pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc, et l'intégrer au makefile
+- Faire plusieurs header file pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc
+- ctrl R ne propose pas le meme choix suivant si on ecrit ou si on efface
+
+
+
+
+
 ____________________________
             LEAKS
  Tous les leaks, c'est ici !
 _____________________________
 
-- up / down puis modification de la chaine de caractere
+AAAANNNNNIIIIIS part
