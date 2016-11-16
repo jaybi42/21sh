@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/17 18:19:51 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/11/16 16:34:25 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ t_output	shell(t_av **av, int ret);
 int				do_fork(char *bin, char **all, char **env);
 int				check_bin(t_list *g_env, t_list *l_env, t_av av);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l);
-void			catch_signal(t_prompt prompt);
+void			catch_signal(void);
 
 /*
 **Name: history
@@ -250,5 +250,6 @@ extern t_list		*l_env;
 extern t_list		*g_env;
 extern t_ftl_root g_hist;
 extern t_line *g_line;
+extern t_prompt g_prompt;
 
 #endif

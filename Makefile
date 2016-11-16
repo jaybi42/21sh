@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/11/06 18:57:50 by jguthert         ###   ########.fr        #
+#    Updated: 2016/11/16 16:16:25 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -56,9 +56,9 @@ FILES =					main			\
 						bi_history		\
 						print_error		\
 						print_prompt	\
-						do_fork			\
 						catch_sig		\
 						history			\
+						do_fork			\
 						check_bin		\
 						storage_new_var \
 						heredoc			\

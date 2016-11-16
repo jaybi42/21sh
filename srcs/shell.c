@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/23 18:41:51 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/11/16 16:34:10 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -402,6 +402,8 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
 			close(fd[1]);
 		}
 		ret = waitpid(-1, &wait_status, WUNTRACED);
+		if (WIFSIGNALED(wait_status))
+            g_prompt.son = 1;
 		if (WIFEXITED(wait_status))
 			ret = WEXITSTATUS(wait_status);
 		t_multi_redic **to;

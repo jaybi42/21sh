@@ -6,14 +6,12 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/09 23:57:37 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/16 16:35:06 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <signal.h>
-
-static t_prompt	g_prompt = {0, NULL, NULL, 0, NULL};
 
 static void				sig_action(void *action)
 {
@@ -39,16 +37,13 @@ static void				is_sig(int signum)
 		ft_putstr("\n");
 		print_prompt(g_prompt.rand, g_prompt.g_env, g_prompt.l_env, g_prompt.l);
 		if (g_line != NULL)
-		{
 			reset_line();
-			g_line->quit = -1;
-		}
 	}
+	g_prompt.son = 0;
 }
 
-void					catch_signal(t_prompt prompt)
+void					catch_signal(void)
 {
-	g_prompt = prompt;
 	signal(SIGINT, is_sig);
 	signal(SIGWINCH, is_sig);
 	signal(SIGTSTP, is_sig);

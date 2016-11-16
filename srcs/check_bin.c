@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 18:36:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 17:18:33 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/16 16:17:14 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,15 @@ int			check_bin(t_list *g_env, t_list *l_env, t_av av)
 	str = get_path(g_env, l_env);
 	path = get_allpath(av.cmd, str);
 	if (access(av.cmd, X_OK) != -1)
+	{
+		exit(1);
 		ret = do_fork(av.cmd, av.argv, env);
+	}
 	else
+	{
+		exit(1);
 		ret = exec_path2(av.argv, path, env);
+	}
 	ft_tabdel(path);
 	ft_tabdel(env);
 	if (ret == -2)

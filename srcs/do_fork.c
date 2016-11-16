@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/24 16:57:26 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 17:21:58 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/16 16:39:42 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int				do_fork(char *bin, char **all, char **env)
 	pid_t		ret;
 	int			wait_status;
 
-	catch_signal((t_prompt){0, NULL, NULL, 1, NULL});
+	catch_signal();
 	ret = fork();
 	if (ret == 0)
 		exit(execve(bin, all, env));
@@ -28,6 +28,8 @@ int				do_fork(char *bin, char **all, char **env)
 	else
 	{
 		ret = waitpid(-1, &wait_status, WUNTRACED);
+		if (WIFSIGNALED(wait_status))
+			g_prompt.son = 1;
 		if (WIFEXITED(wait_status))
 			ret = WEXITSTATUS(wait_status);
 	}

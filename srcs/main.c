@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/10 02:53:36 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/16 16:33:32 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,8 +175,9 @@ static int		sh21(void)
 	handle_var(KV_SET, "?", "0");
 	while (1)
 	{
-		catch_signal((t_prompt){nbr, g_env, l_env, 0, &l});
-		print_prompt(nbr, g_env, l_env, &l);
+		catch_signal();
+		if (g_prompt.son == 0)
+			print_prompt(nbr, g_env, l_env, &l);
 		g_prompt = (t_prompt){nbr, g_env, l_env, 0, &l};
 		g_line = NULL;
 		if ((av = read_init(&l, &g_hist)) == NULL)

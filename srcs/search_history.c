@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/16 16:17:59 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 21:35:57 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/16 16:41:18 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void			get_line_history(t_line *l, t_ftl_root *root)
 	while (1)
 	{
 		find_history(l, root, search);
-//		ft_print_line(l);
 		print(l);
 		ft_bzero(l->buffer, 6);
 		if (read(0, l->buffer, 6) == -1)
