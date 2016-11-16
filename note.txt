@@ -1,14 +1,13 @@
 ---- TODO ----
-- CtrlC pendant CTRL R (recherche historique)
-- emacs ne fonctionne pas
-- Quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'appairessent)
 - Comportement aléatoire sur le setenv (WTF)
 
 ---- ANISIDE BUGS ----
+- Quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'appairessent)
 - "ls > >" on a une alerte nous disant qu'une autre expression est attendu à la suite de la première redirection, pourtant le ficher ">" est bien créer.
 - Il ne devrait pas être possible de faire ceci non plus "ls ||||||||". Actuellement le ls s'execute.
 - pas les bons resultats quand on veut mettre le result de "wc" dans un fichier
 - cat ne quite pas quand on fait un ls | cat et que le dossier est vide
+- emacs ne fonctionne pas
 -----------------------
 
 
