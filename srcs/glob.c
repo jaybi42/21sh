@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "21sh.h"
 
 #define DEBUG 1
 
@@ -12,7 +13,7 @@ char		*cpy_a_to_b2(char *str, int a, int b)
 	int i;
 
 	len = (b - a < 0) ? 0: b - a;
-	if (!(new_str = malloc(sizeof(char) * (len + 1))))
+	if (!(new_str = xmalloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	i = 0;
 	while (a + i < b)
@@ -222,9 +223,9 @@ t_globbing *quarter(char *expr, int *tmp_len)
 	int a_str;
 	t_globbing *globbing;
 
-	if (!(globbing = malloc(sizeof(t_globbing))))
+	if (!(globbing = xmalloc(sizeof(t_globbing))))
 		return (NULL);
-	if (!(globbing->exprs = malloc(sizeof(char) * 127)))
+	if (!(globbing->exprs = xmalloc(sizeof(char) * 127)))
 		return (NULL);
 	globbing->list = 1;
 	i = 0;
@@ -271,7 +272,7 @@ t_globbing *rec_g(char *expr, int *i, int iquare)
 	int careone;
 
 	//printf("%d|%c|\n",(*i), expr[(*i)]);
-	if (!(g = malloc(sizeof(t_globbing))))
+	if (!(g = xmalloc(sizeof(t_globbing))))
 		return (NULL);
 	c = 0;
 	careone = 0;
@@ -299,9 +300,9 @@ char	**find_globbing(t_globbing **gs, int a, char **words)
 	int a_g;
 	int a_w;
 
-	if (!(d = malloc(sizeof(int) * (len + 1))))
+	if (!(d = xmalloc(sizeof(int) * (len + 1))))
 		return (NULL);
-	if (!(d_bannish = malloc(sizeof(int) * (len + 1))))
+	if (!(d_bannish = xmalloc(sizeof(int) * (len + 1))))
 		return (NULL);
 	a_w = -1;
 
@@ -317,7 +318,7 @@ char	**find_globbing(t_globbing **gs, int a, char **words)
 		finder(gs[a_g], &d, &d_bannish, words);
 	}
 	char **ret;
-	if (!(ret = malloc(sizeof(char *) * (tlen(words) + 1))))
+	if (!(ret = xmalloc(sizeof(char *) * (tlen(words) + 1))))
 		return (NULL);
 	a_w = -1;
 	a = 0;
@@ -335,7 +336,7 @@ char	**find_globbing(t_globbing **gs, int a, char **words)
 	int a;
 	int beg;
 
-	if (!(t_str = malloc(sizeof(char **) * (len + 1))))
+	if (!(t_str = xmalloc(sizeof(char **) * (len + 1))))
 		return (NULL);
 	t_str[0] = NULL;
 	i = 0;
@@ -389,7 +390,7 @@ char **fusion_tarray(char ***t)
 	int i;
 	int len;
 
-	if (!(ret = malloc(sizeof(char **) * (ttlen(t) + 1))))
+	if (!(ret = xmalloc(sizeof(char **) * (ttlen(t) + 1))))
 		return (NULL);
 	a = 0;
 	len = 0;
@@ -407,14 +408,14 @@ char **fusion_tarray(char ***t)
 	return (ret);
 }
 
-char	*x_strjoin(char *s1, size_t len1, char *s2, size_t len2)
+char	*x_strjoin2(char *s1, size_t len1, char *s2, size_t len2)
 {
 	int i;
 	int a;
 	char *s;
 
 	a = 0;
-	s = malloc(sizeof(char) * (len1 + len2 + 1));
+	s = xmalloc(sizeof(char) * (len1 + len2 + 1));
 	if (!s)
 		return (NULL);
 	i = -1;
@@ -447,22 +448,22 @@ size_t len_depth(char *s)
 	return (i);
 }
 
-char *x_strdup(char *s, int len)
+char *x_strdup2(char *s, int len)
 {
-	int i;
-	char *ns;
+        int i;
+        char *ns;
 
-	i = 0;
-	ns = malloc(sizeof(char) * (len + 1));
-	if (ns == NULL)
-		return (NULL);
-	while (i < len)
-	{
-		ns[i] = s[i];
-		i++;
-	}
-	ns[i] = '\0';
-	return (ns);
+        i = 0;
+        ns = xmalloc(sizeof(char) * (len + 1));
+        if (ns == NULL)
+                return (NULL);
+        while (i < len)
+        {
+                ns[i] = s[i];
+                i++;
+        }
+        ns[i] = '\0';
+        return (ns);
 }
 
 char **ret_arr(char *s)
@@ -476,11 +477,11 @@ char **ret_arr(char *s)
 
 	i = 0;
 	len = strlen(s);
-	t_s = malloc(sizeof(char *) * (len + 1));
-	t_a = malloc(sizeof(int) * (len + 1));
+	t_s = xmalloc(sizeof(char *) * (len + 1));
+	t_a = xmalloc(sizeof(int) * (len + 1));
 	t_i = 0;
 	t_a[t_i] = 0;
-	t_s[t_i++] = malloc(sizeof(char) * (len + 1));
+	t_s[t_i++] = xmalloc(sizeof(char) * (len + 1));
 	t_s[t_i] = NULL;
 	t_s[t_i - 1][0] = '\0';
 	tog = 1;
@@ -490,7 +491,7 @@ char **ret_arr(char *s)
 			break;
 		else if (s[i] == ',')
 		{
-			t_s[t_i] = malloc(sizeof(char) * (len + 1));
+			t_s[t_i] = xmalloc(sizeof(char) * (len + 1));
 			t_s[t_i][0] = '\0';
 			t_a[t_i] = 0;
 			tog = 1;
@@ -502,7 +503,7 @@ char **ret_arr(char *s)
 			int i_tmp;
 			if (a_tmp == NULL)
 				return (NULL);
-			char *old_tmp = x_strdup(t_s[t_i - 1], t_a[t_i - 1]);
+			char *old_tmp = x_strdup2(t_s[t_i - 1], t_a[t_i - 1]);
 			if (old_tmp == NULL)
 				return (NULL);
 			i_tmp = 0;
@@ -510,13 +511,13 @@ char **ret_arr(char *s)
 			{
 				if (t_s[t_i - 1 + i_tmp] != NULL)
 				{
-					t_s[t_i - 1 + i_tmp] = x_strjoin(t_s[t_i - 1 + i_tmp], t_a[t_i - 1 + i_tmp],
+					t_s[t_i - 1 + i_tmp] = x_strjoin2(t_s[t_i - 1 + i_tmp], t_a[t_i - 1 + i_tmp],
 							a_tmp[i_tmp],strlen(a_tmp[i_tmp]));
 					t_a[t_i - 1 + i_tmp] += strlen(a_tmp[i_tmp]);
 				}
 				else
 				{
-					t_s[t_i - 1 + i_tmp] = x_strjoin(old_tmp, strlen(old_tmp),
+					t_s[t_i - 1 + i_tmp] = x_strjoin2(old_tmp, strlen(old_tmp),
 							a_tmp[i_tmp], strlen(a_tmp[i_tmp]));
 					t_a[t_i - 1 + i_tmp] = strlen(old_tmp) + strlen(a_tmp[i_tmp]);
 				}
@@ -564,13 +565,13 @@ void	insert_in_arr(t_brak *b, char **t_add)
 
 	a = 0;
 	x = 0;
-	tmp = malloc(sizeof(char *) * b->len);
+	tmp = xmalloc(sizeof(char *) * b->len);
 	while (a < b->ta)
 	{
 		i = 0;
 		while (t_add[i])
 		{
-			tmp[x++] = x_strjoin(b->t[a],b->i_a[a], t_add[i], strlen(t_add[i]));
+			tmp[x++] = x_strjoin2(b->t[a],b->i_a[a], t_add[i], strlen(t_add[i]));
 			i++;
 		}
 		a++;
@@ -639,10 +640,10 @@ char	**braceSplit(char *s)
 	int i;
 
 	b.len = strlen(s) + 1;
-	if (!(b.t = malloc(sizeof(char *) * b.len)) ||
-			!(b.i_a = malloc(sizeof(int) * b.len)))
+	if (!(b.t = xmalloc(sizeof(char *) * b.len)) ||
+			!(b.i_a = xmalloc(sizeof(int) * b.len)))
 		return (NULL);
-	if (!(b.t[0] = malloc(sizeof(char) * b.len)))
+	if (!(b.t[0] = xmalloc(sizeof(char) * b.len)))
 		return (NULL);
 	b.i_a[0] = 0;
 	b.ta = 1;
@@ -680,21 +681,21 @@ char	**ft_globing(char *expr, char **words)
 	int c;
 	int ta;
 
-	if (!(exprs = malloc(sizeof(int) * (strlen(expr) + 1))))
+	if (!(exprs = xmalloc(sizeof(int) * (strlen(expr) + 1))))
 		return (NULL);
 	exprs = brace_handler(expr);
-	if (!(gti = malloc(sizeof(int) * (strlen(expr) + 1))))
+	if (!(gti = xmalloc(sizeof(int) * (strlen(expr) + 1))))
 		return (NULL);
-	if (!(tgs = malloc(sizeof(t_globbing **) * (strlen(expr) + 1))))
+	if (!(tgs = xmalloc(sizeof(t_globbing **) * (strlen(expr) + 1))))
 		return (NULL);
-	if (!(gta = malloc(sizeof(int) * (strlen(expr) + 1))))
+	if (!(gta = xmalloc(sizeof(int) * (strlen(expr) + 1))))
 		return (NULL);
 	ta = 0;
 	while (exprs[ta])
 	{
 		gti[ta] = 0;
 		gta[ta] = 0;
-		if (!(tgs[ta] = malloc(sizeof(t_globbing *) * (strlen(expr) + 1))))
+		if (!(tgs[ta] = xmalloc(sizeof(t_globbing *) * (strlen(expr) + 1))))
 			return (NULL);
 		ta++;
 	}
@@ -724,7 +725,7 @@ char	**ft_globing(char *expr, char **words)
 			{
 				while(exprs[ta][gti[ta] + c] == '*')
 					c++;
-				if (!(tgs[ta][gta[ta]] = malloc(sizeof(t_globbing))))
+				if (!(tgs[ta][gta[ta]] = xmalloc(sizeof(t_globbing))))
 					return (NULL);
 				tgs[ta][gta[ta]]->is_looking = 1;
 				tgs[ta][gta[ta]]->length_one = 0;
@@ -734,7 +735,7 @@ char	**ft_globing(char *expr, char **words)
 			}
 			else if (exprs[ta][gti[ta]] == '?')
 			{
-				if (!(tgs[ta][gta[ta]] = malloc(sizeof(t_globbing))))
+				if (!(tgs[ta][gta[ta]] = xmalloc(sizeof(t_globbing))))
 					return (NULL);
 				tgs[ta][gta[ta]]->is_looking = 1;
 				tgs[ta][gta[ta]]->length_one = 1;
@@ -749,9 +750,9 @@ char	**ft_globing(char *expr, char **words)
 				return (NULL);
 			gti[ta]++;
 		}
-		if (!(tgs[ta][gta[ta]] = malloc(sizeof(t_globbing))))
+		if (!(tgs[ta][gta[ta]] = xmalloc(sizeof(t_globbing))))
 			return (NULL);
-		tgs[ta][gta[ta]]->exprs = strdup("");	
+		tgs[ta][gta[ta]]->exprs = strdup("");
 		tgs[ta][gta[ta]]->is_looking = 1;
 		tgs[ta][gta[ta]]->list = 0;
 		tgs[ta][gta[ta]]->length_one = 1;
@@ -772,7 +773,7 @@ char	**ft_globing(char *expr, char **words)
 		ta++;
 	}
 	char ***t;
-	if (!(t = malloc(sizeof(char ***) * (strlen(expr) + 1))))
+	if (!(t = xmalloc(sizeof(char ***) * (strlen(expr) + 1))))
 		return (NULL);
 	x = 0;
 	while (tgs[x] != NULL)

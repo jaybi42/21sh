@@ -54,6 +54,8 @@ void	ft_ctrl_d(void)
 
 t_av	**read_init(t_line *l, t_ftl_root *hist)
 {
+	t_av **av;
+
 	g_line = l;
 	ft_init_line(l, hist);
 	while (1)
@@ -75,7 +77,7 @@ t_av	**read_init(t_line *l, t_ftl_root *hist)
 			break ;
 		}
 	}
-	if (parse_line(l, hist) == 0)
-		return (parse_commands(l->str));
-	return (parse_commands(""));
+	av = parse_commands((parse_line(l,hist) == 0) ? l->str : "");
+	ft_strdel(&l->str);
+	return (av);
 }

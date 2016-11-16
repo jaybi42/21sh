@@ -9,6 +9,7 @@
 - Il ne devrait pas être possible de faire ceci non plus "ls ||||||||". Actuellement le ls s'execute.
 - pas les bons resultats quand on veut mettre le result de "wc" dans un fichier
 - cat ne quite pas quand on fait un ls | cat et que le dossier est vide
+- 99% des leaks reglé, toujour le cas: " cmd1 | cmd2 | cmd3 | etc..."
 -----------------------
 
 
@@ -16,7 +17,6 @@
 - Faire plusieurs dossier pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc, et l'intégrer au makefile
 - Faire plusieurs header file pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc
 - ctrl R ne propose pas le meme choix suivant si on ecrit ou si on efface
-
 
 
 

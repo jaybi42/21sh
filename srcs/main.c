@@ -57,7 +57,7 @@ int			insert_arr(char ***a, char *s)
 		na[i] = (*a)[i];
 		i++;
 	}
-	na[i] = s;
+	na[i] = ft_strdup(s);
 	na[i + 1] = NULL;
 	ft_memdel((void **)a);
 	(*a) = na;
@@ -135,6 +135,8 @@ char		*handle_var(int state, char *key, char *value)
 			return (NULL);
 		if ((tmp = search_key_values(keys, values, key)) != -1)
 		{
+			ft_strdel(&keys[tmp]);
+			ft_strdel(&values[tmp]);
 			keys[tmp] = ft_strdup(key);
 			values[tmp] = ft_strdup(value);
 			return (key);

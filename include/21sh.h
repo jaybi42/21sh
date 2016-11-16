@@ -241,6 +241,10 @@ int			char_is_whitespace(char c);
 char            **fstrsplit(char *str, int len, int (*is_whatever)(char));
 char	**ft_globing(char *expr, char **words);
 t_output shell_exec(char *expr);
+char				**x_strsplit(char const *s, char c);
+char	*x_strjoin(char const *s1, char const *s2);
+char	*x_strdup(char const *src);
+char	*x_strnew(size_t size);
 
 
 /*

@@ -96,6 +96,11 @@ FILES =					main			\
 						key_is_special	\
 						bi_clear		\
 						reset_line		\
+						x_strsplit \
+						x_strjoin \
+						x_strdup \
+						x_strnew
+
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))

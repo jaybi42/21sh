@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "21sh.h"
+#include "autocomp.h"
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
@@ -20,17 +21,6 @@
 
 #define TRUE 1
 #define FALSE 0
-
-void file_put_contents(char *f, char *s)
-{
-/*
-	int fd = open(f, O_RDWR | O_CREAT | O_TRUNC, 0666);
-	write(fd, s, ft_strlen(s));
-	while(1);
-	*/
-	(void)f;
-	(void)s;
-}
 
 #define TYPE_REDIRECT_NORMAL 0
 #define TYPE_REDIRECT_TRUNC 1
@@ -84,13 +74,13 @@ char **convert_env(t_list *g_env, t_list *l_env)
 	if (env == NULL)
 		env = l_env;
 	i = ft_listlen(env);
-	t = (char **)malloc(sizeof(char *) * (i + 1));
+	t = (char **)xmalloc(sizeof(char *) * (i + 1));
 	if (t == NULL)
 		return (NULL);
 	t[i--] = NULL;
 	while (env != NULL)
 	{
-		t[i--] = ft_strdup(((t_env *)env->content)->str);
+		t[i--] = x_strdup(((t_env *)env->content)->str);
 		env = env->next;
 	}
 	return (t);
@@ -99,23 +89,23 @@ char **convert_env(t_list *g_env, t_list *l_env)
 char **get_allpath(char *cmd, char *path)
 {
 	char	**temp;
+	char **temp2;
 	char	**allpath;
 	int		i;
 
 	i = -1;
 	temp = ft_strsplit(path, ':');
-	allpath = (char **)malloc(sizeof(char *) * (ft_tablen(temp) + 1));
+	allpath = (char **)xmalloc(sizeof(char *) * (ft_tablen(temp) + 1));
 	while (temp[++i] != NULL)
-		allpath[i] = ft_strjoin(temp[i], "/");
+		allpath[i] = x_strjoin(temp[i], "/");
 	allpath[i] = NULL;
-	ft_tabdel(temp);
-	temp = (char **)malloc(sizeof(char *) * (ft_tablen(allpath) + 1));
+	temp2 = (char **)xmalloc(sizeof(char *) * (ft_tablen(allpath) + 1));
 	i = -1;
+	del_tab(temp);
 	while (allpath[++i] != NULL)
-		temp[i] = ft_strjoin(allpath[i], cmd);
-	temp[i] = NULL;
-	ft_tabdel(allpath);
-	return (temp);
+		temp2[i] = x_strjoin(allpath[i], cmd);
+	temp2[i] = NULL;
+	return (temp2);
 }
 
 int	 exec_path(char **arg, char **path, char **env)
@@ -222,7 +212,7 @@ int		x_strjoins(char **s1, size_t *len1, char *s2, size_t len2)
 	if (s1 == NULL || s2 == NULL)
 		return (0);
 	len = (int)((*len1) + len2 + 1);
-	s = malloc(sizeof(char) * len);
+	s = xmalloc(sizeof(char) * len);
 	if (!s)
 		return (0);
 	i = -1;
@@ -236,6 +226,7 @@ int		x_strjoins(char **s1, size_t *len1, char *s2, size_t len2)
 	(*len1) = a;
 	return (1);
 }
+
 typedef struct s_multi_redic
 {
 	char *string;
@@ -254,13 +245,13 @@ int		exec_builtin(int (*fnct)(), char **argv, t_redirect **r,
 	(void)argv;
 
 	while (r[i])i++;
-	if (!(f = malloc(sizeof(t_f *) * (i + 1)))) { printf("error"); exit(4);}
+	if (!(f = xmalloc(sizeof(t_f *) * (i + 1)))) { printf("error"); exit(4);}
 	i = -1;
 	a = 0;
 	while (r[++i])
 		if (r[i]->type == 0)
 		{
-			f[a] = malloc(sizeof(t_f) * (2));
+			f[a] = xmalloc(sizeof(t_f) * (2));
 			f[a]->fd_to_redir = r[i]->fd_in;
 			f[a]->fd_to_write = r[i]->fd_out;
 			pipe(f[a++]->fd);
@@ -343,15 +334,14 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
 	i = 0;
 	ret = -1;
 	while (r[i])i++;
-	if (!(f = malloc(sizeof(t_f *) * (i + 1)))) { printf("error");
-	file_put_contents("okalm.txt", "error m2");
+	if (!(f = xmalloc(sizeof(t_f *) * (i + 1)))) { printf("error");
 	 exit(4);}
 	i = -1;
 	a = 0;
 	while (r[++i]){
 		if (r[i]->type != 0)
 			continue;
-		f[a] = malloc(sizeof(t_f) * (2));
+		f[a] = xmalloc(sizeof(t_f) * (2));
 		f[a]->fd_to_redir = r[i]->fd_in;
 		f[a]->fd_to_write = r[i]->fd_out;
 		pipe(f[a++]->fd);
@@ -360,7 +350,6 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
 	f[a] = NULL;
 	if ((pid = fork()) == -1)
 	{
-		file_put_contents("okalm.txt", "error forked");
 		exit(0);
 	}
 	if (pid == 0)
@@ -460,7 +449,7 @@ int get_out(t_redirect ***r, int fd_out)
 {
 	int i = 0;
 	while((*r)[i])i++;
-	(*r)[i] = malloc(sizeof(t_redirect));
+	(*r)[i] = xmalloc(sizeof(t_redirect));
 	(*r)[i]->type = 0;
 	(*r)[i]->fd_in = 1;
 	(*r)[i]->fd_out = fd_out;
@@ -528,9 +517,10 @@ void clear_output(t_output *o)
 	o->len = 0;
 	o->string = xmalloc(2);
 	if (o->string == NULL)
-		{dprintf(2, "malloc error.. leaving...\n");
-		file_put_contents("okalm.txt", "error m");
-		exit(1);}
+	{
+		dprintf(2, "xmalloc error.. leaving...\n");
+		exit(1);
+	}
 	o->string[0] = '\0';
 }
 
@@ -573,7 +563,7 @@ t_output		shell(t_av **av, int ret)
 		else
 					find = -1;
 		if (ex.type == -1)
-				{	ft_printf("21sh: unknown command bro: %s\n", av[a]->cmd);
+				{	dprintf(2,"21sh: unknown command: %s\n", av[a]->cmd);
 				handle_var(KV_SET, "?", "127");
 				;continue;}
 		if (av[a]->type != TYPE_PIPE)
@@ -582,7 +572,9 @@ t_output		shell(t_av **av, int ret)
 			continue;
 		output = do_exec(ex, (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) ? 1 : ret, *av[a],
 			output.string, output.len);
-		handle_var(KV_SET, "?", ft_litoa((unsigned char)output.ret_code));
+			char *s;
+			handle_var(KV_SET, "?", (s = ft_litoa((unsigned char)output.ret_code)));
+			ft_strdel(&s);
 		if (ret)
 			x_strjoins(&all.string,(size_t *)&all.len,output.string,output.len);
 		all.ret_code = output.ret_code;

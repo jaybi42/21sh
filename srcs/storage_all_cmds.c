@@ -283,7 +283,7 @@ char		*cpy_a_to_b(char *str, int a, int b)
 	int i;
 
 	len = (b - a < 0) ? 0: b - a;
-	if (!(new_str = malloc(sizeof(char) * (len + 1))))
+	if (!(new_str = xmalloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	i = 0;
 	while (a + i < b)
@@ -302,7 +302,7 @@ char            **fstrsplit(char *str, int len, int (*is_whatever)(char))
 	int a;
 	int beg;
 
-	if (!(t_str = malloc(sizeof(char **) * (len + 1))))
+	if (!(t_str = xmalloc(sizeof(char **) * (len + 1))))
 		return (NULL);
 	t_str[0] = NULL;
 	i = 0;
@@ -325,10 +325,10 @@ t_parse		*parse_it2(char *expr, int len, t_delimiter *d, int l)
 	int i;
 	t_parse *p;
 
-	if (!(p = malloc(sizeof(t_parse))) ||
-			!(p->begin = malloc(sizeof(int) * ft_strlen(expr))) ||
-			!(p->end = malloc(sizeof(int) * ft_strlen(expr))) ||
-			!(p->type = malloc(sizeof(int) * ft_strlen(expr))))
+	if (!(p = xmalloc(sizeof(t_parse))) ||
+			!(p->begin = xmalloc(sizeof(int) * ft_strlen(expr))) ||
+			!(p->end = xmalloc(sizeof(int) * ft_strlen(expr))) ||
+			!(p->type = xmalloc(sizeof(int) * ft_strlen(expr))))
 		exit(0);
 	i = 0;
 	p->nb = 0;
@@ -351,10 +351,10 @@ t_parse *parse_it(char *expr, int len)
 	int i;
 	t_parse *p;
 	//printf("[%.*s] - connector: %s\n", sh->nb_stack, "++++++++++++++++++++++++++++++++", sh->connector == NULL ? "none" : sh->connector);
-	if (!(p = malloc(sizeof(t_parse))) ||
-			!(p->begin = malloc(sizeof(int) * ft_strlen(expr))) ||
-			!(p->end = malloc(sizeof(int) * ft_strlen(expr))) ||
-			!(p->type = malloc(sizeof(int) * ft_strlen(expr))))
+	if (!(p = xmalloc(sizeof(t_parse))) ||
+			!(p->begin = xmalloc(sizeof(int) * ft_strlen(expr))) ||
+			!(p->end = xmalloc(sizeof(int) * ft_strlen(expr))) ||
+			!(p->type = xmalloc(sizeof(int) * ft_strlen(expr))))
 		exit(0);
 	i = 0;
 	p->nb = 0;
@@ -438,7 +438,7 @@ void handle_heredoc(char *expected, t_redirect **r)
 	int i;
 	size_t len;
 	char *tmp;
-	(*r)->s_in = malloc(sizeof(char) * 2);
+	(*r)->s_in = xmalloc(sizeof(char) * 2);
 	(*r)->len_in = 0;
 	(*r)->s_in[0] = '\0';
 
@@ -465,7 +465,7 @@ t_redirect *get_redirection(char *s)
 	t_redirect *redirect;
 
 	//s = clear_whitespace(s);
-	if (!(redirect = malloc(sizeof(t_redirect))) || s == NULL)
+	if (!(redirect = xmalloc(sizeof(t_redirect))) || s == NULL)
 		return (NULL);
 	i = 0;
 	int len;
@@ -630,7 +630,7 @@ char **check_var(char *s, char **env)
 	i = 0;
 	while (env[i])
 	{
-		tmp = ft_strsplit(env[i], '=');
+		tmp = x_strsplit(env[i], '=');
 		if (tmp != NULL && tmp[0] != NULL && tmp[1] != NULL)
 			if (ft_strncmp(s, tmp[0], ft_strlen(tmp[0])) == 0)
 			{
@@ -661,7 +661,7 @@ char *join_string_array(char **a)
 	i = -1;
 	while (a[++i])
 		len += ft_strlen(a[i]) + 1;
-	ns = malloc(sizeof(char) * (len + 1));
+	ns = xmalloc(sizeof(char) * (len + 1));
 	i = 0;
 	len = 0;
 	while (a[i])
@@ -682,7 +682,7 @@ char *apply_var(char *s, int do_extra)
 	size_t len;
 	char **env;
 	int find_tilde;
-	
+
 	find_tilde = 1; //to_modify
 	env = convert_env(g_env, l_env);
 	i = -1;
@@ -705,10 +705,10 @@ char *apply_var(char *s, int do_extra)
 				x_strjoins(&ns,&len, tmp[1],ft_strlen(tmp[1]));
 				i += ft_strlen(tmp[1]);
 		}
-		
+
 		else if (do_extra && !find_tilde)
 		{
-				
+
 		}
 		else
 		{
@@ -766,10 +766,10 @@ t_av	**parse_commands(char *expr)
 	int			*waiting_type;
 	int			pa;
 
-	if (!(tp = malloc(sizeof(t_parse **) * (ft_strlen(expr) + 1)))
-	|| (!(ti = malloc(sizeof(int *) * (ft_strlen(expr) + 1)))))
+	if (!(tp = xmalloc(sizeof(t_parse **) * (ft_strlen(expr) + 1)))
+	|| (!(ti = xmalloc(sizeof(int *) * (ft_strlen(expr) + 1)))))
 		exit(1);
-	if (!(waiting_type = malloc(sizeof(int) * (ft_strlen(expr) + 1))))
+	if (!(waiting_type = xmalloc(sizeof(int) * (ft_strlen(expr) + 1))))
 		exit(1);
 	waiting_type[0] = 0;
 	pa = 0;
@@ -784,7 +784,7 @@ t_av	**parse_commands(char *expr)
 
 	t_av **cmds;
 
-if (!(cmds = malloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
+if (!(cmds = xmalloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
 return (NULL);
 int ic = 0;
 //int skip_it = FALSE;
@@ -806,10 +806,10 @@ while (tp[pa] != NULL)
 				//creating a command
 				int ra;
 				int a;
-				if (!(cmds[ic] = malloc(sizeof(t_av)))
-				|| !(cmds[ic]->redirect = malloc(sizeof(t_redirect *) * (ft_strlen(expr) + 1)))
-				|| !(cmds[ic]->bitcode = malloc(sizeof(void *) * (ft_strlen(expr) + 1)))
-				|| !(cmds[ic]->argcmd = malloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
+				if (!(cmds[ic] = xmalloc(sizeof(t_av)))
+				|| !(cmds[ic]->redirect = xmalloc(sizeof(t_redirect *) * (ft_strlen(expr) + 1)))
+				|| !(cmds[ic]->bitcode = xmalloc(sizeof(void *) * (ft_strlen(expr) + 1)))
+				|| !(cmds[ic]->argcmd = xmalloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
 						return (NULL);
 				ra = 0;
 				int argcmd_i = 0;
@@ -819,7 +819,7 @@ while (tp[pa] != NULL)
 				//its for separate each command
 				char ***t_tstr;
 
-				if (!(t_tstr = malloc(sizeof(char ***) * (oldi - ti[pa] + 1))))
+				if (!(t_tstr = xmalloc(sizeof(char ***) * (oldi - ti[pa] + 1))))
 					return (NULL);
 				a = 0;
 				while (ti[pa] + a + ra < oldi)
@@ -848,7 +848,7 @@ while (tp[pa] != NULL)
 				ti[pa] += a + ra;
 				t_tstr[a] = NULL;
 				int len = t_len(t_tstr, a);
-				if ((cmds[ic]->argv = malloc(sizeof(char *) * (len + 1))) == NULL)
+				if ((cmds[ic]->argv = xmalloc(sizeof(char *) * (len + 1))) == NULL)
 				return (NULL);
 				int ia;
 				int i = -1;
