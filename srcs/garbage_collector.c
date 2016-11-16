@@ -46,8 +46,9 @@ int				delete_data(void ***datas, int len, void *to_del)
 	while (++i < len)
 		if ((*datas)[i] == to_del && to_del != NULL)
 		{
-			printf("clear a data |%p|\n", to_del);
-			free((*datas)[i]);
+			//printf("clear a data |%p|\n", to_del);
+			if ((*datas)[i] != NULL)
+				free((*datas)[i]);
 			(*datas)[i] = NULL;
 			return (1);
 		}

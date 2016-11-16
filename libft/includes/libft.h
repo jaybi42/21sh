@@ -73,8 +73,7 @@ typedef struct		s_ftv
 	size_t			element_size;
 }					t_ftv;
 
-int			fd_get_binary(int fd, char **str, int *len);
-int			file_get_binary(char *filename, char **str, int *len);
+
 
 
 /*

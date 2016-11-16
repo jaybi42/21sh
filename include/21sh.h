@@ -246,6 +246,10 @@ char	*x_strjoin(char const *s1, char const *s2);
 char	*x_strdup(char const *src);
 char	*x_strnew(size_t size);
 
+int			x_fd_get_binary(int fd, char **str, int *len);
+int			fd_get_binary(int fd, char **str, int *len);
+int			file_get_binary(char *filename, char **str, int *len);
+
 
 /*
 ** global

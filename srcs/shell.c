@@ -169,7 +169,7 @@ t_exec make_exec_bin(t_av *av, t_list *g_env, t_list *l_env)
 	else
 	{
 		ret = exec_path(av->argv, path, env);
-		ft_tabdel(env);
+		//ft_tabdel(env);
 		if (ret != -1)
 		{
 			ex.type = BIN;
@@ -302,7 +302,7 @@ int		exec_builtin(int (*fnct)(), char **argv, t_redirect **r,
 		to[x]->oldout = f[i]->oldout;
 		to[x]->tempout = f[i]->tempout;
 		close(f[i]->fd_to_redir);
-		fd_get_binary(f[i]->fd[0], &to[x]->string, &to[x]->len);
+		x_fd_get_binary(f[i]->fd[0], &to[x]->string, &to[x]->len);
 		close(f[i]->fd[0]);
 		x++;
 		to[x] = NULL;
@@ -427,7 +427,7 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
 			to[x]->fd_to_redir = f[i]->fd_to_redir;
 			to[x]->oldout = f[i]->oldout;
 			to[x]->tempout = f[i]->tempout;
-			fd_get_binary(f[i]->fd[0], &to[x]->string, &to[x]->len);
+			x_fd_get_binary(f[i]->fd[0], &to[x]->string, &to[x]->len);
 			close(f[i]->fd[0]);
 			x++;
 			to[x] = NULL;
@@ -507,7 +507,7 @@ t_output do_exec(t_exec ex, int ret,
 			i++;
 		}
 		close(fd[1]);
-		fd_get_binary(fd[0], &o.string, &o.len);
+		x_fd_get_binary(fd[0], &o.string, &o.len);
 		close(fd[0]);
 		//dprintf(2, "read --> |%.*s|\n", o.len, o.string);
 	}

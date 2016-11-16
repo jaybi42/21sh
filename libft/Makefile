@@ -77,7 +77,7 @@ SRCFILES = 	ft_isprint.c ft_memset.c ft_bzero.c			\
 			ft_printf_flag2.c ft_putc2.c ft_latoi.c 	\
 			ft_dela_to_b.c ft_tlen.c ft_putstr_dbcote.c \
 			a_clear.c  a_event.c  a_handle.c a_handle2.c a_mode.c \
-			a_print.c  a_screen.c a_listener.c file_get_contents.c
+			a_print.c  a_screen.c a_listener.c
 
 ##=- Process -=##
 

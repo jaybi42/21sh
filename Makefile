@@ -99,7 +99,8 @@ FILES =					main			\
 						x_strsplit \
 						x_strjoin \
 						x_strdup \
-						x_strnew
+						x_strnew \
+						file_get_contents
 
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
