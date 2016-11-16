@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/16 16:35:06 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/16 16:56:56 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ static void				is_sig(int signum)
 		ft_putstr("\n");
 		print_prompt(g_prompt.rand, g_prompt.g_env, g_prompt.l_env, g_prompt.l);
 		if (g_line != NULL)
+		{
 			reset_line();
+			g_line->quit = -1;
+		}
 	}
 	g_prompt.son = 0;
 }
