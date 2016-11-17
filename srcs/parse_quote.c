@@ -22,6 +22,7 @@ static void		init_quotes(t_quotes *quotes)
 
 static int		check_quotes(t_quotes *quotes, char *line)
 {
+	init_quotes(quotes);
 	while (*line)
 	{
 		if (*line == '\\')
@@ -36,19 +37,24 @@ static int		check_quotes(t_quotes *quotes, char *line)
 			quotes->escape = 0;
 		line++;
 	}
-	return (quotes->bquote && quotes->squote && quotes->dquote);
+	return (!quotes->bquote && !quotes->squote && !quotes->dquote);
 }
 
 static int		concat_str(t_line *l, char *input)
 {
 	char	*tmp;
+	char	*tmp2;
 
-	tmp = ft_strjoin(l->str, input);
+	tmp = ft_strjoin("\n", input);
 	ft_strdel(&input);
 	if (tmp == NULL)
 		return (1);
+	tmp2 = ft_strjoin(l->str, tmp);
+	ft_strdel(&tmp);
+	if (tmp2 == NULL)
+		return (1);
 	ft_strdel(&l->str);
-	l->str = tmp;
+	l->str = tmp2;
 	return (0);
 }
 
@@ -72,8 +78,7 @@ int				parse_quote(t_line *l)
 {
 	t_quotes	quotes;
 
-	init_quotes(&quotes);
-	while (check_quotes(&quotes, l->str) == 1)
+	while (check_quotes(&quotes, l->str) == 0)
 	{
 		if (close_quotes(&quotes, l) == 1)
 			return (1);

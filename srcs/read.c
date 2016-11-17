@@ -77,7 +77,8 @@ t_av	**read_init(t_line *l, t_ftl_root *hist)
 			break ;
 		}
 	}
-	av = parse_commands((parse_line(l,hist) == 0) ? l->str : "");
-	ft_strdel(&l->str);
+	int ret = parse_line(l,hist);
+	av = parse_commands(ret == 0 ? l->str : "");
+//	ft_strdel(&l->str);
 	return (av);
 }
