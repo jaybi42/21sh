@@ -14,8 +14,9 @@
 -----------------------
 
 leaks ctrl R..leaks a chaque touche...
-quote pas bon test : "jacku'aa'jacky" pour cnoomprendre
-
+quote pas bon test : echo "jacku'aa'jacky" pour comprendre
+1 leaks quand on cherche dans l hitorique avec les fleches et qu on appuie sur entrer pour valider la commande
+erreur de malloc quand on se sert du globing. Test : "ls *" tab et entrer 
 
 
 
