@@ -13,8 +13,8 @@
 
 -----------------------
 
-leaks ctrl R (et un leaks de plus quand on appuis sur une touche
-quote pas bon test : "jacku'aa'jacky"
+leaks ctrl R..leaks a chaque touche...
+quote pas bon test : "jacku'aa'jacky" pour cnoomprendre
 
 
 
