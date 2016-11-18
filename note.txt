@@ -9,7 +9,14 @@
 - cat ne quite pas quand on fait un ls | cat et que le dossier est vide
 - 99% des leaks reglé, toujour le cas: " cmd1 | cmd2 | cmd3 | etc..."
 - emacs ne fonctionne pas
+- ! leaks quand on recherche dans l historique etn qu on appuis sur entre
+
 -----------------------
+
+leaks ctrl R (et un leaks de plus quand on appuis sur une touche
+quote pas bon test : "jacku'aa'jacky"
+
+
 
 
 - Faire une fonction FT_READ pour eviter les caracteres indesirables qui plantent les termcaps

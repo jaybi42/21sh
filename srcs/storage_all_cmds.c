@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/28 22:16:21 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/10/23 15:00:53 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/11/17 18:20:33 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -889,7 +889,7 @@ while (tp[pa] != NULL)
 				ti[pa + 1] = EMPTY;
 			}
 		}
-		if (tp[pa + 1] == NULL)
+	if (tp[pa + 1] == NULL)
 		{
 			pa = -1;
 			while (tp[++pa] != NULL)
@@ -903,7 +903,6 @@ while (tp[pa] != NULL)
 	}
 	cmds[ic] = NULL;
 	int f = 0;
-
 	while (cmds[f])
 	{
 	//	printf("printing for %d\n",f);
