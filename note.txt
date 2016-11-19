@@ -1,3 +1,21 @@
+______________________________
+			CRITICAL
+	 Comportement critique
+______________________________
+
+-	./21sh	: Premier cas commande inconnue
+	 		: Deuxieme cas sig ABORT
+-	En voulant vim un fichier, puis :x pour save and quit, sig Abort
+
+---------------------------------------------------
+
+-	Les binaires non contenu dans le PATH ne sont pas exec
+-	Il est surement ecrit en dur car meme apres un unset du PATH les commandes sont exec
+-	Quand on ecrit le chemain complet du binaire, unknown command
+-	"Which ls" ne rend rien, bizarre
+
+---------------------------------------------------
+
 ---- TODO ----
 - Comportement aléatoire sur le setenv (Disparu depuis quelque temps)
 
@@ -33,3 +51,10 @@ ____________________________
 _____________________________
 
 AAAANNNNNIIIIIS part
+
+
+__________________
+ 	AUTO Comp
+__________________
+
+- Si on rencontre un dossier au moment du tab, joindre '/' a la ligne de commande.
