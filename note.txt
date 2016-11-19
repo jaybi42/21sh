@@ -20,38 +20,21 @@ ______________________________
 - Comportement aléatoire sur le setenv (Disparu depuis quelque temps)
 
 ---- ANISIDE BUGS ----
-- Quand on exec on ne rend pas les termcaps, exemple : lancer bash (les chars n'appairessent)
-- "ls > >" on a une alerte nous disant qu'une autre expression est attendu à la suite de la première redirection, pourtant le ficher ">" est bien créer.
-- Il ne devrait pas être possible de faire ceci non plus "ls ||||||||". Actuellement le ls s'execute.
-- pas les bons resultats quand on veut mettre le result de "wc" dans un fichier
-- cat ne quite pas quand on fait un ls | cat et que le dossier est vide
-- 99% des leaks reglé, toujour le cas: " cmd1 | cmd2 | cmd3 | etc..."
-- emacs ne fonctionne pas
-- ! leaks quand on recherche dans l historique etn qu on appuis sur entre
+JE VOIS PAS##- pas les bons resultats quand on veut mettre le result de "wc" dans un fichier
+JE VOIS PAS## AH SI JE VOIS, C'EST NORMAL (NOTRE SHELL GERE PAS CE GENRE D'AFFICHAGE) -- PAS UN BUG##- cat ne quite pas quand on fait un ls | cat et que le dossier est vide
 
+BUGS:
+	multiredirection
+	grosse commande
 -----------------------
 
+
 leaks ctrl R..leaks a chaque touche...
-quote pas bon test : echo "jacku'aa'jacky" pour comprendre
 1 leaks quand on cherche dans l hitorique avec les fleches et qu on appuie sur entrer pour valider la commande
 erreur de malloc quand on se sert du globing. Test : "ls *" tab et entrer 
-
-
-
 - Faire une fonction FT_READ pour eviter les caracteres indesirables qui plantent les termcaps
 - Faire plusieurs dossier pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc, et l'intégrer au makefile
 - Faire plusieurs header file pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc
-
-
-
-
-____________________________
-            LEAKS
- Tous les leaks, c'est ici !
-_____________________________
-
-AAAANNNNNIIIIIS part
-
 
 __________________
  	AUTO Comp
