@@ -182,13 +182,11 @@ static int		sh21(void)
 			print_prompt(nbr, g_env, l_env, &l);
 		g_prompt = (t_prompt){nbr, g_env, l_env, 0, &l};
 		g_line = NULL;
-		if ((av = read_init(&l, &g_hist)) == NULL)
+		if ((av = read_init(&l, &g_hist)) != NULL)
 		{
-			printf("special error\n");
-			clean_exit(53);
+			g_line = NULL;
+			o = shell(av, 0);
 		}
-		g_line = NULL;
-		o = shell(av, 0);
 		xmasterfree();
 	}
 	return (1);

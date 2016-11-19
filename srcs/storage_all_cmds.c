@@ -143,6 +143,7 @@ typedef struct	s_parse
 	int	current;
 	int	one_arg;
 	int dec;
+	int quote_activate;
 }				t_parse;
 
 #define EMPTY -1
@@ -165,6 +166,8 @@ int			char_is_whitespace(char c)
 		return (FALSE);
 }
 
+#define UNTOUCHABLE -2
+
 void reset_current(t_parse *p, int index)
 {
 	p->nb++;
@@ -173,6 +176,7 @@ void reset_current(t_parse *p, int index)
 	p->end[p->nb] = 0;
 	p->type[p->nb] = EMPTY;
 	p->one_arg = FALSE;
+	p->quote_activate = FALSE;
 }
 
 void update_new(t_parse *p, int index, int delimiter_index)
@@ -184,13 +188,27 @@ void update_new(t_parse *p, int index, int delimiter_index)
 	if (g_delimiter[delimiter_index].is_redirection == TRUE)
 		p->begin[p->nb] = index;
 	p->one_arg = FALSE;
+	p->quote_activate = FALSE;
 }
 
-void		handle_delimiter(char *expr, int *i, t_parse *p)
+void		handle_delimiter(char *expr, int *i, t_parse *p, int *t_ind, int *l_ind)
 {
 	int a;
 
 	a = 0;
+	while (t_ind && l_ind && t_ind[a] != -1)
+	{
+		if ((*i) == t_ind[a])
+		{
+			//we find the begining of ""
+			//printf("find %d, |%.*s|\n",l_ind[a], l_ind[a], expr+(*i));
+			p->quote_activate = TRUE;
+			(*i) += l_ind[a] + 1;
+			return ;
+		}
+		a++;
+	}
+	a=0;
 	while (a < NUMBER_DELIMITER) //check for every delimiters if no error
 	{
 		if (ft_strncmp(expr + (*i), g_delimiter[a].name,
@@ -339,18 +357,16 @@ t_parse		*parse_it2(char *expr, int len, t_delimiter *d, int l)
 		handle_delimiter2(expr, &i, p, d, l);
 	if (p->current != EMPTY && d[p->current].wait_another == TRUE)
 		ft_printf("[!] we were waiting another |%s| adding one for u\n", d[p->current].name);
-	if (p->current != EMPTY && d[p->current].is_redirection == TRUE && p->one_arg == FALSE)
-		ft_printf("[!] we were waiting another stuff to redirect! outrepassing\n");
+
 	p->end[p->nb] = i;
 	p->nb++;
 	return (p);
 }
 
-t_parse *parse_it(char *expr, int len)
+t_parse *parse_it(char *expr, int len, int *t_ind, int *l_ind)
 {
 	int i;
 	t_parse *p;
-	//printf("[%.*s] - connector: %s\n", sh->nb_stack, "++++++++++++++++++++++++++++++++", sh->connector == NULL ? "none" : sh->connector);
 	if (!(p = xmalloc(sizeof(t_parse))) ||
 			!(p->begin = xmalloc(sizeof(int) * ft_strlen(expr))) ||
 			!(p->end = xmalloc(sizeof(int) * ft_strlen(expr))) ||
@@ -361,12 +377,16 @@ t_parse *parse_it(char *expr, int len)
 	p->current = -1;
 	p->begin[0] = 0;
 	p->type[0] = -1;
+	p->quote_activate = FALSE;
 	while (i < len && expr[i] != '\0')
-		handle_delimiter(expr, &i, p);
+		handle_delimiter(expr, &i, p, t_ind, l_ind);
 	if (p->current != EMPTY && g_delimiter[p->current].wait_another == TRUE)
 		ft_printf("[!] we were waiting another |%s| adding one for u\n", g_delimiter[p->current].name);
-	if (p->current != EMPTY && g_delimiter[p->current].is_redirection == TRUE && p->one_arg == FALSE)
-		ft_printf("[!] we were waiting another stuff to redirect! outrepassing\n");
+	if (p->current != EMPTY && g_delimiter[p->current].is_redirection == TRUE && p->one_arg == FALSE && p->quote_activate == FALSE)
+	{
+		ft_dprintf(2, "%s: Missing name for redirect\n", NAME);
+		return (NULL);
+	}
 	p->end[p->nb] = i;
 	p->nb++;
 	return (p);
@@ -438,7 +458,7 @@ void handle_heredoc(char *expected, t_redirect **r)
 	int i;
 	size_t len;
 	char *tmp;
-	(*r)->s_in = xmalloc(sizeof(char) * 2);
+	(*r)->s_in = malloc(sizeof(char) * 2);
 	(*r)->len_in = 0;
 	(*r)->s_in[0] = '\0';
 
@@ -458,11 +478,120 @@ void handle_heredoc(char *expected, t_redirect **r)
 	(*r)->s_in[len] = '\0';
 	(*r)->len_in = (int)(len);
 }
+int is_delimiter(char *s)
+{
+	int a;
 
-t_redirect *get_redirection(char *s)
+	a = 0;
+	while (a < NUMBER_DELIMITER)
+	{
+		if (ft_strncmp(s, g_delimiter[a].name, ft_strlen(g_delimiter[a].name)) == 0)
+		{
+			ft_dprintf(2, "%s: parse error near `%s'\n", NAME, g_delimiter[a].name);
+			return (1);
+		}
+		a++;
+	}
+	return (0);
+}
+
+
+char **join_array(char ***t)
+{
+	char **ts;
+	int a;
+	int i;
+	int l;
+
+	a = -1;
+	l = 0;
+	while (t[++a])
+	{
+		i = -1;
+		while(t[a][++i])
+		{
+			//dprintf(2, "%d|%s|\n", a, t[a][i]);
+			l++;
+		}
+	}
+	ts = xmalloc(sizeof(char *) * (l + 1));
+	a = -1;
+	l = 0;
+	while (t[++a])
+	{
+		i = -1;
+		while (t[a][++i])
+			ts[l++] = t[a][i];
+	}
+	ts[l] = NULL;
+	return (ts);
+}
+
+char **tab_from_string(char *s)
+{
+	char **ts;
+
+	ts = xmalloc(sizeof(char*) * 2);
+	ts[0] = s;
+	ts[1] = NULL;
+	return (ts);
+}
+
+char **special_split(char *expr, int dec, int begin, int end, int *t_ind, int *l_ind)
+{
+	char ***s;
+
+	//int begin = tp[pa]->begin[ti[pa] + a + ra];
+	//int end = tp[pa]->end[ti[pa] + a + ra];
+	s = xmalloc(sizeof(char **) * (ft_strlen(expr)+1));
+	s[0] = NULL;
+	int s_a = 0;
+	int x;
+	int find;
+	x = begin;
+	int last_met = x;
+	while (x < end)
+	{
+		find = -1;
+		for (int i =0; t_ind[i] != -1; i++)
+		{
+			if (t_ind[i] == x + dec)
+			{
+				find = i;
+				break;
+			}
+		}
+		if (find != -1)
+		{
+			if (x - last_met - 1 > 0)
+			{
+				s[s_a++] = fstrsplit(expr + dec + last_met, x - last_met - 1, char_is_whitespace);
+			}
+			s[s_a++] = tab_from_string(cpy_a_to_b(expr, t_ind[find], t_ind[find] + l_ind[find]));
+			s[s_a] = NULL;
+			last_met = x + l_ind[find] + 1;
+			x += l_ind[find];
+		}
+		x++;
+	}
+	if (x - last_met - 1 > 0)
+	{
+		s[s_a++] = fstrsplit(expr + dec + last_met, x - last_met, char_is_whitespace);
+		s[s_a] = NULL;
+	}
+	return (join_array(s));
+}
+
+
+t_redirect *get_redirection(char *expr, int dec, int begin, int end, int *t_ind, int *l_ind)
 {
 	int i;
 	t_redirect *redirect;
+	char *s;
+
+	(void)t_ind;
+	(void)l_ind;
+	s = cpy_a_to_b(expr + dec, begin, end);
 
 	//s = clear_whitespace(s);
 	if (!(redirect = xmalloc(sizeof(t_redirect))) || s == NULL)
@@ -474,7 +603,7 @@ t_redirect *get_redirection(char *s)
 	redirect->type = 1;
 	open_flag = O_CREAT | O_RDWR;
 	len = 0;
-	if (ft_isdigit(s[i])) {
+	if (ft_isdigit(s[i])){
 		redirect->fd_in = atoi(s + i);
 		i++;
 	}
@@ -485,13 +614,13 @@ t_redirect *get_redirection(char *s)
 	}
 	else if (ft_strncmp(s + i, ">", 1) == 0) {
 		redirect->type = 0;
+		open_flag |= O_TRUNC;
 		i += 1;
 	}
 	else if (ft_strncmp(s + i, "<<", 2) == 0)
 	{
 		char **t = fstrsplit(s + i + 2, ft_strlen(s + i + 2), char_is_whitespace);
-		//ft_printf("parsing info: didn't handle yet <<\n");
-		if (t[0] == NULL)
+		if (t == NULL || t[0] == NULL || is_delimiter(t[0]))
 			return (NULL);
 		else
 		{
@@ -526,7 +655,7 @@ t_redirect *get_redirection(char *s)
 	}
 		//we get the file
 		char **t = fstrsplit(s + i, ft_strlen(s + i ), char_is_whitespace);
-		if (t == NULL && t[0] != NULL)
+		if (t == NULL || t[0] == NULL || is_delimiter(t[0]))
 			return (NULL);
 		redirect->fd_out = open(t[0], open_flag, 0666);
 		if (redirect->fd_out == -1)
@@ -651,26 +780,43 @@ char **check_var(char *s, char **env)
 /*
 ** check the var from the env!
 */
-char *join_string_array(char **a)
+char *join_string_array(char **a, int *marked_ind, int **t_ind, int **l_ind)
 {
 	int i;
 	size_t len;
 	char *ns;
+	int len_ind;
 
 	len = 0;
+	len_ind = 0;
 	i = -1;
 	while (a[++i])
+	{
 		len += ft_strlen(a[i]) + 1;
+		if (marked_ind[i] == 1)
+			len_ind++;
+	}
 	ns = xmalloc(sizeof(char) * (len + 1));
+	(*t_ind) = xmalloc(sizeof(int) * (len_ind + 1));
+	(*l_ind) = xmalloc(sizeof(int) * (len_ind + 1));
 	i = 0;
 	len = 0;
+	len_ind = 0;
 	while (a[i])
 	{
+		if (marked_ind[i] == 1)
+		{
+			(*t_ind)[len_ind] = len;
+			(*l_ind)[len_ind++] = ft_strlen(a[i]);
+		}
 		x_strjoins(&ns, &len, a[i], ft_strlen(a[i]));
-		x_strjoins(&ns, &len, " ", 1);
+		if (a[i + 1])
+			x_strjoins(&ns, &len, " ", 1);
 		i++;
 	}
 	ns[len] = '\0';
+	(*t_ind)[len_ind] = -1;
+	(*l_ind)[len_ind] = -1;
 	return (ns);
 }
 
@@ -721,10 +867,11 @@ char *apply_var(char *s, int do_extra)
 }
 
 //retourne une chaine de charactere parsé, globbé, variable env et separer par des espaces!
-char *decortique_parse(char *expr, size_t l)
+char *decortique_parse(char *expr, size_t l, int **t_ind, int **l_ind)
 {
 	char **ts;
 	t_parse *p;
+	int *marked_ind;
 	/*
 		int	*begin;
 		int	*end;
@@ -734,6 +881,7 @@ char *decortique_parse(char *expr, size_t l)
 		int	one_arg;
 		int dec;
 	*/
+	marked_ind = xmalloc(sizeof(int) * (l + 1));
 	ts = xmalloc(sizeof(char*) * (l + 1));
 	ts[0] = NULL;
 	p = parse_it2(expr, l,(t_delimiter *)&g_delimiter_quo, 3);
@@ -750,14 +898,15 @@ char *decortique_parse(char *expr, size_t l)
 				ts[i] = cpy_a_to_b(expr, p->begin[i],p->end[i]);
 		else
 				ts[i] = apply_var(cpy_a_to_b(expr, p->begin[i],p->end[i]), TRUE);
+		if (p->type[i] == 0 || p->type[i] == 1)
+				marked_ind[i] = 1;
+		else
+			marked_ind[i] = 0;
 		i++;
 	}
 	ts[i] = NULL;
-//	for (int j = 0;ts[j];j++){dprintf(2, "%d:[%s]\n",j, ts[j]);}
-	//printf("ended..\n");
-	return (join_string_array(ts));
+	return (join_string_array(ts, marked_ind, t_ind, l_ind));
 }
-
 
 t_av	**parse_commands(char *expr)
 {
@@ -765,6 +914,8 @@ t_av	**parse_commands(char *expr)
 	int			*ti;
 	int			*waiting_type;
 	int			pa;
+	int			*t_ind;
+	int			*l_ind;
 
 	if (!(tp = xmalloc(sizeof(t_parse **) * (ft_strlen(expr) + 1)))
 	|| (!(ti = xmalloc(sizeof(int *) * (ft_strlen(expr) + 1)))))
@@ -775,17 +926,24 @@ t_av	**parse_commands(char *expr)
 	pa = 0;
 	ti[pa] = 0;
 	//dprintf(2, "before: |%s|\n", expr);
-	expr = decortique_parse(expr, ft_strlen(expr));
+	expr = decortique_parse(expr, ft_strlen(expr), &t_ind, &l_ind);
 	//dprintf(2, "after: |%s|\n---\n", expr);
-	tp[pa] = parse_it(expr, ft_strlen(expr));
+	if (!(tp[pa] = parse_it(expr, ft_strlen(expr), t_ind, l_ind)))
+		return (NULL);
 	tp[pa]->dec = 0;
 	tp[pa + 1] = NULL;
 	ti[pa + 1] = EMPTY;
-
 	t_av **cmds;
 
 if (!(cmds = xmalloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
 return (NULL);
+/*int x_tmp = 0;
+//printf("in |%s|\n", expr);
+while(x_tmp < tp[pa]->nb)
+{
+	printf("|%.*s|(%d_%d) - %d\n", tp[pa]->end[x_tmp], expr + tp[pa]->begin[x_tmp], tp[pa]->begin[x_tmp], tp[pa]->end[x_tmp], tp[pa]->type[x_tmp]);
+	x_tmp++;
+}*/
 int ic = 0;
 //int skip_it = FALSE;
 int oldi = 0;
@@ -816,7 +974,6 @@ while (tp[pa] != NULL)
 				cmds[ic]->bitcode[ra] = 0;
 				cmds[ic]->type = tp[pa]->type[ti[pa]];
 				cmds[ic]->redirect[ra] = NULL;
-				//its for separate each command
 				char ***t_tstr;
 
 				if (!(t_tstr = xmalloc(sizeof(char ***) * (oldi - ti[pa] + 1))))
@@ -825,19 +982,20 @@ while (tp[pa] != NULL)
 				while (ti[pa] + a + ra < oldi)
 				{
 						//if it's a redirection stuff!!
-					if (tp[pa]->type[ti[pa] + a + ra] != EMPTY && g_delimiter[tp[pa]->type[ti[pa] + a + ra]].is_redirection)
+					if (tp[pa]->type[ti[pa] + a + ra] >= 0 && g_delimiter[tp[pa]->type[ti[pa] + a + ra]].is_redirection)
 					{
 						//redirect_stuff
-						cmds[ic]->redirect[ra] = get_redirection(
-						cpy_a_to_b((expr + tp[pa]->dec),
+						if (!(cmds[ic]->redirect[ra] = get_redirection(
+						expr, tp[pa]->dec,
 						tp[pa]->begin[ti[pa] + a + ra],
-						tp[pa]->end[ti[pa] + a + ra]));
+						tp[pa]->end[ti[pa] + a + ra], t_ind,l_ind)))
+							return (NULL);
 						cmds[ic]->bitcode[ra + a] = 0;
 						ra++;
 					}
 					else
 					{
-						t_tstr[a] = fstrsplit((expr + tp[pa]->dec) + tp[pa]->begin[ti[pa] + a + ra], tp[pa]->end[ti[pa] + a + ra] - tp[pa]->begin[ti[pa] + a + ra], char_is_whitespace);
+						t_tstr[a] = special_split(expr, tp[pa]->dec, tp[pa]->begin[ti[pa] + a + ra],tp[pa]->end[ti[pa] + a + ra], t_ind, l_ind);//fstrsplit((expr + tp[pa]->dec) + tp[pa]->begin[ti[pa] + a + ra], tp[pa]->end[ti[pa] + a + ra] - tp[pa]->begin[ti[pa] + a + ra], char_is_whitespace);
 						if (tp[pa]->type[ti[pa] + a + ra] != EMPTY && g_delimiter[tp[pa]->type[ti[pa] + a + ra]].dont_give_shit_about_whitespace == 0)
 							cmds[ic]->bitcode[ra + a] = 0;
 						else
@@ -879,8 +1037,23 @@ while (tp[pa] != NULL)
 			{
 				waiting_type[0]++;
 				waiting_type[waiting_type[0]] = tp[pa]->type[ti[pa]];
-				tp[pa + 1] = parse_it((expr + tp[pa]->dec) + tp[pa]->begin[ti[pa]],
-				tp[pa]->end[ti[pa]] - tp[pa]->begin[ti[pa]]);
+				int x = 0;
+				int a = 0;
+				while(t_ind && l_ind && t_ind[x] != -1)
+				{
+					int b = tp[pa]->dec + tp[pa]->begin[ti[pa]];
+					if (t_ind[x] > b)
+					{
+						t_ind[a] = t_ind[x] - b;
+						l_ind[a++] = l_ind[x];
+					}
+					x++;
+				}
+				t_ind[a] = -1;
+				l_ind[a] = -1;
+				if (!(tp[pa + 1] = parse_it((expr + tp[pa]->dec) + tp[pa]->begin[ti[pa]],
+				tp[pa]->end[ti[pa]] - tp[pa]->begin[ti[pa]], t_ind, l_ind)))
+					return (NULL);
 				tp[pa + 1]->dec = tp[pa]->dec + tp[pa]->begin[ti[pa]];
 				ti[pa]++;
 				pa++;
@@ -889,7 +1062,7 @@ while (tp[pa] != NULL)
 				ti[pa + 1] = EMPTY;
 			}
 		}
-	if (tp[pa + 1] == NULL)
+		if (tp[pa + 1] == NULL)
 		{
 			pa = -1;
 			while (tp[++pa] != NULL)

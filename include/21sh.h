@@ -17,6 +17,8 @@
 ** TODO: Suppr stdio
 */
 
+#define NAME "21sh"
+
 #define KV_SET 0
 #define KV_GET 1
 #define KV_DEL 2

@@ -159,6 +159,7 @@ int                             ft_findflag(const char *restrict pf, t_flag *f, 
 void                    ft_initflag(t_flag *flag);
 int				get_fd(int fd);
 int                             find_bonus(char type);
+int					ft_dprintf(int fd, const char *restrict format, ...);
 
 /*
 **	##=-  Print  -=##
