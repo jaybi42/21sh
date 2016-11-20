@@ -40,10 +40,8 @@ static int		set_new_arg(char *arg, t_list **g_env, t_list **l_env)
 	if (my_cmd == NULL || my_arg == NULL)
 		return (1);
 	bi_setenv(INIT_AV("setenv", my_cmd, my_arg, 2), g_env, l_env);
-	if (my_cmd != NULL)
-		ft_strdel(&my_cmd);
-	if (my_arg != NULL)
-		ft_strdel(&my_arg);
+	ft_strdel(&my_cmd);
+	ft_strdel(&my_arg);
 	return (0);
 }
 
