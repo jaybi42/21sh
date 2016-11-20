@@ -6,16 +6,11 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 16:21:54 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/11/19 19:32:49 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/11/20 17:48:25 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef struct		s_alias
-{
-	char			*key;
-	char			*value;
-	struct s_alias	*next;
-}					t_alias;
+#include "21sh.h"
 
 /*
 
@@ -157,7 +152,9 @@ void	create_or_update_key(t_alias **addr, char **pair)
 {
 	int		id;
 	t_alias	*alias;
+	int i;
 
+	i = 0;
 	alias = *addr;
 	if ((id = array_key_exists(alias, pair[0])))
 	{
@@ -184,16 +181,21 @@ void	del_pair(char ***pair)
 		ft_memdel((void **)&(*pair));
 }
 
-int		bi_alias(char *cmd, int argc)
+int			bi_alias(t_av av, t_list **g_env, t_list **l_env)
 {
+	char *cmd = av.cmd;
+	int argc = av.argc;
+	(void)g_env;
+	(void)l_env;
 	int		x;
 	char	**pair;
 	t_alias	*alias = NULL;
 
+	ft_dprintf(2, "Ilyes batar\n");
 	x = 0;
 	if (argc == 1)
 		return (print_alias_list(alias, (char *)NULL));
-	while (arg[++x] != NULL)
+	while (av.argv[++x] != NULL)
 	{
 		if ((pair = get_data(cmd)))
 		{

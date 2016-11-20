@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/17 19:17:12 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/20 17:44:27 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_list		*g_env;
 t_ftl_root	g_hist;
 t_line		*g_line;
 t_prompt	g_prompt;
+t_alias		*g_alias;
 
 int			ret_exit(int state, int value)
 {
@@ -197,6 +198,9 @@ int				main(void)
 	g_env = NULL;
 	l_env = NULL;
 	g_line = NULL;
+	//call init alias
+	g_alias = NULL;
+	//end
 	if (init_env(&g_env, &l_env) == 1)
 		return (1);
 	if (a_init() == -1)

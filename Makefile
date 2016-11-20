@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/11/16 16:16:25 by jguthert         ###   ########.fr        #
+#    Updated: 2016/11/20 17:40:43 by agadhgad         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -100,8 +100,8 @@ FILES =					main			\
 						x_strjoin \
 						x_strdup \
 						x_strnew \
-						file_get_contents
-
+						file_get_contents \
+						bi_alias
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))

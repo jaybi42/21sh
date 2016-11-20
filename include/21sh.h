@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/16 16:34:25 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/20 17:43:36 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ int				bi_clear(t_av av, t_list **g_env, t_list **l_env);
 int				bi_history(t_av av, t_list **g_env, t_list **l_env);
 int                             bi_export(t_av av, t_list **g_env, t_list **l_env);
 
+int				bi_alias(t_av av, t_list **g_env, t_list **l_env);
 /*
 **Name: Free list
 **File: free_list.c
@@ -253,9 +254,19 @@ int			fd_get_binary(int fd, char **str, int *len);
 int			file_get_binary(char *filename, char **str, int *len);
 
 
+typedef struct		s_alias
+{
+	char			*key;
+	char			*value;
+	struct s_alias	*next;
+}					t_alias;
+
+
 /*
 ** global
 */
+
+extern t_alias		*g_alias;
 extern t_list		*l_env;
 extern t_list		*g_env;
 extern t_ftl_root g_hist;

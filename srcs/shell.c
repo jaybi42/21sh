@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/16 17:19:20 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/20 17:46:36 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_f
 					    int fd_to_write;
 }               t_f;
 
-#define NB_BUILT 9
+#define NB_BUILT 10
 
 static t_builtin const  g_builtin_list[NB_BUILT] = {
 	{"cd", bi_cd},
@@ -45,6 +45,7 @@ static t_builtin const  g_builtin_list[NB_BUILT] = {
 	{"exit", bi_exit},
 	{"clear", bi_clear},
 	{"history", bi_history},
+	{"alias", bi_alias}
 };
 
 char *get_path(t_list *g_env, t_list *l_env)
