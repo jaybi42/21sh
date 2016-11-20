@@ -82,22 +82,24 @@ static void		clean_ctrl_r(t_line *l)
 
 static int		init_ctrl_r(t_line *l)
 {
+	if (l->search != NULL)
+		ft_strdel(&l->search);
+	if (l->ans != NULL)
+		ft_strdel(&l->ans);
 	l->search = ft_strdup("");
 	l->ans = ft_strdup("");
 	l->bp = 0;
 	if (l->search == NULL || l->ans == NULL)
 		return (1);
+	if (l->oldstr != NULL)
+		ft_strdel(&l->oldstr);
 	if (l->str == NULL)
-	{
 		l->oldstr = ft_strdup("");
-		if (l->oldstr == NULL)
-			return (1);
-	}
 	else
-	{
 		l->oldstr = l->str;
-		l->str = NULL;
-	}
+	if (l->oldstr == NULL)
+		return (1);
+	l->str = NULL;
 	l->hist_pos = -1;
 	return (0);
 }
