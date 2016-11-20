@@ -16,31 +16,39 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-static int	mod_pwd(t_list **g_e, t_list **l_e)
+static void	set_oldpwd(t_list **g_e)
 {
 	t_list	*temp;
-	t_env	*env;
-	char	*pwd;
-	char	*tmp;
-
+	
 	temp = *g_e;
 	while (temp != NULL)
 	{
 		env = ((t_env *)temp->content);
 		if (ft_strcmp(env->name, "PWD") == 0)
-			break ;
+		{
+			bi_setenv(INIT_AV("setenv", "OLDPWD", env->value, 2), g_e, l_e);
+			return ;
+		}
 		temp = temp->next;
-	}
-	if (temp != NULL && env->value != NULL)
-		bi_setenv(INIT_AV("setenv", "OLDPWD", env->value, 2), g_e, l_e);
-	if ((tmp = getwd(NULL)) == NULL)
+	}		
+}
+
+static int	mod_pwd(t_list **g_e, t_list **l_e)
+{
+	t_env	*env;
+	char	*pwd;
+	char	*tmp;
+
+	set_oldpwd(g_e);
+	tmp = getwd(NULL)
+	if (tmp == NULL)
 		return (1);
 	pwd = ft_strdup(tmp);
 	ft_strdel(&tmp);
-	pwd = ft_strdup(getwd(NULL));
+	if (pwd == NULL)
+		return(1)
 	bi_setenv(INIT_AV("setenv", "PWD", pwd, 2), g_e, l_e);
-	if (pwd != NULL)
-		ft_strdel(&pwd);
+	ft_strdel(&pwd);
 	return (0);
 }
 
@@ -80,9 +88,10 @@ static int	go_home(char *arg, t_list **g_e, t_list **l_e)
 		link = ft_strjoin(((t_env *)temp->content)->value, ++arg);
 	else
 		link = ft_strdup(((t_env *)temp->content)->value);
+	if (link == NULL)
+		return (1);
 	bi_cd(INIT_AV("cd", link, NULL, 1), g_e, l_e);
-	if (link != NULL)
-		ft_strdel(&link);
+	ft_strdel(&link);
 	return (0);
 }
 
