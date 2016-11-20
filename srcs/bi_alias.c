@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 16:21:54 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/11/20 17:48:25 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/11/20 21:51:26 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		print_alias_list(t_alias *alias, char *key)
 	return (0);
 }
 
-char	*strdup_aplha(char *cmd)
+char	*strdup_aplha(char *cmd) // Passer en param si c pair 0 ou 1
 {
 	int		i;
 	char	*ret;
@@ -86,12 +86,12 @@ char	*strdup_aplha(char *cmd)
 	i = 0;
 	if (cmd == '\0')
 		return (ft_strdup("\0"));
-	while ((ft_isalpha(cmd[i])) && cmd[i] != '\0')
+	while ((ft_isalnum(cmd[i])) && cmd[i] != '\0')
 		++i;
 	if (!(ret = ft_strnew(i)))
 		return ((char *)NULL);
 	i = 0;
-	while ((ft_isalpha(cmd[i])) && cmd[i] != '\0')
+	while ((ft_isalnum(cmd[i])) && cmd[i] != '\0')
 	{
 		ret[i] = cmd[i];
 		++i;
@@ -103,20 +103,24 @@ char	*strdup_aplha(char *cmd)
 char	**get_data(char *cmd)
 {
 	int		i;
+	int		err;
 	char	**pair;
 
 	i = 0;
+	err = 0;
 	if (!(pair = (char **)ft_memalloc(sizeof(char *) * 2)))
 		return ((char **)NULL);
 	while ((ft_isspace(cmd[i])) && cmd[i])
 		++i;
 	pair[0] = strdup_aplha((cmd + i));
-	if (cmd[i] == '=')
-		pair[1] = NULL;
-	else
+	if (!(ft_isalnum(cmd[i])))
+		err = 1;
+	while ((ft_isalnum(cmd[i])) && cmd[i] != '\0')
+		++i;
+	if (cmd[i] != '=')
+		err = 1;
+	if (err == 0)
 	{
-		while (cmd[i] != '=' && cmd[i] != '\0')
-			++i;
 		i = ((cmd[i] == '=') ? i + 1 : i);
 		pair[1] = strdup_aplha((cmd + i));
 	}
@@ -181,31 +185,27 @@ void	del_pair(char ***pair)
 		ft_memdel((void **)&(*pair));
 }
 
-int			bi_alias(t_av av, t_list **g_env, t_list **l_env)
+int		bi_alias(t_av av, t_list **g_env, t_list **l_env)
 {
-	char *cmd = av.cmd;
-	int argc = av.argc;
-	(void)g_env;
-	(void)l_env;
 	int		x;
 	char	**pair;
-	t_alias	*alias = NULL;
 
-	ft_dprintf(2, "Ilyes batar\n");
-	x = 0;
-	if (argc == 1)
-		return (print_alias_list(alias, (char *)NULL));
-	while (av.argv[++x] != NULL)
+	(void)g_env;
+	(void)l_env;
+	x = (-1);
+	if (av.argc == 0)
+		return (print_alias_list(g_alias, (char *)NULL));
+	while (av.arg[++x] != NULL)
 	{
-		if ((pair = get_data(cmd)))
+		if ((pair = get_data(av.arg[x])))
 		{
 			if (pair[1] == NULL)
 			{
-				if ((print_alias_list(alias, pair[0])) != 0)
+				if ((print_alias_list(g_alias, pair[0])) != 0)
 					ft_putendl_fd("21sh: alias not found.", 2);
 			}
 			else
-				create_or_update_key(&alias, pair);
+				create_or_update_key(&g_alias, pair);
 			del_pair(&pair);
 		}
 	}
