@@ -35,15 +35,16 @@ typedef struct		s_alias
 
 */
 
-int	print_alias_key(t_alias *alias, char *key)
+int		print_alias_key(t_alias *alias, char *key)
 {
 	while (alias != NULL)
 	{
 		if ((ft_strcmp(alias->key, key)) == 0)
 		{
 			ft_putstr(alias->key);
-			ft_putchar('=');
-			ft_putendl(alias->value);		
+			ft_putstr("=\'");
+			ft_putstr(alias->value);
+			ft_putendl("\'");		
 			return (0);
 		}
 		alias = alias->next;
@@ -51,26 +52,32 @@ int	print_alias_key(t_alias *alias, char *key)
 	return (1);	
 }
 
-int	array_key_exists(t_alias *alias, char *key)
+int		array_key_exists(t_alias *alias, char *key)
 {
+	int	i;
+
+	i = 1;
 	while (alias != NULL)
 	{
-		if ((ft_strcmp(alias->key, key)) == 0)
-			return (1);
+		if (key != NULL)
+			if ((ft_strcmp(alias->key, key)) == 0)
+				return (i);
 		alias = alias->next;
+		++i;
 	}
 	return (0);
 }
 
-int	print_alias_list(t_alias *alias, char *key)
+int		print_alias_list(t_alias *alias, char *key)
 {
 	if (key != NULL)
 		return ((array_key_exists(alias, key)) ? print_alias_key(alias, key) : 1);
 	while (alias != NULL)
 	{
 		ft_putstr(alias->key);
-		ft_putchar('=');
-		ft_putendl(alias->value);
+		ft_putstr("=\'");
+		ft_putstr(alias->value);
+		ft_putendl("\'");
 		alias = alias->next;
 	}
 	return (0);
@@ -81,58 +88,124 @@ char	*strdup_aplha(char *cmd)
 	int		i;
 	char	*ret;
 
-	i = 1;
+	i = 0;
 	if (cmd == '\0')
-		return(ft_strdup("\0"));
+		return (ft_strdup("\0"));
 	while ((ft_isalpha(cmd[i])) && cmd[i] != '\0')
 		++i;
 	if (!(ret = ft_strnew(i)))
 		return ((char *)NULL);
-	i = 1;
+	i = 0;
 	while ((ft_isalpha(cmd[i])) && cmd[i] != '\0')
 	{
-		ret[i - 1] = cmd[i];
+		ret[i] = cmd[i];
 		++i;
 	}
-	ret[i - 1] = '\0';
+	ret[i] = '\0';
 	return (ret);
 }
 
 char	**get_data(char *cmd)
 {
+	int		i;
 	char	**pair;
 
+	i = 0;
 	if (!(pair = (char **)ft_memalloc(sizeof(char *) * 2)))
 		return ((char **)NULL);
-	while ((ft_isspace(cmd[i])))
+	while ((ft_isspace(cmd[i])) && cmd[i])
 		++i;
 	pair[0] = strdup_aplha((cmd + i));
-	pair[1] = ((cmd[i] == '=') ? NULL : strdup_aplha((cmd + i)));
+	if (cmd[i] == '=')
+		pair[1] = NULL;
+	else
+	{
+		while (cmd[i] != '=' && cmd[i] != '\0')
+			++i;
+		i = ((cmd[i] == '=') ? i + 1 : i);
+		pair[1] = strdup_aplha((cmd + i));
+	}
 	return (pair);
 }
 
-int	bi_alias(char *cmd, int argc)
+void	create_new_node(t_alias **addr, char **pair)
+{
+	t_alias	*new_node;
+	t_alias	*alias;
+	t_alias	*tmp;
+
+	if (!(new_node = (t_alias *)ft_memalloc(sizeof(t_alias))))
+		return ;
+	new_node->key = ((pair[0] != NULL) ? ft_strdup(pair[0]) : NULL);
+	new_node->value = ((pair[1] != NULL) ? ft_strdup(pair[1]) : NULL);
+	alias = *addr;
+	tmp = NULL;
+	if (pair[0] != NULL)
+		while ((alias != NULL) && ((ft_strcmp(alias->key, pair[0])) > 0))
+		{
+			tmp = alias;
+			alias = alias->next;
+		}
+	new_node->next = alias;
+	if (tmp != NULL)
+		tmp->next = new_node;
+	else
+		*addr = new_node;
+}
+
+void	create_or_update_key(t_alias **addr, char **pair)
+{
+	int		id;
+	t_alias	*alias;
+
+	alias = *addr;
+	if ((id = array_key_exists(alias, pair[0])))
+	{
+		while ((i < id) && (alias->next != NULL))
+			alias = alias->next;
+		if (alias != NULL)
+			if (pair[1] != NULL)
+			{
+				ft_strdel(&(alias->value));
+				alias->value = ft_strdup(pair[1]);
+			}
+	}
+	else
+		create_new_node(addr, pair);
+}
+
+void	del_pair(char ***pair)
+{
+	if ((*pair)[0] != NULL)
+		ft_strdel(&((*pair)[0]));
+	if ((*pair)[1] != NULL)
+		ft_strdel(&((*pair)[1]));
+	if (*pair != NULL)
+		ft_memdel((void **)&(*pair));
+}
+
+int		bi_alias(char *cmd, int argc)
 {
 	int		x;
 	char	**pair;
+	t_alias	*alias = NULL;
 
 	x = 0;
 	if (argc == 1)
-		return (print_alias_list((char *)NULL));
+		return (print_alias_list(alias, (char *)NULL));
 	while (arg[++x] != NULL)
 	{
 		if ((pair = get_data(cmd)))
 		{
 			if (pair[1] == NULL)
-				if ((print_alias_list(pair[0])) != 0)
-					ft_putendl_fd("21sh: Alias not found", 2);
-			del_pairs();
+			{
+				if ((print_alias_list(alias, pair[0])) != 0)
+					ft_putendl_fd("21sh: alias not found.", 2);
+			}
+			else
+				create_or_update_key(&alias, pair);
+			del_pair(&pair);
 		}
 	}
 	return (0);
-}
-
-int	main(void)
-{
-	bi_alias("alias l=i", 2)
 }
