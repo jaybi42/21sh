@@ -18,7 +18,6 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-
 #define TRUE 1
 #define FALSE 0
 
@@ -64,6 +63,11 @@ char *get_path(t_list *g_env, t_list *l_env)
 	}
 	return (NULL);
 }
+void print_err(char *err, char *what)
+{
+	ft_dprintf(2, "%s: %s: %s\n", NAME, err, what);
+}
+
 
 char **convert_env(t_list *g_env, t_list *l_env)
 {
@@ -93,6 +97,7 @@ char **get_allpath(char *cmd, char *path)
 	char **temp2;
 	char	**allpath;
 	int		i;
+	int		a;
 
 	i = -1;
 	temp = ft_strsplit(path, ':');
@@ -100,8 +105,15 @@ char **get_allpath(char *cmd, char *path)
 	while (temp[++i] != NULL)
 		allpath[i] = x_strjoin(temp[i], "/");
 	allpath[i] = NULL;
-	temp2 = (char **)xmalloc(sizeof(char *) * (ft_tablen(allpath) + 1));
+	temp2 = (char **)xmalloc(sizeof(char *) * (ft_tablen(allpath) + 2));
 	i = -1;
+	a = -1;
+	while (allpath[++a])
+		if (ft_strncmp(cmd, allpath[a], ft_strlen(allpath[a])) == 0)
+		{
+					temp2[++i] = cmd;
+					break;
+		}
 	del_tab(temp);
 	while (allpath[++i] != NULL)
 		temp2[i] = x_strjoin(allpath[i], cmd);
@@ -109,22 +121,24 @@ char **get_allpath(char *cmd, char *path)
 	return (temp2);
 }
 
-int	 exec_path(char **arg, char **path, char **env)
+int	 exec_path(char *cmd, char **path)
 {
 	int i;
 
-	(void)arg;
-	(void)env;
 	i = 0;
 	while (path[i] != NULL)
 	{
 		if (access(path[i], X_OK) != -1)
-			return (i);
+				return (i);
+		if (access(path[i], F_OK) != -1 && access(path[i], X_OK) == -1)
+		{
+				print_err("permission denied", cmd);
+				return (-1);
+		}
 		i++;
 	}
 	return (-1);
 }
-
 
 t_exec		make_exec_builtin(t_av *av)
 {
@@ -161,20 +175,29 @@ t_exec make_exec_bin(t_av *av, t_list *g_env, t_list *l_env)
 	env = convert_env(g_env, l_env);
 	str = get_path(g_env, l_env);
 	path = get_allpath(av->cmd, str);
-	if (access(av->cmd, X_OK) != -1)
+	if (ft_strstr(av->cmd, "./") != NULL && access(av->cmd, F_OK) != -1)
 	{
+		if  (access(av->cmd, X_OK) == -1)
+		{
+			print_err("permission denied", av->cmd);
+			return (ex);
+		}
+		ex.type = BIN;
 		ex.path = av->cmd;
 		ex.argv = av->argv;
 	}
 	else
 	{
-		ret = exec_path(av->argv, path, env);
-		//ft_tabdel(env);
+		ret = exec_path(av->cmd, path);
 		if (ret != -1)
 		{
 			ex.type = BIN;
 			ex.path = path[ret];
 			ex.argv = av->argv;
+		}
+		else
+		{
+			print_err("command not found", av->cmd);
 		}
 	}
 	return (ex);
@@ -188,12 +211,12 @@ t_exec make_exec_bin(t_av *av, t_list *g_env, t_list *l_env)
 t_exec make_exec(t_av *av, t_list **g_env, t_list **l_env)
 {
 	t_exec ex;
-
 	ex = make_exec_builtin(av);
 	if (ex.type == -1)
-	{ex = make_exec_bin(av, *g_env,*l_env);
+	{
+		ex = make_exec_bin(av, *g_env,*l_env);
 	}
-		ex.r = av->redirect;
+	ex.r = av->redirect;
 	return (ex);
 }
 
@@ -321,7 +344,7 @@ int		exec_builtin(int (*fnct)(), char **argv, t_redirect **r,
 	return (0);
 }
 
-int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
+int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen, char **env)
 {
 	int ret;
 	int wait_status;
@@ -336,7 +359,7 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
 	i = 0;
 	ret = -1;
 	while (r[i])i++;
-	if (!(f = xmalloc(sizeof(t_f *) * (i + 1)))) { printf("error");
+	if (!(f = xmalloc(sizeof(t_f *) * (i + 1)))) {printf("error");
 	 exit(4);}
 	i = -1;
 	a = 0;
@@ -375,17 +398,10 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen)
 			dup2(fd[0], STDIN_FILENO);
 			close(fd[0]);
 		}
-		execve(path, argv, NULL);
+		execve(path, argv, env);
 	}
 	else
 	{
-		/*
-		i = 0;
-		while (f[i])
-		{
-	//		close(f[i]->fd[1]);
-			i++;
-		}*/
 		if (inlen > 0)
 		{
 			close(fd[0]);
@@ -455,7 +471,6 @@ int get_out(t_redirect ***r, int fd_out)
 	(*r)[i]->type = 0;
 	(*r)[i]->fd_in = 1;
 	(*r)[i]->fd_out = fd_out;
-	//(*r)[i]->fd_out = open("okalm.txt", O_CREAT | O_RDWR | O_TRUNC, 0666);
 	(*r)[i + 1] = NULL;
 	return (1);
 }
@@ -482,7 +497,9 @@ t_output do_exec(t_exec ex, int ret,
 {
 	t_output o;
 	int fd[2];
+	char **env;
 
+	env = convert_env(g_env, l_env);
 	if (ret != 0)
 	{
 		pipe(fd);
@@ -493,7 +510,7 @@ t_output do_exec(t_exec ex, int ret,
 	if (ex.type == BUILTIN)
 		o.ret_code = exec_builtin(ex.fnct, ex.argv, ex.r,av);
 	else
-		o.ret_code = exec_bin(ex.path, ex.argv, ex.r, in, inlen);
+		o.ret_code = exec_bin(ex.path, ex.argv, ex.r, in, inlen, env);
 	if (ret != 0)
 	{
 		int i = 0;
@@ -509,7 +526,6 @@ t_output do_exec(t_exec ex, int ret,
 		close(fd[1]);
 		x_fd_get_binary(fd[0], &o.string, &o.len);
 		close(fd[0]);
-		//dprintf(2, "read --> |%.*s|\n", o.len, o.string);
 	}
 	return (o);
 }
@@ -541,10 +557,18 @@ t_output		shell(t_av **av, int ret)
 	output.ret_code = 0;
 	while (av[++a] != NULL)
 	{
+		if (av[a]->cmd == NULL && (av[a]->type == TYPE_OR || av[a]->type == TYPE_AND
+			|| av[a]->type == TYPE_PIPE || (av[a + 1] != NULL &&
+				(av[a + 1]->type == TYPE_AND || av[a + 1]->type == TYPE_OR ||
+					av[a + 1]->type == TYPE_PIPE))))
+		{
+			ft_dprintf(2, "%s: Invalid null command.\n", NAME);
+			clear_output(&output);
+			return (output);
+		}
 		if (av[a]->argv[0] == NULL)
 			continue;
 		ex = make_exec(av[a], &g_env, &l_env);
-		//check AND and OR
 		if (av[a]->type == TYPE_OR || av[a]->type == TYPE_AND)
 		{
 			if (find == 0)
@@ -565,15 +589,19 @@ t_output		shell(t_av **av, int ret)
 		else
 					find = -1;
 		if (ex.type == -1)
-				{	dprintf(2,"21sh: unknown command: %s\n", av[a]->cmd);
+		{
 				handle_var(KV_SET, "?", "127");
-				;continue;}
+				continue;
+		}
 		if (av[a]->type != TYPE_PIPE)
 			clear_output(&output);
 		if (av[a]->type == TYPE_PIPE && output.ret_code != 0)
 			continue;
+		a_stop(0);
 		output = do_exec(ex, (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) ? 1 : ret, *av[a],
 			output.string, output.len);
+		if (a_init() == -1)
+		{ft_printf("error while getting the set\n");exit(127);}
 			char *s;
 			handle_var(KV_SET, "?", (s = ft_litoa((unsigned char)output.ret_code)));
 			ft_strdel(&s);

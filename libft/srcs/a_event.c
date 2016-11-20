@@ -103,16 +103,9 @@ int		a_init(void)
 	if ((tgetent(NULL, term_name) == -1)
 			|| (tcgetattr(0, &term) == -1))
 		return (-1);
-	init_term(&term);
-	//ft_putstr_fd(tgetstr("ti", NULL), get_fd(0));
-	//a_init_clear();
 	if (init_term(&term) == -1)
 		return (-1);
-	//siginterrupt(SIGWINCH, 1);
-	//siginterrupt(SIGTSTP, 1);
-	//a_handle_signal();
 	ioctl(0, TIOCGWINSZ, &s);
 	a_storage_data(NEWSCREEN, s.ws_col, s.ws_row);
-	//a_mv(0, 0);
 	return (0);
 }

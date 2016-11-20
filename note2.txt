@@ -1,0 +1,21 @@
+---- TODO ----
+- Comportement aléatoire sur le setenv (Disparu depuis quelque temps)
+
+---- ANISIDE BUGS ----
+- "ls > >" on a une alerte nous disant qu'une autre expression est attendu à la suite de la première redirection, pourtant le ficher ">" est bien créer.
+- Il ne devrait pas être possible de faire ceci non plus "ls ||||||||". Actuellement le ls s'execute
+- trouver moyen POUR CHECKER FICHIER EST BINAIRE
+CORRECTED? ##- pas les bons resultats quand on veut mettre le result de "wc" dans un fichier
+CORRECTED? ##- cat ne quite pas quand on fait un ls | cat et que le dossier est vide
+
+-----------------------
+
+leaks ctrl R..leaks a chaque touche...
+quote pas bon test : echo "jacku'aa'jacky" pour comprendre
+1 leaks quand on cherche dans l hitorique avec les fleches et qu on appuie sur entrer pour valider la commande
+erreur de malloc quand on se sert du globing. Test : "ls *" tab et entrer 
+
+
+- Faire une fonction FT_READ pour eviter les caracteres indesirables qui plantent les termcaps
+- Faire plusieurs dossier pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc, et l'intégrer au makefile
+- Faire plusieurs header file pour séparer parser/lexer, edition de ligne, core fonction, builtin, etc
