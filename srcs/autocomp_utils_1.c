@@ -6,11 +6,12 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 20:12:54 by mseinic           #+#    #+#             */
-/*   Updated: 2016/11/06 17:12:52 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/21 19:34:08 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "autocomp.h"
+#include <sys/stat.h>
 
 static void			ft_skip(char **ret, char *path, char **tab2, char *tmp)
 {
@@ -94,6 +95,25 @@ int					auto_my_cmp(char *d_name, char *tmp, char *str)
 			&& ft_strcmp(tmp, str) == 0);
 }
 
+int					is_dir_file(const char *path)
+{
+	struct stat tmp;
+
+	lstat(path, &tmp);
+	return (S_ISDIR(tmp.st_mode));
+}
+
+void				add_slash(t_aut_info *info)
+{
+	char		*tmp;
+
+	tmp = ft_strnew(ft_strlen(info->dp->d_name) + 1);
+	ft_strcat(tmp, info->dp->d_name);
+	ft_strcat(tmp, "/");
+	info->tab_ret[info->i++] = ft_strdup(tmp);
+	ft_strdel(&tmp);
+}
+
 char				**ret_tab(char *tmp, char *path)
 {
 	t_aut_info info;
@@ -113,7 +133,12 @@ char				**ret_tab(char *tmp, char *path)
 				if (info.len <= ft_strlen(info.tmp))
 					info.tmp[info.len] = '\0';
 				if (auto_my_cmp(info.dp->d_name, info.tmp, tmp))
-					info.tab_ret[info.i++] = ft_strdup(info.dp->d_name);
+				{
+					if (is_dir_file(info.dp->d_name))
+						add_slash(&info);
+					else
+						info.tab_ret[info.i++] = ft_strdup(info.dp->d_name);
+				}
 				ft_strdel(&info.tmp);
 			}
 		}

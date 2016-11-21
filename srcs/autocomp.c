@@ -6,14 +6,15 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 16:22:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/10 02:42:19 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/21 19:11:34 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include "autocomp.h"
 
-static t_actions const g_actions[1] = {
+static t_actions const g_actions[2] = {
+	{NULL, {9, 0, 0, 0, 0, 0}, "TAB"},
 	{NULL, {9, 0, 0, 0, 0, 0}, "TAB"},
 };
 
@@ -43,7 +44,11 @@ static int			nothing_to_do(t_ft_info *info)
 {
 	if (info->tab_ret == NULL)
 	{
+		del_tab(info->tab_ret);
 		ft_strdel(&info->copy);
+		ft_strdel(&info->aux);
+		ft_strdel(&info->complete);
+		ft_strdel(&info->copy2);
 		return (1);
 	}
 	return (0);
