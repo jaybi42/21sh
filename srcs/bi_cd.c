@@ -16,10 +16,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-static void	set_oldpwd(t_list **g_e)
+static void	set_oldpwd(t_list **g_e, t_list **l_e)
 {
 	t_list	*temp;
-	
+	t_env	*env;
+
 	temp = *g_e;
 	while (temp != NULL)
 	{
@@ -30,23 +31,22 @@ static void	set_oldpwd(t_list **g_e)
 			return ;
 		}
 		temp = temp->next;
-	}		
+	}
 }
 
 static int	mod_pwd(t_list **g_e, t_list **l_e)
 {
-	t_env	*env;
 	char	*pwd;
 	char	*tmp;
 
-	set_oldpwd(g_e);
-	tmp = getwd(NULL)
+	set_oldpwd(g_e, l_e);
+	tmp = getwd(NULL);
 	if (tmp == NULL)
 		return (1);
 	pwd = ft_strdup(tmp);
 	ft_strdel(&tmp);
 	if (pwd == NULL)
-		return(1)
+		return(1);
 	bi_setenv(INIT_AV("setenv", "PWD", pwd, 2), g_e, l_e);
 	ft_strdel(&pwd);
 	return (0);

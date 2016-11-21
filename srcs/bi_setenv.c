@@ -63,20 +63,12 @@ static int	set_arg(char *name, char *value, t_list **g_env)
 	ft_strdel(&temp);
 	if (str == NULL)
 		return (1);
-	//tentative de retirage d eleaks par github
-	if (arg_isin(name, value, str, g_env) == 0)
-		continue ;
-	else if (arg_isout(name, value, str, g_env) == 1)
-		return (1);
-	ft_strdel(&str);
-	return (0);
-	/*
 	if (arg_isin(name, value, str, g_env) == 0)
 		return (0);
 	else if (arg_isout(name, value, str, g_env) == 0)
 		return (0);
 	ft_strdel(&str);
-	return (1);*/
+	return (1);
 }
 
 int			bi_setenv(t_av av, t_list **g_env, t_list **l_env)
