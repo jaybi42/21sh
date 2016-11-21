@@ -78,20 +78,25 @@ int		print_alias_list(t_alias *alias, char *key)
 	return (0);
 }
 
-char	*strdup_aplha(char *cmd) // Passer en param si c pair 0 ou 1
+char	*strdup_param(char *cmd, int param)
 {
-	int		i;
+	int	i;
+	char	c;
 	char	*ret;
 
 	i = 0;
+	c = ((param == 0) ? '=' : '\0');
 	if (cmd == '\0')
 		return (ft_strdup("\0"));
-	while ((ft_isalnum(cmd[i])) && cmd[i] != '\0')
+	while (((param == 0) ? (ft_isalnum(cmd[i])) : cmd[i] != 0) && (cmd[i] != '\0'))
 		++i;
+	if (param == 0)
+		if ((cmd[i] != '=') && (cmd[i] != '\0'))
+			return ((char *)NULL);
 	if (!(ret = ft_strnew(i)))
 		return ((char *)NULL);
 	i = 0;
-	while ((ft_isalnum(cmd[i])) && cmd[i] != '\0')
+	while (((param == 0) ? (ft_isalnum(cmd[i])) : cmd[i] != 0) && (cmd[i] != '\0'))
 	{
 		ret[i] = cmd[i];
 		++i;
@@ -112,7 +117,7 @@ char	**get_data(char *cmd)
 		return ((char **)NULL);
 	while ((ft_isspace(cmd[i])) && cmd[i])
 		++i;
-	pair[0] = strdup_aplha((cmd + i));
+	pair[0] = strdup_param((cmd + i), 0);
 	if (!(ft_isalnum(cmd[i])))
 		err = 1;
 	while ((ft_isalnum(cmd[i])) && cmd[i] != '\0')
@@ -122,7 +127,7 @@ char	**get_data(char *cmd)
 	if (err == 0)
 	{
 		i = ((cmd[i] == '=') ? i + 1 : i);
-		pair[1] = strdup_aplha((cmd + i));
+		pair[1] = strdup_param((cmd + i), 1);
 	}
 	return (pair);
 }
@@ -199,7 +204,9 @@ int		bi_alias(t_av av, t_list **g_env, t_list **l_env)
 	{
 		if ((pair = get_data(av.arg[x])))
 		{
-			if (pair[1] == NULL)
+			if (pair[0] == NULL)
+				ft_putendl_fd("21sh: invalid alias name.", 2);
+			else if (pair[1] == NULL)
 			{
 				if ((print_alias_list(g_alias, pair[0])) != 0)
 					ft_putendl_fd("21sh: alias not found.", 2);
