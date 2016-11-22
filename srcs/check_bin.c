@@ -38,6 +38,7 @@ int			check_bin(t_list *g_env, t_list *l_env, t_av av)
 	ret = -2;
 	env = convert_env(g_env, l_env);
 	str = get_path(g_env, l_env);
+	av.cmd = get_alias(&(av.cmd));
 	path = get_allpath(av.cmd, str);
 	if (access(av.cmd, X_OK) != -1)
 	{
