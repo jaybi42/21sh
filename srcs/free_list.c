@@ -13,6 +13,16 @@
 #include "21sh.h"
 #include <stdlib.h>
 
+void		free_key(void *content, size_t size)
+{
+	char	*to_free;
+
+	(void)size;
+	to_free = (char *)content;
+	if ( to_free != NULL)
+		ft_strdel(&to_free);
+}
+
 void		free_av(void *content, size_t size)
 {
 	t_av	*av;

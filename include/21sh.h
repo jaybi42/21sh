@@ -51,6 +51,13 @@ typedef struct	s_env
 	char		*str;
 }				t_env;
 
+typedef struct		s_alias
+{
+	char		*key;
+	char		*value;
+	struct s_alias	*next;
+}			t_alias;
+
 typedef struct	s_prompt
 {
 	int			rand;
@@ -177,6 +184,8 @@ char			*get_input(char *prompt);
 
 t_output	shell(t_av **av, int ret);
 int				do_fork(char *bin, char **all, char **env);
+char			*get_alias(char **addr_bin);
+int			array_key_exists(t_alias *alias, char *key);
 int				check_bin(t_list *g_env, t_list *l_env, t_av av);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l);
 void			catch_signal(void);
@@ -219,6 +228,7 @@ int				bi_alias(t_av av, t_list **g_env, t_list **l_env);
 
 void			free_av(void *content, size_t size);
 void			free_env(void *content, size_t size);
+void			free_key(void *conent, size_t size);
 
 /*
 **Name: Print error
@@ -252,15 +262,8 @@ char	*x_strnew(size_t size);
 int			x_fd_get_binary(int fd, char **str, int *len);
 int			fd_get_binary(int fd, char **str, int *len);
 int			file_get_binary(char *filename, char **str, int *len);
-
-
-typedef struct		s_alias
-{
-	char			*key;
-	char			*value;
-	struct s_alias	*next;
-}					t_alias;
-
+void			create_or_update_key(t_alias **addr, char **pair);
+void			del_pair(char ***pair);
 
 /*
 ** global

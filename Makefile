@@ -59,6 +59,7 @@ FILES =					main			\
 						catch_sig		\
 						history			\
 						do_fork			\
+						get_alias		\
 						check_bin		\
 						storage_new_var \
 						heredoc			\
@@ -101,7 +102,8 @@ FILES =					main			\
 						x_strdup \
 						x_strnew \
 						file_get_contents \
-						bi_alias
+						bi_alias		\
+						alias_bis
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
