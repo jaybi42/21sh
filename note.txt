@@ -59,4 +59,6 @@ ________________
 		[1]    12222 abort      ./21sh
 		
 		soit il ecrive des choses en top
+
+===== >> Le probleme ne vient pas du echo, le probleme vient peut etre lors de la subsitution car si on fait un "ls $titi" en répétant 3 ou 4 fois l'opération j'ai eu le meme message d'erreur de malloc
 		
