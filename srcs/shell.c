@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/20 17:46:36 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/11/22 22:02:53 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void print_err(char *err, char *what)
 {
 	ft_dprintf(2, "%s: %s: %s\n", NAME, err, what);
 }
-
 
 char **convert_env(t_list *g_env, t_list *l_env)
 {
@@ -558,6 +557,8 @@ t_output		shell(t_av **av, int ret)
 	output.ret_code = 0;
 	while (av[++a] != NULL)
 	{
+		//get_alias(&(av[a]));
+		// En partant du principe qu'on utilise av->argv et non pas av->arg
 		if (av[a]->cmd == NULL && (av[a]->type == TYPE_OR || av[a]->type == TYPE_AND
 			|| av[a]->type == TYPE_PIPE || (av[a + 1] != NULL &&
 				(av[a + 1]->type == TYPE_AND || av[a + 1]->type == TYPE_OR ||

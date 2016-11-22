@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 18:36:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/16 16:17:14 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/22 16:39:51 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int			check_bin(t_list *g_env, t_list *l_env, t_av av)
 	ret = -2;
 	env = convert_env(g_env, l_env);
 	str = get_path(g_env, l_env);
-	av.cmd = get_alias(&(av.cmd));
 	path = get_allpath(av.cmd, str);
 	if (access(av.cmd, X_OK) != -1)
 	{

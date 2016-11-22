@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_alias.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/22 20:53:56 by ibouchla          #+#    #+#             */
+/*   Updated: 2016/11/22 22:00:57 by ibouchla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <21sh.h>
 
@@ -26,28 +37,81 @@ int		already_searched(t_list *key_list, char *new_key)
 	return (0);
 }
 
-char	*get_alias(char **addr_bin)
+/*
+ **	On va devoir split la derniere value alias obtenu et joindre tout ce qu'on a (a partir de argv[1] pour sauter le binaire)
+*/
+
+char	**tabjoin(char **t1, char **t2)
+{
+	char	**new_tab;
+	size_t	i;
+	size_t	n;
+
+	i = (-1);
+	new_tab = (char **)ft_memalloc(sizeof(char *) * ((ft_size_tab(t1) + ft_size_tab(t2)) + 1));
+	while (t1[++i] != NULL)
+		new_tab[i] = ft_strdup(t1[i]);
+	n = i;
+	i = (-1);
+	while (t2[++i] != NULL)
+		new_tab[n++] = ft_strdup(t1[i]);
+	new_tab[n] = NULL;
+	return (new_tab);
+}
+
+char	**tabdup(char **t)
+{
+	size_t	i;
+	char	**new_tab;
+
+	i = (-1);
+	new_tab = (char **)ft_memalloc(sizeof(char *) * (ft_size_tab(t) + 1));
+	while (t[++i] != NULL)
+		new_tab[i] = ft_strdup(t[i]);
+	new_tab[i] = NULL;
+	return (new_tab);
+}
+
+void	do_all_stuff(t_av **av, char *key_value)
+{
+	char	**tmp;
+
+	//	ft_tabdel((*av)->argv);	
+	//	ft_tabdel((*av)->arg);
+	
+	ft_strdel(&((*av)->cmd));
+	tmp = ft_strsplit(key_value, ' ');
+	(*av)->cmd = ft_strdup(tmp[0]);
+	(*av)->argv = tabjoin(tmp, (*av)->arg);
+	(*av)->arg = tabdup(((*av)->argv + 1));
+	ft_tabdel(tmp);
+}
+
+void	get_alias(t_av **av)
 {
 	char	*tmp;
 	int		id;
 	t_list	*key_list;
 
-	tmp = ft_strdup(*addr_bin);
+	tmp = ft_strdup((*av)->cmd);
 	while ((id = array_key_exists(g_alias, tmp)))
 	{
 		ft_lstadd(&key_list, ft_lstnew((void *)tmp, (ft_strlen(tmp) + 1)));	// On ajoute la clef parcouru
 		ft_strdel(&tmp);
 		tmp = get_alias_elem_by_id(g_alias, id);	// On renvoi la value a la pos x qui deviendra notre nouvelle clef
-		if ((already_searched(key_list, tmp)))	// On envoi l'actuel valeure a la fonction qui check notre liste de clef déjà parcouru = loop infinie
+		if ((already_searched(key_list, tmp)))		// On envoi l'actuel valeure a la fonction qui check notre liste de clef déjà parcouru = loop infinie
 		{
 			ft_strdel(&tmp);
 			ft_lstdel(&key_list, &free_key);
-			return (*addr_bin);
+			return ;
 		}
 	}
-	ft_strdel(addr_bin);
-	ft_lstdel(&key_list, &free_key);
-	return (tmp);
+	if ((array_key_exists(g_alias, (*av)->cmd)))
+	{
+		do_all_stuff(av, tmp);
+		ft_lstdel(&key_list, &free_key);
+	}
+	ft_strdel(&tmp);
 }
 
 /*
@@ -65,3 +129,4 @@ char	*get_alias(char **addr_bin)
 **	[4] {XX} | {ls -lah}
 **
 */
+

@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/11/20 17:40:43 by agadhgad         ###   ########.fr        #
+#    Updated: 2016/11/22 21:59:29 by ibouchla         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -97,6 +97,7 @@ FILES =					main			\
 						key_is_special	\
 						bi_clear		\
 						reset_line		\
+						ft_size_tab		\
 						x_strsplit \
 						x_strjoin \
 						x_strdup \
