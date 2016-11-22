@@ -40,4 +40,23 @@ __________________
  	AUTO Comp
 __________________
 
-- Si on rencontre un dossier au moment du tab, joindre '/' a la ligne de commande.
+Normally it's done -> - Si on rencontre un dossier au moment du tab, joindre '/' a la ligne de commande.
+
+________________
+	ECHO
+________________
+
+	le test:
+		$> setenv popo 6
+		$> echo $popo
+		$> 6opo
+	si le deuxieme parrametre est plus grand que premier, par exemple 
+		$> setenv titi 7777777777777777
+		$> echo $titi
+	sa peut avoir 
+		21sh(12222,0x7fffad65a3c0) malloc: *** error for object 0x7fa707c04988: incorrect checksum for freed object - object was probably modified after being freed.
+		*** set a breakpoint in malloc_error_break to debug
+		[1]    12222 abort      ./21sh
+		
+		soit il ecrive des choses en top
+		
