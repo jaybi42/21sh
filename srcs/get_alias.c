@@ -21,7 +21,7 @@ char	*get_alias_elem_by_id(t_alias *alias, int id)
 	{
 		while (++i < id && alias->next != NULL)
 			alias = alias->next;
-		return (ft_strdup(alias->value));
+		return (((alias->value != NULL) ? ft_strdup(alias->value) : NULL));
 	}
 	return ((char *)NULL);
 }
@@ -30,7 +30,7 @@ int		already_searched(t_list *key_list, char *new_key)
 {
 	while (key_list != NULL)
 	{
-		if ((ft_strcmp((char *)key_list->content, new_key)))
+		if ((ft_strcmp((char *)key_list->content, new_key)) == 0)
 			return (1);
 		key_list = key_list->next;
 	}
@@ -79,12 +79,13 @@ void	do_all_stuff(t_av **av, char *key_value)
 	//	ft_tabdel((*av)->argv);	
 	//	ft_tabdel((*av)->arg);
 	
-	ft_strdel(&((*av)->cmd));
-	tmp = ft_strsplit(key_value, ' ');
-	(*av)->cmd = ft_strdup(tmp[0]);
-	(*av)->argv = tabjoin(tmp, (*av)->arg);
-	(*av)->arg = tabdup(((*av)->argv + 1));
-	ft_tabdel(tmp);
+	//ft_strdel(&((*av)->cmd));
+	if (!(tmp = ft_strsplit(key_value, ' ')))
+		return ;
+	(*av)->cmd = ((key_value != NULL) ? ft_strdup(tmp[0]) : NULL);
+	(*av)->argv = ((key_value != NULL) ? tabjoin(tmp, (*av)->arg) : NULL);
+	(*av)->arg = ((key_value != NULL) ? tabdup(((*av)->argv + 1)) : NULL);
+	//ft_tabdel(tmp);
 }
 
 void	get_alias(t_av **av)
@@ -93,25 +94,28 @@ void	get_alias(t_av **av)
 	int		id;
 	t_list	*key_list;
 
+	if (!((*av)->cmd))
+		return ;
 	tmp = ft_strdup((*av)->cmd);
 	while ((id = array_key_exists(g_alias, tmp)))
 	{
 		ft_lstadd(&key_list, ft_lstnew((void *)tmp, (ft_strlen(tmp) + 1)));	// On ajoute la clef parcouru
-		ft_strdel(&tmp);
-		tmp = get_alias_elem_by_id(g_alias, id);	// On renvoi la value a la pos x qui deviendra notre nouvelle clef
+		//ft_strdel(&tmp);
+		if (!(tmp = get_alias_elem_by_id(g_alias, id)))		// On renvoi la value a la pos x qui deviendra notre nouvelle clef
+			break ;
 		if ((already_searched(key_list, tmp)))		// On envoi l'actuel valeure a la fonction qui check notre liste de clef déjà parcouru = loop infinie
 		{
-			ft_strdel(&tmp);
-			ft_lstdel(&key_list, &free_key);
+			//ft_strdel(&tmp);
+			//ft_lstdel(&key_list, &free_key);
 			return ;
 		}
 	}
 	if ((array_key_exists(g_alias, (*av)->cmd)))
 	{
 		do_all_stuff(av, tmp);
-		ft_lstdel(&key_list, &free_key);
+	//	ft_lstdel(&key_list, &free_key);
 	}
-	ft_strdel(&tmp);
+	//ft_strdel(&tmp);
 }
 
 /*
