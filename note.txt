@@ -71,5 +71,7 @@ ______________________
 	Alias
 ______________________
 
---> j'ai un segv sur key=''
 --> mauvais comportement sur aa=bb bb=value puis aa= (c la value de bb qui est changer a la place de aa)
+
+==> J'ai des leaks au niveau de mon get_alias.c ils viennent du fait que je ne peux pas faire de ft_lstdel car sinon j'ai un sig abort
+==> Il y a un leaks si on appui sur entree avec une ligne de cmd vide

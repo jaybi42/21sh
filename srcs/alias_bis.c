@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 20:19:52 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/11/22 20:20:03 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/11/23 19:17:48 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void	create_or_update_key(t_alias **addr, char **pair)
 {
 	int		id;
 	t_alias	*alias;
-	int i;
+	int		i;
 
 	i = 0;
 	alias = *addr;
 	if ((id = array_key_exists(alias, pair[0])))
 	{
-		while ((i < id) && (alias->next != NULL))
+		while ((++i < id) && (alias->next != NULL))
 			alias = alias->next;
 		if (alias != NULL)
 			if (pair[1] != NULL)

@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 16:21:54 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/11/20 21:51:26 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/11/23 19:36:17 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,12 @@ int		print_alias_key(t_alias *alias, char *key)
 	{
 		if ((ft_strcmp(alias->key, key)) == 0)
 		{
-			ft_putstr(alias->key);
+			ft_putstr("alias ");
+			if (alias->key)
+				ft_putstr(alias->key);
 			ft_putstr("=\'");
-			ft_putstr(alias->value);
+			if (alias->value)
+				ft_putstr(alias->value);
 			ft_putendl("\'");		
 			return (0);
 		}
@@ -53,9 +56,12 @@ int		print_alias_list(t_alias *alias, char *key)
 		return ((array_key_exists(alias, key)) ? print_alias_key(alias, key) : 1);
 	while (alias != NULL)
 	{
-		ft_putstr(alias->key);
+		ft_putstr("alias ");
+		if (alias->key)
+			ft_putstr(alias->key);
 		ft_putstr("=\'");
-		ft_putstr(alias->value);
+		if (alias->value)
+			ft_putstr(alias->value);
 		ft_putendl("\'");
 		alias = alias->next;
 	}
@@ -71,7 +77,7 @@ char	*strdup_param(char *cmd, int param)
 	i = 0;
 	c = ((param == 0) ? '=' : '\0');
 	if (cmd == '\0')
-		return (ft_strdup("\0"));
+		return ((char *)NULL);
 	while (((param == 0) ? (ft_isalnum(cmd[i])) : cmd[i] != 0) && (cmd[i] != '\0'))
 		++i;
 	if (param == 0)
