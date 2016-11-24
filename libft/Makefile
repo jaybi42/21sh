@@ -1,45 +1,22 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: ibouchla <ibouchla@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/12/12 14:57:16 by jguthert          #+#    #+#              #
-#    Updated: 2016/09/30 19:49:34 by jguthert         ###   ########.fr        #
+#    Created: 2015/12/17 12:21:30 by ibouchla          #+#    #+#              #
+#    Updated: 2016/04/14 22:29:55 by ibouchla         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
-##=- Compilatator -=##
-
-CC = gcc
 NAME = libft.a
 
+INC_PATH = -I includes
 
-##=- FLAGS -=##
+SRC_PATH = srcs
 
-CFLAGS = -Wall -Wextra -Werror
-
-
-##=- PATH -=##
-
-OBJPATH = obj
-SRCPATH = srcs
-INCLUDE_PATH = includes/
-
-
-##=- Rules -=##
-
-INCLUDES = -I $(INCLUDE_PATH)
-AR = ar rc $(NAME)
-RAN = ranlib $(NAME)
-
-##=- Files -=##
-
-OBJ = $(SRC:$(SRCPATH)/%.c=$(OBJPATH)/%.o)
-SRC = $(addprefix $(SRCPATH)/,$(SRCFILES))
-
-SRCFILES = 	ft_isprint.c ft_memset.c ft_bzero.c			\
+SRC_NAME = ft_isprint.c ft_memset.c ft_bzero.c			\
 			ft_memcpy.c ft_memccpy.c ft_memmove.c 		\
 			ft_memchr.c ft_memcmp.c ft_strlen.c 		\
 			ft_strdup.c ft_strcpy.c ft_strncpy.c 		\
@@ -79,27 +56,46 @@ SRCFILES = 	ft_isprint.c ft_memset.c ft_bzero.c			\
 			a_clear.c  a_event.c  a_handle.c a_handle2.c a_mode.c \
 			a_print.c  a_screen.c a_listener.c printf_like.c
 
-##=- Process -=##
+CREATE_LIB = ar rc $(NAME) $(OBJET)
+
+ID_LIB = ranlib $(NAME)
+
+CC_FLAGS = gcc -Wall -Wextra -Werror
+
+SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
+
+OBJET = $(SRC:.c=.o)
+
+RED = \033[1;31m
+
+BLUE = \033[1;34m
+
+GREEN = \033[0;32m
+
+YELLOW = \033[1;33m
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	@echo "\033[33mProcessing\033[0m"
-	@echo "\033[32mMaking Libft \033[0m"
-	@$(AR) $(OBJ)
-	@$(RAN)
-	@echo "\033[33mEnd of the Process\033[0m"
+$(NAME): $(OBJET)
+	@echo "$(BLUE)Compilation of object files in libft directory is complete.\n"
+	@echo "$(YELLOW)Creation of the library in progress.."
+	@$(CREATE_LIB)
+	@echo "$(BLUE)Creation of the library is complete.\n"
+	@echo "$(YELLOW)Indexing of the library in process.."
+	@$(ID_LIB)
+	@echo "$(BLUE)Indexing of the library is complete.\n"
 
-$(OBJ): $(OBJPATH)/%.o : $(SRCPATH)/%.c
-	@mkdir -p $(dir $@)
-	@$(CC) -o $@ $(CFLAGS) $(INCLUDES) -c $<
+%.o: %.c
+	@$(CC_FLAGS) -c $< $(INC_PATH) -o $@
 
 clean:
-	@/bin/rm -rf $(OBJPATH)
-	@echo "\033[31mclean $(OBJPATH)\033[0m"
+	@echo "\n$(RED)Deleting object files of the library"
+	@$(RM) $(OBJET)
 
 fclean: clean
-	@/bin/rm -rf $(NAME)
-	@echo "\033[31mclean $(NAME)\033[0m"
+	@echo "$(RED)Remove the library\n"
+	@$(RM) $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re

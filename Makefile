@@ -6,134 +6,125 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/11/22 21:59:29 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/11/24 18:24:45 by ibouchla         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-##=-  Compilatator -=##
+##=-		Compilatator		-=##
 
 NAME = 21sh
-CC = gcc
 
+CC_FLAGS = gcc -Wall -Wextra -g3 #-Werror
 
-##=-  FLAGS -=##
+##=-		Rules		-=##
 
-CFLAGS = -Wall -Wextra -g3 #-Werror
+INC_PATH := -I include/ -I libft/includes
+LIB_PATH := -L libft/ -lft -ltermcap
 
+##=-		Colors		-=##
 
-##=-  PATH  -=##
+RED = \033[1;31m
+BLUE = \033[1;34m
+GREEN = \033[0;32m
+YELLOW = \033[1;33m
 
+##=-		Root files		-=##
 
-##=-  Rules -=##
-
-LIB := libft/libft.a
-IFLAGS := -I include/ -I libft/includes
-LFLAGS := -L libft/ -lft -lncurses
-
-
-##=-  Colors  -=##
-
-GREEN:="\033[1;32m"
-EOC:="\033[0m"
-
-
-##=-  Files -=##
-
-FILES =					main			\
-						init_env		\
-						read			\
-						shell			\
-						builtin			\
-						free_list		\
-						bi_export		\
-						bi_env			\
-						bi_unsetenv		\
-						bi_setenv		\
-						bi_cd			\
-						bi_exit			\
-						bi_getenv		\
-						bi_echo			\
-						bi_history		\
-						print_error		\
-						print_prompt	\
-						catch_sig		\
-						history			\
-						do_fork			\
-						get_alias		\
-						check_bin		\
-						storage_new_var \
-						heredoc			\
-										\
-						actions			\
-						do_termcaps		\
-						ft_up_down		\
-						go_up_down_2	\
-						go_up_down		\
-						ft_key			\
-						ft_key_2		\
-						ft_init_line	\
-						ft_insertion	\
-						ft_print_key	\
-						home_end		\
-						cut_cpy_paste	\
-						check_space		\
-						check_word		\
-						autocomp		\
-						autocomp_utils	\
+FILES =					main				\
+						init_env			\
+						read				\
+						shell				\
+						builtin				\
+						free_list			\
+						bi_export			\
+						bi_env				\
+						bi_unsetenv			\
+						bi_setenv			\
+						bi_cd				\
+						bi_exit				\
+						bi_getenv			\
+						bi_echo				\
+						bi_history			\
+						print_error			\
+						print_prompt		\
+						catch_sig			\
+						history				\
+						do_fork				\
+						get_alias			\
+						check_bin			\
+						storage_new_var		\
+						heredoc				\
+						actions				\
+						do_termcaps			\
+						ft_up_down			\
+						go_up_down_2		\
+						go_up_down			\
+						ft_key				\
+						ft_key_2			\
+						ft_init_line		\
+						ft_insertion		\
+						ft_print_key		\
+						home_end			\
+						cut_cpy_paste		\
+						check_space			\
+						check_word			\
+						autocomp			\
+						autocomp_utils		\
 						autocomp_utils_1	\
 						autocomp_utils_2	\
 						autocomp_utils_3	\
 						autocomp_utils_4	\
-						parse_quote		\
-						parse_history	\
-						get_event		\
-						search_history	\
-						parse_line		\
+						parse_quote			\
+						parse_history		\
+						get_event			\
+						search_history		\
+						parse_line			\
 						storage_all_cmds	\
 						garbage_collector	\
-						glob 			\
-						ft_ctrl_r		\
-						print_ctrl_r	\
-						key_is_special	\
-						bi_clear		\
-						reset_line		\
-						ft_size_tab		\
-						x_strsplit \
-						x_strjoin \
-						x_strdup \
-						x_strnew \
-						file_get_contents \
-						bi_alias		\
+						glob 				\
+						ft_ctrl_r			\
+						print_ctrl_r		\
+						key_is_special		\
+						bi_clear			\
+						reset_line			\
+						ft_size_tab			\
+						x_strsplit 			\
+						x_strjoin 			\
+						x_strdup 			\
+						x_strnew 			\
+						file_get_contents	\
+						bi_alias			\
 						alias_bis
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
 
-
-##=-  Process -=##
+##=-		Compilation and Linkage		-=##
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIB)
-	@echo $(GREEN) "Compiling $@" $(EOC)
-	@$(CC) $(SRC) $(LFLAGS) $(IFLAGS) $(CFLAGS) -o $(NAME)
-
-$(LIB):
-	@make -C libft
+$(NAME): $(OBJ)
+	@echo "$(BLUE)Compilation of object files in project directory is complete.\n"
+	@echo "$(YELLOW)Recompilation of the library in progress.."
+	@make -C libft/ re
+	@echo "$(BLUE)Compilation of the library is complete.\n"
+	@echo "$(YELLOW)Linkage of object files with the library is in progress.."
+	@$(CC_FLAGS) $(OBJ) $(LIB_PATH) $(INC_PATH) -o $(NAME)
+	@echo "$(BLUE)Linkage is complete."
+	@make -C libft/ fclean
+	@echo "$(GREEN)Done."
 
 obj/%.o: srcs/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(IFLAGS) -o $@ -c $<
+	@$(CC_FLAGS) -c $< $(INC_PATH) -o $@
 
 clean:
-	@echo $(GREEN) "Remove .o  [21sh]" $(EOC)
-	@make -C ./libft clean
-	@/bin/rm -f $(OBJ)
+	@echo "\n$(RED)Deleting object files of the project"
+	@$(RM) $(OBJ)
 
 fclean: clean
-	@echo $(GREEN) "Remove all [21sh]" $(EOC)
-	@make -C ./libft fclean
-	@/bin/rm -f $(NAME)
+	@echo "$(RED)Remove the executable\n"
+	@$(RM) $(NAME)
 
 re: fclean all
 
