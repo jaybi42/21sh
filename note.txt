@@ -75,3 +75,9 @@ ______________________
 
 ==> J'ai des leaks au niveau de mon get_alias.c ils viennent du fait que je ne peux pas faire de ft_lstdel car sinon j'ai un sig abort
 ==> Il y a un leaks si on appui sur entree avec une ligne de cmd vide
+
+-----------------------
+	HISTORY
+-----------------------
+
+	si on lance le ./21sh et que on fait "cd ..", alors dans le dosier ".." le 21sh a cree le fichier history avec l'histoire a l'interior
