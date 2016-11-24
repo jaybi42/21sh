@@ -6,31 +6,13 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 16:21:54 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/11/23 19:36:17 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/11/24 20:19:21 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-/*
-
- LA SUBSTITUTION DE L'ALIAS N'EST EFFECTUER QU'AU MOMENT DE L'EXECUTION, C'EST D'AILLEUR LA PREMIERE ETAPE
-
- **	alias | print la liste des alias
- **	alias ls | print la valeure de ls ou si il n'existe pas print msg d'erreur code retour >0
- ** alias name=value | comportement classique ou meme 'name=' deviendra alias name=""
-
-	Alias "1" VALUE "2"
-			Alias "2" VALUE "3"
-					Alias "3" value "X"
-							Alias "X" VALUE (1, 2 ou 3) alors boucle infinie sinon on continue
-
- Si il y a une boucle infinie type a->b; b->c; c->a; alors aucun remplacement sur l'alias n'est effectue.
- Sinon tant que il y a encore un alias 'name' qui vaut la value de l'alias donner en arg on continue, puis on remplace l'alias par la value
-
-*/
-
-int		print_alias_key(t_alias *alias, char *key)
+int		print_key(t_alias *alias, char *key)
 {
 	while (alias != NULL)
 	{
@@ -42,18 +24,18 @@ int		print_alias_key(t_alias *alias, char *key)
 			ft_putstr("=\'");
 			if (alias->value)
 				ft_putstr(alias->value);
-			ft_putendl("\'");		
+			ft_putendl("\'");
 			return (0);
 		}
 		alias = alias->next;
 	}
-	return (1);	
+	return (1);
 }
 
 int		print_alias_list(t_alias *alias, char *key)
 {
 	if (key != NULL)
-		return ((array_key_exists(alias, key)) ? print_alias_key(alias, key) : 1);
+		return ((array_key_exists(alias, key)) ? print_key(alias, key) : 1);
 	while (alias != NULL)
 	{
 		ft_putstr("alias ");
@@ -70,7 +52,7 @@ int		print_alias_list(t_alias *alias, char *key)
 
 char	*strdup_param(char *cmd, int param)
 {
-	int	i;
+	int		i;
 	char	c;
 	char	*ret;
 
@@ -78,7 +60,7 @@ char	*strdup_param(char *cmd, int param)
 	c = ((param == 0) ? '=' : '\0');
 	if (cmd == '\0')
 		return ((char *)NULL);
-	while (((param == 0) ? (ft_isalnum(cmd[i])) : cmd[i] != 0) && (cmd[i] != '\0'))
+	while (((param == 0) ? (ft_isalnum(cmd[i])) : cmd[i] != 0) && (cmd[i] != 0))
 		++i;
 	if (param == 0)
 		if ((cmd[i] != '=') && (cmd[i] != '\0'))
@@ -86,7 +68,7 @@ char	*strdup_param(char *cmd, int param)
 	if (!(ret = ft_strnew(i)))
 		return ((char *)NULL);
 	i = 0;
-	while (((param == 0) ? (ft_isalnum(cmd[i])) : cmd[i] != 0) && (cmd[i] != '\0'))
+	while (((param == 0) ? (ft_isalnum(cmd[i])) : cmd[i] != 0) && (cmd[i] != 0))
 	{
 		ret[i] = cmd[i];
 		++i;
