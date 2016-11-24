@@ -28,73 +28,77 @@ BLUE = \033[1;34m
 GREEN = \033[0;32m
 YELLOW = \033[1;33m
 
-##=-		Root files		-=##
+##=-		Files Path		-=##
 
-FILES =					main				\
-						init_env			\
-						read				\
-						shell				\
-						builtin				\
-						free_list			\
-						bi_export			\
-						bi_env				\
-						bi_unsetenv			\
-						bi_setenv			\
-						bi_cd				\
-						bi_exit				\
-						bi_getenv			\
-						bi_echo				\
-						bi_history			\
-						print_error			\
-						print_prompt		\
-						catch_sig			\
-						history				\
-						do_fork				\
-						get_alias			\
-						check_bin			\
-						storage_new_var		\
-						heredoc				\
-						actions				\
-						do_termcaps			\
-						ft_up_down			\
-						go_up_down_2		\
-						go_up_down			\
-						ft_key				\
-						ft_key_2			\
-						ft_init_line		\
-						ft_insertion		\
-						ft_print_key		\
-						home_end			\
-						cut_cpy_paste		\
-						check_space			\
-						check_word			\
-						autocomp			\
-						autocomp_utils		\
-						autocomp_utils_1	\
-						autocomp_utils_2	\
-						autocomp_utils_3	\
-						autocomp_utils_4	\
-						parse_quote			\
-						parse_history		\
-						get_event			\
-						search_history		\
-						parse_line			\
-						storage_all_cmds	\
-						garbage_collector	\
-						glob 				\
-						ft_ctrl_r			\
-						print_ctrl_r		\
-						key_is_special		\
-						bi_clear			\
-						reset_line			\
-						ft_size_tab			\
-						x_strsplit 			\
-						x_strjoin 			\
-						x_strdup 			\
-						x_strnew 			\
-						file_get_contents	\
-						bi_alias			\
-						alias_bis
+FILES = autocomp/autocomp			\
+		autocomp/autocomp_utils		\
+		autocomp/autocomp_utils_1	\
+		autocomp/autocomp_utils_2	\
+		autocomp/autocomp_utils_3	\
+		autocomp/autocomp_utils_4	\
+									\
+		builtin/alias_bis			\
+		builtin/bi_alias			\
+		builtin/bi_cd				\
+		builtin/bi_clear			\
+		builtin/bi_echo				\
+		builtin/bi_env				\
+		builtin/bi_exit				\
+		builtin/bi_export			\
+		builtin/bi_getenv 			\
+		builtin/bi_history 			\
+		builtin/bi_setenv 			\
+		builtin/bi_unsetenv			\
+		builtin/builtin				\
+		builtin/get_alias			\
+									\
+		line_edition/actions		\
+		line_edition/check_space	\
+		line_edition/check_word		\
+		line_edition/cut_cpy_paste	\
+		line_edition/do_termcaps	\
+		line_edition/ft_ctrl_r		\
+		line_edition/ft_init_line	\
+		line_edition/ft_insertion	\
+		line_edition/ft_key			\
+		line_edition/ft_key_2		\
+		line_edition/ft_print_key	\
+		line_edition/ft_up_down		\
+		line_edition/go_up_down		\
+		line_edition/go_up_down_2	\
+		line_edition/print_ctrl_r	\
+		line_edition/read			\
+		line_edition/reset_line		\
+									\
+		parsing/file_get_contents	\
+		parsing/parse_history		\
+		parsing/parse_line			\
+		parsing/parse_quote			\
+		parsing/search_history		\
+									\
+		other/catch_sig				\
+		other/check_bin				\
+		other/do_fork				\
+		other/free_list				\
+		other/ft_size_tab			\
+		other/garbage_collector		\
+		other/get_event				\
+		other/glob					\
+		other/heredoc				\
+		other/history				\
+		other/home_end				\
+		other/init_env				\
+		other/key_is_special		\
+		other/main					\
+		other/print_error			\
+		other/print_prompt			\
+		other/shell					\
+		other/storage_all_cmds		\
+		other/storage_new_var		\
+		other/x_strdup				\
+		other/x_strjoin				\
+		other/x_strnew				\
+		other/x_strsplit
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
