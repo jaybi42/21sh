@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 19:50:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/10 02:43:32 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/24 20:11:00 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	mod_pwd(t_list **g_e, t_list **l_e)
 	pwd = ft_strdup(tmp);
 	ft_strdel(&tmp);
 	if (pwd == NULL)
-		return(1);
+		return (1);
 	bi_setenv(INIT_AV("setenv", "PWD", pwd, 2), g_e, l_e);
 	ft_strdel(&pwd);
 	return (0);

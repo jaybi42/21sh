@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 13:49:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 16:24:29 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/24 18:15:22 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_actions const	g_actions[18] = {
 
 static int		cmp_buf(int *value, char *buf)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (i < 6)
@@ -49,7 +49,7 @@ static int		cmp_buf(int *value, char *buf)
 
 int				actions(t_line *l)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (g_actions[i].action != NULL)
