@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "21sh.h"
+#include "autocomp.h"
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -549,10 +550,14 @@ char **special_split(char *expr, int dec, int begin, int end, int *t_ind, int *l
 	int x;
 	int find;
 	x = begin;
+	int tmp;
 	int last_met = x;
 	while (x < end)
 	{
 		find = -1;
+		tmp = (x - last_met - 1);
+		if (tmp < 0)
+			tmp = 0;
 		for (int i =0; t_ind[i] != -1; i++)
 		{
 			if (t_ind[i] == x + dec)
@@ -563,10 +568,7 @@ char **special_split(char *expr, int dec, int begin, int end, int *t_ind, int *l
 		}
 		if (find != -1)
 		{
-			if (x - last_met - 1 > 0)
-			{
-				s[s_a++] = fstrsplit(expr + dec + last_met, x - last_met - 1, char_is_whitespace);
-			}
+			s[s_a++] = fstrsplit(expr + dec + last_met, tmp, char_is_whitespace);
 			s[s_a++] = tab_from_string(cpy_a_to_b(expr, t_ind[find], t_ind[find] + l_ind[find]));
 			s[s_a] = NULL;
 			last_met = x + l_ind[find] + 1;
@@ -574,11 +576,8 @@ char **special_split(char *expr, int dec, int begin, int end, int *t_ind, int *l
 		}
 		x++;
 	}
-	if (x - last_met - 1 > 0)
-	{
-		s[s_a++] = fstrsplit(expr + dec + last_met, x - last_met, char_is_whitespace);
-		s[s_a] = NULL;
-	}
+	s[s_a++] = fstrsplit(expr + dec + last_met, x - last_met, char_is_whitespace);
+	s[s_a] = NULL;
 	return (join_array(s));
 }
 
@@ -851,7 +850,6 @@ char *apply_var(char *s, int do_extra)
 				x_strjoins(&ns,&len, tmp[1],ft_strlen(tmp[1]));
 				i += ft_strlen(tmp[1]);
 		}
-
 		else if (do_extra && !find_tilde)
 		{
 
@@ -897,7 +895,12 @@ char *decortique_parse(char *expr, size_t l, int **t_ind, int **l_ind)
 		else if (p->type[i] == 1)
 				ts[i] = cpy_a_to_b(expr, p->begin[i],p->end[i]);
 		else
+		{
 				ts[i] = apply_var(cpy_a_to_b(expr, p->begin[i],p->end[i]), TRUE);
+				//ft_dprintf(2, "%s\n", ts[i]);
+				//char **d = ret_match(ts[i]);
+				//if (d != NULL) {for (int x = 0; d[x];x++)ft_dprintf(2, " %d |%s|\n", x, d[x]); }
+		}
 		if (p->type[i] == 0 || p->type[i] == 1)
 				marked_ind[i] = 1;
 		else
@@ -934,7 +937,7 @@ t_av	**parse_commands(char *expr)
 	tp[pa + 1] = NULL;
 	ti[pa + 1] = EMPTY;
 	t_av **cmds;
-
+	pa = -1;
 if (!(cmds = xmalloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
 return (NULL);
 /*int x_tmp = 0;
@@ -996,6 +999,7 @@ while (tp[pa] != NULL)
 					else
 					{
 						t_tstr[a] = special_split(expr, tp[pa]->dec, tp[pa]->begin[ti[pa] + a + ra],tp[pa]->end[ti[pa] + a + ra], t_ind, l_ind);//fstrsplit((expr + tp[pa]->dec) + tp[pa]->begin[ti[pa] + a + ra], tp[pa]->end[ti[pa] + a + ra] - tp[pa]->begin[ti[pa] + a + ra], char_is_whitespace);
+						//for (int j = 0; t_tstr[a][j];j++)ft_dprintf(2, "_|%s|_\n", t_tstr[a][j]);
 						if (tp[pa]->type[ti[pa] + a + ra] != EMPTY && g_delimiter[tp[pa]->type[ti[pa] + a + ra]].dont_give_shit_about_whitespace == 0)
 							cmds[ic]->bitcode[ra + a] = 0;
 						else

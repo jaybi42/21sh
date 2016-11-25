@@ -188,7 +188,7 @@ static int		sh21(void)
 			g_line = NULL;
 			o = shell(av, 0);
 		}
-		xmasterfree();
+		//xmasterfree();
 	}
 	return (1);
 }

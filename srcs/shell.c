@@ -355,7 +355,10 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen, char
 	int a;
 
 	if (inlen > 0)
+	{
+		ft_dprintf(2, "gonna read it...\n");
 		pipe(fd);
+	}
 	i = 0;
 	ret = -1;
 	while (r[i])i++;
@@ -363,15 +366,6 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen, char
 		exit(4);}
 		i = -1;
 		a = 0;
-		while (r[++i]){
-			if (r[i]->type != 0)
-				continue;
-			f[a] = xmalloc(sizeof(t_f) * (2));
-			f[a]->fd_to_redir = r[i]->fd_in;
-			f[a]->fd_to_write = r[i]->fd_out;
-			pipe(f[a++]->fd);
-			//dprintf(2, "pipe %d<-%d\n", f[i]->fd[0], f[i]->fd[1]);
-		}
 		f[a] = NULL;
 		if ((pid = fork()) == -1)
 		{
@@ -379,19 +373,6 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen, char
 		}
 		if (pid == 0)
 		{
-			i = 0;
-			while (f[i])
-			{
-				dup2(f[i]->fd[1], f[i]->fd_to_redir);
-				i++;
-			}
-			i = 0;
-			while (f[i])
-			{
-				close(f[i]->fd[1]);
-				close(f[i]->fd[0]);
-				i++;
-			}
 			if (inlen > 0)
 			{
 				close(fd[1]);
@@ -413,46 +394,6 @@ int		exec_bin(char *path, char **argv, t_redirect **r, char *in, int inlen, char
 				g_prompt.son = 1;
 			if (WIFEXITED(wait_status))
 				ret = WEXITSTATUS(wait_status);
-			t_multi_redic **to;
-			int x;
-
-			i = 0;
-			while (f[i])i++;
-			x = 0;
-			to = xmalloc(sizeof(t_multi_redic *) * (i + 2));
-			to[x] = NULL;
-			i--;
-			while (i >= 0)
-			{
-
-				close(f[i]->fd[1]);
-				int conti = FALSE;
-				for (int j = 0; to[j]; j++)
-					if (to[j]->fd_to_redir == f[i]->fd_to_redir)
-					{
-						conti = TRUE;
-						break;
-					}
-				if (conti == TRUE)
-				{
-					close(f[i]->fd[0]);
-					i--;
-					continue;
-				}
-				to[x] = xmalloc(sizeof(t_multi_redic));
-				to[x]->fd_to_redir = f[i]->fd_to_redir;
-				to[x]->oldout = f[i]->oldout;
-				to[x]->tempout = f[i]->tempout;
-				x_fd_get_binary(f[i]->fd[0], &to[x]->string, &to[x]->len);
-				close(f[i]->fd[0]);
-				x++;
-				to[x] = NULL;
-				i--;
-			}
-			for (int j = 0; to[j];j++)
-				for (int k = 0; f[k];k++)
-					if (f[k]->fd_to_redir == to[j]->fd_to_redir)
-						write(f[k]->fd_to_write, to[j]->string, to[j]->len);
 		}
 		return (ret);
 }
@@ -601,7 +542,7 @@ t_output		shell(t_av **av, int ret)
 			continue;
 		a_stop(0);
 		output = do_exec(ex, (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) ? 1 : ret, *av[a],
-				output.string, output.len);
+		output.string, output.len);
 		if (a_init() == -1)
 		{ft_printf("error while getting the set\n");exit(127);}
 		char *s;

@@ -204,6 +204,7 @@ int			x_fd_get_binary(int fd, char **str, int *len)
 
 	(*str) = NULL;
 	(*len) = 0;
+	ft_dprintf(2, "gonna read it...\n");
 	if ((f.str = x_allocat(READLEN)) == NULL)
 	{
 		close(fd);
@@ -217,7 +218,7 @@ int			x_fd_get_binary(int fd, char **str, int *len)
 		if ((f.str = x_add_alloc(fd, i, &f)) == NULL)
 			return (0);
 	}
-	close(fd);
+	ft_dprintf(2, "ended read it...\n");
 	(*str) = f.str;
 	(*len) = f.len_str;
 	return (1);
