@@ -14,11 +14,14 @@
 
 void		ft_tabdel(char **tab2)
 {
-	int		i;
+	int	i;
 
-	i = 0;
-	while (tab2[i] != NULL)
-		ft_strdel(&tab2[i++]);
+	i = (-1);
 	if (tab2 != NULL)
-		ft_strdel(tab2);
+	{
+		while (tab2[++i] != NULL)
+			ft_strdel(&(tab2[i]));
+		free((char **)tab2);
+		tab2 = NULL;
+	}
 }
