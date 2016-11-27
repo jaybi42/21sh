@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/11/24 18:24:45 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/11/26 22:16:21 by ibouchla         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -110,12 +110,11 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@echo "$(BLUE)Compilation of object files in project directory is complete.\n"
 	@echo "$(YELLOW)Recompilation of the library in progress.."
-	@make -C libft/ re
+	@make -C libft/
 	@echo "$(BLUE)Compilation of the library is complete.\n"
 	@echo "$(YELLOW)Linkage of object files with the library is in progress.."
 	@$(CC_FLAGS) $(OBJ) $(LIB_PATH) $(INC_PATH) -o $(NAME)
 	@echo "$(BLUE)Linkage is complete."
-	@make -C libft/ fclean
 	@echo "$(GREEN)Done."
 
 obj/%.o: srcs/%.c
@@ -125,10 +124,12 @@ obj/%.o: srcs/%.c
 clean:
 	@echo "\n$(RED)Deleting object files of the project"
 	@$(RM) $(OBJ)
+	@make -C libft/ clean
 
 fclean: clean
 	@echo "$(RED)Remove the executable\n"
 	@$(RM) $(NAME)
+	@make -C libft/ fclean
 
 re: fclean all
 

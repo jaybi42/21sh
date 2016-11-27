@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 17:51:23 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/17 18:33:56 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/26 20:31:19 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ void		print(t_line *l)
 	while (l->str[++a] != '\0')
 	{
 		ft_putchar(l->str[a]);
-		if (l->largeur != 0 && l->count != 0 && (l->count + l->sizeprompt + 1) % l->largeur == 0)
+		if (l->largeur != 0 && l->count != 0
+		&& (l->count + l->sizeprompt + 1) % l->largeur == 0)
 			do_term("do");
 		l->count++;
 	}
 	ft_home(l);
 	while (l->count < l->final_count)
 	{
-		if (l->largeur != 0 && l->count != 0 && (l->count + l->sizeprompt + 1) % l->largeur == 0)
+		if (l->largeur != 0 && l->count != 0
+		&& (l->count + l->sizeprompt + 1) % l->largeur == 0)
 			do_term("do");
 		else
 			do_term("nd");
