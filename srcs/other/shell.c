@@ -444,9 +444,7 @@ int exec_all(t_exec ex, char **env, char *in, int inlen, t_av av)
 	pid_t pid;
 	int ret;
 	int wait_status;
-	int execve_ret;
   t_handle_r hr;
-	int fdin[2];
 
   init_handle_redirect(ex.r, &hr);
 	ret = 0;
