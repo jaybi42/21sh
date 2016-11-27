@@ -429,7 +429,6 @@ void son_handle_in(int fdin)
 	//we connect the READER to his STDIN
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
-
 }
 typedef struct s_pipe
 {
@@ -437,7 +436,14 @@ typedef struct s_pipe
 	int fds[2];
 }t_pipe;
 
-int exec_all(t_exec **ex, char **env, int fdin, t_av av)
+typedef struct	s_executor
+{
+	t_exec		 ex;
+	t_av			 av;
+}				t_executor;
+
+
+int exec_all(t_executor **exs, char **env, int fdin)
 {
 	pid_t pid;
 	int ret;
@@ -445,9 +451,9 @@ int exec_all(t_exec **ex, char **env, int fdin, t_av av)
   t_handle_r hr;
 	t_pipe p[3] = {{0, {-1,-1}}, {0, {-1,-1}}, {0, {-1, -1}}};
 
-  init_handle_redirect(ex[0]->r, &hr);
+  init_handle_redirect(exs[0]->ex.r, &hr);
 	ret = 0;
-	if (ex[1] != NULL)
+	if (exs[1] != NULL)
 	{
 		//dprintf(2, "ACTIVATE THE R %s\n", ex[0]->path);
 		p[1].activate = 1;
@@ -471,67 +477,37 @@ int exec_all(t_exec **ex, char **env, int fdin, t_av av)
 					dup2(p[1].fds[WRITER], 1);
 					close(p[1].fds[WRITER]);
 			}
-			if ((*ex)->type == BASIC)
+			if ((*exs)->ex.type == BASIC)
 			{
-				execve((*ex)->path, (*ex)->argv, env);
+				execve((*exs)->ex.path, (*exs)->ex.argv, env);
 				perror("execve");
 			}
 			else
-					exit((*ex)->fnct(av, &g_env, &l_env));
+					exit((*exs)->ex.fnct((*exs)->av, &g_env, &l_env));
 	}
 	else
 	{
 			pid_t pid_bis;
-			if (ex[1] != NULL)
+			if (exs[1] != NULL)
 			{
 				close(p[1].fds[WRITER]);
-				if ((pid_bis = fork()) == 0)
-				{
-						//dprintf(2, "forked...\n");
-						int retaining = exec_all(&ex[1], env, p[1].fds[READER], av);
-						//dprintf(2, "EXIT son with ret: %d\n", retaining);
-						exit(0);
-				}
+				exec_all(&exs[1], env, p[1].fds[READER]);
 			}
 			if (hr.is_redirecting)
 				father_handle_redirect(&hr);
+			//dprintf(2, "wait... %s\n", exs[0]->ex.path);
 			ret = waitpid(-1, &wait_status, WUNTRACED);
-		//	if (WIFSIGNALED(wait_status))
-		//		g_prompt.son = 1;
+			if (WIFSIGNALED(wait_status))
+				g_prompt.son = 1;
 			if (WIFEXITED(wait_status))
 				ret = WEXITSTATUS(wait_status);
+			//dprintf(2, "finish to wait!!...%s\n",exs[0]->ex.path);
 	}
+	//dprintf(2, "preparing to exit... %s\n",exs[0]->ex.path);
   if (hr.is_redirecting)
-    active_redirect((*ex)->r, &hr);
+    active_redirect((*exs)->ex.r, &hr);
+	//dprintf(2, "EXIT FATHER  %s with ret: %d\n", exs[0]->ex.path, ret);
 	return (ret);
-}
-
-void	set_in(t_redirect **r, int *fdin, char *in, int len_in)
-{
-	int i;
-	int begin;
-
-	begin = 0;
-	if (in && len_in > 0)
-	{
-			dprintf(2, "try to pipe: %d\n", pipe(fdin));
-			begin = 1;
-			write(fdin[WRITER], in, len_in);
-	}
-	i = 0;
-	while (r[i])
-	{
-		if (r[i]->type == 1)
-		{
-			if (!begin)
-			{
-				pipe(fdin);
-				begin = 1;
-			}
-			write(fdin[WRITER], r[i]->s_in, r[i]->len_in);
-		}
-		i++;
-	}
 }
 
 void clear_output(t_output *o)
@@ -540,13 +516,13 @@ void clear_output(t_output *o)
 	o->string = xmalloc(2);
 	if (o->string == NULL)
 	{
-		dprintf(2, "xmalloc error.. leaving...\n");
+		//dprintf(2, "xmalloc error.. leaving...\n");
 		exit(1);
 	}
 	o->string[0] = '\0';
 }
 
-t_output do_exec(t_exec **ex, int ret,
+t_output do_exec(t_executor **exs, int ret,
 		t_av av, char *in, int inlen)
 {
 	t_output o;
@@ -573,21 +549,17 @@ t_output do_exec(t_exec **ex, int ret,
 	if (ret != 0){
 		pipe(fdout);
 		//we add to the redirection the 1>&pipe
-		int i;
 		i = 0;
-		while(ex[i])
+		while(exs[i])
 		{
-			if (ex[i + 1] == NULL)
-				get_out(&ex[i]->r, fdout[WRITER]);
+			if (exs[i + 1] == NULL)
+				get_out(&exs[i]->ex.r, fdout[WRITER]);
 			i++;
 		}
 	}
 	//set_in(ex.r, (int *)&fdin, in, inlen);
 	o.ret_code = 0;
-	o.ret_code = exec_all(ex, env, -1, av);
-	//if (fdin[])
-	//dprintf(2, "leave...\n");
-
+	o.ret_code = exec_all(exs, env, -1);
 	if (ret != 0)
 	{
 		close(fdout[WRITER]);
@@ -598,23 +570,25 @@ t_output do_exec(t_exec **ex, int ret,
 		while((r=read(fdout[READER], b, WRITING)) > 0)
 		{
 			x_strjoins(&o.string, (size_t *)&o.len,(char *)b,r);
-			//dprintf(2, "reading...: |%.*s|\n",o.len, o.string);
 		}
 		close(fdout[READER]);
 	}
-	/*
-	int i;
 
 	i = -1;
-	while(ex.r[++i])
+	int y = -1;
+	while(exs[++y])
 	{
-			if (ex.r[i]->type == IGNORE)
+		i = -1;
+	while(exs[y]->ex.r[++i])
+	{
+			if (exs[y]->ex.r[i]->type == IGNORE)
 				continue;
-			if (ret != 0 && ex.r[i + 1] == NULL)
+			if (ret != 0 && exs[y]->ex.r[i + 1] == NULL)
 				continue;
-			if (ex.r[i]->fd_out != STDOUT_FILENO || ex.r[i]->fd_out != STDERR_FILENO || ex.r[i]->fd_out != STDIN_FILENO)
-				close(ex.r[i]->fd_out);
-	}*/
+			if (exs[y]->ex.r[i]->fd_out != STDOUT_FILENO || exs[y]->ex.r[i]->fd_out != STDERR_FILENO || exs[y]->ex.r[i]->fd_out != STDIN_FILENO)
+				close(exs[y]->ex.r[i]->fd_out);
+	}
+	}
 	return (o);
 }
 
@@ -624,7 +598,7 @@ t_output		shell(t_av **av, int ret)
 	t_exec ex;
 	t_output all;
 	t_output output;
-	t_exec **xs;
+	t_executor **xs;
 	int find = -1;
 	int xs_i;
 
@@ -633,7 +607,7 @@ t_output		shell(t_av **av, int ret)
 	clear_output(&output);
 	output.string[0] = '\0';
 	output.ret_code = 0;
-	xs = xmalloc(sizeof(t_exec*) * 2);
+	xs = xmalloc(sizeof(t_executor*) * 2);
 	xs_i = 0;
 	xs[xs_i] = NULL;
 	while (av[++a] != NULL)
@@ -679,8 +653,8 @@ t_output		shell(t_av **av, int ret)
 		}
 		if (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) //HANDLE THE ASYNC MODE
 		{
-			t_exec **tmp;
-			tmp = xmalloc(sizeof(t_exec*) * (xs_i + 2));
+			t_executor **tmp;
+			tmp = xmalloc(sizeof(t_executor*) * (xs_i + 2));
 			int i = 0;
 			while (xs[i])
 			{
@@ -688,8 +662,9 @@ t_output		shell(t_av **av, int ret)
 				//dprintf(2, "%s\n", xs[i]->path);
 				i++;
 			}
-			tmp[i] = xmalloc(sizeof(t_exec));
-			tmp[i] = ft_memcpy(tmp[i], (t_exec*)&ex, sizeof(t_exec));
+			tmp[i] = xmalloc(sizeof(t_executor));
+			ft_memcpy(&tmp[i]->ex, (t_exec*)&ex, sizeof(t_exec));
+			ft_memcpy(&tmp[i]->av, (t_av*)av[a], sizeof(t_av));
 			tmp[i + 1] = NULL;
 			xs = tmp;
 			xs_i = i + 1;
@@ -697,21 +672,22 @@ t_output		shell(t_av **av, int ret)
 		}
 		else if (av[a]->type == TYPE_PIPE)
 		{
-			xs[xs_i] = xmalloc(sizeof(t_exec));
-			xs[xs_i] = ft_memcpy(xs[xs_i], (t_exec*)&ex, sizeof(t_exec));
+			xs[xs_i] = xmalloc(sizeof(t_executor));
+			ft_memcpy(&xs[xs_i]->ex, (t_exec*)&ex, sizeof(t_exec));
+			ft_memcpy(&xs[xs_i]->av, (t_av*)av[a], sizeof(t_av));
 			xs[++xs_i] = NULL;
  		}
 		else
 		{
-			xs[xs_i] = xmalloc(sizeof(t_exec));
-			xs[xs_i] = ft_memcpy(xs[0], (t_exec*)&ex, sizeof(t_exec));
+			xs[xs_i] = xmalloc(sizeof(t_executor));
+			ft_memcpy(&xs[0]->ex, (t_exec*)&ex, sizeof(t_exec));
+			ft_memcpy(&xs[0]->av, (t_av*)av[a], sizeof(t_av));
 			xs[++xs_i] = NULL;
 		}
 		if (av[a]->type == TYPE_PIPE && output.ret_code != 0)
 				continue;
 		a_stop(0);
-		output = do_exec(xs, ret, *av[a],
-		output.string, output.len);
+		output = do_exec(xs, ret, *av[a], output.string, output.len);
 		if (a_init() == -1)
 		{ft_printf("error while getting the set\n");exit(127);}
 		//clearing the xs
