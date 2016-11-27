@@ -87,6 +87,13 @@ Norminette
 ------------
 Des fonctions a priori rajouter a la libft ne sont pas a la norme
 --> J'ai mis a la norme tout le fichiers .h de la libft il reste deux fonctions a mettres a la norme dans les srcs de la libft
+________________
+	TERMCAPS
+________________
+
+- Ctrl + a pour mettre le curseur au tout debut
+- Ctrl + e pour mettre le curseur tout a la fin
+- Ctrl + d (si le curseur est sur un char, on le supprime sinon on applique le comportement classique)
 ______________
 	BONUS
 ______________
