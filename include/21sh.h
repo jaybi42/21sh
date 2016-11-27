@@ -276,5 +276,6 @@ extern t_list		*g_env;
 extern t_ftl_root g_hist;
 extern t_line *g_line;
 extern t_prompt g_prompt;
+extern int *g_exit;
 
 #endif

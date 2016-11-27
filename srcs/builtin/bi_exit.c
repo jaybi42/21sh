@@ -31,6 +31,6 @@ int			bi_exit(t_av av, t_list **g_env, t_list **l_env)
 	ft_lstdel(g_env, free_env);
 	ft_lstdel(l_env, free_env);
 	ret_exit(SET, (av.argv[1] != NULL) ? ft_atoi(av.argv[1]) : 0);
-	clean_exit(0);
+	*g_exit = (av.argv[1] != NULL) ? (unsigned char)ft_atoi(av.argv[1]) : 0;
 	return (0);
 }

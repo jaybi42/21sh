@@ -495,18 +495,18 @@ int exec_all(t_executor **exs, char **env, int fdin)
 			}
 			if (hr.is_redirecting)
 				father_handle_redirect(&hr);
-			//dprintf(2, "wait... %s\n", exs[0]->ex.path);
 			ret = waitpid(-1, &wait_status, WUNTRACED);
 			if (WIFSIGNALED(wait_status))
 				g_prompt.son = 1;
 			if (WIFEXITED(wait_status))
 				ret = WEXITSTATUS(wait_status);
-			//dprintf(2, "finish to wait!!...%s\n",exs[0]->ex.path);
 	}
-	//dprintf(2, "preparing to exit... %s\n",exs[0]->ex.path);
   if (hr.is_redirecting)
     active_redirect((*exs)->ex.r, &hr);
-	//dprintf(2, "EXIT FATHER  %s with ret: %d\n", exs[0]->ex.path, ret);
+	if (*g_exit != -1)
+	{
+			clean_exit(*g_exit);
+	}
 	return (ret);
 }
 

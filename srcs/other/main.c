@@ -13,6 +13,11 @@
 #include "21sh.h"
 #include <stdlib.h>
 #include <time.h>
+#include <stdlib.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 t_list		*l_env;
 t_list		*g_env;
@@ -20,6 +25,7 @@ t_ftl_root	g_hist;
 t_line		*g_line;
 t_prompt	g_prompt;
 t_alias		*g_alias;
+int		*g_exit;
 
 int			ret_exit(int state, int value)
 {
@@ -195,11 +201,16 @@ static int		sh21(void)
 
 int				main(void)
 {
+	g_env = mmap(NULL, sizeof *g_env, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+	g_env = NULL;
 	g_env = NULL;
 	l_env = NULL;
 	g_line = NULL;
 	//call init alias
-	g_alias = NULL;
+	g_alias = mmap(NULL, sizeof *g_alias, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+	//*g_alias = NULL;
+	g_exit = mmap(NULL, sizeof *g_exit, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+	*g_exit = -1;
 	//end
 	if (init_env(&g_env, &l_env) == 1)
 		return (1);
