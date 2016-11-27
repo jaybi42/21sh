@@ -287,21 +287,6 @@ int get_out(t_redirect ***r, int fd_out)
 
 #define WRITING 1024
 
-void son_handle_in(char *in, int inlen)
-{
-	int fd[2];
-
-	pipe(fd);
-	//direct the fd to it
-	write(fd[WRITER], in, inlen);
-	close(fd[WRITER]);
-
-	//then we connect the READER to his STDIN
-	dup2(fd[READER], STDIN_FILENO);
-	//then we close the READER for safety
-  close(fd[READER]);
-}
-
 typedef struct s_sf
 {
   char  s[WRITING];
@@ -422,6 +407,7 @@ void active_redirect(t_redirect **r, t_handle_r *hr)
   int i;
 
   i = 0;
+	//dprintf(2, "active redirect!!\n");
   while (r[i])
   {
       if (r[i]->type == IGNORE)
@@ -438,46 +424,85 @@ void active_redirect(t_redirect **r, t_handle_r *hr)
       i++;
   }
 }
+void son_handle_in(int fdin)
+{
+	//we connect the READER to his STDIN
+	dup2(fdin, STDIN_FILENO);
+	close(fdin);
 
-int exec_all(t_exec ex, char **env, char *in, int inlen, t_av av)
+}
+typedef struct s_pipe
+{
+	int activate;
+	int fds[2];
+}t_pipe;
+
+int exec_all(t_exec **ex, char **env, int fdin, t_av av)
 {
 	pid_t pid;
 	int ret;
 	int wait_status;
   t_handle_r hr;
+	t_pipe p[3] = {{0, {-1,-1}}, {0, {-1,-1}}, {0, {-1, -1}}};
 
-  init_handle_redirect(ex.r, &hr);
+  init_handle_redirect(ex[0]->r, &hr);
 	ret = 0;
+	if (ex[1] != NULL)
+	{
+		//dprintf(2, "ACTIVATE THE R %s\n", ex[0]->path);
+		p[1].activate = 1;
+		pipe(p[1].fds);
+	}
 	if ((pid = fork()) == -1)
 			exit(0);
 	if (pid == 0)
 	{
-      if (in)
-        son_handle_in(in, inlen);
-      if (hr.is_redirecting)
-      {
-        close(hr.fdout[READER]);
-        dup2(hr.fdout[WRITER], 1);
-        close(hr.fdout[WRITER]);
-      }
-			if (ex.type == BASIC)
+      if (fdin != -1)
+        son_handle_in(fdin);
+			if (hr.is_redirecting)
 			{
-				execve(ex.path, ex.argv, env);
+					close(hr.fdout[READER]);
+					dup2(hr.fdout[WRITER], 1);
+					close(hr.fdout[WRITER]);
+			}
+			if (p[1].activate == 1) //tell that we want to redirect the stdout of the son to the pipe
+			{
+					close(p[1].fds[READER]);
+					dup2(p[1].fds[WRITER], 1);
+					close(p[1].fds[WRITER]);
+			}
+			if ((*ex)->type == BASIC)
+			{
+				execve((*ex)->path, (*ex)->argv, env);
 				perror("execve");
 			}
 			else
-				exit(ex.fnct(av, &g_env, &l_env));
+					exit((*ex)->fnct(av, &g_env, &l_env));
 	}
 	else
 	{
-      if (hr.is_redirecting)
-        father_handle_redirect(&hr);
+			pid_t pid_bis;
+			if (ex[1] != NULL)
+			{
+				close(p[1].fds[WRITER]);
+				if ((pid_bis = fork()) == 0)
+				{
+						//dprintf(2, "forked...\n");
+						int retaining = exec_all(&ex[1], env, p[1].fds[READER], av);
+						//dprintf(2, "EXIT son with ret: %d\n", retaining);
+						exit(0);
+				}
+			}
+			if (hr.is_redirecting)
+				father_handle_redirect(&hr);
 			ret = waitpid(-1, &wait_status, WUNTRACED);
+		//	if (WIFSIGNALED(wait_status))
+		//		g_prompt.son = 1;
 			if (WIFEXITED(wait_status))
 				ret = WEXITSTATUS(wait_status);
 	}
   if (hr.is_redirecting)
-    active_redirect(ex.r, &hr);
+    active_redirect((*ex)->r, &hr);
 	return (ret);
 }
 
@@ -490,7 +515,6 @@ void	set_in(t_redirect **r, int *fdin, char *in, int len_in)
 	if (in && len_in > 0)
 	{
 			dprintf(2, "try to pipe: %d\n", pipe(fdin));
-
 			begin = 1;
 			write(fdin[WRITER], in, len_in);
 	}
@@ -521,7 +545,8 @@ void clear_output(t_output *o)
 	}
 	o->string[0] = '\0';
 }
-t_output do_exec(t_exec ex, int ret,
+
+t_output do_exec(t_exec **ex, int ret,
 		t_av av, char *in, int inlen)
 {
 	t_output o;
@@ -531,30 +556,53 @@ t_output do_exec(t_exec ex, int ret,
 	clear_output(&o);
 	o.string[0] = '\0';
 	o.ret_code = 0;
+	int i;
+	/*
+	dprintf(2, "!!!\n");
+	i = 0;
+	while(ex && ex[i])
+	{
+		dprintf(2, "%d test: %s %d \n", i, ex[i]->path, ex[i]->type);
+		i++;
+	}
+	dprintf(2, ">>>%d\n", i);
+	*/
 	fdout[0] = -1;
 	fdout[1] = -1;
 	env = convert_env(g_env, l_env);
 	if (ret != 0){
 		pipe(fdout);
 		//we add to the redirection the 1>&pipe
-		get_out(&ex.r, fdout[WRITER]);
+		int i;
+		i = 0;
+		while(ex[i])
+		{
+			if (ex[i + 1] == NULL)
+				get_out(&ex[i]->r, fdout[WRITER]);
+			i++;
+		}
 	}
 	//set_in(ex.r, (int *)&fdin, in, inlen);
 	o.ret_code = 0;
-	o.ret_code = exec_all(ex, env, in, inlen, av);
+	o.ret_code = exec_all(ex, env, -1, av);
 	//if (fdin[])
+	//dprintf(2, "leave...\n");
+
 	if (ret != 0)
 	{
 		close(fdout[WRITER]);
 		char b[WRITING];
 		int r;
 
+		//dprintf(2, "RET BABY!!!\n");
 		while((r=read(fdout[READER], b, WRITING)) > 0)
 		{
 			x_strjoins(&o.string, (size_t *)&o.len,(char *)b,r);
+			//dprintf(2, "reading...: |%.*s|\n",o.len, o.string);
 		}
 		close(fdout[READER]);
 	}
+	/*
 	int i;
 
 	i = -1;
@@ -566,7 +614,7 @@ t_output do_exec(t_exec ex, int ret,
 				continue;
 			if (ex.r[i]->fd_out != STDOUT_FILENO || ex.r[i]->fd_out != STDERR_FILENO || ex.r[i]->fd_out != STDIN_FILENO)
 				close(ex.r[i]->fd_out);
-	}
+	}*/
 	return (o);
 }
 
@@ -576,13 +624,18 @@ t_output		shell(t_av **av, int ret)
 	t_exec ex;
 	t_output all;
 	t_output output;
+	t_exec **xs;
 	int find = -1;
+	int xs_i;
 
 	a = -1;
 	clear_output(&all);
 	clear_output(&output);
 	output.string[0] = '\0';
 	output.ret_code = 0;
+	xs = xmalloc(sizeof(t_exec*) * 2);
+	xs_i = 0;
+	xs[xs_i] = NULL;
 	while (av[++a] != NULL)
 	{
 		get_alias(&(av[a]));
@@ -594,7 +647,8 @@ t_output		shell(t_av **av, int ret)
 		{
 			ft_dprintf(2, "%s: Invalid null command.\n", NAME);
 			clear_output(&output);
-			return (output);
+			output.ret_code = 127;
+			//return (output);
 		}
 		if (av[a]->argv[0] == NULL)
 			continue;
@@ -623,15 +677,47 @@ t_output		shell(t_av **av, int ret)
 			handle_var(KV_SET, "?", "127");
 			continue;
 		}
-		if (av[a]->type != TYPE_PIPE)
-			clear_output(&output);
-		if (av[a]->type == TYPE_PIPE && output.ret_code != 0)
+		if (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) //HANDLE THE ASYNC MODE
+		{
+			t_exec **tmp;
+			tmp = xmalloc(sizeof(t_exec*) * (xs_i + 2));
+			int i = 0;
+			while (xs[i])
+			{
+				tmp[i] = xs[i];
+				//dprintf(2, "%s\n", xs[i]->path);
+				i++;
+			}
+			tmp[i] = xmalloc(sizeof(t_exec));
+			tmp[i] = ft_memcpy(tmp[i], (t_exec*)&ex, sizeof(t_exec));
+			tmp[i + 1] = NULL;
+			xs = tmp;
+			xs_i = i + 1;
 			continue;
+		}
+		else if (av[a]->type == TYPE_PIPE)
+		{
+			xs[xs_i] = xmalloc(sizeof(t_exec));
+			xs[xs_i] = ft_memcpy(xs[xs_i], (t_exec*)&ex, sizeof(t_exec));
+			xs[++xs_i] = NULL;
+ 		}
+		else
+		{
+			xs[xs_i] = xmalloc(sizeof(t_exec));
+			xs[xs_i] = ft_memcpy(xs[0], (t_exec*)&ex, sizeof(t_exec));
+			xs[++xs_i] = NULL;
+		}
+		if (av[a]->type == TYPE_PIPE && output.ret_code != 0)
+				continue;
 		a_stop(0);
-		output = do_exec(ex, (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) ? 1 : ret, *av[a],
+		output = do_exec(xs, ret, *av[a],
 		output.string, output.len);
 		if (a_init() == -1)
 		{ft_printf("error while getting the set\n");exit(127);}
+		//clearing the xs
+		xs = xmalloc(sizeof(t_exec*) * 2);
+		xs_i = 0;
+		xs[xs_i] = NULL;
 		char *s;
 		handle_var(KV_SET, "?", (s = ft_litoa((unsigned char)output.ret_code)));
 		ft_strdel(&s);
