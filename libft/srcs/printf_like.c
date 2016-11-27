@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printf_like.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/27 17:48:59 by ibouchla          #+#    #+#             */
+/*   Updated: 2016/11/27 17:50:14 by ibouchla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include <stdarg.h>
 #include <stdlib.h>
@@ -38,14 +50,14 @@ static const char	*ft_gestion(const char *restrict format, va_list pa)
 
 int					ft_dprintf(int fd, const char *restrict format, ...)
 {
-	va_list pa;
-  int old_fd;
+	va_list	pa;
+	int		old_fd;
 
 	if (format == NULL)
 		return (0);
-  old_fd = get_fd(0);
-  if (fd > 0)
-    get_fd(fd);
+	old_fd = get_fd(0);
+	if (fd > 0)
+		get_fd(fd);
 	ret_val(0, 1);
 	writex(NULL, 0, -1);
 	va_start(pa, format);
@@ -64,6 +76,6 @@ int					ft_dprintf(int fd, const char *restrict format, ...)
 	}
 	va_end(pa);
 	writex(NULL, 0, 1);
-  get_fd(old_fd);
+	get_fd(old_fd);
 	return (ret_val(0, 0));
 }

@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 00:04:33 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/04/01 19:46:14 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/11/27 17:44:46 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,19 @@ int		init_term(struct termios *term)
 	else
 		return (0);
 }
-void handle_stdout(int action, int fd_tty)
+
+void	handle_stdout(int action, int fd_tty)
 {
-	static int oldout;
-	static int fd_to_write;
-	int					newout;
+	static int	oldout;
+	static int	fd_to_write;
+	int			newout;
 
 	if (action == 0)
 	{
 		fd_to_write = fd_tty;
 		oldout = dup(STDOUT_FILENO);
 		close(STDOUT_FILENO);
-		newout = dup(fd_to_write); //stdout
+		newout = dup(fd_to_write);
 	}
 	else if (action == 1)
 	{
@@ -87,6 +88,7 @@ void handle_stdout(int action, int fd_tty)
 		close(oldout);
 	}
 }
+
 int		a_init(void)
 {
 	struct termios	term;

@@ -85,5 +85,15 @@ ______________________
 ------------
 Norminette
 ------------
-
 Des fonctions a priori rajouter a la libft ne sont pas a la norme
+--> J'ai mis a la norme tout le fichiers .h de la libft il reste deux fonctions a mettres a la norme dans les srcs de la libft
+______________
+	BONUS
+______________
+
+--> Lister les bonus realiser :
+	- Systeme d'alias
+	- le ~ ?
+	- le echo -e (gerant tout les caracteres de controle)
+	- le $Var
+	- Ensuite ?

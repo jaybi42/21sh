@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/24 12:51:54 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/05/12 15:08:28 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/11/27 17:07:46 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 # define GETSIG 5
 # define INIT -3
 
-
 typedef enum	e_event
 {
 	E_KEY_LEFT = 4479771,
@@ -57,10 +56,11 @@ typedef enum	e_event
 /*
 ** a_event.c
 */
-void handle_stdout(int action, int fd_tty);
+
+void			handle_stdout(int action, int fd_tty);
 int				a_store_old_term(int ret);
 int				a_event(void);
-int		a_wait_event(unsigned char **b);
+int				a_wait_event(unsigned char **b);
 int				a_stop(int ret);
 void			a_exit(int ret);
 int				a_init(void);
@@ -68,6 +68,7 @@ int				a_init(void);
 /*
 ** a_screen.c
 */
+
 int				a_storage_data(int id, int tx, int ty);
 void			a_getscreen(int *x, int *y);
 int				a_getscreen_y(void);
@@ -77,7 +78,8 @@ void			a_getcursor(int *x, int *y);
 /*
 ** a_handle.c
 */
-int			a_print(int c);
+
+int				a_print(int c);
 void			a_tputs(char *s);
 void			a_mv(int x, int y);
 void			a_resize(int id);
@@ -89,6 +91,7 @@ void			a_leave(int id);
 /*
 ** a_mode.c
 */
+
 void			a_mode_video_inverted(void);
 void			a_mode_surlight(void);
 void			a_mode_off(void);
@@ -98,6 +101,7 @@ void			a_cursor_on(void);
 /*
 ** a_print.c
 */
+
 int				a_printf(const char *restrict format, ...);
 int				a_printg(int x, int y, const char *restrict format, ...);
 

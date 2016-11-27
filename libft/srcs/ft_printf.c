@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/01 16:41:20 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/04/01 17:54:06 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/11/27 17:46:17 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 int					find_bonus(char type)
 {
-	time_t t;
-	struct tm tm;
+	time_t		t;
+	struct tm	tm;
 
 	if (type == 'k')
 	{
