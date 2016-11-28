@@ -1,0 +1,117 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    todo                                               :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2016/11/28 17:51:34 by ibouchla          #+#    #+#              #
+#    Updated: 2016/11/28 20:23:56 by ibouchla         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+___________________
+	Mode Emploi
+___________________
+
+	-	Ce fichier doit rester lisible, vos commentaires personnels n'ont pas lieu d'etre.
+
+	-	Si toutefois vous souhaitez legitimement apporter un commentaire sur un bug referencer,
+		merci de le faire a la ligne suivi d'une indentation avec la mention [Update x] (x commencant a 0)
+		ex :	-	"commande x" comportement aleatoire sur blabla.
+						[Update 0]	- Je n'ai pas reussie a reproduire le bug.
+						[Update 1]	- Effectivement j'ai oublier de preciser tel point.
+
+	- 	Pour chaque element resolu merci d'indiquer la mention | RESOLU | de la maniere suivante :
+	
+		| RESOLU |	-	"commande x" comportement aleatoire sur blabla.
+
+	-	Merci donc de ne pas supprimer la ligne :)
+
+________________________________________________________________________________________________________
+
+______________
+	BUGS
+______________
+
+	-	"mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi"
+		Ne donne pas le resultat attendu dans le sujet.
+	
+	-	lancer quatres ./21sh.
+		Faire un kill sur les PID des deux 21sh du milieu.
+		Nous avons un comportement indefinis sur l'edition de ligne de cmd.
+	
+	-	lancer deux 21sh
+		kill le premier,
+		puis appuyer sur n'importe quel touche.
+
+	-	unsetenv / setenv PATH ne produit aucun comportement
+		(C'est peut etre juste les modifs d'anis sur l'exec des builtins).
+
+	-	"cat $LC_CTYPE"
+		En repetant 3/4 fois l'operation nous avons des caracteres aleatoires et un depassement de memoire.
+	
+	-	"ls ||||"
+		Nous avons x3 "21sh: Invalid null command" mais 'ls' est executer.
+		Bash lui n'execute pas le 'ls' et nous affiche "syntax error".
+
+	-	"base64 /dev/urandom | head -c 1000 | grep 42 | wc -l | sed -e 's/1/Yes/g' -e 's/0/No/g'"
+		Le resultat ne sort jamais obliger de ctrl + c
+		Le comportement avait ete reproduis en executant dans le 21sh un programme qui segfaulter volontairement.
+
+	-	"cat -e << EOF"
+		Nous entrons dans heredoc, ecrivez quelque chose.
+		Appuyez sur ENTREE --> Segmentation Fault.
+
+______________
+	LEAKS
+______________
+	
+	-	 ls | wc > toto;
+		Appuyer sur ENTREE.
+		Ctrl + R et taper ls pour retrouver la commande.
+		Appuyer sur ENTREE pour valider la commande.
+		Puis taper "leaks 21sh".
+	
+	-	Appuyer sur ENTREE avec une ligne de commande vide.
+		Un leaks apparait de maniere aleatoire	
+
+	-	Il y a de maniere aleatoire des leaks en remontant avec la fleche du haut,
+		puis en tapant sur ENTREE.
+
+______________
+	TODO
+______________
+	
+	-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
+
+	-	Ctrl + d
+		Si on est sur un char il est supprimer.
+		Sinon comportement normal.
+
+	-	Finir la norme sur tout les fichiers du projet et de la libft.
+
+______________
+	BONUS
+______________
+
+	-	Syteme d'Alias
+	
+	-	Caracteres de controles du builtin echo
+
+	-	Autocompletion
+
+	-	Execution des commandes de maniere asynchrone
+
+____________________
+	COMMENTAIRE
+____________________
+
+/*
+**	Cette partie sert de suivi du projet
+*/
+
+	-	Listing des bonus realises
+	
+	-	Nous en sommes a l'etape de la detection / resolution des bugs / leaks
+
