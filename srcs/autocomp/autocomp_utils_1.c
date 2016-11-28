@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 20:12:54 by mseinic           #+#    #+#             */
-/*   Updated: 2016/11/21 19:34:08 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/11/28 21:00:59 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,31 @@ void				add_slash(t_aut_info *info)
 	ft_strdel(&tmp);
 }
 
+int					verify_if_dir(t_aut_info *info, char *path)
+{
+	char	*str;
+
+	str = ft_strnew(ft_strlen(info->dp->d_name) + ft_strlen(path) + 1);
+	if (path[0] == '/' && ft_strlen(path) == 1)
+	{
+		ft_strcat(str, "/");
+		ft_strcat(str, info->dp->d_name);
+	}
+	else
+	{
+		ft_strcat(str, path);
+		ft_strcat(str, "/");
+		ft_strcat(str, info->dp->d_name);
+	}
+	if (is_dir_file(str))
+	{
+		ft_strdel(&str);
+		return (1);
+	}
+	ft_strdel(&str);
+	return (0);
+}
+
 char				**ret_tab(char *tmp, char *path)
 {
 	t_aut_info info;
@@ -134,7 +159,7 @@ char				**ret_tab(char *tmp, char *path)
 					info.tmp[info.len] = '\0';
 				if (auto_my_cmp(info.dp->d_name, info.tmp, tmp))
 				{
-					if (is_dir_file(info.dp->d_name))
+					if (verify_if_dir(&info, path))
 						add_slash(&info);
 					else
 						info.tab_ret[info.i++] = ft_strdup(info.dp->d_name);
