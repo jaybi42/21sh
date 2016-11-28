@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/28 17:51:34 by ibouchla          #+#    #+#              #
-#    Updated: 2016/11/28 20:23:56 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/11/28 23:13:18 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ ______________
 
 	-	"base64 /dev/urandom | head -c 1000 | grep 42 | wc -l | sed -e 's/1/Yes/g' -e 's/0/No/g'"
 		Le resultat ne sort jamais obliger de ctrl + c
-		Le comportement avait ete reproduis en executant dans le 21sh un programme qui segfaulter volontairement.
+		Le comportement avait ete reproduis en executant dans le 21sh un ./a.out qui segfault volontairement.
 
 	-	"cat -e << EOF"
 		Nous entrons dans heredoc, ecrivez quelque chose.
