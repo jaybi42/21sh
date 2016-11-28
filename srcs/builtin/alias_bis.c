@@ -12,6 +12,20 @@
 
 #include "21sh.h"
 
+char	*get_alias_elem_by_id(t_alias *alias, int id)
+{
+	int	i;
+
+	i = 0;
+	if (alias != NULL)
+	{
+		while (++i < id && alias->next != NULL)
+			alias = alias->next;
+		return (((alias->value != NULL) ? ft_strdup(alias->value) : NULL));
+	}
+	return ((char *)NULL);
+}
+
 void	create_new_node(t_alias **addr, char **pair)
 {
 	t_alias	*new_node;

@@ -21,7 +21,7 @@
 
 #define READLEN 4096
 
-void	ft_memdel(void **ap)
+void		ft_memdel(void **ap)
 {
 	if (ap != NULL)
 	{
@@ -30,7 +30,7 @@ void	ft_memdel(void **ap)
 	}
 }
 
-static char		*allocat(int size)
+static char	*allocat(int size)
 {
 	char *s;
 
@@ -40,7 +40,7 @@ static char		*allocat(int size)
 	return (s);
 }
 
-char			*binary_cat(char *dest, int len_dest, char *src, int len_src)
+char		*binary_cat(char *dest, int len_dest, char *src, int len_src)
 {
 	int i;
 
@@ -53,7 +53,7 @@ char			*binary_cat(char *dest, int len_dest, char *src, int len_src)
 	return (dest);
 }
 
-char			*binary_cpy(char *src, char *dest, int len)
+char		*binary_cpy(char *src, char *dest, int len)
 {
 	int i;
 
@@ -66,15 +66,7 @@ char			*binary_cpy(char *src, char *dest, int len)
 	return (src);
 }
 
-typedef struct s_file
-{
-	int		len_str;
-	int		len_buff;
-	char	*str;
-	char	buffer[READLEN + 1];
-}				t_file;
-
-static char		*add_alloc(int fd, int count, t_file *f)
+static char	*add_alloc(int fd, int count, t_file *f)
 {
 	char *tmp;
 
@@ -91,7 +83,7 @@ static char		*add_alloc(int fd, int count, t_file *f)
 	return (tmp);
 }
 
-char			*file_get_contents(char *filename)
+char		*file_get_contents(char *filename)
 {
 	int		fd;
 	t_file	f;
@@ -171,7 +163,7 @@ int			fd_get_binary(int fd, char **str, int *len)
 	return (1);
 }
 
-static char		*x_allocat(int size)
+static char	*x_allocat(int size)
 {
 	char *s;
 
@@ -181,7 +173,7 @@ static char		*x_allocat(int size)
 	return (s);
 }
 
-static char		*x_add_alloc(int fd, int count, t_file *f)
+static char	*x_add_alloc(int fd, int count, t_file *f)
 {
 	char *tmp;
 
@@ -197,6 +189,7 @@ static char		*x_add_alloc(int fd, int count, t_file *f)
 	tmp[f->len_str] = '\0';
 	return (tmp);
 }
+
 int			x_fd_get_binary(int fd, char **str, int *len)
 {
 	t_file	f;

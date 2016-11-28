@@ -6,25 +6,11 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 20:53:56 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/11/26 23:13:50 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/11/28 20:41:11 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <21sh.h>
-
-char	*get_alias_elem_by_id(t_alias *alias, int id)
-{
-	int	i;
-
-	i = 0;
-	if (alias != NULL)
-	{
-		while (++i < id && alias->next != NULL)
-			alias = alias->next;
-		return (((alias->value != NULL) ? ft_strdup(alias->value) : NULL));
-	}
-	return ((char *)NULL);
-}
 
 int		already_searched(t_list *key_list, char *new_key)
 {
@@ -46,7 +32,8 @@ char	**tabjoin(char **t1, char **t2)
 	size_t	n;
 
 	i = (-1);
-	new_tab = (char **)ft_memalloc(sizeof(char *) * ((ft_size_tab(t1) + ft_size_tab(t2)) + 1));
+	new_tab = (char **)ft_memalloc(sizeof(char *) *
+	((ft_size_tab(t1) + ft_size_tab(t2)) + 1));
 	while (t1[++i] != NULL)
 		new_tab[i] = x_strdup(t1[i]);
 	n = i;
@@ -74,18 +61,13 @@ void	do_all_stuff(t_av **av, char *key_value)
 {
 	char	**tmp;
 
-	/*
-	**	ft_tabdel((*av)->argv);	
-	**	ft_tabdel((*av)->arg);
-	*/
-
 	if (key_value[0] == '\0')
 		return ;
 	if (!(tmp = ft_strsplit(key_value, ' ')))
 		return ;
 	(*av)->cmd = x_strdup(tmp[0]);
-	(*av)->argv = tabjoin(tmp, (*av)->arg); // Leaks ici
-	(*av)->arg = tabdup(((*av)->argv + 1)); // Leaks ici
+	(*av)->argv = tabjoin(tmp, (*av)->arg);
+	(*av)->arg = tabdup(((*av)->argv + 1));
 	ft_tabdel(tmp);
 }
 
@@ -104,7 +86,7 @@ void	get_alias(t_av **av)
 		ft_lstadd(&key_list, ft_lstnew((void *)tmp, (ft_strlen(tmp) + 1)));
 		ft_strdel(&tmp);
 		if (!(tmp = get_alias_elem_by_id(g_alias, id)))
-			break ;
+			return ;
 		if ((already_searched(key_list, tmp)))
 		{
 			ft_strdel(&tmp);
@@ -114,7 +96,6 @@ void	get_alias(t_av **av)
 	}
 	if ((array_key_exists(g_alias, (*av)->cmd)))
 		do_all_stuff(av, tmp);
-	if (tmp)
-		ft_strdel(&tmp);
+	ft_strdel(&tmp);
 	ft_lstdel(&key_list, &free_key);
 }

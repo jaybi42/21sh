@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/22 22:00:34 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/11/28 20:44:06 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,14 @@ typedef struct	s_prompt
 	bool		son;
 	t_line		*l;
 }				t_prompt;
+
+typedef struct s_file
+{
+	int			len_str;
+	int			len_buff;
+	char		*str;
+	char		buffer[READLEN + 1];
+}				t_file;
 
 /*
 ---- added by a
@@ -185,7 +193,8 @@ char			*get_input(char *prompt);
 t_output	shell(t_av **av, int ret);
 int				do_fork(char *bin, char **all, char **env);
 void			get_alias(t_av **av);
-int			array_key_exists(t_alias *alias, char *key);
+int				array_key_exists(t_alias *alias, char *key);
+char			*get_alias_elem_by_id(t_alias *alias, int id);
 int				check_bin(t_list *g_env, t_list *l_env, t_av av);
 void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l);
 void			catch_signal(void);

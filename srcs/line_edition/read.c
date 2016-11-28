@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/17 18:23:22 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/28 20:35:49 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,12 @@ void	ft_ctrl_d(void)
 
 t_av	**read_init(t_line *l, t_ftl_root *hist)
 {
-	t_av **av;
+	t_av	**av;
+	int		ret;
 
 	g_line = l;
 	ft_init_line(l, hist);
-	while (1)
+	while (42)
 	{
 		ft_bzero(l->buffer, 6);
 		if (read(0, l->buffer, 6) == -1)
@@ -77,7 +78,7 @@ t_av	**read_init(t_line *l, t_ftl_root *hist)
 			break ;
 		}
 	}
-	int ret = parse_line(l,hist);
+	ret = parse_line(l, hist);
 	av = parse_commands(ret == 0 ? l->str : "");
 //	ft_strdel(&l->str);
 	return (av);

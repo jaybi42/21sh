@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 19:08:23 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 17:59:43 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/11/28 20:50:28 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		free_key(void *content, size_t size)
 
 	(void)size;
 	to_free = (char *)content;
-	if ( to_free != NULL)
+	if (to_free != NULL)
 		ft_strdel(&to_free);
 }
 
