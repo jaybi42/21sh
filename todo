@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/28 17:51:34 by ibouchla          #+#    #+#              #
-#    Updated: 2016/11/28 23:13:18 by ibouchla         ###   ########.fr        #
+     Updated: 2016/11/29 14:40:19 by malaine          ###   ########.fr         
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,13 +83,13 @@ ______________
 	TODO
 ______________
 	
-	-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
+			-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
 
-	-	Ctrl + d
-		Si on est sur un char il est supprimer.
-		Sinon comportement normal.
+| RESOLU |  -	Ctrl + d
+		 		Si on est sur un char il est supprimer.
+				Sinon comportement normal.
 
-	-	Finir la norme sur tout les fichiers du projet et de la libft.
+			-	Finir la norme sur tout les fichiers du projet et de la libft.
 
 ______________
 	BONUS
