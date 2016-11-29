@@ -72,7 +72,7 @@ typedef struct s_file
 	int			len_str;
 	int			len_buff;
 	char		*str;
-	char		buffer[READLEN + 1];
+	char		buffer[4096 + 1];
 }				t_file;
 
 /*

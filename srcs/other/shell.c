@@ -451,15 +451,16 @@ int exec_all(t_executor **exs, char **env, int fdin)
   t_handle_r hr;
 	t_pipe p[3] = {{0, {-1,-1}}, {0, {-1,-1}}, {0, {-1, -1}}};
 
-  init_handle_redirect(exs[0]->ex.r, &hr);
+	if ((*exs)->ex.type == BASIC)
+  	init_handle_redirect(exs[0]->ex.r, &hr);
 	ret = 0;
+	pid = -1;
 	if (exs[1] != NULL)
 	{
-		//dprintf(2, "ACTIVATE THE R %s\n", ex[0]->path);
 		p[1].activate = 1;
 		pipe(p[1].fds);
 	}
-	if ((pid = fork()) == -1)
+	if ((*exs)->ex.type == BASIC && (pid = fork()) == -1)
 			exit(0);
 	if (pid == 0)
 	{
@@ -477,24 +478,36 @@ int exec_all(t_executor **exs, char **env, int fdin)
 					dup2(p[1].fds[WRITER], 1);
 					close(p[1].fds[WRITER]);
 			}
-			if ((*exs)->ex.type == BASIC)
-			{
 				execve((*exs)->ex.path, (*exs)->ex.argv, env);
 				perror("execve");
-			}
-			else
-					exit((*exs)->ex.fnct((*exs)->av, &g_env, &l_env));
+	}
+	else if (pid == -1) //BUILTIN HANDLER
+	{
+		int cpystdout = -1;
+		if (exs[1] != NULL)
+		{
+			cpystdout = dup(1);
+			close(1);
+			dup2(p[1].fds[WRITER], 1);
+			close(p[1].fds[WRITER]);
+		}
+		(*exs)->ex.fnct((*exs)->av, &g_env, &l_env);
+		if (exs[1] != NULL)
+		{
+			dup2(cpystdout, 1);
+			close(cpystdout);
+			exec_all(&exs[1], env, p[1].fds[READER]);
+		}
 	}
 	else
 	{
-			pid_t pid_bis;
+			if (hr.is_redirecting)
+				father_handle_redirect(&hr);
 			if (exs[1] != NULL)
 			{
 				close(p[1].fds[WRITER]);
 				exec_all(&exs[1], env, p[1].fds[READER]);
 			}
-			if (hr.is_redirecting)
-				father_handle_redirect(&hr);
 			ret = waitpid(-1, &wait_status, WUNTRACED);
 			if (WIFSIGNALED(wait_status))
 				g_prompt.son = 1;
@@ -522,8 +535,7 @@ void clear_output(t_output *o)
 	o->string[0] = '\0';
 }
 
-t_output do_exec(t_executor **exs, int ret,
-		t_av av, char *in, int inlen)
+t_output do_exec(t_executor **exs, int ret)
 {
 	t_output o;
 	int fdout[2];
@@ -533,16 +545,6 @@ t_output do_exec(t_executor **exs, int ret,
 	o.string[0] = '\0';
 	o.ret_code = 0;
 	int i;
-	/*
-	dprintf(2, "!!!\n");
-	i = 0;
-	while(ex && ex[i])
-	{
-		dprintf(2, "%d test: %s %d \n", i, ex[i]->path, ex[i]->type);
-		i++;
-	}
-	dprintf(2, ">>>%d\n", i);
-	*/
 	fdout[0] = -1;
 	fdout[1] = -1;
 	env = convert_env(g_env, l_env);
@@ -687,7 +689,7 @@ t_output		shell(t_av **av, int ret)
 		if (av[a]->type == TYPE_PIPE && output.ret_code != 0)
 				continue;
 		a_stop(0);
-		output = do_exec(xs, ret, *av[a], output.string, output.len);
+		output = do_exec(xs, ret);
 		if (a_init() == -1)
 		{ft_printf("error while getting the set\n");exit(127);}
 		//clearing the xs
