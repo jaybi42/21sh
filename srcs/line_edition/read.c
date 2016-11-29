@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/28 20:35:49 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/11/29 14:36:29 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,16 @@ void	ft_ctrl_l(t_line *l)
 	print(l);
 }
 
-void	ft_ctrl_d(void)
+void	ft_ctrl_d(t_line *l)
 {
-	ft_putchar('\n');
-	reset_line();
-	exit(0);
+	if (l->size != 0)
+		ft_real_backspace(l);
+	else
+	{
+		ft_putchar('\n');
+		reset_line();
+		exit(0);
+	}
 }
 
 t_av	**read_init(t_line *l, t_ftl_root *hist)
@@ -66,10 +71,6 @@ t_av	**read_init(t_line *l, t_ftl_root *hist)
 			return (NULL);
 		if (l->buffer[0] != 10)
 			actions(l);
-		if (l->buffer[0] == 12)
-			ft_ctrl_l(l);
-		if (l->buffer[0] == 4)
-			ft_ctrl_d();
 		if (l->buffer[0] != 10 && ft_isprint(l->buffer[0]) == 1)
 			ft_print_key(l);
 		if (l->buffer[0] == 10)

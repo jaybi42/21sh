@@ -6,13 +6,13 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 13:49:16 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/24 18:15:22 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/11/29 14:21:35 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 
-static t_actions const	g_actions[18] = {
+static t_actions const	g_actions[22] = {
 	{ft_up, {27, 91, 65, 0, 0, 0}, "UP"},
 	{ft_down, {27, 91, 66, 0, 0, 0}, "DOWN"},
 	{ft_right, {27, 91, 67, 0, 0, 0}, "RIGHT"},
@@ -21,6 +21,10 @@ static t_actions const	g_actions[18] = {
 	{ft_backspace, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
 	{ft_ctrl_right, {27, 91, 49, 59, 53, 67}, "CTRL Right"},
 	{ft_ctrl_left, {27, 91, 49, 59, 53, 68}, "CTRL Left"},
+	{ft_ctrl_l, {12, 0, 0, 0, 0, 0}, "CTRL L"},
+	{ft_ctrl_d, {4, 0, 0, 0, 0, 0}, "CTRL D"},
+	{ft_ctrl_a, {1, 0, 0, 0, 0, 0}, "CTRL A"},
+	{ft_ctrl_e, {5, 0, 0, 0, 0, 0}, "CTRL E"},
 	{ft_home, {27, 91, 72, 0, 0, 0}, "HOME"},
 	{ft_end, {27, 91, 70, 0, 0, 0}, "END"},
 	{ft_cut, {11, 0, 0, 0, 0, 0}, "CUT"},
@@ -41,7 +45,9 @@ static int		cmp_buf(int *value, char *buf)
 	while (i < 6)
 	{
 		if (buf[i] != value[i])
+		{
 			return (1);
+		}
 		i++;
 	}
 	return (0);

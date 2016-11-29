@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/09 23:49:12 by malaine          ###   ########.fr       */
+/*   Updated: 2016/11/29 14:08:17 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,10 @@ void			ft_bp(t_line *l);
 void			ft_fw(t_line *l);
 void			get_line_history(t_line *l, t_ftl_root *root);
 int				get_nbline(t_line *l);
+void			ft_ctrl_l(t_line *l);
+void			ft_ctrl_d(t_line *l);
+void			ft_ctrl_a(t_line *l);
+void			ft_ctrl_e(t_line *l);
 
 /*
 **Name: Termcaps
