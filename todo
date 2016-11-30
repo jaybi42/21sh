@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/28 17:51:34 by ibouchla          #+#    #+#              #
-     Updated: 2016/11/29 14:40:19 by malaine          ###   ########.fr         
+     Updated: 2016/11/30 14:03:07 by malaine          ###   ########.fr         
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,9 @@ ________________________________________________________________________________
 ______________
 	BUGS
 ______________
+
+	-	lancer la commande ".." suivi d'un ctrl + C
+		(pas due exclusivement a la commande ".." mais a toute les commandes qui renvois "execve: Permission denied").
 
 	-	"mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi"
 		Ne donne pas le resultat attendu dans le sujet.
@@ -86,7 +89,7 @@ ______________
 			-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
 
 | RESOLU |  -	Ctrl + d
-		 		Si on est sur un char il est supprimer.
+  		 		Si on est sur un char il est supprimer.
 				Sinon comportement normal.
 
 			-	Finir la norme sur tout les fichiers du projet et de la libft.
