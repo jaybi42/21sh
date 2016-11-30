@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/28 17:51:34 by ibouchla          #+#    #+#              #
-     Updated: 2016/11/30 14:03:07 by malaine          ###   ########.fr         
+     Updated: 2016/11/30 14:41:49 by malaine          ###   ########.fr         
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,9 @@ ________________________________________________________________________________
 ______________
 	BUGS
 ______________
+
+	-	echo "test"jacky doit renvoyer : testjacky et non test jacky
+		la commande dois etre pris comme un seul argument meme avec la presence des quotes. 
 
 	-	lancer la commande ".." suivi d'un ctrl + C
 		(pas due exclusivement a la commande ".." mais a toute les commandes qui renvois "execve: Permission denied").
