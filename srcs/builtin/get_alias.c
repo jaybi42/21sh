@@ -32,7 +32,7 @@ char	**tabjoin(char **t1, char **t2)
 	size_t	n;
 
 	i = (-1);
-	new_tab = (char **)ft_memalloc(sizeof(char *) *
+	new_tab = (char **)xmalloc(sizeof(char *) *
 	((ft_size_tab(t1) + ft_size_tab(t2)) + 1));
 	while (t1[++i] != NULL)
 		new_tab[i] = x_strdup(t1[i]);
@@ -50,7 +50,7 @@ char	**tabdup(char **t)
 	char	**new_tab;
 
 	i = (-1);
-	new_tab = (char **)ft_memalloc(sizeof(char *) * (ft_size_tab(t) + 1));
+	new_tab = (char **)xmalloc(sizeof(char *) * (ft_size_tab(t) + 1));
 	while (t[++i] != NULL)
 		new_tab[i] = x_strdup(t[i]);
 	new_tab[i] = NULL;

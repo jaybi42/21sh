@@ -36,7 +36,7 @@ int		print_alias_list(t_alias *alias, char *key)
 {
 	if (key != NULL)
 		return ((array_key_exists(alias, key)) ? print_key(alias, key) : 1);
-	while (alias != NULL)
+	while (alias != NULL && alias->key != NULL)
 	{
 		ft_putstr("alias ");
 		if (alias->key)
