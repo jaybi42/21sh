@@ -709,6 +709,7 @@ t_av **updated(t_av **av)
 	int i;
 
 	i = 0;
+	ft_dprintf(2, "DEBUG: now we print every arg:\n");
 	while (av[i] != NULL)
 	{
 		if (av[i]->argv != NULL)
@@ -730,8 +731,11 @@ t_av **updated(t_av **av)
 			av[i]->cmd = NULL;
 			av[i]->arg = NULL;
 		}
+		for (int x = 0; av[i]->argv[x]; x++)
+			ft_dprintf(2, "DEBUG:cmd %d, argv[%d] : %s\n", i, x, av[i]->argv[x]);
 		i++;
 	}
+
 	return (av);
 }
 
@@ -928,9 +932,11 @@ t_av	**parse_commands(char *expr)
 	waiting_type[0] = 0;
 	pa = 0;
 	ti[pa] = 0;
-	//dprintf(2, "before: |%s|\n", expr);
+	ft_dprintf(2, "DEBUG: begin decortiquer, |%s|\n", expr);
 	expr = decortique_parse(expr, ft_strlen(expr), &t_ind, &l_ind);
-	//dprintf(2, "after: |%s|\n---\n", expr);
+	ft_dprintf(2, "DEBUG: end decortiquer, |%s|\n", expr);
+
+	ft_dprintf(2, "DEBUG: begin parse...\n");
 	if (!(tp[pa] = parse_it(expr, ft_strlen(expr), t_ind, l_ind)))
 		return (NULL);
 	tp[pa]->dec = 0;
@@ -939,14 +945,8 @@ t_av	**parse_commands(char *expr)
 	t_av **cmds;
 	pa = -1;
 if (!(cmds = xmalloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
-return (NULL);
-/*int x_tmp = 0;
-//printf("in |%s|\n", expr);
-while(x_tmp < tp[pa]->nb)
-{
-	printf("|%.*s|(%d_%d) - %d\n", tp[pa]->end[x_tmp], expr + tp[pa]->begin[x_tmp], tp[pa]->begin[x_tmp], tp[pa]->end[x_tmp], tp[pa]->type[x_tmp]);
-	x_tmp++;
-}*/
+	return (NULL);
+
 int ic = 0;
 //int skip_it = FALSE;
 int oldi = 0;

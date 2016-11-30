@@ -189,12 +189,14 @@ static int		sh21(void)
 			print_prompt(nbr, g_env, l_env, &l);
 		g_prompt = (t_prompt){nbr, g_env, l_env, 0, &l};
 		g_line = NULL;
+		ft_dprintf(2, "DEBUG: begin to read\n");
 		if ((av = read_init(&l, &g_hist)) != NULL)
 		{
 			g_line = NULL;
 			o = shell(av, 0);
 		}
-		//xmasterfree();
+		ft_dprintf(2, "DEBUG: xmasterfree call\n");
+		xmasterfree();
 	}
 	return (1);
 }
