@@ -39,7 +39,7 @@ void	create_new_node(t_alias **addr, char **pair)
 	alias = *addr;
 	tmp = NULL;
 	if (pair[0] != NULL)
-		while ((alias != NULL) && ((ft_strcmp(alias->key, pair[0])) > 0))
+		while ((alias != NULL) && ((ft_strcmp(pair[0], alias->key)) > 0))
 		{
 			tmp = alias;
 			alias = alias->next;
