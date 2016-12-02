@@ -258,7 +258,6 @@ t_globbing *quarter(char *expr, int *tmp_len)
 	}
 	if (expr[i] != ']' || i == 0)
 	{
-		//ft_memdel((void **)globbing);
 		return (NULL);
 	}
 	(*tmp_len) = i;
@@ -390,7 +389,7 @@ char **fusion_tarray(char ***t)
 	int i;
 	int len;
 
-	if (!(ret = xmalloc(sizeof(char **) * (ttlen(t) + 1))))
+	if (!(ret = malloc(sizeof(char **) * (ttlen(t) + 1))))
 		return (NULL);
 	a = 0;
 	len = 0;
@@ -399,7 +398,7 @@ char **fusion_tarray(char ***t)
 		i = 0;
 		while (t[a][i])
 		{
-			ret[len++] = t[a][i];
+			ret[len++] = ft_strdup(t[a][i]);
 			i++;
 		}
 		a++;
@@ -788,20 +787,3 @@ char	**ft_globing(char *expr, char **words)
 	t[x] = NULL;
 	return (fusion_tarray(t));
 }
-/*
-int main(int ac, char **av)
-{
-	char **t;
-	if (ac >= 3)
-	{
-		t = ft_globing(av[1], av + 2);
-		if (t)
-			while(*t)
-			{
-				printf("|%s|\n",(*t));
-				t++;
-			}
-	}
-	else
-		printf("./globbing \"expr*ssion\" \"word\" \"to\" \"find\"\n");
-}*/

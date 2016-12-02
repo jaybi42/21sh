@@ -26,6 +26,7 @@ t_line		*g_line;
 t_prompt	g_prompt;
 t_alias		*g_alias;
 int		*g_exit;
+int g_debug;
 
 int			ret_exit(int state, int value)
 {
@@ -189,20 +190,24 @@ static int		sh21(void)
 			print_prompt(nbr, g_env, l_env, &l);
 		g_prompt = (t_prompt){nbr, g_env, l_env, 0, &l};
 		g_line = NULL;
-		ft_dprintf(2, "DEBUG: begin to read\n");
 		if ((av = read_init(&l, &g_hist)) != NULL)
 		{
 			g_line = NULL;
 			o = shell(av, 0);
 		}
-		ft_dprintf(2, "DEBUG: xmasterfree call\n");
 		xmasterfree();
 	}
 	return (1);
 }
 
-int				main(void)
+int				main(int ac, char **argv)
 {
+	g_debug = FALSE;
+	if (ac >= 2 && ft_strcmp(argv[1], "--debug") == 0)
+	{
+		g_debug = TRUE;
+		ft_dprintf(2, "-- {red}WELCOME ON THE DEBUG MODE{eoc} --\n");
+	}
 	g_env = mmap(NULL, sizeof *g_env, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 	g_env = NULL;
 	g_env = NULL;

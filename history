@@ -137,3 +137,6 @@ ls
 rm fifi
 fault
 exit
+exit
+echo "test"jacky
+exit

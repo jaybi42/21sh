@@ -208,6 +208,19 @@ t_exec make_exec_bin(t_av *av, t_list *g_env, t_list *l_env)
  ** if nothing match try to fork, execve
  ** if -1, exit has been typed
  */
+void make_r(t_redirect ***r)
+{
+	int i;
+
+	i = 0;
+	while ((*r)[i])
+	{
+		if ((*r)[i]->fd_out == -1 && (*r)[i]->path != NULL)
+			(*r)[i]->fd_out = open((*r)[i]->path, (*r)[i]->open_flag, 0666);
+		i++;
+	}
+}
+
 t_exec make_exec(t_av *av, t_list **g_env, t_list **l_env)
 {
 	t_exec ex;
@@ -217,6 +230,8 @@ t_exec make_exec(t_av *av, t_list **g_env, t_list **l_env)
 		ex = make_exec_bin(av, *g_env,*l_env);
 	}
 	ex.r = av->redirect;
+	//handle_red
+	make_r(&ex.r);
 	return (ex);
 }
 
@@ -480,6 +495,7 @@ int exec_all(t_executor **exs, char **env, int fdin)
 			}
 				execve((*exs)->ex.path, (*exs)->ex.argv, env);
 				perror("execve");
+				exit(0);
 	}
 	else if (pid == -1) //BUILTIN HANDLER
 	{
@@ -540,6 +556,7 @@ t_output do_exec(t_executor **exs, int ret)
 	t_output o;
 	int fdout[2];
 	char **env;
+	(g_debug) ? ft_dprintf(2, "{green}---EXEC----{eoc}\n") : 0;
 
 	clear_output(&o);
 	o.string[0] = '\0';
@@ -594,28 +611,94 @@ t_output do_exec(t_executor **exs, int ret)
 	return (o);
 }
 
+/*
+ HOW DOES THIS WORK?
+
+ this is a simple system of stack.
+
+ the stack is extended only when the next command is a pipe.
+ It's for handle the async mode.
+
+ for: "ls | cat -e"
+
+ we will have a stack of this sort
+
+ 1 | cat -e  |
+ 0 | ls      |
+
+for: "echo ok ; ls "
+
+ 0 | echo ok |
+then
+ 0 | ls      |
+
+etc..
+*/
+
+
+void clear_stack(t_executor ***stack, int *stack_index)
+{
+	(*stack) = xmalloc(sizeof(t_exec*) * 2);
+	(*stack_index) = 0;
+	(*stack[(*stack_index)]) = NULL;
+}
+
+void update_stack(t_executor ***p_stack, int *p_stack_index, t_exec *current_ex, t_av *current_av)
+{
+	(*p_stack)[(*p_stack_index)] = xmalloc(sizeof(t_executor));
+	ft_memcpy(&(*p_stack)[(*p_stack_index)]->ex, (t_exec*)current_ex, sizeof(t_exec));
+	ft_memcpy(&(*p_stack)[(*p_stack_index)]->av, (t_av*)current_av, sizeof(t_av));
+	(*p_stack_index) += 1;
+	(*p_stack)[(*p_stack_index)] = NULL;
+}
+
+void set_retcode(unsigned char ret_code)
+{
+	char *s;
+	handle_var(KV_SET, "?", (s = ft_litoa(ret_code)));
+	ft_strdel(&s);
+}
+
+void extend_stack(t_executor ***stack, int *stack_index, t_exec *current_ex, t_av *current_av)
+{
+	t_executor **tmp;
+
+	tmp = xmalloc(sizeof(t_executor*) * ((*stack_index) + 2));
+	int i = 0;
+	while ((*stack)[i])
+	{
+		tmp[i] = (*stack)[i];
+		i++;
+	}
+	tmp[i] = xmalloc(sizeof(t_executor));
+	ft_memcpy(&tmp[i]->ex, (t_exec*)current_ex, sizeof(t_exec));
+	ft_memcpy(&tmp[i]->av, (t_av*)current_av, sizeof(t_av));
+	tmp[i + 1] = NULL;
+	(*stack) = tmp;
+	(*stack_index) = i + 1;
+}
+
 t_output		shell(t_av **av, int ret)
 {
 	int a;
 	t_exec ex;
 	t_output all;
 	t_output output;
-	t_executor **xs;
+	t_executor **stack;
+	int stack_index;
 	int find = -1;
-	int xs_i;
 
 	a = -1;
 	clear_output(&all);
 	clear_output(&output);
 	output.string[0] = '\0';
 	output.ret_code = 0;
-	xs = xmalloc(sizeof(t_executor*) * 2);
-	xs_i = 0;
-	xs[xs_i] = NULL;
+	stack = xmalloc(sizeof(t_executor*) * 2);
+	clear_stack(&stack, &stack_index);
 	while (av[++a] != NULL)
 	{
 		get_alias(&(av[a]));
-		// En partant du principe qu'on utilise av->argv et non pas av->arg
+
 		if (av[a]->cmd == NULL && (av[a]->type == TYPE_OR || av[a]->type == TYPE_AND
 					|| av[a]->type == TYPE_PIPE || (av[a + 1] != NULL &&
 						(av[a + 1]->type == TYPE_AND || av[a + 1]->type == TYPE_OR ||
@@ -624,10 +707,13 @@ t_output		shell(t_av **av, int ret)
 			ft_dprintf(2, "%s: Invalid null command.\n", NAME);
 			clear_output(&output);
 			output.ret_code = 127;
-			//return (output);
 		}
 		if (av[a]->argv[0] == NULL)
+		{
+			clear_stack(&stack, &stack_index);
 			continue;
+		}
+		(g_debug) ? ft_dprintf(2, "{green}----------------------{eoc}\n") : 0;
 		ex = make_exec(av[a], &g_env, &l_env);
 		if (av[a]->type == TYPE_OR || av[a]->type == TYPE_AND)
 		{
@@ -650,55 +736,42 @@ t_output		shell(t_av **av, int ret)
 			find = -1;
 		if (ex.type == -1)
 		{
-			handle_var(KV_SET, "?", "127");
+			set_retcode(127);
 			continue;
 		}
-		if (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) //HANDLE THE ASYNC MODE
+		if (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE)
 		{
-			t_executor **tmp;
-			tmp = xmalloc(sizeof(t_executor*) * (xs_i + 2));
-			int i = 0;
-			while (xs[i])
-			{
-				tmp[i] = xs[i];
-				//dprintf(2, "%s\n", xs[i]->path);
-				i++;
-			}
-			tmp[i] = xmalloc(sizeof(t_executor));
-			ft_memcpy(&tmp[i]->ex, (t_exec*)&ex, sizeof(t_exec));
-			ft_memcpy(&tmp[i]->av, (t_av*)av[a], sizeof(t_av));
-			tmp[i + 1] = NULL;
-			xs = tmp;
-			xs_i = i + 1;
+			extend_stack(&stack, &stack_index,  &ex, av[a]);
 			continue;
 		}
-		else if (av[a]->type == TYPE_PIPE)
-		{
-			xs[xs_i] = xmalloc(sizeof(t_executor));
-			ft_memcpy(&xs[xs_i]->ex, (t_exec*)&ex, sizeof(t_exec));
-			ft_memcpy(&xs[xs_i]->av, (t_av*)av[a], sizeof(t_av));
-			xs[++xs_i] = NULL;
- 		}
 		else
-		{
-			xs[xs_i] = xmalloc(sizeof(t_executor));
-			ft_memcpy(&xs[0]->ex, (t_exec*)&ex, sizeof(t_exec));
-			ft_memcpy(&xs[0]->av, (t_av*)av[a], sizeof(t_av));
-			xs[++xs_i] = NULL;
-		}
+			update_stack(&stack, &stack_index, &ex, av[a]);
 		if (av[a]->type == TYPE_PIPE && output.ret_code != 0)
 				continue;
+		if (g_debug)
+			for (int w = 0; stack[w]; w++)
+			{
+				if (stack[w]->ex.type == 0)
+			 	ft_dprintf(2, "%d ; call bin |%s|\n",w, stack[w]->ex.path);
+			else if (stack[w]->ex.type == 1)
+				ft_dprintf(2, "%d ; call builtin |%s|\n",w, stack[w]->av.cmd);
+			for (int v = 0; stack[w]->av.argv[v];v++)
+				ft_dprintf(2, "      %d %%%s%%\n",v, stack[w]->av.argv[v]);
+		}
+		(g_debug) ? ft_dprintf(2, "{green}----------------------{eoc}\n") : 0;
+
 		a_stop(0);
-		output = do_exec(xs, ret);
+
+
+		output = do_exec(stack, ret);
+
 		if (a_init() == -1)
-		{ft_printf("error while getting the set\n");exit(127);}
-		//clearing the xs
-		xs = xmalloc(sizeof(t_exec*) * 2);
-		xs_i = 0;
-		xs[xs_i] = NULL;
-		char *s;
-		handle_var(KV_SET, "?", (s = ft_litoa((unsigned char)output.ret_code)));
-		ft_strdel(&s);
+		{
+			ft_printf("error while getting the set\n");
+			exit(127);
+		}
+		clear_stack(&stack, &stack_index);
+		set_retcode((unsigned char)output.ret_code);
 		if (ret)
 			x_strjoins(&all.string,(size_t *)&all.len,output.string,output.len);
 		all.ret_code = output.ret_code;
@@ -707,7 +780,7 @@ t_output		shell(t_av **av, int ret)
 }
 
 /*
- ** give him an expr (example: echo ok | cat -e)
+ ** give him an expr (example: "echo ok | cat -e")
  ** give you the return output and the last ret_code
  */
 t_output shell_exec(char *expr)

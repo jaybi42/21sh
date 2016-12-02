@@ -98,7 +98,8 @@ FILES = autocomp/autocomp			\
 		other/x_strdup				\
 		other/x_strjoin				\
 		other/x_strnew				\
-		other/x_strsplit
+		other/x_strsplit \
+		other/tilde_path
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
