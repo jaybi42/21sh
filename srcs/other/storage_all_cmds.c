@@ -526,14 +526,14 @@ t_av **check(t_av **av)
 	int i;
 
 	i = -1;
-	while (av[++i])
+	/*while (av[++i])
 	{
 		if (av[i]->argc == 0 && (av[i]->type != TYPE_NORMAL || (av[i + 1] != NULL && av[i + 1]->type == TYPE_NORMAL)))
 		{
 				print_err("Parsing", "invalid null command");
 				return (NULL);
 			}
-}
+}*/
 return (av);
 }
 t_av **updated(t_av **av)

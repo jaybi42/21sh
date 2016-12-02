@@ -88,7 +88,9 @@ typedef struct          s_redirect
 {
                 int     type; //0 for redirect basic or 1 for <
                 int     fd_in;
-                int     fd_out;
+                int     fd_out; //if it's -1 we look for path
+								char *path;
+								int open_flag;
 				char	*s_in;
 				int		len_in;
 }                       t_redirect;
@@ -136,11 +138,12 @@ typedef struct	s_av
 	char		**arg;
 	int			argc;
 	char		**argv;
-	struct s_av        ***argcmd;
+	int		**argv_auth;
+	int			bg;
 	struct s_redirect **redirect;
     int     *bitcode;
 	int		type;
-}				t_av;
+}							t_av;
 
 typedef int		(*t_bi_fptr)();
 
@@ -152,6 +155,8 @@ typedef struct	s_builtin
 
 void		clean_exit(int ret);
 
+
+void print_err(char *err, char *what);
 
 char *get_path(t_list *g_env, t_list *l_env);
 char **convert_env(t_list *g_env, t_list *l_env);
@@ -250,6 +255,7 @@ int				print_error(t_av av, int error);
 /*
 ** added by a
 */
+#define TO_EXEC_IN_BG -10
 #define TYPE_OTHER 0
 #define TYPE_PIPE 7
 #define TYPE_OR 4
@@ -275,6 +281,8 @@ void			create_or_update_key(t_alias **addr, char **pair);
 void			del_pair(char ***pair);
 size_t		ft_size_tab(char **tab2);
 
+char	*tilde_path(char *str, char *home);
+
 /*
 ** global
 */
@@ -286,5 +294,6 @@ extern t_ftl_root g_hist;
 extern t_line *g_line;
 extern t_prompt g_prompt;
 extern int *g_exit;
+extern int g_debug;
 
 #endif
