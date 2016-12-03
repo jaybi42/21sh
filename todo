@@ -38,7 +38,7 @@ ______________
 
 	-	L' historique affiche des caracteres chelou apres une commande de plusieurs ligne suite a un oubli de quote.
 
-	-	| RESOLU | echo "test"jacky doit renvoyer : testjacky et non test jacky
+	-	| RESOLU | echo "test"jacky doit renvoyer : 'testjacky' et non 'test jacky'
 		la commande dois etre pris comme un seul argument meme avec la presence des quotes. 
 
 	-	| RESOLU | lancer la commande ".." suivi d'un ctrl + C
@@ -69,9 +69,10 @@ ______________
 		Le resultat ne sort jamais obliger de ctrl + c
 		Le comportement avait ete reproduis en executant dans le 21sh un ./a.out qui segfault volontairement.
 
-	-	"cat -e << EOF"
+	-	| RESOLU | "cat -e << EOF"
 		Nous entrons dans heredoc, ecrivez quelque chose.
 		Appuyez sur ENTREE --> Segmentation Fault.
+
 	-	"echo ;;;;;;;"
 		malloc error
 
