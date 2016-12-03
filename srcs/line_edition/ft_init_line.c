@@ -23,8 +23,8 @@ void	ft_init_line(t_line *l, t_ftl_root *hist)
 	l->hauteur = w.ws_row;
 	l->sizeprompt = l->sizeprompt + 3;
 	l->line1 = l->largeur - l->sizeprompt;
-	if (ft_strcmp("\0", l->str) != 0)
-		l->strcpy = NULL;
+	/*if (ft_strcmp("\0", l->str) != 0)
+		l->strcpy = NULL;*/
 	l->str = ft_strdup("\0");
 	l->tmp = 0;
 	l->size = 0;

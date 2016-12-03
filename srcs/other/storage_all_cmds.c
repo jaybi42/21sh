@@ -33,16 +33,6 @@ typedef struct		s_redirect_info
 	char *name;
 }									t_redirect_info;
 
-/*
-   static t_redirect_info const	g_redirect[NUMBER_REDIRECT] =
-   {
-   {">>"},
-   {">&"},
-   {">"},
-   {"<<"},
-   {"<"}
-   };
-   */
 typedef struct		s_delimiter
 {
 	char 			*name;
@@ -87,41 +77,9 @@ static t_delimiter const	g_delimiter[NUMBER_DELIMITER] =
 	{"||", "cmdor", 1, 0, 1, 0, 0, 0},
 	{";", "pvrig", 1, 0, 1, 0, 0, 0},
 	{"&&", "cmdand", 1, 0, 1, 0, 0, 0},
-	{"|", "pipe", 1, 0, 1, 0, 0, 0},
-	/*{">>", ">>", 0, 0, 0, 1, 1, 1},
-	{">&", ">&", 0, 0, 0, 1, 1, 1},
-	{">", ">", 0, 0, 0, 1, 1, 1},
-	{"1>", "1>", 0, 0, 0, 1, 1, 1},
-	{"2>", "2>", 0, 0, 0, 1, 1, 1},
-	{"3>", "3>", 0, 0, 0, 1, 1, 1},
-	{"4>", "4>", 0, 0, 0, 1, 1, 1},
-	{"5>", "5>", 0, 0, 0, 1, 1, 1},
-	{"6>", "6>", 0, 0, 0, 1, 1, 1},
-	{"7>", "7>", 0, 0, 0, 1, 1, 1},
-	{"8>", "8>", 0, 0, 0, 1, 1, 1},
-	{"9>", "9>", 0, 0, 0, 1, 1, 1},
-	{"<<", "heredoc", 0, 0, 0, 1, 1, 1},
-	{"<", "<", 0, 0, 0, 1, 1, 1},*/
+	{"|", "pipe", 1, 0, 1, 0, 0, 0}
 };
 
-/*
-static t_delimiter const	g_delimiter_red[14] =
-{
-	{">>", ">>", 0, 0, 0, 1, 1, 1},
-	{">&", ">&", 0, 0, 0, 1, 1, 1},
-	{">", ">", 0, 0, 0, 1, 1, 1},
-	{"1>", "1>", 0, 0, 0, 1, 1, 1},
-	{"2>", "2>", 0, 0, 0, 1, 1, 1},
-	{"3>", "3>", 0, 0, 0, 1, 1, 1},
-	{"4>", "4>", 0, 0, 0, 1, 1, 1},
-	{"5>", "5>", 0, 0, 0, 1, 1, 1},
-	{"6>", "6>", 0, 0, 0, 1, 1, 1},
-	{"7>", "7>", 0, 0, 0, 1, 1, 1},
-	{"8>", "8>", 0, 0, 0, 1, 1, 1},
-	{"9>", "9>", 0, 0, 0, 1, 1, 1},
-	{"<<", "heredoc", 0, 0, 0, 1, 1, 1},
-	{"<", "<", 0, 0, 0, 1, 1, 1}
-};*/
 
 static t_delimiter const	g_delimiter_quo[3] =
 {
@@ -129,15 +87,6 @@ static t_delimiter const	g_delimiter_quo[3] =
 	{"\'", "quote", 1, 1, 0, 0, 0, 1},
 	{"`", "bquote", 1, 1, 1, 1, 0, 1}
 };
-/*
-static t_delimiter const	g_delimiter_sep[5] =
-{
-	{"\\", "", 1, 0, 0, 0, 0, 1},
-	{"||", "cmdor", 1, 0, 1, 1, 0, 0},
-	{";", "pvrig", 1, 0, 1, 1, 0, 0},
-	{"&&", "cmdand", 1, 0, 1, 1, 0, 0},
-	{"|", "pipe", 1, 0, 1, 1, 0, 0}
-};*/
 
 typedef struct	s_parse
 {
@@ -156,15 +105,6 @@ typedef struct	s_parse
 
 int			char_is_whitespace(char c)
 {
-	/*
-	   useful notice:
-	   ' '      space
-	   '\t'     horizontal tab
-	   '\n'     newline
-	   '\v'     vertical tab
-	   '\f'     feed
-	   '\r'     carriage return
-	   */
 	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
 		return (TRUE);
 	else
@@ -260,31 +200,6 @@ char		*cpy_a_to_b(char *str, int a, int b)
 	return (new_str);
 }
 
-char            **fstrsplit(char *str, int len, int (*is_whatever)(char))
-{
-	char **t_str;
-	int i;
-	int a;
-	int beg;
-
-	if (!(t_str = xmalloc(sizeof(char **) * (len + 1))))
-		return (NULL);
-	t_str[0] = NULL;
-	i = 0;
-	a = 0;
-	beg = 0;
-	while (i < len && str[i] != '\0')
-	{
-		while (i < len && is_whatever(str[i]) && str[i++] != '\0');
-		beg = i;
-		while (i < len && !is_whatever(str[i]) && str[i++] != '\0');
-		if (beg != i)
-			t_str[a++] = cpy_a_to_b(str, beg, i);
-	}
-	t_str[a] = NULL;
-	return(t_str);
-}
-
 t_parse		*parse_it2(char *expr, int len, t_delimiter *d, int l)
 {
 	int i;
@@ -308,240 +223,13 @@ t_parse		*parse_it2(char *expr, int len, t_delimiter *d, int l)
 	p->nb++;
 	return (p);
 }
-/*
-int		t_len(char ***t, int len)
-{
-	int r;
-	int a;
-	int i;
-
-	r = 0;
-	i = -1;
-	while (++i < len)
-	{
-		a = -1;
-		if (t[i] == NULL)
-		{
-			r++;
-		}
-		else
-			while(t[i][++a])
-				r++;
-	}
-	return (r);
-}
-*/
-void handle_heredoc(char *expected, t_redirect **r)
-{
-	int i;
-	size_t len;
-	char *tmp;
-	(*r)->s_in = malloc(sizeof(char) * 2);
-	(*r)->len_in = 0;
-	(*r)->s_in[0] = '\0';
-
-	i = 0;
-	len = 0;
-	while (1)
-	{
-		tmp = get_input("heredoc>");
-		if (ft_strcmp(expected, tmp) == 0)
-			break;
-		else
-		{
-			x_strjoins(&(*r)->s_in, &len, tmp, ft_strlen(tmp));
-			x_strjoins(&(*r)->s_in, &len, "\n", 1);
-		}
-	}
-	(*r)->s_in[len] = '\0';
-	(*r)->len_in = (int)(len);
-}
-
-int is_delimiter(char *s)
-{
-	int a;
-
-	a = 0;
-	while (a < NUMBER_DELIMITER)
-	{
-		if (ft_strncmp(s, g_delimiter[a].name, ft_strlen(g_delimiter[a].name)) == 0)
-		{
-			ft_dprintf(2, "%s: parse error near `%s'\n", NAME, g_delimiter[a].name);
-			return (1);
-		}
-		a++;
-	}
-	return (0);
-}
 
 
-char **join_array(char ***t)
-{
-	char **ts;
-	int a;
-	int i;
-	int l;
-
-	a = -1;
-	l = 0;
-	while (t[++a])
-	{
-		i = -1;
-		while(t[a][++i])
-		{
-			//dprintf(2, "%d|%s|\n", a, t[a][i]);
-			l++;
-		}
-	}
-	ts = xmalloc(sizeof(char *) * (l + 1));
-	a = -1;
-	l = 0;
-	while (t[++a])
-	{
-		i = -1;
-		while (t[a][++i])
-			ts[l++] = t[a][i];
-	}
-	ts[l] = NULL;
-	return (ts);
-}
-
-char **tab_from_string(char *s)
-{
-	char **ts;
-
-	ts = xmalloc(sizeof(char*) * 2);
-	ts[0] = s;
-	ts[1] = NULL;
-	return (ts);
-}
-
-t_redirect *get_redirection(char *expr, int dec, int begin, int end, int *t_ind, int *l_ind)
-{
-	int i;
-	t_redirect *redirect;
-	char *s;
-
-	(void)t_ind;
-	(void)l_ind;
-	s = cpy_a_to_b(expr + dec, begin, end);
-
-	if (!(redirect = xmalloc(sizeof(t_redirect))) || s == NULL)
-		return (NULL);
-	i = 0;
-	int len;
-	int open_flag;
-	redirect->fd_in = 1;
-	redirect->type = 1;
-	open_flag = O_CREAT | O_RDWR;
-	len = 0;
-	if (ft_isdigit(s[i])){
-		redirect->fd_in = atoi(s + i);
-		i++;
-	}
-	if (ft_strncmp(s + i, ">>", 2) == 0) {
-		redirect->type = 0;
-		open_flag |= O_APPEND;
-		i += 2;
-	}
-	else if (ft_strncmp(s + i, ">", 1) == 0) {
-		redirect->type = 0;
-		open_flag |= O_TRUNC;
-		i += 1;
-	}
-	else if (ft_strncmp(s + i, "<<", 2) == 0)
-	{
-		char **t = fstrsplit(s + i + 2, ft_strlen(s + i + 2), char_is_whitespace);
-		if (t == NULL || t[0] == NULL || is_delimiter(t[0]))
-			return (NULL);
-		else
-		{
-			handle_heredoc(t[0], &redirect);
-			return (redirect);
-		}
-	}
-	else if (ft_strncmp(s + i, "<", 1) == 0)
-	{
-		i++;
-		char **t = fstrsplit(s + i, ft_strlen(s + i), char_is_whitespace);
-		int fd = open(t[0], open_flag, 0666);
-		if (fd == -1)
-			return (NULL);
-		if (!fd_get_binary(fd, &redirect->s_in, &redirect->len_in))
-			return (NULL);
-		close(fd);
-		return (redirect);
-	}
-	if (redirect->type == 0)
-	{
-		if (ft_strncmp(s + i, "&", 1) == 0)
-		{
-		 	if (ft_isdigit(s[i + 1]) && !((open_flag & O_APPEND) != 0))
-			{
-				redirect->fd_out = ft_atoi(s + i + 1);
-				return (redirect);
-			}
-			else
-				i++;
-		}
-	}
-	char **t = fstrsplit(s + i, ft_strlen(s + i ), char_is_whitespace);
-	if (t == NULL || t[0] == NULL || is_delimiter(t[0]))
-			return (NULL);
-		redirect->fd_out = open(t[0], open_flag, 0666);
-	if (redirect->fd_out == -1)
-			return (NULL);
-	return (redirect);
-}
-
-char	**copy_array_begin(size_t b, char **array)
-{
-	int i;
-	char **new_array;
-
-	if (array == NULL)
-		return (NULL);
-	i = 0;
-	while (array[i] != NULL)
-		i++;
-	if (!(new_array = xmalloc(sizeof(char **) * (i + 1))))
-		return (NULL);
-	if (i == 0)
-	{
-		new_array[i] = NULL;
-		return (new_array);
-	}
-	i = 0;
-	while (array[i + b] != NULL)
-	{
-		new_array[i] = array[i + b];
-		i++;
-	}
-	new_array[i] = NULL;
-	return (new_array);
-}
-
-t_av **check(t_av **av)
-{
-	int i;
-
-	i = -1;
-	/*while (av[++i])
-	{
-		if (av[i]->argc == 0 && (av[i]->type != TYPE_NORMAL || (av[i + 1] != NULL && av[i + 1]->type == TYPE_NORMAL)))
-		{
-				print_err("Parsing", "invalid null command");
-				return (NULL);
-			}
-}*/
-return (av);
-}
 t_av **updated(t_av **av)
 {
 	int i;
 
 	i = 0;
-	(g_debug) ? ft_dprintf(2, "DEBUG: END PARSE:\n") : 0;
 	while (av[i] != NULL)
 	{
 		if (av[i]->argv != NULL)
@@ -567,7 +255,7 @@ t_av **updated(t_av **av)
 		{
 		for (int x = 0; av[i]->argv[x]; x++)
 		{
-			dprintf(2, "DEBUG:cmd %.*s %d argv[%d] : %%",(i + 1)*2, "---------------------------------------", i, x);
+			dprintf(2, "cmd %.*s %d argv[%d] : %%",(i + 1)*2, "---------------------------------------", i, x);
 			for (int b = 0; av[i]->argv[x][b]; b++)
 			{
 				if (av[i]->argv_auth[x][b] == 1)
@@ -581,7 +269,7 @@ t_av **updated(t_av **av)
 		i++;
 	}
 	(g_debug) ? ft_dprintf(2, "{yellow}----------------------{eoc}\n") : 0;
-	return (check(av));
+	return (av);
 }
 
 char **check_var(char *s, char **env)
@@ -831,6 +519,7 @@ typedef struct s_nparse
 	int *type;
 	int *begin;
 	int *end;
+	int failed;
 }							t_nparse;
 
 int is_intouchable(int i, int *t_ind, int *l_ind)
@@ -883,19 +572,24 @@ int is_connector(char *tested_s, int i, int *t_ind, int *l_ind)
 	return (0);
 }
 
-void nparse_close(t_nparse *np, int id_close)
+int		nparse_close(t_nparse *np, int id_close)
 {
-	np->end[np->nb] = id_close;
-	//ft_dprintf(2 , "%d close bet %d - %d\n",np->nb,np->begin[np->nb], np->end[np->nb]);
+	if (id_close <= 0)
+	{
+		print_err("Parsing", "command is null");
+		return (FALSE);
+	}
+	else
+		np->end[np->nb] = id_close;
 	if (np->begin[np->nb] > np->end[np->nb])
 	{
-			dprintf(2, "PARSE ERROR\n");
-			exit(0);
+			print_err("Parsing", "command is null");
+			return (FALSE);
 	}
+	return (TRUE);
 }
 void nparse_extend(t_nparse *np, int id_open)
 {
-	//ft_dprintf(2 , "nb __ %d  __ extend %d\n",np->nb, id_open);
 	np->nb += 1;
 	np->begin[np->nb] = id_open;
 	np->end[np->nb] = -1;
@@ -911,6 +605,7 @@ void nparse_init(t_nparse *np, char *expr)
 	np->begin = xmalloc(sizeof(int) * (len + 1));
 	np->end = xmalloc(sizeof(int) * (len + 1));
 	np->nb = -1;
+	np->failed = TRUE;
 }
 
 void init_cmd(t_av **cmd, size_t len)
@@ -985,6 +680,7 @@ t_av **convert_parse(char *expr, t_nparse np, int *t_ind, int *l_ind)
 	t_av **cmds;
 	int id_cmds;
 	int i;
+
 	cmds = xmalloc(sizeof(t_av*) * (ft_strlen(expr) + 1));
 	id_cmds = 0;
 	init_cmd(&cmds[0], ft_strlen(expr));
@@ -1043,7 +739,7 @@ t_nparse parse(char *expr, int *t_ind, int *l_ind)
 
 	nparse_init(&np, expr);
 	i = 0;
-	//ft_dprintf(2 , "begin parse\n");
+	ft_dprintf(2 , "begin parse\n");
 	while(expr[i] && is_whitespace(expr[i]) && !is_intouchable(i, t_ind, l_ind))
 		i++;
 	nparse_extend(&np, i);
@@ -1051,40 +747,44 @@ t_nparse parse(char *expr, int *t_ind, int *l_ind)
 	{
 		if (is_intouchable(i, t_ind, l_ind))
 		{
-			//ft_dprintf(2 , "charactere at pos %d is in\n", i);
+				ft_dprintf(2 , "charactere at pos %d is in\n", i);
 				while(expr[i] && is_intouchable(i, t_ind, l_ind))
 					i++;
 				i--;
 		}
 		else if (is_whitespace(expr[i]))
 		{
-				//ft_dprintf(2 , "charactere at pos %d is ws\n", i);
-				nparse_close(&np, i);
+				if (!nparse_close(&np, i))
+						return (np);
 				int id_old = i;
 				while(expr[i] && is_whitespace(expr[i]) && !is_intouchable(i, t_ind, l_ind))
 					i++;
-				//ft_dprintf(2 , "ended char at pos %d is ws\n", i);
+				ft_dprintf(2 , "ended char at pos %d is ws\n", i);
 				if (!is_connector(expr, i, t_ind, l_ind))
 					nparse_extend(&np, i);
 				i--;
 		}
 		else if ((i32_tmp = is_connector(expr, i, t_ind,l_ind)))
 		{
-			//ft_dprintf(2 , "charactere at pos %d is cnn\n", i);
-			nparse_close(&np, (is_intouchable(i-1, t_ind, l_ind) || !is_whitespace(expr[i-1])) ? i : i-1);
+			ft_dprintf(2 , "charactere at pos %d is cnn\n", i);
+			if (!nparse_close(&np, (is_intouchable(i-1, t_ind, l_ind) || !is_whitespace(expr[i-1])) ? i : i-1))
+				return (np);
 			nparse_extend(&np, i);
 			np.type[np.nb] = 2;
-			nparse_close(&np, i + i32_tmp-1);
+			if (!nparse_close(&np, i + i32_tmp-1))
+				return (np);
 			if (is_intouchable(i + i32_tmp, t_ind, l_ind) || !is_whitespace(expr[i + i32_tmp]))
 				nparse_extend(&np, i + i32_tmp);
 			i += i32_tmp - 1;
 		}
 		i++;
 	}
-	nparse_close(&np, i);
+	if (!nparse_close(&np, i))
+		return (np);
 	np.nb++;
 	if (i > 0 && !is_intouchable(i-1, t_ind, l_ind) && is_whitespace(expr[i - 1]))
 		np.nb--;
+	np.failed = FALSE;
 	return (np);
 }
 
@@ -1094,11 +794,12 @@ int in_cmd_is_intouchable(t_av *cmd, int id_argv, int i)
 		return (0);
 	return (1);
 }
-char *is_redir_right(char *s)
+
+char *is_redir(char *s)
 {
 	int i;
 	int tmp;
-	char *redirs[] = {">>", ">", NULL};
+	char *redirs[] = {">>", ">", "<<", "<", NULL};
 
 	i = 0;
 	while (redirs[i])
@@ -1122,7 +823,6 @@ void delete_c(t_av **cmd, int id_argv, int i, int *pi)
 		a++;
 	}
 	(*pi) -= 1;
-	//TO DO HANDLE -1 ARGV
 }
 
 void delete_s(t_av **cmd, int id_argv)
@@ -1139,10 +839,31 @@ void delete_s(t_av **cmd, int id_argv)
 	(*cmd)->argc--;
 }
 
-int set_redir_right(t_av **pcmd, int id_argv, int i, char *r)
+int get_heredoc(char *s)
 {
-	char *s;
-	t_av *cmd;
+	char *tmp;
+	int fd[2];
+
+	pipe(fd);
+	while (1)
+	{
+		tmp = get_input("heredoc> ");
+		if (ft_strcmp(s, tmp) == 0)
+			break;
+		else
+		{
+			write(fd[WRITER], tmp, ft_strlen(tmp));
+			write(fd[WRITER], "\n", 1);
+		}
+	}
+	close(fd[WRITER]);
+	return (fd[READER]);
+}
+
+int set_redir(t_av **pcmd, int id_argv, int i, char *r)
+{
+	char	*s;
+	t_av	*cmd;
 	int		findfile;
 	t_redirect *redir;
 	int len;
@@ -1151,8 +872,7 @@ int set_redir_right(t_av **pcmd, int id_argv, int i, char *r)
 	redir = xmalloc(sizeof(t_redirect));
 	redir->fd_in = 1;
 	redir->fd_out = -1;
-	redir->s_in = NULL;
-	redir->len_in = -1;
+	redir->fd = -1;
 	redir->type = 0;
 	if (i > 0 && !in_cmd_is_intouchable(cmd, id_argv, i - 1)
 	&& ft_isdigit(cmd->argv[id_argv][i - 1]))
@@ -1161,7 +881,6 @@ int set_redir_right(t_av **pcmd, int id_argv, int i, char *r)
 		delete_c(pcmd, id_argv, i - 1, &i);
 	}
 	len = ft_strlen(r);
-	//NOW DELETING THE > or >>
 	int b;
 	b = -1;
 	while ((++b) < (int)ft_strlen(r))
@@ -1194,37 +913,46 @@ int set_redir_right(t_av **pcmd, int id_argv, int i, char *r)
 	int x;
 	s = xmalloc(sizeof(char *) * (ft_strlen(cmd->argv[id_argv]) + 1));
 	x = 0;
-	//dprintf(2, "file is %%");
 	while (cmd->argv[id_argv][i + len])
 	{
 			s[x] = cmd->argv[id_argv][i + len];
-			//dprintf(2, "%c", s[x]);
-			if (!in_cmd_is_intouchable(cmd,id_argv,i) &&
-						is_redir_right(cmd->argv[id_argv] + i + len))
+			if ((is_redir(cmd->argv[id_argv] + i + len) &&
+					!in_cmd_is_intouchable(cmd,id_argv,i)))//|| (findfile == FALSE && !is_d[x]))
 						break;
 			delete_c(pcmd, id_argv, i + len, &i);
 			i++;
 			x++;
 	}
-	//dprintf(2, "%%\n");
 	s[x] = '\0';
 	if (ft_strlen(cmd->argv[id_argv]) == 0)
 	{
 		delete_s(pcmd, id_argv);
 		id_argv--;
 	}
-	if (findfile == TRUE)
+	if (findfile == FALSE && !(ft_strlen(s) > 0 && !ft_isdigit(s[0])))
+			findfile = TRUE;
+	if (ft_strncmp(r, ">", 1) == 0)
 	{
-		redir->path = s;
-		redir->open_flag = ((ft_strcmp(r, ">>") == 0) ? O_CREAT | O_RDWR | O_APPEND : O_CREAT | O_RDWR | O_TRUNC);
-		(g_debug) ? dprintf(2, "CREATE: %s -> %d\n", s, redir->fd_out) : 0;
+			if (findfile == FALSE)
+				redir->fd = ft_atoi(s);
+			else
+			{
+				redir->path = s;
+				redir->open_flag = ((ft_strcmp(r, ">>") == 0) ? O_CREAT | O_RDWR | O_APPEND : O_CREAT | O_RDWR | O_TRUNC);
+			}
 	}
-
 	else
 	{
-			//NOT HANDLE
+			redir->type = 1;
+			if (ft_strcmp(r, "<<") == 0)
+				redir->fd = get_heredoc(s);
+			else
+			{
+				redir->path = s;
+				redir->open_flag = O_RDONLY;
+			}
 	}
-	//ADDING IN OUR CMD;
+	(g_debug) ? ft_dprintf(2, "{yellow}[?]{eoc} add a redirection '%s' from open(\"%s\")\n", r, s) : 0;
 	i = 0;
 	while (cmd->redirect[i])
 		i++;
@@ -1250,9 +978,9 @@ int get_redirect(t_av **cmd)
 		{
 			if (in_cmd_is_intouchable((*cmd), id_argv, i))
 					continue;
-			if ((tmp = is_redir_right(s + i)))
+			if ((tmp = is_redir(s + i)))
 			{
-				if (!set_redir_right(cmd, id_argv, i, tmp))
+				if (!set_redir(cmd, id_argv, i, tmp))
 					return (FALSE);
 				break;
 			}
@@ -1280,11 +1008,16 @@ t_av **nparse(char *expr, int *t_ind, int *l_ind)
 	t_nparse np;
 
 	np = parse(expr, t_ind, l_ind);
+	if (np.failed == TRUE)
+	{
+		(g_debug) ? ft_dprintf(2, "STEP X: {red}stop due to an error{eoc}\n") : 0;
+		return (NULL);
+	}
+	(g_debug) ? ft_dprintf(2, "STEP 2: {green}converting{eoc}\n") : 0;
 	cmds = convert_parse(expr, np, t_ind, l_ind);
 	convert_other(&cmds);
 	return (cmds);
 }
-
 
 t_av	**parse_commands(char *expr)
 {
@@ -1305,17 +1038,18 @@ t_av	**parse_commands(char *expr)
 	expr = decortique_parse(expr, ft_strlen(expr), &t_ind, &l_ind);
 	if (g_debug)
 	{
-		ft_dprintf(2, "DEBUG: FIRST PARSE: \n%%");
-	for (int i = 0; expr[i];i++)
-	{
-		if (is_intouchable(i, t_ind, l_ind))
-			ft_dprintf(2, "{red}%c{eoc}", expr[i]);
-		else
-			ft_dprintf(2, "%c", expr[i]);
+		ft_dprintf(2, "-- {red}PARSING{eoc} --\nSTEP 1: {green}replacing{eoc}\n%%");
+		for (int i = 0; expr[i];i++)
+		{
+			if (is_intouchable(i, t_ind, l_ind))
+				ft_dprintf(2, "{red}%c{eoc}", expr[i]);
+			else
+				ft_dprintf(2, "{green}%c{eoc}", expr[i]);
+			}
+			ft_dprintf(2, "%%\n");
 	}
-	ft_dprintf(2, "%%\n");
-	}
-	cmds = nparse(expr, t_ind, l_ind);
+	if (!(cmds = nparse(expr, t_ind, l_ind)))
+		return (NULL);
 	id_p = -1;
 	int color = 0;
 	id_exp = 0;

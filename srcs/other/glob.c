@@ -79,6 +79,8 @@ void finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 				//trying to find an other characters
 				int leave;
 				leave = 0;
+				if (words[a_w][a_w_jugement] == '\0' && g->exprs[0] == '\0')
+						find = 1;
 				while(words[a_w][a_w_jugement])
 				{
 					if (g->list == 1)
@@ -109,7 +111,7 @@ void finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 							i++;
 						}
 					}
-					else if (!strncmp(words[a_w] + a_w_jugement, g->exprs, strlen(g->exprs)))
+					else if (!ft_strncmp(words[a_w] + a_w_jugement, g->exprs, strlen(g->exprs)))
 					{
 						(*p_d)[a_w] = a_w_jugement + strlen(g->exprs);
 						(*p_d_bannish)[a_w] = 0;
@@ -672,11 +674,11 @@ char **brace_handler(char *s)
 
 char	**ft_globing(char *expr, char **words)
 {
-	t_globbing ***tgs;
-	int *gti;
-	int *gta;
-	char **exprs;
-	t_globbing *g_tmp;
+	t_globbing 	***tgs;
+	int					*gti;
+	int					*gta;
+	char				**exprs;
+	t_globbing	*g_tmp;
 	int c;
 	int ta;
 
@@ -761,16 +763,6 @@ char	**ft_globing(char *expr, char **words)
 	tgs[ta] = NULL;
 	int x = 0;
 	ta = 0;
-	while (tgs[ta])
-	{
-		x = 0;
-		while (tgs[ta][x])
-		{
-			//printf("|%s| %d\n", tgs[ta][x]->exprs, tgs[ta][x]->list);
-			x++;
-		}
-		ta++;
-	}
 	char ***t;
 	if (!(t = xmalloc(sizeof(char ***) * (strlen(expr) + 1))))
 		return (NULL);
@@ -779,9 +771,7 @@ char	**ft_globing(char *expr, char **words)
 	{
 		t[x] = find_globbing(tgs[x], gta[x], words);
 		if (t[x] == NULL)
-		{
 			return (NULL);
-		}
 		x++;
 	}
 	t[x] = NULL;

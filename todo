@@ -34,6 +34,8 @@ ______________
 	BUGS
 ______________
 
+	-       cmd : 'ls -l | cat -e   | cat -e | cat -e | cat -e | cat -e'
+
 	-	L' historique affiche des caracteres chelou apres une commande de plusieurs ligne suite a un oubli de quote.
 
 	-	| RESOLU | echo "test"jacky doit renvoyer : testjacky et non test jacky
@@ -63,13 +65,15 @@ ______________
 		Nous avons x3 "21sh: Invalid null command" mais 'ls' est executer.
 		Bash lui n'execute pas le 'ls' et nous affiche "syntax error".
 
-	-	"base64 /dev/urandom | head -c 1000 | grep 42 | wc -l | sed -e 's/1/Yes/g' -e 's/0/No/g'"
+	-	| RESOLU | "base64 /dev/urandom | head -c 1000 | grep 42 | wc -l | sed -e 's/1/Yes/g' -e 's/0/No/g'"
 		Le resultat ne sort jamais obliger de ctrl + c
 		Le comportement avait ete reproduis en executant dans le 21sh un ./a.out qui segfault volontairement.
 
 	-	"cat -e << EOF"
 		Nous entrons dans heredoc, ecrivez quelque chose.
 		Appuyez sur ENTREE --> Segmentation Fault.
+	-	"echo ;;;;;;;"
+		malloc error
 
 ______________
 	LEAKS

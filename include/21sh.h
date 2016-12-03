@@ -79,6 +79,25 @@ typedef struct s_file
 ---- added by a
 */
 
+#define READER 0
+#define WRITER 1
+
+/*
+** packets
+*/
+
+#define WRITING 1024
+
+typedef struct s_sf
+{
+  char  s[WRITING];
+  int len;
+  struct s_sf *next;
+}              t_sf;
+
+t_sf *create_packet(char *b, int len);
+
+
 #define BUILTIN 1
 #define BIN 0
 #define GET 0
@@ -91,8 +110,7 @@ typedef struct          s_redirect
                 int     fd_out; //if it's -1 we look for path
 								char *path;
 								int open_flag;
-				char	*s_in;
-				int		len_in;
+								int fd; // in "cat -e < file.txt", fd = open("file.txt")
 }                       t_redirect;
 
 typedef struct	s_exec
@@ -178,6 +196,13 @@ void	xmasterfree(void);
 void	xprintmem(void);
 
 /*
+** parser
+*/
+char		*cpy_a_to_b(char *str, int a, int b);
+char            **fstrsplit(char *str, int len, int (*is_whatever)(char));
+char **join_array(char ***t);
+char	**copy_array_begin(size_t b, char **array);
+/*
 **Name: Parsing
 **File: read.c get_env.c
 **Desc: Parse read and env
@@ -233,6 +258,10 @@ int				bi_clear(t_av av, t_list **g_env, t_list **l_env);
 int				bi_history(t_av av, t_list **g_env, t_list **l_env);
 int                             bi_export(t_av av, t_list **g_env, t_list **l_env);
 
+int			bi_42info(t_av av, t_list **g_env, t_list **l_env);
+int			bi_glob(t_av av, t_list **g_env, t_list **l_env);
+
+
 int				bi_alias(t_av av, t_list **g_env, t_list **l_env);
 /*
 **Name: Free list
@@ -282,6 +311,7 @@ void			del_pair(char ***pair);
 size_t		ft_size_tab(char **tab2);
 
 char	*tilde_path(char *str, char *home);
+
 
 /*
 ** global
