@@ -739,7 +739,7 @@ t_nparse parse(char *expr, int *t_ind, int *l_ind)
 
 	nparse_init(&np, expr);
 	i = 0;
-	ft_dprintf(2 , "begin parse\n");
+	//ft_dprintf(2 , "begin parse\n");
 	while(expr[i] && is_whitespace(expr[i]) && !is_intouchable(i, t_ind, l_ind))
 		i++;
 	nparse_extend(&np, i);
@@ -747,7 +747,7 @@ t_nparse parse(char *expr, int *t_ind, int *l_ind)
 	{
 		if (is_intouchable(i, t_ind, l_ind))
 		{
-				ft_dprintf(2 , "charactere at pos %d is in\n", i);
+				//ft_dprintf(2 , "charactere at pos %d is in\n", i);
 				while(expr[i] && is_intouchable(i, t_ind, l_ind))
 					i++;
 				i--;
@@ -759,14 +759,14 @@ t_nparse parse(char *expr, int *t_ind, int *l_ind)
 				int id_old = i;
 				while(expr[i] && is_whitespace(expr[i]) && !is_intouchable(i, t_ind, l_ind))
 					i++;
-				ft_dprintf(2 , "ended char at pos %d is ws\n", i);
+				//ft_dprintf(2 , "ended char at pos %d is ws\n", i);
 				if (!is_connector(expr, i, t_ind, l_ind))
 					nparse_extend(&np, i);
 				i--;
 		}
 		else if ((i32_tmp = is_connector(expr, i, t_ind,l_ind)))
 		{
-			ft_dprintf(2 , "charactere at pos %d is cnn\n", i);
+			//ft_dprintf(2 , "charactere at pos %d is cnn\n", i);
 			if (!nparse_close(&np, (is_intouchable(i-1, t_ind, l_ind) || !is_whitespace(expr[i-1])) ? i : i-1))
 				return (np);
 			nparse_extend(&np, i);
