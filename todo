@@ -34,15 +34,17 @@ ______________
 	BUGS
 ______________
 
+	-       cmd : 'ls -l | cat -e   | cat -e | cat -e | cat -e | cat -e'
+
 	-	L' historique affiche des caracteres chelou apres une commande de plusieurs ligne suite a un oubli de quote.
 
-	-	echo "test"jacky doit renvoyer : testjacky et non test jacky
+	-	| RESOLU | echo "test"jacky doit renvoyer : testjacky et non test jacky
 		la commande dois etre pris comme un seul argument meme avec la presence des quotes. 
 
-	-	lancer la commande ".." suivi d'un ctrl + C
+	-	| RESOLU | lancer la commande ".." suivi d'un ctrl + C
 		(pas due exclusivement a la commande ".." mais a toute les commandes qui renvois "execve: Permission denied").
 
-	-	"mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi"
+	-	| RESOLU | "mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi"
 		Ne donne pas le resultat attendu dans le sujet.
 	
 	-	lancer quatres ./21sh.
@@ -53,23 +55,25 @@ ______________
 		kill le premier,
 		puis appuyer sur n'importe quel touche.
 
-	-	unsetenv / setenv PATH ne produit aucun comportement
+	-	| RESOLU | unsetenv / setenv PATH ne produit aucun comportement
 		(C'est peut etre juste les modifs d'anis sur l'exec des builtins).
 
-	-	"cat $LC_CTYPE"
+	-	| RESOLU | "cat $LC_CTYPE"
 		En repetant 3/4 fois l'operation nous avons des caracteres aleatoires et un depassement de memoire.
 	
-	-	"ls ||||"
+	-	| RESOLU | "ls ||||"
 		Nous avons x3 "21sh: Invalid null command" mais 'ls' est executer.
 		Bash lui n'execute pas le 'ls' et nous affiche "syntax error".
 
-	-	"base64 /dev/urandom | head -c 1000 | grep 42 | wc -l | sed -e 's/1/Yes/g' -e 's/0/No/g'"
+	-	| RESOLU | "base64 /dev/urandom | head -c 1000 | grep 42 | wc -l | sed -e 's/1/Yes/g' -e 's/0/No/g'"
 		Le resultat ne sort jamais obliger de ctrl + c
 		Le comportement avait ete reproduis en executant dans le 21sh un ./a.out qui segfault volontairement.
 
 	-	"cat -e << EOF"
 		Nous entrons dans heredoc, ecrivez quelque chose.
 		Appuyez sur ENTREE --> Segmentation Fault.
+	-	"echo ;;;;;;;"
+		malloc error
 
 ______________
 	LEAKS
@@ -90,7 +94,8 @@ ______________
 ______________
 	TODO
 ______________
-	
+			-	
+
 			-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
 
 | RESOLU |  -	Ctrl + d

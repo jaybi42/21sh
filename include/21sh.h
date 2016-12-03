@@ -79,6 +79,25 @@ typedef struct s_file
 ---- added by a
 */
 
+#define READER 0
+#define WRITER 1
+
+/*
+** packets
+*/
+
+#define WRITING 1024
+
+typedef struct s_sf
+{
+  char  s[WRITING];
+  int len;
+  struct s_sf *next;
+}              t_sf;
+
+t_sf *create_packet(char *b, int len);
+
+
 #define BUILTIN 1
 #define BIN 0
 #define GET 0
@@ -88,9 +107,10 @@ typedef struct          s_redirect
 {
                 int     type; //0 for redirect basic or 1 for <
                 int     fd_in;
-                int     fd_out;
-				char	*s_in;
-				int		len_in;
+                int     fd_out; //if it's -1 we look for path
+								char *path;
+								int open_flag;
+								int fd; // in "cat -e < file.txt", fd = open("file.txt")
 }                       t_redirect;
 
 typedef struct	s_exec
@@ -136,11 +156,12 @@ typedef struct	s_av
 	char		**arg;
 	int			argc;
 	char		**argv;
-	struct s_av        ***argcmd;
+	int		**argv_auth;
+	int			bg;
 	struct s_redirect **redirect;
     int     *bitcode;
 	int		type;
-}				t_av;
+}							t_av;
 
 typedef int		(*t_bi_fptr)();
 
@@ -152,6 +173,8 @@ typedef struct	s_builtin
 
 void		clean_exit(int ret);
 
+
+void print_err(char *err, char *what);
 
 char *get_path(t_list *g_env, t_list *l_env);
 char **convert_env(t_list *g_env, t_list *l_env);
@@ -172,6 +195,13 @@ void	xmasterfree(void);
 //print the mem you have create with xmalloc and currently didn't free
 void	xprintmem(void);
 
+/*
+** parser
+*/
+char		*cpy_a_to_b(char *str, int a, int b);
+char            **fstrsplit(char *str, int len, int (*is_whatever)(char));
+char **join_array(char ***t);
+char	**copy_array_begin(size_t b, char **array);
 /*
 **Name: Parsing
 **File: read.c get_env.c
@@ -228,6 +258,10 @@ int				bi_clear(t_av av, t_list **g_env, t_list **l_env);
 int				bi_history(t_av av, t_list **g_env, t_list **l_env);
 int                             bi_export(t_av av, t_list **g_env, t_list **l_env);
 
+int			bi_42info(t_av av, t_list **g_env, t_list **l_env);
+int			bi_glob(t_av av, t_list **g_env, t_list **l_env);
+
+
 int				bi_alias(t_av av, t_list **g_env, t_list **l_env);
 /*
 **Name: Free list
@@ -250,6 +284,7 @@ int				print_error(t_av av, int error);
 /*
 ** added by a
 */
+#define TO_EXEC_IN_BG -10
 #define TYPE_OTHER 0
 #define TYPE_PIPE 7
 #define TYPE_OR 4
@@ -275,6 +310,9 @@ void			create_or_update_key(t_alias **addr, char **pair);
 void			del_pair(char ***pair);
 size_t		ft_size_tab(char **tab2);
 
+char	*tilde_path(char *str, char *home);
+
+
 /*
 ** global
 */
@@ -286,5 +324,6 @@ extern t_ftl_root g_hist;
 extern t_line *g_line;
 extern t_prompt g_prompt;
 extern int *g_exit;
+extern int g_debug;
 
 #endif

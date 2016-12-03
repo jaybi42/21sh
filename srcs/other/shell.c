@@ -33,7 +33,7 @@ typedef struct s_f
 	int fd_to_write;
 }               t_f;
 
-#define NB_BUILT 10
+#define NB_BUILT 12
 
 static t_builtin const  g_builtin_list[NB_BUILT] = {
 	{"cd", bi_cd},
@@ -45,7 +45,9 @@ static t_builtin const  g_builtin_list[NB_BUILT] = {
 	{"exit", bi_exit},
 	{"clear", bi_clear},
 	{"history", bi_history},
-	{"alias", bi_alias}
+	{"alias", bi_alias},
+	{"42info", bi_42info},
+	{"glob", bi_glob}
 };
 
 char *get_path(t_list *g_env, t_list *l_env)
@@ -208,6 +210,27 @@ t_exec make_exec_bin(t_av *av, t_list *g_env, t_list *l_env)
  ** if nothing match try to fork, execve
  ** if -1, exit has been typed
  */
+void make_r(t_redirect ***r)
+{
+	int i;
+
+	i = 0;
+	while ((*r)[i])
+	{
+		if ((*r)[i]->type == 0 && (*r)[i]->fd_out == -1 && (*r)[i]->path != NULL)
+		{
+			(*r)[i]->fd_out = open((*r)[i]->path, (*r)[i]->open_flag, 0666);
+			(g_debug) ? ft_dprintf(2, "[?] we did an open(\"%s\")", (*r)[i]->path) : 0;
+		}
+		else if ((*r)[i]->type == 1 && (*r)[i]->fd == -1 && (*r)[i]->path != NULL)
+		{
+			(*r)[i]->fd = open((*r)[i]->path, (*r)[i]->open_flag, 0666);
+			(g_debug) ? ft_dprintf(2, "[?] we did an open(\"%s\")", (*r)[i]->path) : 0;
+		}
+		i++;
+	}
+}
+
 t_exec make_exec(t_av *av, t_list **g_env, t_list **l_env)
 {
 	t_exec ex;
@@ -217,6 +240,8 @@ t_exec make_exec(t_av *av, t_list **g_env, t_list **l_env)
 		ex = make_exec_bin(av, *g_env,*l_env);
 	}
 	ex.r = av->redirect;
+	//handle_red
+	make_r(&ex.r);
 	return (ex);
 }
 
@@ -224,7 +249,8 @@ t_exec make_exec(t_av *av, t_list **g_env, t_list **l_env)
    t_output	**exec_tav(t_av **av, int ret)
    {
 
-   }*/
+   }
+*/
 
 int		x_strjoins(char **s1, size_t *len1, char *s2, size_t len2)
 {
@@ -279,20 +305,8 @@ int get_out(t_redirect ***r, int fd_out)
 	return (1);
 }
 
-#define READER 0
-#define WRITER 1
-
 #define BASIC 0
 #define IGNORE 1
-
-#define WRITING 1024
-
-typedef struct s_sf
-{
-  char  s[WRITING];
-  int len;
-  struct s_sf *next;
-}              t_sf;
 
 typedef struct s_handle_r
 {
@@ -318,7 +332,7 @@ void init_handle_redirect(t_redirect **redirect, t_handle_r *hr)
   i = 0;
   while (redirect[i])
   {
-      if (redirect[i]->type == IGNORE)
+      if (redirect[i]->type == 1)
         continue;
       if (redirect[i]->fd_in == 1)
         hr->b_out = 1;
@@ -338,20 +352,6 @@ void init_handle_redirect(t_redirect **redirect, t_handle_r *hr)
     hr->packets_err = NULL;
   }
   hr->is_redirecting = (hr->b_out || hr->b_err) ? 1 : 0;
-}
-
-t_sf *create_packet(char *b, int len)
-{
-    t_sf *tmp;
-
-    tmp = malloc(sizeof(t_sf));
-    if (!tmp)
-      return (NULL);
-    tmp->s[0] = '\0';
-    strncpy((char *)tmp->s, b, (size_t)len);
-    tmp->len = len;
-    tmp->next = NULL;
-    return tmp;
 }
 
 void father_handle_redirect(t_handle_r *hr)
@@ -424,23 +424,64 @@ void active_redirect(t_redirect **r, t_handle_r *hr)
       i++;
   }
 }
-void son_handle_in(int fdin)
+
+void son_handle_in(int fdin, t_redirect **r)
 {
-	//we connect the READER to his STDIN
-	dup2(fdin, STDIN_FILENO);
-	close(fdin);
+	int i;
+
+	if (fdin != -1)
+	{
+		dup2(fdin, STDIN_FILENO);
+		close(fdin);
+	}
+	/*
+	int fd[2];
+
+	fd[0] = -1;
+	fd[0] = -1;
+	i = 0;
+	if (fdin != -1)
+	{
+		if (fd[WRITER] == -1 && fd[READER] == -1)
+			pipe(fd);
+		dup2(fdin, fd[WRITER]);
+		close(fdin);
+		dprintf(2, "|ou| %d %d\n", fd[WRITER], fd[READER]);
+	}
+	i = 0;
+	while (r[i])
+	{
+		dprintf(2, "|ou|2 %d %d\n", fd[WRITER], fd[READER]);
+		if (fd[WRITER] == -1 && fd[READER] == -1)
+			pipe(fd);
+		if (r[i]->type == 1 && r[i]->fd != -1)
+		{
+			dup2(r[i]->fd, fd[WRITER]);
+			close(r[i]->fd);
+		}
+		i++;
+	}
+	if (fd[WRITER] != -1 && fd[READER] != -1)
+	{
+		dprintf(2, "|ok|\n");
+		close(fd[WRITER]);
+		dup2(fd[READER], STDIN_FILENO);
+		close(fd[READER]);
+	}
+	*/
 }
+
 typedef struct s_pipe
 {
 	int activate;
 	int fds[2];
-}t_pipe;
+}							 t_pipe;
 
 typedef struct	s_executor
 {
 	t_exec		 ex;
 	t_av			 av;
-}				t_executor;
+}								t_executor;
 
 
 int exec_all(t_executor **exs, char **env, int fdin)
@@ -451,8 +492,8 @@ int exec_all(t_executor **exs, char **env, int fdin)
   t_handle_r hr;
 	t_pipe p[3] = {{0, {-1,-1}}, {0, {-1,-1}}, {0, {-1, -1}}};
 
-	if ((*exs)->ex.type == BASIC)
-  	init_handle_redirect(exs[0]->ex.r, &hr);
+	//if ((*exs)->ex.type == BASIC)
+  //	init_handle_redirect(exs[0]->ex.r, &hr);
 	ret = 0;
 	pid = -1;
 	if (exs[1] != NULL)
@@ -464,15 +505,8 @@ int exec_all(t_executor **exs, char **env, int fdin)
 			exit(0);
 	if (pid == 0)
 	{
-      if (fdin != -1)
-        son_handle_in(fdin);
-			if (hr.is_redirecting)
-			{
-					close(hr.fdout[READER]);
-					dup2(hr.fdout[WRITER], 1);
-					close(hr.fdout[WRITER]);
-			}
-			if (p[1].activate == 1) //tell that we want to redirect the stdout of the son to the pipe
+      son_handle_in(fdin, (*exs)->ex.r);
+			if (p[1].activate == 1)
 			{
 					close(p[1].fds[READER]);
 					dup2(p[1].fds[WRITER], 1);
@@ -480,6 +514,7 @@ int exec_all(t_executor **exs, char **env, int fdin)
 			}
 				execve((*exs)->ex.path, (*exs)->ex.argv, env);
 				perror("execve");
+				exit(0);
 	}
 	else if (pid == -1) //BUILTIN HANDLER
 	{
@@ -501,6 +536,8 @@ int exec_all(t_executor **exs, char **env, int fdin)
 	}
 	else
 	{
+			if (fdin != -1)
+				close(fdin);
 			if (hr.is_redirecting)
 				father_handle_redirect(&hr);
 			if (exs[1] != NULL)
@@ -509,17 +546,11 @@ int exec_all(t_executor **exs, char **env, int fdin)
 				exec_all(&exs[1], env, p[1].fds[READER]);
 			}
 			ret = waitpid(-1, &wait_status, WUNTRACED);
-			if (WIFSIGNALED(wait_status))
-				g_prompt.son = 1;
 			if (WIFEXITED(wait_status))
 				ret = WEXITSTATUS(wait_status);
 	}
-  if (hr.is_redirecting)
-    active_redirect((*exs)->ex.r, &hr);
-	if (*g_exit != -1)
-	{
-			clean_exit(*g_exit);
-	}
+  //if (hr.is_redirecting)
+  //  active_redirect((*exs)->ex.r, &hr);
 	return (ret);
 }
 
@@ -535,12 +566,13 @@ void clear_output(t_output *o)
 	o->string[0] = '\0';
 }
 
+
 t_output do_exec(t_executor **exs, int ret)
 {
 	t_output o;
 	int fdout[2];
 	char **env;
-
+	(g_debug) ? ft_dprintf(2, "-- {green}EXEC{eoc} --\n") : 0;
 	clear_output(&o);
 	o.string[0] = '\0';
 	o.ret_code = 0;
@@ -548,20 +580,16 @@ t_output do_exec(t_executor **exs, int ret)
 	fdout[0] = -1;
 	fdout[1] = -1;
 	env = convert_env(g_env, l_env);
-	if (ret != 0){
+	if (ret != 0)
+	{
 		pipe(fdout);
 		//we add to the redirection the 1>&pipe
 		i = 0;
-		while(exs[i])
-		{
-			if (exs[i + 1] == NULL)
-				get_out(&exs[i]->ex.r, fdout[WRITER]);
-			i++;
-		}
 	}
-	//set_in(ex.r, (int *)&fdin, in, inlen);
 	o.ret_code = 0;
 	o.ret_code = exec_all(exs, env, -1);
+	if (*g_exit != -1)
+			clean_exit(*g_exit);
 	if (ret != 0)
 	{
 		close(fdout[WRITER]);
@@ -570,12 +598,9 @@ t_output do_exec(t_executor **exs, int ret)
 
 		//dprintf(2, "RET BABY!!!\n");
 		while((r=read(fdout[READER], b, WRITING)) > 0)
-		{
 			x_strjoins(&o.string, (size_t *)&o.len,(char *)b,r);
-		}
 		close(fdout[READER]);
 	}
-
 	i = -1;
 	int y = -1;
 	while(exs[++y])
@@ -590,124 +615,253 @@ t_output do_exec(t_executor **exs, int ret)
 			if (exs[y]->ex.r[i]->fd_out != STDOUT_FILENO || exs[y]->ex.r[i]->fd_out != STDERR_FILENO || exs[y]->ex.r[i]->fd_out != STDIN_FILENO)
 				close(exs[y]->ex.r[i]->fd_out);
 	}
+
 	}
 	return (o);
 }
 
-t_output		shell(t_av **av, int ret)
+void clear_stack(t_executor ***stack, int *stack_index)
+{
+	(*stack) = xmalloc(sizeof(t_exec*) * 2);
+	(*stack_index) = 0;
+	(*stack[(*stack_index)]) = NULL;
+}
+
+void update_stack(t_executor ***p_stack, int *p_stack_index, t_exec *current_ex, t_av *current_av)
+{
+	(*p_stack)[(*p_stack_index)] = xmalloc(sizeof(t_executor));
+	ft_memcpy(&(*p_stack)[(*p_stack_index)]->ex, (t_exec*)current_ex, sizeof(t_exec));
+	ft_memcpy(&(*p_stack)[(*p_stack_index)]->av, (t_av*)current_av, sizeof(t_av));
+	(*p_stack_index) += 1;
+	(*p_stack)[(*p_stack_index)] = NULL;
+}
+
+void set_retcode(unsigned char ret_code)
+{
+	char *s;
+	handle_var(KV_SET, "?", (s = ft_litoa(ret_code)));
+	ft_strdel(&s);
+}
+
+void extend_stack(t_executor ***stack, int *stack_index, t_exec *current_ex, t_av *current_av)
+{
+	int i;
+	t_executor **tmp;
+
+	tmp = xmalloc(sizeof(t_executor*) * ((*stack_index) + 2));
+	i = 0;
+	while ((*stack)[i])
+	{
+		tmp[i] = (*stack)[i];
+		i++;
+	}
+	tmp[i] = xmalloc(sizeof(t_executor));
+	ft_memcpy(&tmp[i]->ex, (t_exec*)current_ex, sizeof(t_exec));
+	ft_memcpy(&tmp[i]->av, (t_av*)current_av, sizeof(t_av));
+	tmp[i + 1] = NULL;
+	(*stack) = tmp;
+	(*stack_index) = i + 1;
+}
+
+/*
+** struct for handle the shell norme
+*/
+typedef struct s_shells
 {
 	int a;
 	t_exec ex;
 	t_output all;
 	t_output output;
-	t_executor **xs;
-	int find = -1;
-	int xs_i;
+	t_executor **stack;
+	int					stack_index;
+	int find;
+}			 	t_shells;
 
-	a = -1;
-	clear_output(&all);
-	clear_output(&output);
-	output.string[0] = '\0';
-	output.ret_code = 0;
-	xs = xmalloc(sizeof(t_executor*) * 2);
-	xs_i = 0;
-	xs[xs_i] = NULL;
-	while (av[++a] != NULL)
-	{
-		get_alias(&(av[a]));
-		// En partant du principe qu'on utilise av->argv et non pas av->arg
-		if (av[a]->cmd == NULL && (av[a]->type == TYPE_OR || av[a]->type == TYPE_AND
-					|| av[a]->type == TYPE_PIPE || (av[a + 1] != NULL &&
-						(av[a + 1]->type == TYPE_AND || av[a + 1]->type == TYPE_OR ||
-						 av[a + 1]->type == TYPE_PIPE))))
-		{
-			ft_dprintf(2, "%s: Invalid null command.\n", NAME);
-			clear_output(&output);
-			output.ret_code = 127;
-			//return (output);
-		}
-		if (av[a]->argv[0] == NULL)
-			continue;
-		ex = make_exec(av[a], &g_env, &l_env);
-		if (av[a]->type == TYPE_OR || av[a]->type == TYPE_AND)
-		{
-			if (find == 0)
-			{
-				if ((output.ret_code == 0 && av[a]->type == TYPE_OR) ||
-						(output.ret_code != 0 && av[a]->type == TYPE_AND))
-				{
-					find = 1;
-					continue;
-				}
-			}
-			else
-				continue;
-		}
-		if (av[a + 1] != NULL && (av[a + 1]->type == TYPE_OR || av[a + 1]->type == TYPE_AND)
-				&& (find == -1))
-			find = 0;
-		else
-			find = -1;
-		if (ex.type == -1)
-		{
-			handle_var(KV_SET, "?", "127");
-			continue;
-		}
-		if (av[a + 1] != NULL && av[a + 1]->type == TYPE_PIPE) //HANDLE THE ASYNC MODE
-		{
-			t_executor **tmp;
-			tmp = xmalloc(sizeof(t_executor*) * (xs_i + 2));
-			int i = 0;
-			while (xs[i])
-			{
-				tmp[i] = xs[i];
-				//dprintf(2, "%s\n", xs[i]->path);
-				i++;
-			}
-			tmp[i] = xmalloc(sizeof(t_executor));
-			ft_memcpy(&tmp[i]->ex, (t_exec*)&ex, sizeof(t_exec));
-			ft_memcpy(&tmp[i]->av, (t_av*)av[a], sizeof(t_av));
-			tmp[i + 1] = NULL;
-			xs = tmp;
-			xs_i = i + 1;
-			continue;
-		}
-		else if (av[a]->type == TYPE_PIPE)
-		{
-			xs[xs_i] = xmalloc(sizeof(t_executor));
-			ft_memcpy(&xs[xs_i]->ex, (t_exec*)&ex, sizeof(t_exec));
-			ft_memcpy(&xs[xs_i]->av, (t_av*)av[a], sizeof(t_av));
-			xs[++xs_i] = NULL;
- 		}
-		else
-		{
-			xs[xs_i] = xmalloc(sizeof(t_executor));
-			ft_memcpy(&xs[0]->ex, (t_exec*)&ex, sizeof(t_exec));
-			ft_memcpy(&xs[0]->av, (t_av*)av[a], sizeof(t_av));
-			xs[++xs_i] = NULL;
-		}
-		if (av[a]->type == TYPE_PIPE && output.ret_code != 0)
-				continue;
-		a_stop(0);
-		output = do_exec(xs, ret);
-		if (a_init() == -1)
-		{ft_printf("error while getting the set\n");exit(127);}
-		//clearing the xs
-		xs = xmalloc(sizeof(t_exec*) * 2);
-		xs_i = 0;
-		xs[xs_i] = NULL;
-		char *s;
-		handle_var(KV_SET, "?", (s = ft_litoa((unsigned char)output.ret_code)));
-		ft_strdel(&s);
-		if (ret)
-			x_strjoins(&all.string,(size_t *)&all.len,output.string,output.len);
-		all.ret_code = output.ret_code;
-	}
-	return (all);
+/*
+** initialise the shell structure
+*/
+void shell_init(t_shells *s)
+{
+	(g_debug) ? ft_dprintf(2, "-- {red}EXECUTION{eoc} --\n") : 0;
+	s->find = -1;
+	s->a = -1;
+	clear_output(&s->all);
+	clear_output(&s->output);
+	s->output.string[0] = '\0';
+	s->output.ret_code = 0;
+	s->stack = xmalloc(sizeof(t_executor*) * 2);
+	clear_stack(&s->stack, &s->stack_index);
 }
 
 /*
- ** give him an expr (example: echo ok | cat -e)
+** print useful debug
+** note: w and v are in the parameters for handle the norme
+*/
+void shell_print_debug(t_shells *s, int w, int v)
+{
+	w = 0;
+	while ((s->stack)[w])
+	{
+		if ((s->stack)[w]->ex.type == 0)
+			ft_dprintf(2, "%d ; call bin |%s|\n",w, (s->stack)[w]->ex.path);
+		else if ((s->stack)[w]->ex.type == 1)
+			ft_dprintf(2, "%d ; call builtin |%s|\n",w, (s->stack)[w]->av.cmd);
+		v = 0;
+		ft_dprintf(2, "[");
+		while ((s->stack)[w]->av.argv[v])
+		{
+				ft_dprintf(2, "'%s'", (s->stack)[w]->av.argv[v]);
+				if ((s->stack)[w]->av.argv[v + 1])
+					ft_dprintf(2, ", ");
+				v++;
+		}
+		ft_dprintf(2, "]\n");
+		w++;
+	}
+	(g_debug) ? ft_dprintf(2, "{green}----------------------{eoc}\n") : 0;
+}
+
+/*
+** HANDLE && and ||
+*/
+int shell_pre_exec_logical_and_or(t_shells *s, t_av **av)
+{
+	if (av[(s->a)]->type == TYPE_OR || av[(s->a)]->type == TYPE_AND)
+	{
+		if ((s->find) == 0)
+		{
+			if (((s->output).ret_code == 0 && av[(s->a)]->type == TYPE_OR) ||
+					((s->output).ret_code != 0 && av[(s->a)]->type == TYPE_AND))
+			{
+				(s->find) = 1;
+				return (FALSE);
+			}
+		}
+		else
+			return (FALSE);
+	}
+	if (av[(s->a) + 1] != NULL && (av[(s->a) + 1]->type == TYPE_OR || av[(s->a) + 1]->type == TYPE_AND)
+			&& ((s->find) == -1))
+		(s->find) = 0;
+	else
+		(s->find) = -1;
+	return (TRUE);
+}
+
+/*
+** HANDLE |
+*/
+int shell_pre_exec_logical_pipe(t_shells *s, t_av **av)
+{
+	if ((s->ex).type == -1)
+	{
+	set_retcode(127);
+	return (FALSE);
+	}
+	if (av[(s->a) + 1] != NULL && av[(s->a) + 1]->type == TYPE_PIPE)
+	{
+		extend_stack(&(s->stack), &(s->stack_index),  &(s->ex), av[(s->a)]);
+		return (FALSE);
+	}
+	else
+		update_stack(&(s->stack), &(s->stack_index), &(s->ex), av[(s->a)]);
+	if (av[(s->a)]->type == TYPE_PIPE && (s->output).ret_code != 0)
+			return (FALSE);
+	return (TRUE);
+}
+
+/*
+** SHELL_PRE_EXEC HANDLE THE LOGICAL EXECUTION OF THE COMMAND,
+** IT ALSO HANDLE THE open() of the redirection
+*/
+int shell_pre_exec(t_shells *s, t_av **av)
+{
+	get_alias(&(av[(s->a)]));
+	if (av[(s->a)]->cmd == NULL && (av[(s->a)]->type == TYPE_OR ||
+		av[(s->a)]->type == TYPE_AND || av[(s->a)]->type == TYPE_PIPE ||
+		(av[(s->a) + 1] != NULL && (av[(s->a) + 1]->type == TYPE_AND ||
+		av[(s->a) + 1]->type == TYPE_OR || av[(s->a) + 1]->type == TYPE_PIPE))))
+	{
+		ft_dprintf(2, "%s: Invalid null command.\n", NAME);
+		clear_output(&(s->output));
+		(s->output).ret_code = 127;
+	}
+	if (av[(s->a)]->argv[0] == NULL)
+	{
+		clear_stack(&(s->stack), &(s->stack_index));
+		return (FALSE);
+	}
+	(s->ex) = make_exec(av[(s->a)], &g_env, &l_env);
+	if (!shell_pre_exec_logical_and_or(s, av))
+		return (FALSE);
+	if (!shell_pre_exec_logical_pipe(s, av))
+		return (FALSE);
+	return (TRUE);
+}
+
+/*
+**  SHELL_POST_EXEC handle the cleaning of the executed command
+** 	+ set the ret_code ($?)
+*/
+
+int shell_post_exec(t_shells *s, int ret)
+{
+	clear_stack(&(s->stack), &(s->stack_index));
+	set_retcode((unsigned char)(s->output).ret_code);
+	if (ret)
+		x_strjoins(&(s->all).string,(size_t *)&(s->all).len,(s->output).string,
+			(s->output).len);
+	(s->all).ret_code = (s->output).ret_code;
+	return (TRUE);
+}
+
+/*
+ HOW DOES THIS WORK?
+
+ this is a simple system of stack.
+
+ the stack is extended only when the next command is a pipe.
+ It's for handle the async mode.
+
+ for: "ls | cat -e"
+
+ we will have a stack of this sort
+
+ 1 | cat -e  |
+ 0 | ls      |
+
+for: "echo ok ; ls "
+
+ 0 | echo ok |
+then
+ 0 | ls      |
+
+etc..
+*/
+t_output		shell(t_av **av, int ret)
+{
+	t_shells s;
+
+	shell_init(&s);
+	while (av[++(s.a)] != NULL)
+	{
+		if (!shell_pre_exec(&s, av))
+			continue ;
+		(g_debug) ? shell_print_debug(&s, 0, 0) : 0;
+		a_stop(0);
+		s.output = do_exec(s.stack, ret);
+		if (a_init() == -1)
+		{
+			ft_printf("error while getting the set\n");
+			exit(127);
+		}
+		shell_post_exec(&s, ret);
+	}
+	return (s.all);
+}
+
+/*
+ ** give him an expr (example: "echo ok | cat -e")
  ** give you the return output and the last ret_code
  */
 t_output shell_exec(char *expr)

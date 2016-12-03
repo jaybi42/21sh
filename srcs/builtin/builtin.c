@@ -12,7 +12,7 @@
 
 #include "21sh.h"
 
-#define NB_BUILTIN 10
+#define NB_BUILTIN 12
 
 static t_builtin const	g_builtin_list[NB_BUILTIN] = {
 	{"cd", bi_cd},
@@ -24,7 +24,9 @@ static t_builtin const	g_builtin_list[NB_BUILTIN] = {
 	{"exit", bi_exit},
 	{"clear", bi_clear},
 	{"history", bi_history},
-	{"alias", bi_alias}
+	{"alias", bi_alias},
+	{"42info", bi_42info},
+	{"glob", bi_glob}
 };
 
 int			builtin(t_list **g_env, t_list **l_env, t_ftl_root *hist, t_av *av)
