@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 17:13:02 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/02 17:13:29 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/04 16:13:20 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ unsigned int	hash_algo(char *key, int nb)
 	if (!(key) || nb <= 0)
 		return (0);
 	while (key[++i])
-		hash += key[i] * (unsigned int)pow(5.0, i);
+		hash += key[i] * (unsigned int)pow(3.0, i);
 	return (hash %= nb);
 }
 
@@ -49,7 +49,7 @@ char			*get_hash_path(t_hash **hash, char *bin, unsigned int g_hash_size)
 		if ((hash[id])->bin != NULL)
 			if ((ft_strcmp((hash[id])->bin, bin)) == 0)
 				return ((hash[id])->path);
-		hash[id] = (hash[id])->next; 
+		hash[id] = (hash[id])->next;
 	}
 	return (NULL);
 }
