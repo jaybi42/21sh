@@ -54,6 +54,7 @@ static void		get_dir_elem(t_hash **addr, DIR *directory, char *path)
 	t_hash			*new_node;
 	struct dirent	*elem;
 	char			*new_path;
+	struct stat		st;
 
 	while ((elem = readdir(directory)) != NULL)
 	{
@@ -61,18 +62,19 @@ static void		get_dir_elem(t_hash **addr, DIR *directory, char *path)
 			continue ;
 		if (!(new_path = storage_path(path, elem->d_name)))
 			return ;
-		if ((access(new_path, X_OK)) == 0)
-		{
-			if (!(new_node = add_new_node(elem->d_name, new_path)))
-				return ;
-			if (*addr != NULL)
+		if ((stat(new_path, &st)) == 0)
+			if (((access(new_path, X_OK)) == 0) && (S_ISREG(st.st_mode)))
 			{
-				new_node->next = *addr;
-				*addr = new_node;
+				if (!(new_node = add_new_node(elem->d_name, new_path)))
+					return ;
+				if (*addr != NULL)
+				{
+					new_node->next = *addr;
+					*addr = new_node;
+				}
+				else
+					*addr = new_node;
 			}
-			else
-				*addr = new_node;
-		}
 		ft_strdel(&(new_path));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/20 17:44:27 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/04 18:35:00 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-t_list		*l_env;
-t_list		*g_env;
-t_ftl_root	g_hist;
-t_line		*g_line;
-t_prompt	g_prompt;
-t_alias		*g_alias;
-int		*g_exit;
-int g_debug;
-t_hash		**g_hash;
-unsigned int g_hash_size;
+t_list			*l_env;
+t_list			*g_env;
+t_ftl_root		g_hist;
+t_line			*g_line;
+t_prompt		g_prompt;
+t_alias			*g_alias;
+int				*g_exit;
+int				g_debug;
+t_hash			**g_hash;
+unsigned int	g_hash_size;
 
 int			ret_exit(int state, int value)
 {
@@ -135,10 +135,10 @@ char		*handle_var(int state, char *key, char *value)
 		values[0] = NULL;
 	}
 	/*a_printf("test handle_var: |%s| and |%s|\n", key, value);
-	for (int i = 0; keys[i]; i++)
-	{
-		a_printf("|%s| => |%s| \n", keys[i], values[i]);
-	}*/
+	  for (int i = 0; keys[i]; i++)
+	  {
+	  a_printf("|%s| => |%s| \n", keys[i], values[i]);
+	  }*/
 	if (state == KV_SET)
 	{
 		if (key == NULL || value == NULL)
@@ -152,7 +152,7 @@ char		*handle_var(int state, char *key, char *value)
 			return (key);
 		}
 		if (insert_arr(&keys, key) == -1 ||
-			insert_arr(&values, value) == -1)
+				insert_arr(&values, value) == -1)
 			return (NULL);
 		return (key);
 	}
@@ -211,33 +211,33 @@ void init_global(int ac, char **argv)
 		ft_dprintf(2, "-- {red}WELCOME ON THE DEBUG MODE{eoc} --\n");
 	}
 	g_env = mmap(NULL, sizeof *g_env, PROT_READ | PROT_WRITE, MAP_SHARED
-		| MAP_ANONYMOUS, -1, 0);
+			| MAP_ANONYMOUS, -1, 0);
 	g_env = NULL;
 	g_env = NULL;
 	l_env = NULL;
 	g_line = NULL;
 	g_alias = mmap(NULL, sizeof *g_alias, PROT_READ | PROT_WRITE, MAP_SHARED
-		| MAP_ANONYMOUS, -1, 0);
+			| MAP_ANONYMOUS, -1, 0);
 	g_exit = mmap(NULL, sizeof *g_exit, PROT_READ | PROT_WRITE, MAP_SHARED
-		| MAP_ANONYMOUS, -1, 0);
-		*g_exit = -1;
-		g_hash = NULL;
-		g_hash_size = 0;
+			| MAP_ANONYMOUS, -1, 0);
+	*g_exit = -1;
+	g_hash = NULL;
+	g_hash_size = 0;
 }
 
 void print_hash(void)
 {
 	ft_printf("DEBUG: hash get %u binaries (for ls: %s)\n",g_hash_size,
-	get_hash_path(g_hash, "ls"));
+			get_hash_path(g_hash, "ls"));
 }
 
-int				main(int ac, char **argv, char **env)
+int				main(int ac, char **argv)
 {
 	init_global(ac, argv);
-	g_hash = hash_table(find_home(env));
-	(g_debug) ? print_hash() : 0;
 	if (init_env(&g_env, &l_env) == 1 || (a_init() == -1))
 		return (1);
+	g_hash = hash_table(get_path(g_env, l_env));
+	(g_debug) ? print_hash() : 0;
 	if (sh21() == 1)
 		return (1);
 	return (0);
