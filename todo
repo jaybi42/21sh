@@ -76,6 +76,9 @@ ______________
 	-	"echo ;;;;;;;"
 		malloc error
 
+	-	JB : après avoir entré cette commande: "glob '*' 'ok' '" le shell va nous proposer de fermer le ' ouvert, puis commande executer, tout est normal...
+		Mais apres l'history affiche un truc random (ou une ligne vide).
+		Serait il possible de remplacer les \n par des espaces tout simplement? ou un "\\n"
 ______________
 	LEAKS
 ______________
@@ -105,6 +108,7 @@ ______________
 
 			-	Finir la norme sur tout les fichiers du projet et de la libft.
 
+			-	CHECKER LES APPELLES DE FONCTION INTERDIT AVEC NM (strlen, printf, strdup...)
 ______________
 	BONUS
 ______________

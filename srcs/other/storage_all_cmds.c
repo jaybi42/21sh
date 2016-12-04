@@ -1032,6 +1032,10 @@ t_av	**parse_commands(char *expr)
 	int id_exp;
 
 	(g_debug) ? ft_dprintf(2, "{yellow}----------------------{eoc}\n") : 0;
+	id_cmd = -1;
+	while(is_whitespace(expr[++id_cmd]));
+	if ((size_t)id_cmd >= ft_strlen(expr))
+		return (NULL);
 	if (!(cmds = xmalloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
 		return (NULL);
 	cmds[(id_cmd = 0)] = NULL;

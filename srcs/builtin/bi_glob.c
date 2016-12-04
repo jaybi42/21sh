@@ -4,7 +4,7 @@
 /*
 ** - clean screen
 */
-int exec_glob(int argc, char **argv)
+int ex_glob(int argc, char **argv)
 {
   int i;
   char **t;
@@ -31,5 +31,5 @@ int			bi_glob(t_av av, t_list **g_env, t_list **l_env)
 	(void)g_env;
 	(void)av;
 	(void)l_env;
-  return (exec_glob(av.argc + 1, av.argv));
+  return (ex_glob(av.argc + 1, av.argv));
 }

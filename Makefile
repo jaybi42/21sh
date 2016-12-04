@@ -85,7 +85,6 @@ FILES = autocomp/autocomp			\
 		other/ft_size_tab			\
 		other/garbage_collector		\
 		other/get_event				\
-		other/glob					\
 		other/heredoc				\
 		other/history				\
 		other/home_end				\
@@ -94,8 +93,6 @@ FILES = autocomp/autocomp			\
 		other/main					\
 		other/print_error			\
 		other/print_prompt			\
-		other/shell					\
-		other/storage_all_cmds		\
 		other/storage_new_var		\
 		other/x_strdup				\
 		other/x_strjoin				\
@@ -104,7 +101,41 @@ FILES = autocomp/autocomp			\
 		other/tilde_path \
 		other/packets \
 								\
-		use/f1
+		use/f1			\
+								\
+		glob/glob \
+		glob/gbrace \
+		glob/gparse \
+		glob/gparse2 \
+		glob/gparse3 \
+		glob/globuse \
+		glob/globuse2 \
+		glob/globexec \
+		glob/globexec2 \
+						\
+		shell/shell		\
+		shell/shell2		\
+		shell/shelluse		\
+		shell/shelluse2		\
+		shell/exec		\
+		shell/exec2		\
+		shell/prepare_exec		\
+		shell/prepare_exec2		\
+		shell/prepare_exec3		\
+			\
+		parser/parser \
+		parser/parser2 \
+		parser/parser3 \
+		parser/parser4 \
+		parser/parser5 \
+		parser/parseruse \
+		parser/parseruse2 \
+		parser/parseruse3 \
+		parser/preparse \
+		parser/preparse2 \
+		parser/preparse3 \
+		parser/redirection \
+		parser/redirection2 \
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))
