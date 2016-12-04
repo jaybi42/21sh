@@ -6,22 +6,45 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 13:02:57 by jguthert          #+#    #+#             */
-/*   Updated: 2016/10/12 18:21:07 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/04 17:38:49 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+//#include <uuid/uuid.h>
 
-int				put_history(t_ftl_root *root)
+static char			*get_history_path(void)
+{
+	struct stat		stat;
+	struct passwd	*pw;
+	char			*ans;
+
+	if (lstat(".", &stat) == -1)
+		return (NULL);
+	pw = getpwuid(stat.st_uid);
+	if (pw == NULL)
+		return (NULL);
+	ans = ft_strjoin(pw->pw_dir, "/.42history");
+	return (ans);
+}
+
+int					put_history(t_ftl_root *root)
 {
 	int			fd;
 	t_ftl_node	*node;
+	char		*path;
 
-	fd = open("history", O_CREAT | O_WRONLY | O_TRUNC, 0640);
+	path = get_history_path();
+	if (path == NULL)
+		return (1);
+	fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0640);
+	ft_strdel(&path);
 	if (fd == -1)
-		return (ERROR);
+		return (1);
 	node = (t_ftl_node *)root->next;
 	while (node != (t_ftl_node *)root)
 	{
@@ -29,18 +52,23 @@ int				put_history(t_ftl_root *root)
 		node = node->next;
 	}
 	if (close(fd) == -1)
-		return (ERROR);
+		return (1);
 	return (0);
 }
 
-int				get_history(t_ftl_root *root)
+int					get_history(t_ftl_root *root)
 {
 	t_hist		hist;
 	int			fd;
 	char		*line;
+	char		*path;
 
+	path = get_history_path();
+	if (path == NULL)
+		return (1);
 	ftl_init(root, sizeof(t_hist));
-	fd = open("history", O_RDONLY);
+	fd = open(path, O_RDONLY);
+	ft_strdel(&path);
 	if (fd == -1)
 		return (1);
 	ft_bzero(&hist, sizeof(t_hist));
@@ -50,11 +78,11 @@ int				get_history(t_ftl_root *root)
 		ftl_push_back(root, (FTL_NODE *)(&hist));
 	}
 	if (close(fd) == -1)
-		return (ERROR);
+		return (1);
 	return (0);
 }
 
-int				add_history(char *str, t_ftl_root *root)
+int					add_history(char *str, t_ftl_root *root)
 {
 	t_hist		hist;
 

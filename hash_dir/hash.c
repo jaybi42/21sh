@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 17:10:59 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/02 17:11:02 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/04 17:40:18 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void			insert_hash(t_hash ***hash, t_hash *lst, unsigned int nb)
 	{
 		++collision;
 		new_node->next = (*hash)[id]->next;
-		(*hash)[id]->next = new_node;	
+		(*hash)[id]->next = new_node;
 	}
 	else
 		(*hash)[id] = new_node;
@@ -114,17 +114,17 @@ int	main(void)
 {
 	t_hash	**hash;
 	char	*p;
-	char	*b = "sub";
+	char	*b = "ls";
 
 	p = "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/munki:/Users/ibouchla/bin";
 	hash = hash_table(p);
 	printf("[%d] Path : %s\n", hash_algo(b, g_hash_size), get_hash_path(hash, b, g_hash_size));
 	hash_del(&hash, g_hash_size);
 	printf("Nombre de collisions : %d\n", collision);
-	/*for (int id = 0; id < g_hash_size; id++)
+/*	for (int id = 0; id < g_hash_size; id++)
 	{
 		if (hash[id] != NULL)
-			for (int x = 0; (hash[id]); x++) 
+			for (int x = 0; (hash[id]); x++)
 			{
 				for (int z = 0; z < x; z++)
 					ft_putstr("\t_____");
@@ -132,5 +132,5 @@ int	main(void)
 				hash[id] = hash[id]->next;
 			}
 	}
-	*/
+*/
 }
