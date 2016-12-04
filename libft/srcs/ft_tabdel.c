@@ -6,22 +6,22 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/24 13:28:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/04/29 17:02:59 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/04 20:13:52 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		ft_tabdel(char **tab2)
+void		ft_tabdel(char **t)
 {
-	int	i;
+	int		i;
 
-	i = (-1);
-	if (tab2 != NULL)
+	i = -1;
+	if (t != NULL)
 	{
-		while (tab2[++i] != NULL)
-			ft_strdel(&(tab2[i]));
-		free((char **)tab2);
-		tab2 = NULL;
+		while (t[++i] != NULL)
+			ft_strdel(&(t[i]));
+		free((char **)t);
+		t = NULL;
 	}
 }
