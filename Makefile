@@ -14,7 +14,7 @@
 
 NAME = 21sh
 
-CC_FLAGS = gcc -Wall -Wextra -g3 #-Werror
+CC_FLAGS = gcc -Wall -Wextra -g3 -Werror
 
 ##=-		Rules		-=##
 

@@ -60,6 +60,8 @@ void son_handle_in(int fdin, t_redirect **r)
 {
 	int i;
 
+  i = 0;
+  (void)r;
 	if (fdin != -1)
 	{
 		dup2(fdin, STDIN_FILENO);

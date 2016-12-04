@@ -28,7 +28,8 @@
 
 # define INIT_ALL(CMD,AV1,AV2) (char *[]){CMD, AV1, AV2, NULL}
 # define INIT_ARG(AV1,AV2) (char *[]){AV1, AV2, NULL}
-# define INIT_AV(A,B,C,D) ((t_av){A, INIT_ARG(B, C), D, INIT_ALL(A, B, C), NULL, NULL, NULL, 0})
+
+# define INIT_AV(A,B,C,D) ((t_av){A, INIT_ARG(B, C), D, INIT_ALL(A, B, C), NULL, -1, NULL, 0})
 # define STAT	struct stat
 # define PW_T	struct passwd
 
@@ -134,7 +135,6 @@ typedef struct          s_command
 ----
 */
 
-
 char *handle_var(int state, char *key, char *value);
 
 typedef struct	s_error
@@ -159,8 +159,7 @@ typedef struct	s_av
 	int		**argv_auth;
 	int			bg;
 	struct s_redirect **redirect;
-    int     *bitcode;
-	int		type;
+	int type;
 }							t_av;
 
 typedef int		(*t_bi_fptr)();
