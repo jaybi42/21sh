@@ -5,132 +5,112 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/28 17:51:34 by ibouchla          #+#    #+#              #
-     Updated: 2016/12/04 18:41:46 by jguthert         ###   ########.fr         
+#    Created: 2016/12/04 19:47:57 by ibouchla          #+#    #+#              #
+#    Updated: 2016/12/04 19:48:03 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-___________________
-	Mode Emploi
-___________________
+______________
+	RESOLU
+______________
 
-	-	Ce fichier doit rester lisible, vos commentaires personnels n'ont pas lieu d'etre.
+	| RESOLU |	-	L' historique affiche des caracteres chelou apres une commande de plusieurs ligne suite a un oubli de quote.
 
-	-	Si toutefois vous souhaitez legitimement apporter un commentaire sur un bug referencer,
-		merci de le faire a la ligne suivi d'une indentation avec la mention [Update x] (x commencant a 0)
-		ex :	-	"commande x" comportement aleatoire sur blabla.
-						[Update 0]	- Je n'ai pas reussie a reproduire le bug.
-						[Update 1]	- Effectivement j'ai oublier de preciser tel point.
+	| RESOLU |	-	echo "test"jacky doit renvoyer : 'testjacky' et non 'test jacky'
+					la commande dois etre pris comme un seul argument meme avec la presence des quotes.
 
-	- 	Pour chaque element resolu merci d'indiquer la mention | RESOLU | de la maniere suivante :
+	| RESOLU |	-	lancer la commande ".." suivi d'un ctrl + C
+					(pas due exclusivement a la commande ".." mais a toute les commandes qui renvois "execve: Permission denied").
 
-		| RESOLU |	-	"commande x" comportement aleatoire sur blabla.
+	| RESOLU |	-	"mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi"
+					Ne donne pas le resultat attendu dans le sujet.
 
-	-	Merci donc de ne pas supprimer la ligne :)
+	| RESOLU |	-	unsetenv / setenv PATH ne produit aucun comportement
+					(C'est peut etre juste les modifs d'anis sur l'exec des builtins).
 
-________________________________________________________________________________________________________
+	| RESOLU |	-	"cat $LC_CTYPE"
+					En repetant 3/4 fois l'operation nous avons des caracteres aleatoires et un depassement de memoire.
+
+	| RESOLU |	-	"ls ||||"
+					Nous avons x3 "21sh: Invalid null command" mais 'ls' est executer.
+					Bash lui n'execute pas le 'ls' et nous affiche "syntax error".
+
+	| RESOLU |	-	"base64 /dev/urandom | head -c 1000 | grep 42 | wc -l | sed -e 's/1/Yes/g' -e 's/0/No/g'"
+					Le resultat ne sort jamais obliger de ctrl + c
+					Le comportement avait ete reproduis en executant dans le 21sh un ./a.out qui segfault volontairement.
+
+	| RESOLU |	-	"cat -e << EOF"
+					Nous entrons dans heredoc, ecrivez quelque chose.
+					Appuyez sur ENTREE --> Segmentation Fault.
+
+	| RESOLU |	-	JB : après avoir entré cette commande: "glob '*' 'ok' '" le shell va nous proposer de fermer le ' ouvert, puis commande executer, tout est normal...
+					Mais apres l'history affiche un truc random (ou une ligne vide).
+					Serait il possible de remplacer les \n par des espaces tout simplement? ou un "\\n"
+				-	Ctrl + d
+					Si on est sur un char il est supprimer.
+					Sinon comportement normal.
 
 ______________
 	BUGS
 ______________
 
-	-       cmd : 'ls -l | cat -e   | cat -e | cat -e | cat -e | cat -e'
+				-	cmd : 'ls -l | cat -e   | cat -e | cat -e | cat -e | cat -e'
 
-	-	| RESOLU| L' historique affiche des caracteres chelou apres une commande de plusieurs ligne suite a un oubli de quote.
+				-	lancer quatres ./21sh.
+					Faire un kill sur les PID des deux 21sh du milieu.
+					Nous avons un comportement indefinis sur l'edition de ligne de cmd.
 
-	-	| RESOLU | echo "test"jacky doit renvoyer : 'testjacky' et non 'test jacky'
-		la commande dois etre pris comme un seul argument meme avec la presence des quotes.
+				-	lancer deux 21sh
+					kill le premier,
+					puis appuyer sur n'importe quel touche.
 
-	-	| RESOLU | lancer la commande ".." suivi d'un ctrl + C
-		(pas due exclusivement a la commande ".." mais a toute les commandes qui renvois "execve: Permission denied").
-
-	-	| RESOLU | "mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi"
-		Ne donne pas le resultat attendu dans le sujet.
-
-	-	lancer quatres ./21sh.
-		Faire un kill sur les PID des deux 21sh du milieu.
-		Nous avons un comportement indefinis sur l'edition de ligne de cmd.
-
-	-	lancer deux 21sh
-		kill le premier,
-		puis appuyer sur n'importe quel touche.
-
-	-	| RESOLU | unsetenv / setenv PATH ne produit aucun comportement
-		(C'est peut etre juste les modifs d'anis sur l'exec des builtins).
-
-	-	| RESOLU | "cat $LC_CTYPE"
-		En repetant 3/4 fois l'operation nous avons des caracteres aleatoires et un depassement de memoire.
-
-	-	| RESOLU | "ls ||||"
-		Nous avons x3 "21sh: Invalid null command" mais 'ls' est executer.
-		Bash lui n'execute pas le 'ls' et nous affiche "syntax error".
-
-	-	| RESOLU | "base64 /dev/urandom | head -c 1000 | grep 42 | wc -l | sed -e 's/1/Yes/g' -e 's/0/No/g'"
-		Le resultat ne sort jamais obliger de ctrl + c
-		Le comportement avait ete reproduis en executant dans le 21sh un ./a.out qui segfault volontairement.
-
-	-	| RESOLU | "cat -e << EOF"
-		Nous entrons dans heredoc, ecrivez quelque chose.
-		Appuyez sur ENTREE --> Segmentation Fault.
-
-	-	"echo ;;;;;;;"
-		malloc error
-
-	-	| RESOLU |JB : après avoir entré cette commande: "glob '*' 'ok' '" le shell va nous proposer de fermer le ' ouvert, puis commande executer, tout est normal...
-		Mais apres l'history affiche un truc random (ou une ligne vide).
-		Serait il possible de remplacer les \n par des espaces tout simplement? ou un "\\n"
+				-	"echo ;;;;;;;"
+					malloc error
 
 ______________
 	LEAKS
 ______________
 
-	-	 ls | wc > toto;
-		Appuyer sur ENTREE.
-		Ctrl + R et taper ls pour retrouver la commande.
-		Appuyer sur ENTREE pour valider la commande.
-		Puis taper "leaks 21sh".
+				-	ls | wc > toto;
+					Appuyer sur ENTREE.
+					Ctrl + R et taper ls pour retrouver la commande.
+					Appuyer sur ENTREE pour valider la commande.
+					Puis taper "leaks 21sh".
 
-	-	Appuyer sur ENTREE avec une ligne de commande vide.
-		Un leaks apparait de maniere aleatoire
+				-	Appuyer sur ENTREE avec une ligne de commande vide.
+					Un leaks apparait de maniere aleatoire
 
-	-	Il y a de maniere aleatoire des leaks en remontant avec la fleche du haut,
-		puis en tapant sur ENTREE.
+				-	Il y a de maniere aleatoire des leaks en remontant avec la fleche du haut,
+					puis en tapant sur ENTREE.
 
 ______________
 	TODO
 ______________
-			-
 
-			-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
+				-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
 
-| RESOLU |  -	Ctrl + d
-  		 		Si on est sur un char il est supprimer.
-				Sinon comportement normal.
+				-	Finir la norme sur tout les fichiers du projet et de la libft.
 
-			-	Finir la norme sur tout les fichiers du projet et de la libft.
+				-	CHECKER LES APPELLES DE FONCTION INTERDIT AVEC NM (strlen, printf, strdup...)
 
-			-	CHECKER LES APPELLES DE FONCTION INTERDIT AVEC NM (strlen, printf, strdup...)
 ______________
 	BONUS
 ______________
 
-	-	Syteme d'Alias
+				-	Syteme d'Alias
 
-	-	Caracteres de controles du builtin echo
+				-	Caracteres de controles du builtin echo
 
-	-	Autocompletion
+				-	Autocompletion
 
-	-	Execution des commandes de maniere asynchrone
+				-	Execution des commandes de maniere asynchrone
+
+				-	Builtin 42info
 
 ____________________
 	COMMENTAIRE
 ____________________
 
-/*
-**	Cette partie sert de suivi du projet
-*/
+				-	Listing des bonus realises
 
-	-	Listing des bonus realises
-
-	-	Nous en sommes a l'etape de la detection / resolution des bugs / leaks
-
+				-	Nous en sommes a l'etape de la detection / resolution des bugs / leaks
