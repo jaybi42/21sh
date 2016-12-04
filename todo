@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/28 17:51:34 by ibouchla          #+#    #+#              #
-     Updated: 2016/11/30 15:23:33 by malaine          ###   ########.fr         
+     Updated: 2016/12/04 18:41:46 by jguthert         ###   ########.fr         
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ ___________________
 						[Update 1]	- Effectivement j'ai oublier de preciser tel point.
 
 	- 	Pour chaque element resolu merci d'indiquer la mention | RESOLU | de la maniere suivante :
-	
+
 		| RESOLU |	-	"commande x" comportement aleatoire sur blabla.
 
 	-	Merci donc de ne pas supprimer la ligne :)
@@ -36,21 +36,21 @@ ______________
 
 	-       cmd : 'ls -l | cat -e   | cat -e | cat -e | cat -e | cat -e'
 
-	-	L' historique affiche des caracteres chelou apres une commande de plusieurs ligne suite a un oubli de quote.
+	-	| RESOLU| L' historique affiche des caracteres chelou apres une commande de plusieurs ligne suite a un oubli de quote.
 
 	-	| RESOLU | echo "test"jacky doit renvoyer : 'testjacky' et non 'test jacky'
-		la commande dois etre pris comme un seul argument meme avec la presence des quotes. 
+		la commande dois etre pris comme un seul argument meme avec la presence des quotes.
 
 	-	| RESOLU | lancer la commande ".." suivi d'un ctrl + C
 		(pas due exclusivement a la commande ".." mais a toute les commandes qui renvois "execve: Permission denied").
 
 	-	| RESOLU | "mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi"
 		Ne donne pas le resultat attendu dans le sujet.
-	
+
 	-	lancer quatres ./21sh.
 		Faire un kill sur les PID des deux 21sh du milieu.
 		Nous avons un comportement indefinis sur l'edition de ligne de cmd.
-	
+
 	-	lancer deux 21sh
 		kill le premier,
 		puis appuyer sur n'importe quel touche.
@@ -60,7 +60,7 @@ ______________
 
 	-	| RESOLU | "cat $LC_CTYPE"
 		En repetant 3/4 fois l'operation nous avons des caracteres aleatoires et un depassement de memoire.
-	
+
 	-	| RESOLU | "ls ||||"
 		Nous avons x3 "21sh: Invalid null command" mais 'ls' est executer.
 		Bash lui n'execute pas le 'ls' et nous affiche "syntax error".
@@ -76,21 +76,22 @@ ______________
 	-	"echo ;;;;;;;"
 		malloc error
 
-	-	JB : après avoir entré cette commande: "glob '*' 'ok' '" le shell va nous proposer de fermer le ' ouvert, puis commande executer, tout est normal...
+	-	| RESOLU |JB : après avoir entré cette commande: "glob '*' 'ok' '" le shell va nous proposer de fermer le ' ouvert, puis commande executer, tout est normal...
 		Mais apres l'history affiche un truc random (ou une ligne vide).
 		Serait il possible de remplacer les \n par des espaces tout simplement? ou un "\\n"
+
 ______________
 	LEAKS
 ______________
-	
+
 	-	 ls | wc > toto;
 		Appuyer sur ENTREE.
 		Ctrl + R et taper ls pour retrouver la commande.
 		Appuyer sur ENTREE pour valider la commande.
 		Puis taper "leaks 21sh".
-	
+
 	-	Appuyer sur ENTREE avec une ligne de commande vide.
-		Un leaks apparait de maniere aleatoire	
+		Un leaks apparait de maniere aleatoire
 
 	-	Il y a de maniere aleatoire des leaks en remontant avec la fleche du haut,
 		puis en tapant sur ENTREE.
@@ -98,7 +99,7 @@ ______________
 ______________
 	TODO
 ______________
-			-	
+			-
 
 			-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
 
@@ -114,7 +115,7 @@ ______________
 ______________
 
 	-	Syteme d'Alias
-	
+
 	-	Caracteres de controles du builtin echo
 
 	-	Autocompletion
@@ -130,6 +131,6 @@ ____________________
 */
 
 	-	Listing des bonus realises
-	
+
 	-	Nous en sommes a l'etape de la detection / resolution des bugs / leaks
 
