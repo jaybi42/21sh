@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 13:02:57 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/04 18:18:24 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/04 20:41:54 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int					add_history(char *str, t_ftl_root *root)
 	if (root->next == NULL)
 		ftl_init(root, sizeof(t_hist));
 	ft_bzero(&hist, sizeof(t_hist));
-	hist.str = str;
+	hist.str = ft_strdup(str);
 	while (1)
 	{
 		if (*str == '\0')

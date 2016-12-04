@@ -58,7 +58,7 @@ char **get_allpath(char *cmd, char *path)
 	int		a;
 
 	i = -1;
-	temp = ft_strsplit(path, ':');
+	temp = x_strsplit(path, ':');//TRYING FIX LEAKS
 	allpath = (char **)xmalloc(sizeof(char *) * (ft_tablen(temp) + 1));
 	while (temp[++i] != NULL)
 		allpath[i] = x_strjoin(temp[i], "/");

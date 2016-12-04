@@ -6,12 +6,33 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 21:37:53 by jguthert          #+#    #+#             */
-/*   Updated: 2016/01/03 13:31:15 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/04 20:25:04 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <stdlib.h>
+
+
+
+static char    *x_strsub(char const *s, unsigned int start, size_t len)
+{
+	char    *str;
+	int     i;
+
+	str = NULL;
+	if (s && (int)len >= 0)
+	{
+		i = 0;
+		if (!(str = (char *)xmalloc(sizeof(char) * (len + 1))))
+			return (NULL);
+		str[len] = '\0';
+		while (len--)
+			str[i++] = s[start++];
+	}
+	return (str);
+}
+
 
 static int			count_words(char *s, char c)
 {
@@ -44,13 +65,13 @@ char				**x_strsplit(char const *s, char c)
 		if (*s == c)
 		{
 			if (start != s)
-				*(result++) = ft_strsub(start, 0, s - start);
+				*(result++) = x_strsub(start, 0, s - start);
 			start = (char *)s + 1;
 		}
 		++s;
 	}
 	if (start != s)
-		*(result++) = ft_strsub(start, 0, s - start);
+		*(result++) = x_strsub(start, 0, s - start);
 	*result = NULL;
 	return (result - words);
 }

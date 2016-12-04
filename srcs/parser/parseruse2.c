@@ -27,26 +27,25 @@ char		*cpy_a_to_b(char *str, int a, int b)
 	return (new_str);
 }
 
-char *find_home(char **env)
+char		*find_home(char **env)
 {
-	int i;
-	char **t;
+	int		i;
+	char	**t;
+	char	*ans;
 
-	i = 0;
-	while (env[i])
-	{
-			if (ft_strncmp(env[i], "HOME=", 5) == 0)
-			{
-					if (!(t = ft_strsplit(env[i], '=')))
-						return (NULL);
-					if (t[0] != NULL && t[1] != NULL)
-						return (t[1]);
-					else
-						return (NULL);
-			}
-			i++;
-	}
-	return (NULL);
+	i = -1;
+	ans = NULL;
+	while (env[++i])
+		if (ft_strncmp(env[i], "HOME=", 5) == 0)
+			break;
+	if(!env[i])
+		return (NULL);
+	t = x_strsplit(env[i], '=');
+	if (t == NULL)
+		return (NULL);
+	if (t[0] != NULL && t[1] != NULL)
+		ans = x_strdup(t[1]);
+	return (ans);
 }
 
 char *join_string_array(char **a, int *marked_ind, int **t_ind, int **l_ind)

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/25 15:47:39 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/04 18:41:17 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/04 20:39:23 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	parse_newline(char *str, t_ftl_root *hist)
 	int		i;
 
 	i = 0;
-	ans = ft_strsplit(str, '\n');
+	ans = x_strsplit(str, '\n');
 	while (ans[i])
 		add_history(ans[i++], hist);
 }

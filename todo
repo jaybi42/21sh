@@ -5,11 +5,10 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/12/04 19:47:57 by ibouchla          #+#    #+#              #
-#    Updated: 2016/12/04 20:24:13 by ibouchla         ###   ########.fr        #
+#    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
+#    Updated: 2016/12/04 22:08:02 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 ______________
 	RESOLU
 ______________
@@ -46,7 +45,7 @@ ______________
 	| RESOLU |	-	JB : après avoir entré cette commande: "glob '*' 'ok' '" le shell va nous proposer de fermer le ' ouvert, puis commande executer, tout est normal...
 					Mais apres l'history affiche un truc random (ou une ligne vide).
 					Serait il possible de remplacer les \n par des espaces tout simplement? ou un "\\n"
-				-	Ctrl + d
+	| RESOLU |	-	Ctrl + d
 					Si on est sur un char il est supprimer.
 					Sinon comportement normal.
 
@@ -69,21 +68,19 @@ ______________
 
 				-	alias "l= ls -lah | cat -e"
 					Envoi "|" "cat" et "-e" en option au ls au lieu de faire un pipe
+
+				-	setenv "untruclong 66;echo untruclong" donne "66truclong"
 ______________
 	LEAKS
 ______________
 
 				-	ls | wc > toto;
-					Appuyer sur ENTREE.
-					Ctrl + R et taper ls pour retrouver la commande.
-					Appuyer sur ENTREE pour valider la commande.
-					Puis taper "leaks 21sh".
 
-				-	Appuyer sur ENTREE avec une ligne de commande vide.
-					Un leaks apparait de maniere aleatoire
+	| RESOLU |	-	Ctrl + R et taper ls pour retrouver la commande.
 
-				-	Il y a de maniere aleatoire des leaks en remontant avec la fleche du haut,
-					puis en tapant sur ENTREE.
+	| RESOLU |  -	Appuyer sur ENTREE pour valider une commande ou une ligne vide.
+
+	| RESOLU |	-	Fleche du haut, puis ENTREE.
 
 ______________
 	TODO
