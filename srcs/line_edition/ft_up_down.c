@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 20:41:47 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 20:41:57 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/04 18:30:07 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void			ft_up(t_line *l)
 	if (l->hist == NULL || l->hist->prev == (t_ftl_node *)l->hist)
 		return ;
 	new_in = get_str_in_hist(l, -1);
+	if (new_in == NULL)
+		return ;
 	dup_print(new_in, l);
 }
 
