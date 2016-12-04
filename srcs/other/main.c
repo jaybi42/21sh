@@ -27,6 +27,8 @@ t_prompt	g_prompt;
 t_alias		*g_alias;
 int		*g_exit;
 int g_debug;
+t_hash		**g_hash;
+unsigned int g_hash_size;
 
 int			ret_exit(int state, int value)
 {
@@ -200,7 +202,7 @@ static int		sh21(void)
 	return (1);
 }
 
-int				main(int ac, char **argv)
+void init_global(int ac, char **argv)
 {
 	g_debug = FALSE;
 	if (ac >= 2 && ft_strcmp(argv[1], "--debug") == 0)
@@ -208,20 +210,33 @@ int				main(int ac, char **argv)
 		g_debug = TRUE;
 		ft_dprintf(2, "-- {red}WELCOME ON THE DEBUG MODE{eoc} --\n");
 	}
-	g_env = mmap(NULL, sizeof *g_env, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+	g_env = mmap(NULL, sizeof *g_env, PROT_READ | PROT_WRITE, MAP_SHARED
+		| MAP_ANONYMOUS, -1, 0);
 	g_env = NULL;
 	g_env = NULL;
 	l_env = NULL;
 	g_line = NULL;
-	//call init alias
-	g_alias = mmap(NULL, sizeof *g_alias, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-	//*g_alias = NULL;
-	g_exit = mmap(NULL, sizeof *g_exit, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-	*g_exit = -1;
-	//end
-	if (init_env(&g_env, &l_env) == 1)
-		return (1);
-	if (a_init() == -1)
+	g_alias = mmap(NULL, sizeof *g_alias, PROT_READ | PROT_WRITE, MAP_SHARED
+		| MAP_ANONYMOUS, -1, 0);
+	g_exit = mmap(NULL, sizeof *g_exit, PROT_READ | PROT_WRITE, MAP_SHARED
+		| MAP_ANONYMOUS, -1, 0);
+		*g_exit = -1;
+		g_hash = NULL;
+		g_hash_size = 0;
+}
+
+void print_hash(void)
+{
+	ft_printf("DEBUG: hash get %u binaries (for ls: %s)\n",g_hash_size,
+	get_hash_path(g_hash, "ls"));
+}
+
+int				main(int ac, char **argv, char **env)
+{
+	init_global(ac, argv);
+	g_hash = hash_table(find_home(env));
+	(g_debug) ? print_hash() : 0;
+	if (init_env(&g_env, &l_env) == 1 || (a_init() == -1))
 		return (1);
 	if (sh21() == 1)
 		return (1);

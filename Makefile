@@ -122,7 +122,7 @@ FILES = autocomp/autocomp			\
 		shell/prepare_exec		\
 		shell/prepare_exec2		\
 		shell/prepare_exec3		\
-			\
+		\
 		parser/parser \
 		parser/parser2 \
 		parser/parser3 \
@@ -136,6 +136,10 @@ FILES = autocomp/autocomp			\
 		parser/preparse3 \
 		parser/redirection \
 		parser/redirection2 \
+		\
+		hash/hash_functions \
+		hash/hash \
+		hash/init_bin_list \
 
 SRC := $(addprefix srcs/,$(addsuffix .c,$(FILES)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(FILES)))

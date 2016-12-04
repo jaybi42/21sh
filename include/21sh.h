@@ -710,6 +710,34 @@ char	*is_redir(char *s);
 int		get_heredoc(char *s);
 
 /*
+** HASH
+*/
+typedef struct		s_hash
+{
+	unsigned int	hash;
+	char			*bin;
+	char			*path;
+	struct s_hash	*next;
+}					t_hash;
+
+/*
+** hash_functions
+*/
+unsigned int	hash_algo(char *key, int nb);
+char			*get_hash_path(t_hash **hash, char *bin);
+void			hash_del(t_hash ***hash);
+
+/*
+** init_bin_list
+*/
+void			init_bin_list(t_hash **addr, char *path);
+
+/*
+** hash
+*/
+t_hash		**hash_table(char *path);
+
+/*
 ** global
 */
 
@@ -717,9 +745,11 @@ extern t_alias		*g_alias;
 extern t_list		*l_env;
 extern t_list		*g_env;
 extern t_ftl_root g_hist;
-extern t_line *g_line;
+extern t_line 	*g_line;
 extern t_prompt g_prompt;
-extern int *g_exit;
-extern int g_debug;
+extern int 			*g_exit;
+extern int			g_debug;
+extern t_hash		**g_hash;
+extern unsigned int g_hash_size;
 
 #endif
