@@ -55,6 +55,14 @@ ______________
 
 				-	cmd : 'ls -l | cat -e   | cat -e | cat -e | cat -e | cat -e'
 
+				-	"alias "ls= ls - lah | cat -e""
+					print bien ls= command unknow
+					mais va quand meme faire un pipe cat -e
+
+				-	cmd : 'ls |'
+					Execute le ls
+					et print : execve permission denied
+
 				-	lancer quatres ./21sh.
 					Faire un kill sur les PID des deux 21sh du milieu.
 					Nous avons un comportement indefinis sur l'edition de ligne de cmd.
@@ -74,13 +82,17 @@ ______________
 	LEAKS
 ______________
 
+				-	alias var=foo;
+					alias var=foo2;
+					C'est ma partie je m'en occupe
+
 				-	ls | wc > toto;
 
-	| RESOLU |	-	Ctrl + R et taper ls pour retrouver la commande.
+	| RESOLU |		-	Ctrl + R et taper ls pour retrouver la commande.
 
-	| RESOLU |  -	Appuyer sur ENTREE pour valider une commande ou une ligne vide.
+	| RESOLU |		-	Appuyer sur ENTREE pour valider une commande ou une ligne vide.
 
-	| RESOLU |	-	Fleche du haut, puis ENTREE.
+	| RESOLU |		-	Fleche du haut, puis ENTREE.
 
 ______________
 	TODO
