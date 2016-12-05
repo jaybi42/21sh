@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 17:06:38 by mseinic           #+#    #+#             */
-/*   Updated: 2016/11/10 02:39:09 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/05 20:15:05 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,11 @@ char				**ret_globing(char *tmp, char *path);
 char				**ret_tab(char *tmp, char *path);
 int					count_files(char *path, char *str);
 int					auto_my_cmp(char *d_name, char *tmp, char *str);
+void				get_slashes(char **t);
+char				**del_return_null(char ***t);
+void				init_var(int *n, char ***t, char ***tab2, char ***ret);
+int					auto_my_cmp(char *d_name, char *tmp, char *str);
+int					is_dir_file(const char *path);
+void				add_slash(t_aut_info *info);
+int					verify_if_dir(t_aut_info *info, char *path);
 #endif

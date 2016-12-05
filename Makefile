@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/11/26 22:16:21 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/12/05 20:15:36 by mseinic          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -33,6 +33,8 @@ YELLOW = \033[1;33m
 FILES = autocomp/autocomp			\
 		autocomp/autocomp_utils		\
 		autocomp/autocomp_utils_1	\
+		autocomp/autocomp_utils_1_1	\
+		autocomp/autocomp_utils_1_2	\
 		autocomp/autocomp_utils_2	\
 		autocomp/autocomp_utils_3	\
 		autocomp/autocomp_utils_4	\

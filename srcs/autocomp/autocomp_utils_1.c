@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 20:12:54 by mseinic           #+#    #+#             */
-/*   Updated: 2016/12/04 14:05:00 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/12/05 20:15:07 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,36 +59,6 @@ static char			**get_table(char **tab2, int n, char *path, char *tmp)
 	return (ret);
 }
 
-void				get_slashes(char **t)
-{
-	int		i;
-	int		len;
-
-	len = 0;
-	i = 0;
-	while (t[i] != NULL)
-	{
-		len = ft_strlen(t[i]);
-		if (t[i][len - 1] == '/')
-			t[i][len - 1] = '\0';
-		i++;
-	}
-}
-
-char		**del_return_null(char ***t)
-{
-	del_tab(*t);
-	return (NULL);
-}
-
-void		init_var(int *n, char ***t, char ***tab2, char ***ret)
-{
-	*n = 0;
-	*t = NULL;
-	*tab2 = NULL;
-	*ret = NULL;
-}
-
 char				**ret_globing(char *tmp, char *path)
 {
 	char	**t;
@@ -101,7 +71,8 @@ char				**ret_globing(char *tmp, char *path)
 		t = ret_tab(".", path);
 	else
 		t = ret_tab("", path);
-	get_slashes(t);
+	if (t != NULL)
+		get_slashes(t);
 	if (t != NULL)
 		tab2 = ft_globing(tmp, t);
 	if (tab2 == NULL)
@@ -114,59 +85,7 @@ char				**ret_globing(char *tmp, char *path)
 		n = 2;
 	ret = get_table(tab2, n, path, tmp);
 	del_tab(t);
-	//del_tab(tab2);
 	return (ret);
-}
-
-int					auto_my_cmp(char *d_name, char *tmp, char *str)
-{
-	return (ft_strcmp(d_name, ".") != 0
-			&& ft_strcmp(d_name, "..") != 0
-			&& ft_strcmp(tmp, str) == 0);
-}
-
-int					is_dir_file(const char *path)
-{
-	struct stat tmp;
-
-	lstat(path, &tmp);
-	return (S_ISDIR(tmp.st_mode));
-}
-
-void				add_slash(t_aut_info *info)
-{
-	char		*tmp;
-
-	tmp = ft_strnew(ft_strlen(info->dp->d_name) + 1);
-	ft_strcat(tmp, info->dp->d_name);
-	ft_strcat(tmp, "/");
-	info->tab_ret[info->i++] = ft_strdup(tmp);
-	ft_strdel(&tmp);
-}
-
-int					verify_if_dir(t_aut_info *info, char *path)
-{
-	char	*str;
-
-	str = ft_strnew(ft_strlen(info->dp->d_name) + ft_strlen(path) + 1);
-	if (path[0] == '/' && ft_strlen(path) == 1)
-	{
-		ft_strcat(str, "/");
-		ft_strcat(str, info->dp->d_name);
-	}
-	else
-	{
-		ft_strcat(str, path);
-		ft_strcat(str, "/");
-		ft_strcat(str, info->dp->d_name);
-	}
-	if (is_dir_file(str))
-	{
-		ft_strdel(&str);
-		return (1);
-	}
-	ft_strdel(&str);
-	return (0);
 }
 
 void				just_norme(t_aut_info *info, char *tmp, char *path)
