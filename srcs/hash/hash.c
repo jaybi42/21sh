@@ -6,13 +6,11 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 17:10:59 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/02 17:11:02 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/05 17:46:32 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-/* A mettre dans un .h */
 
 static unsigned int	list_size(t_hash *lst)
 {
@@ -33,7 +31,7 @@ static t_hash		*elem_list_dup(t_hash *master)
 
 	if (!(new_node = (t_hash *)ft_memalloc(sizeof(t_hash))))
 		return (NULL);
-	new_node->bin =  ((master->bin != NULL) ? ft_strdup(master->bin) : NULL);
+	new_node->bin = ((master->bin != NULL) ? ft_strdup(master->bin) : NULL);
 	new_node->path = ((master->path != NULL) ? ft_strdup(master->path) : NULL);
 	new_node->next = NULL;
 	return (new_node);
@@ -73,7 +71,7 @@ static void			lst_del(t_hash **addr)
 	}
 }
 
-t_hash		**hash_table(char *path)
+t_hash				**hash_table(char *path)
 {
 	t_hash			*lst;
 	t_hash			**hash;

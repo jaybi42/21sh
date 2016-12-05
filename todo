@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-#    Updated: 2016/12/04 22:08:02 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/12/05 17:50:11 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 ______________
@@ -78,6 +78,11 @@ ______________
 					Envoi "|" "cat" et "-e" en option au ls au lieu de faire un pipe
 
 				-	setenv "untruclong 66;echo untruclong" donne "66truclong"
+
+				-	cmd : ls **
+					faire une tabulation
+					Segmentation Fault
+
 ______________
 	LEAKS
 ______________
@@ -88,11 +93,11 @@ ______________
 
 				-	ls | wc > toto;
 
-	| RESOLU |		-	Ctrl + R et taper ls pour retrouver la commande.
+	| RESOLU |	-	Ctrl + R et taper ls pour retrouver la commande.
 
-	| RESOLU |		-	Appuyer sur ENTREE pour valider une commande ou une ligne vide.
+	| RESOLU |	-	Appuyer sur ENTREE pour valider une commande ou une ligne vide.
 
-	| RESOLU |		-	Fleche du haut, puis ENTREE.
+	| RESOLU |	-	Fleche du haut, puis ENTREE.
 
 ______________
 	TODO
@@ -103,6 +108,9 @@ ______________
 				-	Finir la norme sur tout les fichiers du projet et de la libft.
 
 				-	CHECKER LES APPELLES DE FONCTION INTERDIT AVEC NM (strlen, printf, strdup...)
+
+				-	Appeller ma fonction de hash avant l'exec
+					pour le moment elle est juste creer.
 
 ______________
 	BONUS
@@ -125,3 +133,60 @@ ____________________
 				-	Listing des bonus realises
 
 				-	Nous en sommes a l'etape de la detection / resolution des bugs / leaks
+
+___________________
+	NORMINETTE
+___________________
+
+ /*
+ **		Je corrige toutes les fautes de normes sauf les fonctions de +25 lignes / +5 fonctions
+ **		Si une fonction est listee ici, je n' ai pas reussi a la normer ou
+ **		j'ai peut etre mis des commentaires dessus pour vous aider a la mettre a la norme
+ */
+ 			
+				_______________
+					BUILTIN
+				_______________
+
+				-	builtin/bi_42info.c = je ne sais pas pourquoi on a des bad indentation
+
+				-	builtin/bi_env.c = juste un commentaire de JB a voir ce qu'il en fait
+
+				________________
+					AUTOCOMP
+				________________
+
+ 				-	autocomp/autocomp_utils_1.c = 12 fonctions et d'autres trucs
+
+				________________
+					GLOBING
+				________________
+
+				-	glob/gbrace.c = 6 fonctions dans le fichier et la fonction insert_in_arr fait 28 lignes
+
+				-	glob/globexec.c = 6 variable et 30 lignes dans la derniere fonction
+
+				-	glob/globexec2.c = 26 lignes dans finder_s_j_soj
+
+				-	glob/glob_gparse2.c = 6 fonctions dans le fichier, ligne 49-50, 55 et 100 je ne vois pas comment raccourcir.
+
+				-	glob/glob_gparse.c	= 26 lignes dans parse_glob_globbing
+
+				________________
+					LINE EDIT
+				________________
+
+				-	line_edition/ft_init_line.c = juste un commentaire a enlever si plus besoin.
+
+				________________
+					 OTHER
+				________________
+
+				-	other/main.c = 9 fonctions et handle_var fait 44 lgnes.
+					l_env etant une globale devrait etre g_env sauf qu'elle existe deja.
+
+				-
+
+				-
+
+				-

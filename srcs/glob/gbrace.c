@@ -1,19 +1,23 @@
-#include "21sh.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gbrace.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/05 16:00:59 by ibouchla          #+#    #+#             */
+/*   Updated: 2016/12/05 16:01:36 by ibouchla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-typedef struct s_brack
-{
-	char **t;
-	int *i_a;
-	int ta;
-	int len;
-}				t_brak;
+#include "21sh.h"
 
 void	insert_in_arr(t_brak *b, char **t_add)
 {
-	int i;
-	int a;
-	char **tmp;
-	int x;
+	int		i;
+	int		a;
+	char	**tmp;
+	int		x;
 
 	a = 0;
 	x = 0;
@@ -23,7 +27,8 @@ void	insert_in_arr(t_brak *b, char **t_add)
 		i = 0;
 		while (t_add[i])
 		{
-			tmp[x++] = x_strjoin2(b->t[a],b->i_a[a], t_add[i], strlen(t_add[i]));
+			tmp[x++] = x_strjoin2(b->t[a], b->i_a[a],
+			t_add[i], ft_strlen(t_add[i]));
 			i++;
 		}
 		a++;
@@ -33,13 +38,13 @@ void	insert_in_arr(t_brak *b, char **t_add)
 	a = 0;
 	while (b->t[a] != NULL)
 	{
-		b->i_a[a] = strlen(b->t[a]);
+		b->i_a[a] = ft_strlen(b->t[a]);
 		a++;
 	}
 	b->ta = a;
 }
 
-void update_t(char ***p_t, int **p_i_a, int *p_ta, char c)
+void	update_t(char ***p_t, int **p_i_a, int *p_ta, char c)
 {
 	int i;
 
@@ -48,18 +53,17 @@ void update_t(char ***p_t, int **p_i_a, int *p_ta, char c)
 		(*p_t)[i][(*p_i_a)[i]++] = c;
 }
 
-
-int	play_with_bracket(t_brak *b, char *s)
+int		play_with_bracket(t_brak *b, char *s)
 {
-	char **t_to_add;
-	int d;
-	int len;
-	int i;
+	char	**t_to_add;
+	int		d;
+	int		len;
+	int		i;
 
 	if ((t_to_add = ret_arr(s)) != NULL)
 	{
 		i = 0;
-		insert_in_arr(b,t_to_add);
+		insert_in_arr(b, t_to_add);
 		d = 1;
 		len = len_depth(s);
 		return (len + 1);
@@ -71,7 +75,7 @@ int	play_with_bracket(t_brak *b, char *s)
 	return (1);
 }
 
-void close_t(char ***p_t, int **p_i_a, int *p_ta)
+void	close_t(char ***p_t, int **p_i_a, int *p_ta)
 {
 	int i;
 
@@ -84,10 +88,10 @@ void close_t(char ***p_t, int **p_i_a, int *p_ta)
 	(*p_t)[i] = NULL;
 }
 
-char	**braceSplit(char *s)
+char	**bracesplit(char *s)
 {
-	t_brak b;
-	int i;
+	t_brak	b;
+	int		i;
 
 	b.len = strlen(s) + 1;
 	if (!(b.t = xmalloc(sizeof(char *) * b.len)) ||
@@ -98,7 +102,7 @@ char	**braceSplit(char *s)
 	b.i_a[0] = 0;
 	b.ta = 1;
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
 		if (s[i] == '{')
 			i += play_with_bracket(&b, s + i + 1);
@@ -112,10 +116,10 @@ char	**braceSplit(char *s)
 	return (b.t);
 }
 
-char **brace_handler(char *s)
+char	**brace_handler(char *s)
 {
 	char **exprs;
 
-	exprs = braceSplit(s);
+	exprs = bracesplit(s);
 	return (exprs);
 }

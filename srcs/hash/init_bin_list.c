@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 20:04:07 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/02 20:04:11 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/05 17:46:52 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,8 @@ static void		get_dir_elem(t_hash **addr, DIR *directory, char *path)
 			{
 				if (!(new_node = add_new_node(elem->d_name, new_path)))
 					return ;
-				if (*addr != NULL)
-				{
-					new_node->next = *addr;
-					*addr = new_node;
-				}
-				else
-					*addr = new_node;
+				new_node->next = *addr;
+				*addr = new_node;
 			}
 		ft_strdel(&(new_path));
 	}

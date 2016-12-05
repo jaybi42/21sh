@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gparse3.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/05 16:55:40 by ibouchla          #+#    #+#             */
+/*   Updated: 2016/12/05 16:56:48 by ibouchla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
-void add_char(char **exprs, int *len, char c)
+void		add_char(char **exprs, int *len, char c)
 {
-	int succeed;
-	int tmp;
+	int	succeed;
+	int	tmp;
 
 	succeed = 1;
 	tmp = 0;
@@ -12,7 +24,7 @@ void add_char(char **exprs, int *len, char c)
 		if ((*exprs)[tmp] == c)
 		{
 			succeed = 0;
-			break;
+			break ;
 		}
 		tmp++;
 	}
@@ -23,15 +35,7 @@ void add_char(char **exprs, int *len, char c)
 	}
 }
 
-typedef struct s_norm_quarter
-{
-	int i;
-	int a_str;
-	t_globbing *globbing;
-	int				c;
-}							t_norm_quarter;
-
-int		quarter_run(char *expr, int *tmp_len, t_norm_quarter *q)
+int			quarter_run(char *expr, int *tmp_len, t_norm_quarter *q)
 {
 	while (expr[(q->i)] && expr[(q->i)] != ']')
 	{
@@ -42,7 +46,8 @@ int		quarter_run(char *expr, int *tmp_len, t_norm_quarter *q)
 			{
 				(q->c) = expr[(q->i) - 1] - 1;
 				while (++(q->c) <= expr[(q->i) + 1])
-					add_char(&(q->globbing)->exprs, &(q->a_str), expr[(q->i) - 1] - 1);
+					add_char(&(q->globbing)->exprs, &(q->a_str),
+					expr[(q->i) - 1] - 1);
 			}
 			else
 				add_char(&(q->globbing)->exprs, &(q->a_str), expr[(q->i)]);
@@ -57,7 +62,7 @@ int		quarter_run(char *expr, int *tmp_len, t_norm_quarter *q)
 	return (TRUE);
 }
 
-t_globbing *quarter(char *expr, int *tmp_len)
+t_globbing	*quarter(char *expr, int *tmp_len)
 {
 	t_norm_quarter q;
 
@@ -80,11 +85,11 @@ t_globbing *quarter(char *expr, int *tmp_len)
 	return (q.globbing);
 }
 
-t_globbing *rec_g(char *expr, int *i, int iquare)
+t_globbing	*rec_g(char *expr, int *i, int iquare)
 {
-	t_globbing *g;
-	int c;
-	int careone;
+	t_globbing	*g;
+	int			c;
+	int			careone;
 
 	if (!(g = xmalloc(sizeof(t_globbing))))
 		return (NULL);
@@ -93,7 +98,7 @@ t_globbing *rec_g(char *expr, int *i, int iquare)
 	while (expr[(*i) + c] && expr[(*i) + c] != '?' && expr[(*i) + c] != '*')
 	{
 		if (iquare && expr[(*i) + c] == '[')
-			break;
+			break ;
 		c++;
 	}
 	g->is_looking = 1;

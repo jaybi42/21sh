@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/04 18:35:00 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/05 17:40:54 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int				g_debug;
 t_hash			**g_hash;
 unsigned int	g_hash_size;
 
-int			ret_exit(int state, int value)
+int				ret_exit(int state, int value)
 {
 	static int	data;
 
@@ -42,14 +42,14 @@ int			ret_exit(int state, int value)
 	return (data);
 }
 
-void		clean_exit(int ret)
+void			clean_exit(int ret)
 {
 	put_history(&g_hist);
 	a_stop(0);
 	exit(ret);
 }
 
-int			insert_arr(char ***a, char *s)
+int				insert_arr(char ***a, char *s)
 {
 	int		i;
 	char	**na;
@@ -74,7 +74,7 @@ int			insert_arr(char ***a, char *s)
 	return (0);
 }
 
-int			search_key_values(char **keys, char **values, char *key)
+int				search_key_values(char **keys, char **values, char *key)
 {
 	int i;
 
@@ -92,7 +92,7 @@ int			search_key_values(char **keys, char **values, char *key)
 	return (-1);
 }
 
-char		*delete_key(char ***keys, char ***values, char *key)
+char			*delete_key(char ***keys, char ***values, char *key)
 {
 	int i;
 	int success;
@@ -119,10 +119,10 @@ char		*delete_key(char ***keys, char ***values, char *key)
 	return (NULL);
 }
 
-char		*handle_var(int state, char *key, char *value)
+char			*handle_var(int state, char *key, char *value)
 {
-	static char **keys = NULL;
-	static char **values = NULL;
+	static char	**keys = NULL;
+	static char	**values = NULL;
 	int			tmp;
 
 	if (!keys && !values)
@@ -167,12 +167,7 @@ char		*handle_var(int state, char *key, char *value)
 	return (NULL);
 }
 
-void			ft_printmem(t_av **av)
-{
-	(void)av;
-}
-
-static int		sh21(void)
+int				sh21(void)
 {
 	t_av		**av;
 	t_line		l;
@@ -188,8 +183,7 @@ static int		sh21(void)
 	while (1)
 	{
 		catch_signal();
-		if (g_prompt.son == 0)
-			print_prompt(nbr, g_env, l_env, &l);
+		((g_prompt.son == 0) ? print_prompt(nbr, g_env, l_env, &l) : (0));
 		g_prompt = (t_prompt){nbr, g_env, l_env, 0, &l};
 		g_line = NULL;
 		if ((av = read_init(&l, &g_hist)) != NULL)
@@ -202,7 +196,7 @@ static int		sh21(void)
 	return (1);
 }
 
-void init_global(int ac, char **argv)
+void			init_global(int ac, char **argv)
 {
 	g_debug = FALSE;
 	if (ac >= 2 && ft_strcmp(argv[1], "--debug") == 0)
@@ -210,25 +204,19 @@ void init_global(int ac, char **argv)
 		g_debug = TRUE;
 		ft_dprintf(2, "-- {red}WELCOME ON THE DEBUG MODE{eoc} --\n");
 	}
-	g_env = mmap(NULL, sizeof *g_env, PROT_READ | PROT_WRITE, MAP_SHARED
-			| MAP_ANONYMOUS, -1, 0);
+	g_env = mmap(NULL, sizeof(*g_env), PROT_READ | PROT_WRITE,
+	MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 	g_env = NULL;
 	g_env = NULL;
 	l_env = NULL;
 	g_line = NULL;
-	g_alias = mmap(NULL, sizeof *g_alias, PROT_READ | PROT_WRITE, MAP_SHARED
+	g_alias = mmap(NULL, sizeof(*g_alias), PROT_READ | PROT_WRITE, MAP_SHARED
 			| MAP_ANONYMOUS, -1, 0);
-	g_exit = mmap(NULL, sizeof *g_exit, PROT_READ | PROT_WRITE, MAP_SHARED
+	g_exit = mmap(NULL, sizeof(*g_exit), PROT_READ | PROT_WRITE, MAP_SHARED
 			| MAP_ANONYMOUS, -1, 0);
 	*g_exit = -1;
 	g_hash = NULL;
 	g_hash_size = 0;
-}
-
-void print_hash(void)
-{
-	ft_printf("DEBUG: hash get %u binaries (for ls: %s)\n",g_hash_size,
-			get_hash_path(g_hash, "ls"));
 }
 
 int				main(int ac, char **argv)
@@ -237,7 +225,6 @@ int				main(int ac, char **argv)
 	if (init_env(&g_env, &l_env) == 1 || (a_init() == -1))
 		return (1);
 	g_hash = hash_table(get_path(g_env, l_env));
-	(g_debug) ? print_hash() : 0;
 	if (sh21() == 1)
 		return (1);
 	return (0);

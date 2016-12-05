@@ -76,6 +76,14 @@ typedef struct s_file
 	char		buffer[4096 + 1];
 }				t_file;
 
+#define LEN_INFOS 2
+
+typedef struct	s_info
+{
+	char		*name;
+	char		*info;
+}				t_info;
+
 /*
 ---- added by a
 */
@@ -106,9 +114,9 @@ t_sf *create_packet(char *b, int len);
 
 typedef struct          s_redirect
 {
-                int     type; //0 for redirect basic or 1 for <
-                int     fd_in;
-                int     fd_out; //if it's -1 we look for path
+				int     type; //0 for redirect basic or 1 for <
+				int     fd_in;
+				int     fd_out; //if it's -1 we look for path
 								char *path;
 								int open_flag;
 								int fd; // in "cat -e < file.txt", fd = open("file.txt")
@@ -125,10 +133,10 @@ typedef struct	s_exec
 
 typedef struct          s_command
 {
-                int     type;
-                int     argc;
-                char    **argv;
-                int     *bitcode;
+				int     type;
+				int     argc;
+				char    **argv;
+				int     *bitcode;
 }						t_command;
 
 /*
@@ -328,19 +336,27 @@ typedef struct s_globbing
 	   tell if we must look for 1 string or just 1 char
 	 */
 	int length_one;
-}							t_globbing;
+}				t_globbing;
 
-typedef struct s_norm_glob
+typedef struct	s_norm_glob
 {
-	t_globbing 	***tgs;
-	int					*gti;
-	int					*gta;
-	char				**exprs;
+	t_globbing	***tgs;
+	int			*gti;
+	int			*gta;
+	char		**exprs;
 	t_globbing	*g_tmp;
-	int c;
-	int ta;
-	char ***t;
-}							t_norm_glob;
+	int			c;
+	int			ta;
+	char		***t;
+}				t_norm_glob;
+
+typedef struct	s_brack
+{
+	char		**t;
+	int			*i_a;
+	int			ta;
+	int			len;
+}				t_brak;
 
 typedef struct s_arr
 {
@@ -350,7 +366,7 @@ typedef struct s_arr
 	int i;
 	int tog;
 	int len;
-}							t_arr;
+}				t_arr;
 
 typedef struct s_finder
 {
@@ -524,12 +540,21 @@ void extend_stack(t_executor ***stack, int *stack_index, t_exec *current_ex,
 
 typedef struct s_nparse
 {
-	int nb;
-	int *type;
-	int *begin;
-	int *end;
-	int failed;
-}							t_nparse;
+	int			nb;
+	int			*type;
+	int			*begin;
+	int 		*end;
+	int			failed;
+}				t_nparse;
+
+typedef struct	s_norm_quarter
+{
+	int			i;
+	int			a_str;
+	t_globbing	*globbing;
+	int			c;
+}				t_norm_quarter;
+
 #include "autocomp.h"
 #include <stdlib.h>
 #include <sys/types.h>
@@ -558,9 +583,9 @@ typedef struct		s_delimiter
 	char 			*description;
 	int				wait;
 	/*
-	 	boolean for check if we must have to go to the next line
-	 	and wait an output if the user type it at last (if wait_another == false)
-	 	or (wait another == true) and the another isn't here
+		boolean for check if we must have to go to the next line
+		and wait an output if the user type it at last (if wait_another == false)
+		or (wait another == true) and the another isn't here
 	*/
 	int				wait_another;
 	/*

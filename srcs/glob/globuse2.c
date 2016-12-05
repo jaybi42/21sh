@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   globuse2.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/05 16:18:11 by ibouchla          #+#    #+#             */
+/*   Updated: 2016/12/05 16:20:53 by ibouchla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
-char		*cpy_a_to_b2(char *str, int a, int b)
+char	*cpy_a_to_b2(char *str, int a, int b)
 {
-	char *new_str;
-	int len;
-	int i;
+	char	*new_str;
+	int		len;
+	int		i;
 
-	len = (b - a < 0) ? 0: b - a;
+	len = (b - a < 0) ? 0 : b - a;
 	if (!(new_str = xmalloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	i = 0;
@@ -19,17 +31,17 @@ char		*cpy_a_to_b2(char *str, int a, int b)
 	return (new_str);
 }
 
-int tlen(char **t)
+int		tlen(char **t)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	while(t[++i]);
+	while (t[++i])
+		;
 	return (i);
 }
 
-
-int accolade_isit(char c)
+int		accolade_isit(char c)
 {
 	if (c == ',')
 		return (1);

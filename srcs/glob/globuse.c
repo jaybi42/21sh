@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   globuse.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/05 16:21:33 by ibouchla          #+#    #+#             */
+/*   Updated: 2016/12/05 16:24:50 by ibouchla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
-int ttlen(char ***t)
+int		ttlen(char ***t)
 {
 	int i;
 	int a;
@@ -11,7 +23,7 @@ int ttlen(char ***t)
 	while (t[a])
 	{
 		i = 0;
-		while(t[a][i])
+		while (t[a][i])
 		{
 			len++;
 			i++;
@@ -21,12 +33,12 @@ int ttlen(char ***t)
 	return (len);
 }
 
-char **fusion_tarray(char ***t)
+char	**fusion_tarray(char ***t)
 {
-	char **ret;
-	int a;
-	int i;
-	int len;
+	char	**ret;
+	int		a;
+	int		i;
+	int		len;
 
 	if (!(ret = xmalloc(sizeof(char **) * (ttlen(t) + 1))))
 		return (NULL);
@@ -46,10 +58,10 @@ char **fusion_tarray(char ***t)
 	return (ret);
 }
 
-size_t len_depth(char *s)
+size_t	len_depth(char *s)
 {
-	size_t i;
-	int d;
+	size_t	i;
+	int		d;
 
 	i = 0;
 	d = 1;
@@ -61,16 +73,16 @@ size_t len_depth(char *s)
 			d--;
 		i++;
 		if (d == 0)
-			break;
+			break ;
 	}
 	return (i);
 }
 
 char	*x_strjoin2(char *s1, size_t len1, char *s2, size_t len2)
 {
-	int i;
-	int a;
-	char *s;
+	int		i;
+	int		a;
+	char	*s;
 
 	a = 0;
 	s = xmalloc(sizeof(char) * (len1 + len2 + 1));
@@ -86,10 +98,10 @@ char	*x_strjoin2(char *s1, size_t len1, char *s2, size_t len2)
 	return (s);
 }
 
-char *x_strdup2(char *s, int len)
+char	*x_strdup2(char *s, int len)
 {
-	int i;
-	char *ns;
+	int		i;
+	char	*ns;
 
 	i = 0;
 	ns = xmalloc(sizeof(char) * (len + 1));
