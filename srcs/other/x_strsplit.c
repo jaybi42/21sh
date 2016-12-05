@@ -6,19 +6,17 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 21:37:53 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/04 20:25:04 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/05 18:15:35 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <stdlib.h>
 
-
-
-static char    *x_strsub(char const *s, unsigned int start, size_t len)
+static char	*x_strsub(char const *s, unsigned int start, size_t len)
 {
-	char    *str;
-	int     i;
+	char	*str;
+	int		i;
 
 	str = NULL;
 	if (s && (int)len >= 0)
@@ -33,8 +31,7 @@ static char    *x_strsub(char const *s, unsigned int start, size_t len)
 	return (str);
 }
 
-
-static int			count_words(char *s, char c)
+static int	count_words(char *s, char c)
 {
 	int		words;
 
@@ -50,7 +47,7 @@ static int			count_words(char *s, char c)
 	return (words);
 }
 
-char				**x_strsplit(char const *s, char c)
+char		**x_strsplit(char const *s, char c)
 {
 	int		words;
 	char	*start;

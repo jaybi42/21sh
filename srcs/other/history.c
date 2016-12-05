@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 13:02:57 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/04 20:41:54 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/05 17:55:02 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
-//#include <uuid/uuid.h>
 
 static char			*get_history_path(void)
 {

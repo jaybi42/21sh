@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-#    Updated: 2016/12/05 17:50:11 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/12/05 18:17:51 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 ______________
@@ -185,8 +185,8 @@ ___________________
 				-	other/main.c = 9 fonctions et handle_var fait 44 lgnes.
 					l_env etant une globale devrait etre g_env sauf qu'elle existe deja.
 
-				-
+				-	other/garbage_collector.c = 9 fonctions dans le fichier
 
-				-
+				-	other/storage_new_var = 26 lignes dans la fonction check_if_key_exists je n'arrive pas a la raccourcir
 
-				-
+				-	other/storage_all_cmd.c timeout
