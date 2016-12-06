@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 15:50:59 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/05 15:55:33 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/06 20:16:29 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	ex_glob(int argc, char **argv)
 	t = ft_globing(argv[1], arg);
 	i = -1;
 	while (t[++i])
-		ft_printf("find {green}%d{eoc} result%c:\n", i, (i > 1) ? 's' : '\0');
+		;
+	ft_printf("find {green}%d{eoc} result%c:\n", i, (i > 1) ? 's' : '\0');
 	i = -1;
 	while (t[++i])
 		ft_printf("[%d] \'%s\'\n", i, t[i]);

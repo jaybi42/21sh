@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:18:48 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 19:19:30 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/06 20:02:53 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		exec_builtin(t_executor **exs, t_handle_r *hr, char **env)
 }
 
 void		exec_bin_child(t_executor **exs, int fdin,
-			t_handle_r *hr, char **env)
+		t_handle_r *hr, char **env)
 {
 	son_handle_in(fdin, (*exs)->ex.r);
 	if (hr->p[1].activate == 1)
@@ -70,7 +70,7 @@ void		exec_bin_child(t_executor **exs, int fdin,
 }
 
 int			exec_bin_father(t_executor **exs, int fdin,
-			t_handle_r *hr, char **env)
+		t_handle_r *hr, char **env)
 {
 	int ret;
 	int wait_status;
@@ -86,7 +86,7 @@ int			exec_bin_father(t_executor **exs, int fdin,
 	}
 	ret = waitpid(-1, &wait_status, WUNTRACED);
 	if (WIFEXITED(wait_status))
-		ret = WEXITSTATUS(wait_status);	
+		ret = WEXITSTATUS(wait_status);
 	return (ret);
 }
 
@@ -118,6 +118,9 @@ t_output	do_exec(t_executor **exs, int ret)
 	int			fdout[2];
 	char		**env;
 	int			i;
+	int			y;
+	char		b[WRITING];
+	int			r;
 
 	(g_debug) ? ft_dprintf(2, "-- {green}EXEC{eoc} --\n") : 0;
 	clear_output(&o);
@@ -130,7 +133,7 @@ t_output	do_exec(t_executor **exs, int ret)
 	{
 		pipe(fdout);
 		i = 0;
-		while(exs[i])
+		while (exs[i])
 		{
 			if (exs[i + 1] == NULL)
 				get_out(&exs[i]->ex.r, fdout[WRITER]);
@@ -144,24 +147,21 @@ t_output	do_exec(t_executor **exs, int ret)
 	if (ret != 0)
 	{
 		close(fdout[WRITER]);
-		char b[WRITING];
-		int r;
-
-		while ((r=read(fdout[READER], b, WRITING)) > 0)
-			x_strjoins(&o.string, (size_t *)&o.len,(char *)b,r);
+		while ((r = read(fdout[READER], b, WRITING)) > 0)
+			x_strjoins(&o.string, (size_t *)&o.len, (char *)b, r);
 		close(fdout[READER]);
 	}
 	i = -1;
-	int y = -1;
-	while(exs[++y])
+	y = -1;
+	while (exs[++y])
 	{
 		i = -1;
-		while(exs[y]->ex.r[++i])
+		while (exs[y]->ex.r[++i])
 		{
 			if (exs[y]->ex.r[i]->type == IGNORE)
-				continue;
+				continue ;
 			if (ret != 0 && exs[y]->ex.r[i + 1] == NULL)
-				continue;
+				continue ;
 			if (exs[y]->ex.r[i]->fd_out != STDOUT_FILENO ||
 					exs[y]->ex.r[i]->fd_out != STDERR_FILENO ||
 					exs[y]->ex.r[i]->fd_out != STDIN_FILENO)
