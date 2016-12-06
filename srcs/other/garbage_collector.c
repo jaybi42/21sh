@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "21sh.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -76,9 +77,9 @@ void			print_datas(void **datas, int len)
 	i = -1;
 	while (++i < len)
 	{
-		printf("%d |%p|\n", i, datas[i]);
+		ft_printf("%d |%p|\n", i, datas[i]);
 	}
-	printf("garbage length: %d\n", len);
+	ft_printf("garbage length: %d\n", len);
 }
 
 void			*storage(int action, void *package)

@@ -51,7 +51,6 @@ void update_stack(t_executor ***p_stack, int *p_stack_index, t_exec *current_ex,
 	(*p_stack)[(*p_stack_index)] = NULL;
 }
 
-
 void extend_stack(t_executor ***stack, int *stack_index, t_exec *current_ex,
   t_av *current_av)
 {

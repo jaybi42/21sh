@@ -51,10 +51,13 @@ t_nparse parse(char *expr, int *t_ind, int *l_ind)
 
 	nparse_init(&np, expr);
 	i = 0;
-	//ft_dprintf(2 , "begin parse\n");
+	//ft_dprintf(2 , "begin parse in %s\n", expr);
+	//for (int x = 0; t_ind[x] != -1; x++)
+	//	ft_dprintf(2 , "%d |%d| %d\n", x, t_ind[x], l_ind[x]);
 	while(expr[i] && is_whitespace(expr[i]) && !is_intouchable(i, t_ind, l_ind))
 		i++;
 	nparse_extend(&np, i);
+
 	while (expr[i] != '\0')
 	{
 		if (is_intouchable(i, t_ind, l_ind))

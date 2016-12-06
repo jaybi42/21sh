@@ -1,23 +1,11 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   globexec.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/05 16:28:02 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/05 16:33:21 by ibouchla         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "21sh.h"
 
-void	finder_s_j_list(t_finder *f, t_globbing *g, char **words)
+void finder_s_j_list(t_finder *f, t_globbing *g, char **words)
 {
-	int	i;
+	int i;
 
 	i = 0;
-	while (g->exprs[i])
+	while(g->exprs[i])
 	{
 		if (g->exprs[i] == words[(f->a_w)][(*(f->p_d))[(f->a_w)]])
 		{
@@ -28,7 +16,7 @@ void	finder_s_j_list(t_finder *f, t_globbing *g, char **words)
 			}
 			else
 				(*(f->p_d_bannish))[(f->a_w)] = 2;
-			break ;
+			break;
 		}
 		i++;
 	}
@@ -36,7 +24,7 @@ void	finder_s_j_list(t_finder *f, t_globbing *g, char **words)
 		(f->find) = 1;
 }
 
-void	finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
+void finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 {
 	if ((*(f->p_d_bannish))[(f->a_w)] == 1)
 		finder_s_j_soj(f, g, words);
@@ -50,8 +38,7 @@ void	finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 			if (words[(f->a_w)][(*(f->p_d))[(f->a_w)]] == g->exprs[0])
 				(f->find) = 1;
 		}
-		else if (!strncmp(words[(f->a_w)] + (*(f->p_d))[(f->a_w)],
-		g->exprs, strlen(g->exprs)))
+		else if (!strncmp(words[(f->a_w)] + (*(f->p_d))[(f->a_w)], g->exprs, strlen(g->exprs)))
 		{
 			(*(f->p_d))[(f->a_w)] += strlen(g->exprs);
 			//printf("info: nor: (f->find) %s\n", g->exprs);
@@ -60,8 +47,7 @@ void	finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 	}
 }
 
-void	finder_not_suspension_judgement(t_finder *f,
-		t_globbing *g, char **words)
+void finder_not_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 {
 	if (g->length_one == 1)
 	{
@@ -74,26 +60,32 @@ void	finder_not_suspension_judgement(t_finder *f,
 			(*(f->p_d_bannish))[(f->a_w)] = 2;
 	}
 	else
-		(*(f->p_d_bannish))[(f->a_w)] = 1;//mean "in suspension of jugement"
+		(*(f->p_d_bannish))[(f->a_w)] = 1; //mean "in suspension of jugement"
 	(f->find) = 1;
 }
 
-void	finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
+void finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 {
-	t_finder	f;
+	t_finder f;
 
-	(f.a_w) = -1;
 	(f.p_d) = p_d;
 	(f.p_d_bannish) = p_d_bannish;
-	while (words[++(f.a_w)])
+	(f.a_w) = -1;
+	while(words[++(f.a_w)])
 	{
 		(f.find) = 0;
-		if (*(f.p_d_bannish)[(f.a_w)] == 2)
-			continue ;
+		if ((*(f.p_d_bannish))[(f.a_w)] == 2)
+		{
+			continue;
+		}
 		if (g->exprs != NULL)
+		{
 			finder_suspension_judgement(&f, g, words);
+		}
 		else if (g->exprs == NULL)
-			finder_not_suspension_judgement(&f, g, words);
+		{
+				finder_not_suspension_judgement(&f, g, words);
+		}
 		if (!(f.find))
 			(*(f.p_d_bannish))[(f.a_w)] = 2;
 	}
@@ -101,14 +93,13 @@ void	finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 
 char	**find_globbing(t_globbing **gs, int a, char **words)
 {
-	int		*d;
-	int		*d_bannish;
-	int		len;
-	int		a_g;
-	int		a_w;
-	char	**ret;
+	int *d;
+	int *d_bannish;
+	int len = tlen(words);
+	int a_g;
+	int a_w;
+	char **ret;
 
-	len = tlen(words);
 	if (!(d = xmalloc(sizeof(int) * (len + 1))))
 		return (NULL);
 	if (!(d_bannish = xmalloc(sizeof(int) * (len + 1))))
@@ -122,7 +113,7 @@ char	**find_globbing(t_globbing **gs, int a, char **words)
 	a_g = -1;
 	while (++a_g < a)
 		finder(gs[a_g], &d, &d_bannish, words);
-	if (!(ret = xmalloc(sizeof(char *) * (tlen(words) + 1))))
+	if (!(ret = xmalloc(sizeof(char *) * (len + 1))))
 		return (NULL);
 	a_w = -1;
 	a = 0;

@@ -24,7 +24,6 @@
 */
 int shell_pre_exec(t_shells *s, t_av **av)
 {
-	get_alias(&(av[(s->a)]));
 	if (av[(s->a)]->cmd == NULL && (av[(s->a)]->type == TYPE_OR ||
 		av[(s->a)]->type == TYPE_AND || av[(s->a)]->type == TYPE_PIPE ||
 		(av[(s->a) + 1] != NULL && (av[(s->a) + 1]->type == TYPE_AND ||

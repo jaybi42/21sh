@@ -7,7 +7,8 @@ int is_intouchable(int i, int *t_ind, int *l_ind)
 	id_ind = 0;
 	while(t_ind[id_ind] != -1)
 	{
-		if (i >= t_ind[id_ind] && i <= t_ind[id_ind] + l_ind[id_ind])
+		if ((i >= t_ind[id_ind] && i <= t_ind[id_ind] +
+			((l_ind[id_ind] >= 0) ? l_ind[id_ind] : 0)))
 			return (1);
 		id_ind++;
 	}
@@ -32,7 +33,6 @@ int is_connector(char *tested_s, int i, int *t_ind, int *l_ind)
 	{
 		if (ft_strncmp(s, tab_connector[id_tab], (num_tmp = ft_strlen(tab_connector[id_tab]))) == 0)
 		{
-			//ft_dprintf(2 , "find a cnn\n");
 			if (num_tmp > 2)
 			{
 				i_tmp = 0;

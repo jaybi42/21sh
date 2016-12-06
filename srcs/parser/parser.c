@@ -60,6 +60,61 @@ t_av **updated(t_av **av)
 	return (av);
 }
 
+typedef struct s_norm_simplify
+{
+	char**expr;
+	int		**t_ind;
+	int		**l_ind;
+	int		a;
+	int 	i;
+}							t_norm_simplify;
+
+void   exclude_s(t_norm_simplify *t)
+{
+	int x;
+	int w;
+	char *tmp;
+
+	x = 0;
+	tmp = xmalloc(sizeof(char *) * (ft_strlen((*t->expr)) + 1));
+	while ((*t->t_ind)[x] != -1)
+	{
+		if ((*t->t_ind)[x] >= t->i + t->a)
+			(*t->t_ind)[x] -= t->a;
+		x++;
+	}
+	x = -1;
+	w = 0;
+	while (++x < (int)ft_strlen((*t->expr)))
+		if (x < t->i || (!(x >= t->i && x < t->i + t->a)))
+			tmp[w++] = (*t->expr)[x];
+		tmp[w] = '\0';
+	(*t->expr) =  tmp;
+}
+
+void    simplify(char **expr, int **t_ind, int **l_ind)
+{
+	t_norm_simplify t;
+
+	t.expr = expr;
+	t.t_ind = t_ind;
+	t.l_ind = l_ind;
+	t.i = 0;
+	while ((*expr)[t.i])
+	{
+		if (is_whitespace((*expr)[t.i]) && !is_intouchable(t.i, (*t.t_ind), (*t.l_ind)))
+		{
+			t.a = 0;
+			while (is_whitespace((*expr)[t.i + t.a]) && !is_intouchable(t.i + t.a,
+				(*t_ind), (*l_ind)))
+				t.a++;
+			t.a--;
+			if (t.a >= 1)
+				exclude_s(&t);
+		}
+		t.i++;
+	}
+}
 
 /*
 ** check the var from the env!
@@ -69,6 +124,7 @@ t_av **nparse(char *expr, int *t_ind, int *l_ind)
 	t_av **cmds;
 	t_nparse np;
 
+	simplify(&expr, &t_ind, &l_ind);
 	np = parse(expr, t_ind, l_ind);
 	if (np.failed == TRUE)
 	{
