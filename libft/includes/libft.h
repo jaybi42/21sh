@@ -118,6 +118,14 @@ typedef struct				s_flag
 	char					modif[2];
 }							t_flag;
 
+typedef struct				s_file
+{
+	int						len_str;
+	int						len_buff;
+	char					*str;
+	char					buffer[READLEN + 1];
+}							t_file;
+
 void						ft_putstr_dbcote(const char *s);
 void						writex(char *str, size_t length, int print);
 char						*ft_dela_to_b(char *s, int a, int b);
