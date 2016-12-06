@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/29 14:34:52 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/06 17:10:13 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,6 +337,16 @@ typedef struct s_globbing
 	 */
 	int length_one;
 }				t_globbing;
+
+typedef struct s_norm_fg
+{
+	int *d;
+	int *d_bannish;
+	int len;
+	int a_g;
+	int a_w;
+	char **ret;
+}				t_norm_fg;
 
 typedef struct	s_norm_glob
 {

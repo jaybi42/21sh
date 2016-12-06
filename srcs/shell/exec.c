@@ -156,11 +156,17 @@ t_output do_exec(t_executor **exs, int ret)
 	{
 		pipe(fdout);
 		i = 0;
+		while(exs[i])
+		{
+			if (exs[i + 1] == NULL)
+				get_out(&exs[i]->ex.r, fdout[WRITER]);
+			i++;
+		}
 	}
 	o.ret_code = 0;
 	o.ret_code = exec_all(exs, env, -1);
 	if (*g_exit != -1)
-			clean_exit(*g_exit);
+		clean_exit(*g_exit);
 	if (ret != 0)
 	{
 		close(fdout[WRITER]);
@@ -176,15 +182,15 @@ t_output do_exec(t_executor **exs, int ret)
 	while(exs[++y])
 	{
 		i = -1;
-	while(exs[y]->ex.r[++i])
-	{
+		while(exs[y]->ex.r[++i])
+		{
 			if (exs[y]->ex.r[i]->type == IGNORE)
 				continue;
 			if (ret != 0 && exs[y]->ex.r[i + 1] == NULL)
 				continue;
 			if (exs[y]->ex.r[i]->fd_out != STDOUT_FILENO || exs[y]->ex.r[i]->fd_out != STDERR_FILENO || exs[y]->ex.r[i]->fd_out != STDIN_FILENO)
 				close(exs[y]->ex.r[i]->fd_out);
-	}
+		}
 	}
 	return (o);
 }

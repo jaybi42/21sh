@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 16:00:59 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/05 16:01:36 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/06 16:56:46 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,21 @@ void	insert_in_arr(t_brak *b, char **t_add)
 	char	**tmp;
 	int		x;
 
-	a = 0;
 	x = 0;
 	tmp = xmalloc(sizeof(char *) * b->len);
-	while (a < b->ta)
+	a = -1;
+	while (++a < b->ta)
 	{
-		i = 0;
-		while (t_add[i])
-		{
+		i = -1;
+		while (t_add[++i])
 			tmp[x++] = x_strjoin2(b->t[a], b->i_a[a],
 			t_add[i], ft_strlen(t_add[i]));
-			i++;
-		}
-		a++;
 	}
 	tmp[x] = NULL;
 	b->t = tmp;
-	a = 0;
-	while (b->t[a] != NULL)
-	{
+	a = -1;
+	while (b->t[++a] != NULL)
 		b->i_a[a] = ft_strlen(b->t[a]);
-		a++;
-	}
 	b->ta = a;
 }
 

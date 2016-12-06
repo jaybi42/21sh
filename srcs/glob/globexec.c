@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   globexec.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/06 16:57:04 by agadhgad          #+#    #+#             */
+/*   Updated: 2016/12/06 17:09:24 by agadhgad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
-void finder_s_j_list(t_finder *f, t_globbing *g, char **words)
+void	finder_s_j_list(t_finder *f, t_globbing *g, char **words)
 {
 	int i;
 
@@ -24,13 +36,12 @@ void finder_s_j_list(t_finder *f, t_globbing *g, char **words)
 		(f->find) = 1;
 }
 
-void finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
+void	finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 {
 	if ((*(f->p_d_bannish))[(f->a_w)] == 1)
 		finder_s_j_soj(f, g, words);
 	else
 	{
-		//printf("try to force! with %d - %c\n", (*(f->p_d))[(f->a_w)], words[(f->a_w)][(*(f->p_d))[(f->a_w)]]);
 		if (g->list == 1)
 			finder_s_j_list(f, g, words);
 		else if (g->length_one == 1)
@@ -41,30 +52,26 @@ void finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 		else if (!strncmp(words[(f->a_w)] + (*(f->p_d))[(f->a_w)], g->exprs, strlen(g->exprs)))
 		{
 			(*(f->p_d))[(f->a_w)] += strlen(g->exprs);
-			//printf("info: nor: (f->find) %s\n", g->exprs);
 			(f->find) = 1;
 		}
 	}
 }
 
-void finder_not_suspension_judgement(t_finder *f, t_globbing *g, char **words)
+void	finder_not_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 {
 	if (g->length_one == 1)
 	{
 		if ((size_t)(*(f->p_d))[(f->a_w)] < ft_strlen(words[(f->a_w)]))
-		{
-			//printf("info: ???: find a ?, %d|%c|\n",(*(f->p_d))[(f->a_w)], words[(f->a_w)][(*(f->p_d))[(f->a_w)]]);
 			(*(f->p_d))[(f->a_w)]++;
-		}
 		else
 			(*(f->p_d_bannish))[(f->a_w)] = 2;
 	}
 	else
-		(*(f->p_d_bannish))[(f->a_w)] = 1; //mean "in suspension of jugement"
+		(*(f->p_d_bannish))[(f->a_w)] = 1;
 	(f->find) = 1;
 }
 
-void finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
+void	finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 {
 	t_finder f;
 
@@ -75,51 +82,48 @@ void finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 	{
 		(f.find) = 0;
 		if ((*(f.p_d_bannish))[(f.a_w)] == 2)
-		{
 			continue;
-		}
 		if (g->exprs != NULL)
-		{
 			finder_suspension_judgement(&f, g, words);
-		}
 		else if (g->exprs == NULL)
-		{
-				finder_not_suspension_judgement(&f, g, words);
-		}
+			finder_not_suspension_judgement(&f, g, words);
 		if (!(f.find))
 			(*(f.p_d_bannish))[(f.a_w)] = 2;
 	}
 }
 
+int find_globbing_init(t_norm_fg *f, char **words)
+{
+	(f->len) = tlen(words);
+	if (!((f->d) = xmalloc(sizeof(int) * ((f->len) + 1))))
+		return (FALSE);
+	if (!((f->d_bannish) = xmalloc(sizeof(int) * ((f->len) + 1))))
+		return (FALSE);
+	(f->a_w) = -1;
+	while (++(f->a_w) < (f->len))
+	{
+		(f->d_bannish)[(f->a_w)] = 0;
+		(f->d)[(f->a_w)] = 0;
+	}
+	return (TRUE);
+}
+
 char	**find_globbing(t_globbing **gs, int a, char **words)
 {
-	int *d;
-	int *d_bannish;
-	int len = tlen(words);
-	int a_g;
-	int a_w;
-	char **ret;
+	t_norm_fg f;
 
-	if (!(d = xmalloc(sizeof(int) * (len + 1))))
+	if (!find_globbing_init(&f, words))
 		return (NULL);
-	if (!(d_bannish = xmalloc(sizeof(int) * (len + 1))))
+	(f.a_g) = -1;
+	while (++(f.a_g) < a)
+		finder(gs[(f.a_g)], &(f.d), &(f.d_bannish), words);
+	if (!((f.ret) = xmalloc(sizeof(char *) * ((f.len) + 1))))
 		return (NULL);
-	a_w = -1;
-	while (++a_w < len)
-	{
-		d_bannish[a_w] = 0;
-		d[a_w] = 0;
-	}
-	a_g = -1;
-	while (++a_g < a)
-		finder(gs[a_g], &d, &d_bannish, words);
-	if (!(ret = xmalloc(sizeof(char *) * (len + 1))))
-		return (NULL);
-	a_w = -1;
+	(f.a_w) = -1;
 	a = 0;
-	while (words[++a_w] != NULL)
-		if (d_bannish[a_w] == 0 || d_bannish[a_w] == 1)
-			ret[a++] = x_strdup(words[a_w]);
-	ret[a] = NULL;
-	return (ret);
+	while (words[++(f.a_w)] != NULL)
+		if ((f.d_bannish)[(f.a_w)] == 0 || (f.d_bannish)[(f.a_w)] == 1)
+			(f.ret)[a++] = x_strdup(words[(f.a_w)]);
+	(f.ret)[a] = NULL;
+	return ((f.ret));
 }
