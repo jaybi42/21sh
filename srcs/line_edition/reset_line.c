@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 16:00:51 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/09 22:36:19 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/06 20:47:26 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void		reset_line(void)
 	l->sizeprompt = l->sizeprompt + 3;
 	l->line1 = l->largeur - l->sizeprompt;
 	ft_strdel(&l->str);
-	l->str = ft_strdup("\0");
+	l->str = ft_strdup("");
 	l->tmp = 0;
 	l->final_count = 0;
 	l->size = 0;
