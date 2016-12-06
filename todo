@@ -54,20 +54,20 @@ ______________
 
 					-	cmd : "history -c" ensuite rechercher dans l historique avec les fleche ---> SEGFAULT
 					
-					-	cmd : "ls |ls" acffiche deux fois ls bug seulement quand le pipe est cole a la deuxieme commande
+					-	| RESOLU | cmd : "ls |ls" acffiche deux fois ls bug seulement quand le pipe est cole a la deuxieme commande
 					  	(ne bug pas qu avec "ls", meme erreur avec "echo |echo" et parfois ca SEGFAULT
 					
-					-	cmd : "ls |wc" bug ne kill pas le fils mais surement dut au meme probleme qu au dessus le pipe qui est cole
+					-	| RESOLU | cmd : "ls |wc" bug ne kill pas le fils mais surement dut au meme probleme qu au dessus le pipe qui est cole
 
 					-	cmd : "cat" suivit d un ctrl + c affiche 2 fois le prompt
 
-					-	cmd : "ls |" execute toujours le ls (on devrais se servir de la fonction quote addapter pour les pipe non ?)
+					-	| RESOLU | cmd : "ls |" execute toujours le ls (on devrais se servir de la fonction quote addapter pour les pipe non ?)
 
 					-	cmd : "setenv "untruclong 66;echo untruclong" donne "66truclong" bug toujours present
 
 					-	cmd : "ls */*" + tab ne fonctionne pas seul "ls *" + TAB fonctionne
 
-					-	cmd : "echo ;;;;;;;" ------> SEGFAULT
+					-	| RESOLU | cmd : "echo ;;;;;;;" ------> SEGFAULT
 
 					-	cmd : "alias e=emacs" suivit de "e jacky" ----> "21sh: command not found: e" 
 						mais si on fait "alias" les alias saisi sont bien present.
