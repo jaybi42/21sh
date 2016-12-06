@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:18:48 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 20:02:53 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/06 20:42:17 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,11 @@ int			exec_bin_father(t_executor **exs, int fdin,
 		exec_all(&exs[1], env, hr->p[1].fds[READER]);
 	}
 	ret = waitpid(-1, &wait_status, WUNTRACED);
+	if (WIFSIGNALED(wait_status))
+		g_prompt.son = 1;
 	if (WIFEXITED(wait_status))
 		ret = WEXITSTATUS(wait_status);
+	
 	return (ret);
 }
 
