@@ -17,11 +17,17 @@
 ** TODO: Suppr stdio
 */
 
-#define NAME "21sh"
+# define NAME "21sh"
 
-#define KV_SET 0
-#define KV_GET 1
-#define KV_DEL 2
+# define KV_SET 0
+# define KV_GET 1
+# define KV_DEL 2
+
+# define PRINT 0
+# define INSERT 1
+# define DELETE 2
+# define DELETEALL 3
+# define LEN 10
 
 # include "libft.h"
 # include "edit_line.h"
@@ -192,6 +198,8 @@ char **get_allpath(char *cmd, char *path);
 **	Garbage collector like
 **
 */
+
+void	*storage(int action, void *package);
 
 //same behaviour as malloc
 void	*xmalloc(size_t size);
