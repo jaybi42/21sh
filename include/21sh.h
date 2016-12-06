@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/06 19:07:06 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/06 19:56:20 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -672,9 +672,23 @@ static t_delimiter const	g_delimiter_quo[3] =
 /*
 ** parser
 */
+
+typedef struct s_norm_simplify
+{
+	char**expr;
+	int		**t_ind;
+	int		**l_ind;
+	int		a;
+	int 	i;
+}							t_norm_simplify;
+
+void	update_debug(t_av **av, int i);
+void	update_arg(t_av ***av, int i);
 t_av **updated(t_av **av);
 t_av **nparse(char *expr, int *t_ind, int *l_ind);
 t_av	**parse_commands(char *expr);
+void	exclude_s(t_norm_simplify *t);
+void	simplify_space(char **expr, int **t_ind, int **l_ind);
 
 /*
 ** parser2

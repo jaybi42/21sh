@@ -6,133 +6,36 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/28 22:16:21 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/06 16:32:21 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/06 20:09:10 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-t_av **updated(t_av **av)
-{
-	int i;
-
-	i = 0;
-	while (av[i] != NULL)
-	{
-		if (av[i]->argv != NULL)
-		{
-			if (av[i]->argv[0] != NULL)
-			{
-				av[i]->cmd = av[i]->argv[0];
-				av[i]->arg = copy_array_begin(1, av[i]->argv);
-				av[i]->argc--;
-			}
-			else
-			{
-				av[i]->cmd = NULL;
-				av[i]->arg = NULL;
-			}
-		}
-		else
-		{
-			av[i]->cmd = NULL;
-			av[i]->arg = NULL;
-		}
-		if (g_debug)
-		{
-		for (int x = 0; av[i]->argv[x]; x++)
-		{
-			dprintf(2, "cmd %.*s %d argv[%d] : %%",(i + 1)*2,
-			"---------------------------------------", i, x);
-			for (int b = 0; av[i]->argv[x][b]; b++)
-			{
-				if (av[i]->argv_auth[x][b] == 1)
-					ft_dprintf(2, "{green}%c{eoc}", av[i]->argv[x][b]);
-				else
-					ft_dprintf(2, "{red}%c{eoc}", av[i]->argv[x][b]);
-			}
-			ft_dprintf(2, "%%\n");
-		}
-		}
-		i++;
-	}
-	(g_debug) ? ft_dprintf(2, "{yellow}----------------------{eoc}\n") : 0;
-	return (av);
-}
-
-typedef struct s_norm_simplify
-{
-	char**expr;
-	int		**t_ind;
-	int		**l_ind;
-	int		a;
-	int 	i;
-}							t_norm_simplify;
-
-void   exclude_s(t_norm_simplify *t)
+void	p_s_a_init(t_norm_simplify *t, char **tmp)
 {
 	int x;
-	int w;
-	char *tmp;
 
 	x = 0;
-	tmp = xmalloc(sizeof(char *) * (ft_strlen((*t->expr)) + 1));
-	while ((*t->t_ind)[x] != -1)
-	{
-		if ((*t->t_ind)[x] >= t->i + t->a)
-			(*t->t_ind)[x] -= t->a;
-		x++;
-	}
-	x = -1;
-	w = 0;
-	while (++x < (int)ft_strlen((*t->expr)))
-		if (x < t->i || (!(x >= t->i && x < t->i + t->a)))
-			tmp[w++] = (*t->expr)[x];
-		tmp[w] = '\0';
-	(*t->expr) =  tmp;
-}
-
-void    simplify_space(char **expr, int **t_ind, int **l_ind)
-{
-	t_norm_simplify t;
-
-	t.expr = expr;
-	t.t_ind = t_ind;
-	t.l_ind = l_ind;
-	t.i = 0;
-	while ((*expr)[t.i])
-	{
-		if (is_whitespace((*expr)[t.i]) && !is_intouchable(t.i, (*t.t_ind), (*t.l_ind)))
-		{
-			t.a = 0;
-			while (is_whitespace((*expr)[t.i + t.a]) && !is_intouchable(t.i + t.a,
-				(*t_ind), (*l_ind)))
-				t.a++;
-			t.a--;
-			if (t.a >= 1)
-				exclude_s(&t);
-		}
-		t.i++;
-	}
-}
-
-void	put_space_around(t_norm_simplify *t)
-{
-	int x;
-	int w;
-	char *tmp;
-	int e;
-
-	x = 0;
-	tmp = xmalloc(sizeof(char) * (ft_strlen((*t->expr)) + t->a + 4));
+	(*tmp) = xmalloc(sizeof(char) * (ft_strlen((*t->expr)) + t->a + 4));
 	while ((*t->t_ind)[x] != -1)
 	{
 		if ((*t->t_ind)[x] >= t->i)
 			(*t->t_ind)[x] += t->a + 1;
 		x++;
 	}
-	x = -1;
+}
+
+void	put_space_around(t_norm_simplify *t)
+{
+	int		x;
+	int		w;
+	char	*tmp;
+	int		e;
+
+	p_s_a_init(t, &tmp);
 	w = 0;
+	x = -1;
 	while (++x < (int)ft_strlen((*t->expr)))
 	{
 		if (x < t->i || x > t->i)
@@ -141,7 +44,7 @@ void	put_space_around(t_norm_simplify *t)
 		{
 			tmp[w++] = ' ';
 			e = -1;
-			while(++e < t->a)
+			while (++e < t->a)
 				tmp[w++] = (*t->expr)[x + e];
 			tmp[w++] = ' ';
 			x += e - 1;
@@ -152,7 +55,7 @@ void	put_space_around(t_norm_simplify *t)
 	(t->i) += t->a;
 }
 
-void    simplify_connector(char **expr, int **t_ind, int **l_ind)
+void	simplify_connector(char **expr, int **t_ind, int **l_ind)
 {
 	t_norm_simplify t;
 
@@ -169,23 +72,22 @@ void    simplify_connector(char **expr, int **t_ind, int **l_ind)
 	}
 }
 
-/*
-** check the var from the env!
-*/
-t_av **nparse(char *expr, int *t_ind, int *l_ind)
+t_av	**nparse(char *expr, int *t_ind, int *l_ind)
 {
-	t_av **cmds;
-	t_nparse np;
+	t_av		**cmds;
+	t_nparse	np;
 
 	simplify_connector(&expr, &t_ind, &l_ind);
 	simplify_space(&expr, &t_ind, &l_ind);
 	np = parse(expr, t_ind, l_ind);
 	if (np.failed == TRUE)
 	{
-		(g_debug) ? ft_dprintf(2, "STEP X: {red}stop due to an error{eoc}\n") : 0;
+		(g_debug) ? ft_dprintf(2,
+				"STEP X: {red}stop due to an error{eoc}\n") : 0;
 		return (NULL);
 	}
-	(g_debug) ? ft_dprintf(2, "STEP 2: {green}converting{eoc}\n") : 0;
+	(g_debug) ? ft_dprintf(2,
+			"STEP 2: {green}converting{eoc}\n") : 0;
 	cmds = convert_parse(expr, np, t_ind, l_ind);
 	convert_other(&cmds);
 	return (cmds);
@@ -195,17 +97,20 @@ t_av	**parse_commands(char *expr)
 {
 	int			*t_ind;
 	int			*l_ind;
-	t_av **cmds;
-	int id_cmd;
+	t_av		**cmds;
+	int			id_cmd;
 
-	(g_debug) ? ft_dprintf(2, "{yellow}----------------------{eoc}\n") : 0;
+	(g_debug) ? ft_dprintf(2,
+			"{yellow}----------------------{eoc}\n") : 0;
 	id_cmd = -1;
-	while(is_whitespace(expr[++id_cmd]));
+	while (is_whitespace(expr[++id_cmd]))
+		;
 	if ((size_t)id_cmd >= ft_strlen(expr))
 		return (NULL);
 	if (!(cmds = xmalloc(sizeof(t_av **) * (ft_strlen(expr) + 1))))
 		return (NULL);
-	cmds[(id_cmd = 0)] = NULL;
+	id_cmd = 0;
+	cmds[id_cmd] = NULL;
 	expr = decortique_parse(expr, ft_strlen(expr), &t_ind, &l_ind);
 	if (g_debug)
 		print_step1(expr, t_ind, l_ind);

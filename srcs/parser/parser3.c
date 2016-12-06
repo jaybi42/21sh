@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser3.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/06 19:34:51 by agadhgad          #+#    #+#             */
+/*   Updated: 2016/12/06 19:35:02 by agadhgad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
 int is_intouchable(int i, int *t_ind, int *l_ind)
@@ -25,13 +37,12 @@ int is_connector(char *tested_s, int i, int *t_ind, int *l_ind)
 
 	id_tab = 0;
 	s = tested_s + i;
-	if (!tested_s || !s || !s[0])
-		return (0);
-	if (is_intouchable(i, t_ind, l_ind))
+	if ((!tested_s || !s || !s[0]) || (is_intouchable(i, t_ind, l_ind)))
 		return (0);
 	while (tab_connector[id_tab])
 	{
-		if (ft_strncmp(s, tab_connector[id_tab], (num_tmp = ft_strlen(tab_connector[id_tab]))) == 0)
+		if (ft_strncmp(s, tab_connector[id_tab],
+				(num_tmp = ft_strlen(tab_connector[id_tab]))) == 0)
 		{
 			if (num_tmp > 2)
 			{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/06 20:09:14 by agadhgad          #+#    #+#             */
+/*   Updated: 2016/12/06 20:09:34 by agadhgad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
 t_av **convert_parse(char *expr, t_nparse np, int *t_ind, int *l_ind)
@@ -16,26 +28,26 @@ t_av **convert_parse(char *expr, t_nparse np, int *t_ind, int *l_ind)
 	{
 		if (np.type[i] > 0)
 		{
-				init_cmd(&cmds[++id_cmds], ft_strlen(expr));
-				cmds[id_cmds]->type = get_type(xget_string_l(expr + np.begin[i], np.end[i] - np.begin[i]));
-				if (cmds[id_cmds]->type == -10)
-				{
-					if (id_cmds > 0)
-							cmds[id_cmds-1]->bg = TRUE;
-					else
-							dprintf(2, "21sh: parse error\n");
-					cmds[id_cmds]->type = TYPE_NORMAL;
-				}
-				cmds[id_cmds + 1] = NULL;
+			init_cmd(&cmds[++id_cmds], ft_strlen(expr));
+			cmds[id_cmds]->type = get_type(xget_string_l(expr + np.begin[i], np.end[i] - np.begin[i]));
+			if (cmds[id_cmds]->type == -10)
+			{
+				if (id_cmds > 0)
+					cmds[id_cmds-1]->bg = TRUE;
+				else
+					dprintf(2, "21sh: parse error\n");
+				cmds[id_cmds]->type = TYPE_NORMAL;
+			}
+			cmds[id_cmds + 1] = NULL;
 		}
 		else
 		{
-				char *x = xget_string_l(expr + np.begin[i], np.end[i] - np.begin[i]);
-				cmds[id_cmds]->argv[cmds[id_cmds]->argc] = x;
-				cmds[id_cmds]->argv_auth[cmds[id_cmds]->argc] = handle_d(np, i, t_ind, l_ind, ft_strlen(expr));
-				cmds[id_cmds]->argc++;
-				cmds[id_cmds]->argv_auth[cmds[id_cmds]->argc] = NULL;
-				cmds[id_cmds]->argv[cmds[id_cmds]->argc] = NULL;
+			char *x = xget_string_l(expr + np.begin[i], np.end[i] - np.begin[i]);
+			cmds[id_cmds]->argv[cmds[id_cmds]->argc] = x;
+			cmds[id_cmds]->argv_auth[cmds[id_cmds]->argc] = handle_d(np, i, t_ind, l_ind, ft_strlen(expr));
+			cmds[id_cmds]->argc++;
+			cmds[id_cmds]->argv_auth[cmds[id_cmds]->argc] = NULL;
+			cmds[id_cmds]->argv[cmds[id_cmds]->argc] = NULL;
 		}
 		i++;
 	}
@@ -51,9 +63,6 @@ t_nparse parse(char *expr, int *t_ind, int *l_ind)
 
 	nparse_init(&np, expr);
 	i = 0;
-	//ft_dprintf(2 , "begin parse in %s\n", expr);
-	//for (int x = 0; t_ind[x] != -1; x++)
-	//	ft_dprintf(2 , "%d |%d| %d\n", x, t_ind[x], l_ind[x]);
 	while(expr[i] && is_whitespace(expr[i]) && !is_intouchable(i, t_ind, l_ind))
 		i++;
 	nparse_extend(&np, i);
@@ -62,25 +71,22 @@ t_nparse parse(char *expr, int *t_ind, int *l_ind)
 	{
 		if (is_intouchable(i, t_ind, l_ind))
 		{
-				//ft_dprintf(2 , "charactere at pos %d is in\n", i);
-				while(expr[i] && is_intouchable(i, t_ind, l_ind))
-					i++;
-				i--;
+			while(expr[i] && is_intouchable(i, t_ind, l_ind))
+				i++;
+			i--;
 		}
 		else if (is_whitespace(expr[i]))
 		{
-				if (!nparse_close(&np, i))
-						return (np);
-				while(expr[i] && is_whitespace(expr[i]) && !is_intouchable(i, t_ind, l_ind))
-					i++;
-				//ft_dprintf(2 , "ended char at pos %d is ws\n", i);
-				if (!is_connector(expr, i, t_ind, l_ind))
-					nparse_extend(&np, i);
-				i--;
+			if (!nparse_close(&np, i))
+				return (np);
+			while(expr[i] && is_whitespace(expr[i]) && !is_intouchable(i, t_ind, l_ind))
+				i++;
+			if (!is_connector(expr, i, t_ind, l_ind))
+				nparse_extend(&np, i);
+			i--;
 		}
 		else if ((i32_tmp = is_connector(expr, i, t_ind,l_ind)))
 		{
-			//ft_dprintf(2 , "charactere at pos %d is cnn\n", i);
 			if (!nparse_close(&np, (is_intouchable(i-1, t_ind, l_ind) || !is_whitespace(expr[i-1])) ? i : i-1))
 				return (np);
 			nparse_extend(&np, i);

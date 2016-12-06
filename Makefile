@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/12/06 18:16:56 by agadhgad         ###   ########.fr        #
+#    Updated: 2016/12/06 19:52:44 by agadhgad         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -131,6 +131,7 @@ FILES = autocomp/autocomp			\
 		parser/parser3 \
 		parser/parser4 \
 		parser/parser5 \
+		parser/parser6 \
 		parser/parseruse \
 		parser/parseruse2 \
 		parser/parseruse3 \
