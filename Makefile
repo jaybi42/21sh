@@ -38,6 +38,7 @@ FILES = autocomp/autocomp			\
 		autocomp/autocomp_utils_2	\
 		autocomp/autocomp_utils_3	\
 		autocomp/autocomp_utils_4	\
+		autocomp/ret_glob		\
 									\
 		builtin/alias_bis			\
 		builtin/bi_alias			\

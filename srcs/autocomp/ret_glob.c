@@ -22,7 +22,10 @@ char		*ret_glob(char *str)
 			ft_strchr(tmp, '[') != NULL || ft_strchr(tmp, '?') != NULL)
 	{
 		ret = ret_match(tmp);
-		return (ret[0]);
+		if (ret == NULL)
+			return (NULL);
+		else
+			return (ret[0]);
 	}
 	return (NULL);
 }

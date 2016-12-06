@@ -73,4 +73,5 @@ int					auto_my_cmp(char *d_name, char *tmp, char *str);
 int					is_dir_file(const char *path);
 void				add_slash(t_aut_info *info);
 int					verify_if_dir(t_aut_info *info, char *path);
+char				*ret_glob(char *str);
 #endif
