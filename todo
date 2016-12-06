@@ -68,8 +68,6 @@ ______________
 
 					-	cmd : "setenv "untruclong 66;echo untruclong" donne "66truclong" bug toujours present
 
-					-	cmd : "ls */*" + tab ne fonctionne pas seul "ls *" + TAB fonctionne
-
 					-	| RESOLU | cmd : "echo ;;;;;;;" ------> SEGFAULT
 
 					-	cmd : "alias e=emacs" suivit de "e jacky" ----> "21sh: command not found: e" 
