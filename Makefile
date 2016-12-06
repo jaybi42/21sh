@@ -86,6 +86,7 @@ FILES = autocomp/autocomp			\
 		other/free_list				\
 		other/ft_size_tab			\
 		other/garbage_collector		\
+		other/garbage_collector_1	\
 		other/get_event				\
 		other/heredoc				\
 		other/history				\

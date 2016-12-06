@@ -15,13 +15,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define PRINT 0
-#define INSERT 1
-#define DELETE 2
-#define DELETEALL 3
-
-#define LEN 10
-
 void			agrandissment(void ***datas, int len)
 {
 	void	**new_d;
@@ -47,7 +40,6 @@ int				delete_data(void ***datas, int len, void *to_del)
 	while (++i < len)
 		if ((*datas)[i] == to_del && to_del != NULL)
 		{
-			//printf("clear a data |%p|\n", to_del);
 			if ((*datas)[i] != NULL)
 				free((*datas)[i]);
 			(*datas)[i] = NULL;
@@ -104,38 +96,4 @@ void			*storage(int action, void *package)
 	else if (action == PRINT)
 		print_datas(datas, len);
 	return (NULL);
-}
-
-void			*xmalloc(size_t size)
-{
-	void *al;
-
-	if ((al = malloc(size)) == NULL)
-		return (NULL);
-	storage(INSERT, al);
-	return (al);
-}
-
-void			xmemdel(void **p)
-{
-	storage(DELETE, (*p));
-	(*p) = NULL;
-}
-
-/*
-**	delete all the mem created in a safe way!
-*/
-
-void			xmasterfree(void)
-{
-	storage(DELETEALL, NULL);
-}
-
-/*
-**	print the mem allocated
-*/
-
-void			xprintmem(void)
-{
-	storage(PRINT, NULL);
 }
