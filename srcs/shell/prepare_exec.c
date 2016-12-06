@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:47:21 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 18:11:11 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/06 20:35:17 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,23 @@ t_exec		get_abs_path(char *cmd, char **argv)
 
 	ex.type = -1;
 	ex.fnct = NULL;
-	if (!g_hash || g_hash)//WARNING
+	if (!g_hash)
 	{
 		env = convert_env(g_env, l_env);
 		str = get_path(g_env, l_env);
 		path = get_allpath(cmd, str);
 		ret = exec_path(cmd, path);
-		if (ret != -1)
-		{
-			ex.type = BIN;
-			ex.path = path[ret];
-			ex.argv = argv;
-		}
-		else
-			print_err("command not found", cmd);
 	}
+	else
+		str = get_hash_path(g_hash, cmd);
+	if ((!g_hash && ret != -1) || (g_hash && str))
+	{
+			ex.type = BIN;
+			ex.path = (!g_hash) ? path[ret] : str;
+			ex.argv = argv;
+	}
+	else
+		print_err("command not found", cmd);
 	return (ex);
 }
 
