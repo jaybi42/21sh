@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/06 18:56:53 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/06 19:07:06 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -799,5 +799,6 @@ extern int 			*g_exit;
 extern int			g_debug;
 extern t_hash		**g_hash;
 extern unsigned int g_hash_size;
+extern unsigned int g_heredoc_actif;
 
 #endif
