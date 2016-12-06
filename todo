@@ -52,6 +52,9 @@ ______________
 				[TEST FAIT SUR LA DERNIERE VERSION]
 				[BEGIN]
 
+					-	cmd : "ok======================sadasdasdasd=asd=as=das=d==asd=asd=as=d||||||||||||ASDasdasd>>>>>>>>>>>>"
+						Beaucoup d'invalid command au lieu d'un
+
 					-	cmd : "history -c" ensuite rechercher dans l historique avec les fleche ---> SEGFAULT
 					
 					-	| RESOLU | cmd : "ls |ls" acffiche deux fois ls bug seulement quand le pipe est cole a la deuxieme commande
