@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/03 14:23:42 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/10/17 16:41:17 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/06 16:30:56 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 #define READLEN 4096
 
-void	ft_memdel(void **ap)
+void		ft_memdel(void **ap)
 {
 	if (ap != NULL)
 	{
@@ -29,7 +29,7 @@ void	ft_memdel(void **ap)
 	}
 }
 
-static char		*allocat(int size)
+static char	*allocat(int size)
 {
 	char *s;
 
@@ -39,7 +39,7 @@ static char		*allocat(int size)
 	return (s);
 }
 
-char			*binary_cat(char *dest, int len_dest, char *src, int len_src)
+char		*binary_cat(char *dest, int len_dest, char *src, int len_src)
 {
 	int i;
 
@@ -52,7 +52,7 @@ char			*binary_cat(char *dest, int len_dest, char *src, int len_src)
 	return (dest);
 }
 
-char			*binary_cpy(char *src, char *dest, int len)
+char		*binary_cpy(char *src, char *dest, int len)
 {
 	int i;
 
@@ -65,15 +65,7 @@ char			*binary_cpy(char *src, char *dest, int len)
 	return (src);
 }
 
-typedef struct s_file
-{
-	int		len_str;
-	int		len_buff;
-	char	*str;
-	char	buffer[READLEN + 1];
-}				t_file;
-
-static char		*add_alloc(int fd, int count, t_file *f)
+static char	*add_alloc(int fd, int count, t_file *f)
 {
 	char *tmp;
 
@@ -90,7 +82,7 @@ static char		*add_alloc(int fd, int count, t_file *f)
 	return (tmp);
 }
 
-char			*file_get_contents(char *filename)
+char		*file_get_contents(char *filename)
 {
 	int		fd;
 	t_file	f;
