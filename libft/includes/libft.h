@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/13 14:10:31 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/27 17:13:01 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/06 16:56:06 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 
 # include "acurse.h"
 
-# define BUFF_SIZE 512
+# define BUFF_SIZE	512
+# define READLEN	4096
 
 # define ERROR ft_error(__FILE__, __FUNCTION__, __LINE__)
 # define ERRORNO ft_errorno(__FILE__, __FUNCTION__, __LINE__)
@@ -118,13 +119,13 @@ typedef struct				s_flag
 	char					modif[2];
 }							t_flag;
 
-typedef struct				s_file
+typedef struct				s_fdp
 {
 	int						len_str;
 	int						len_buff;
 	char					*str;
 	char					buffer[READLEN + 1];
-}							t_file;
+}							t_fdp;
 
 void						ft_putstr_dbcote(const char *s);
 void						writex(char *str, size_t length, int print);

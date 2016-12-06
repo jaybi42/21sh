@@ -18,17 +18,6 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-#define READLEN 4096
-
-void		ft_memdel(void **ap)
-{
-	if (ap != NULL)
-	{
-		free(*ap);
-		*ap = NULL;
-	}
-}
-
 static char	*allocat(int size)
 {
 	char *s;
@@ -65,7 +54,7 @@ char		*binary_cpy(char *src, char *dest, int len)
 	return (src);
 }
 
-static char	*add_alloc(int fd, int count, t_file *f)
+static char	*add_alloc(int fd, int count, t_fdp *f)
 {
 	char *tmp;
 
@@ -85,7 +74,7 @@ static char	*add_alloc(int fd, int count, t_file *f)
 char		*file_get_contents(char *filename)
 {
 	int		fd;
-	t_file	f;
+	t_fdp	f;
 	int		i;
 
 	if ((fd = open(filename, O_RDONLY)) == -1)
@@ -110,7 +99,7 @@ char		*file_get_contents(char *filename)
 int			file_get_binary(char *filename, char **str, int *len)
 {
 	int		fd;
-	t_file	f;
+	t_fdp	f;
 	int		i;
 
 	(*str) = NULL;
@@ -138,7 +127,7 @@ int			file_get_binary(char *filename, char **str, int *len)
 
 int			fd_get_binary(int fd, char **str, int *len)
 {
-	t_file	f;
+	t_fdp	f;
 	int		i;
 
 	(*str) = NULL;
