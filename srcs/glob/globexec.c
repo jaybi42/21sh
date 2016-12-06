@@ -6,35 +6,11 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 16:57:04 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 17:09:24 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/06 18:45:21 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-void	finder_s_j_list(t_finder *f, t_globbing *g, char **words)
-{
-	int i;
-
-	i = 0;
-	while(g->exprs[i])
-	{
-		if (g->exprs[i] == words[(f->a_w)][(*(f->p_d))[(f->a_w)]])
-		{
-			if (g->is_looking)
-			{
-				(*(f->p_d))[(f->a_w)] += 1;
-				(f->find) = 1;
-			}
-			else
-				(*(f->p_d_bannish))[(f->a_w)] = 2;
-			break;
-		}
-		i++;
-	}
-	if (!g->is_looking && !(f->find))
-		(f->find) = 1;
-}
 
 void	finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 {
@@ -49,7 +25,8 @@ void	finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 			if (words[(f->a_w)][(*(f->p_d))[(f->a_w)]] == g->exprs[0])
 				(f->find) = 1;
 		}
-		else if (!strncmp(words[(f->a_w)] + (*(f->p_d))[(f->a_w)], g->exprs, strlen(g->exprs)))
+		else if (!strncmp(words[(f->a_w)] + (*(f->p_d))[(f->a_w)],
+					g->exprs, strlen(g->exprs)))
 		{
 			(*(f->p_d))[(f->a_w)] += strlen(g->exprs);
 			(f->find) = 1;
@@ -57,7 +34,8 @@ void	finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 	}
 }
 
-void	finder_not_suspension_judgement(t_finder *f, t_globbing *g, char **words)
+void	finder_not_suspension_judgement(t_finder *f, t_globbing *g,
+		char **words)
 {
 	if (g->length_one == 1)
 	{
@@ -78,11 +56,11 @@ void	finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 	(f.p_d) = p_d;
 	(f.p_d_bannish) = p_d_bannish;
 	(f.a_w) = -1;
-	while(words[++(f.a_w)])
+	while (words[++(f.a_w)])
 	{
 		(f.find) = 0;
 		if ((*(f.p_d_bannish))[(f.a_w)] == 2)
-			continue;
+			continue ;
 		if (g->exprs != NULL)
 			finder_suspension_judgement(&f, g, words);
 		else if (g->exprs == NULL)
@@ -92,7 +70,7 @@ void	finder(t_globbing *g, int **p_d, int **p_d_bannish, char **words)
 	}
 }
 
-int find_globbing_init(t_norm_fg *f, char **words)
+int		find_globbing_init(t_norm_fg *f, char **words)
 {
 	(f->len) = tlen(words);
 	if (!((f->d) = xmalloc(sizeof(int) * ((f->len) + 1))))

@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 16:00:59 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/06 16:56:46 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/06 18:56:22 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,6 @@ void	insert_in_arr(t_brak *b, char **t_add)
 	while (b->t[++a] != NULL)
 		b->i_a[a] = ft_strlen(b->t[a]);
 	b->ta = a;
-}
-
-void	update_t(char ***p_t, int **p_i_a, int *p_ta, char c)
-{
-	int i;
-
-	i = -1;
-	while (++i < (*p_ta))
-		(*p_t)[i][(*p_i_a)[i]++] = c;
 }
 
 int		play_with_bracket(t_brak *b, char *s)

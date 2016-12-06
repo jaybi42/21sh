@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 16:50:38 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/05 16:54:14 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/06 19:01:13 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,31 +58,28 @@ int		parse_glob_imark(t_norm_glob *g)
 
 int		parse_glob_globbing(t_norm_glob *g)
 {
-	while ((g->exprs)[(g->ta)][(g->gti)[(g->ta)]])
+	(g->c) = 0;
+	if ((g->exprs)[(g->ta)][(g->gti)[(g->ta)]] == '[')
 	{
-		(g->c) = 0;
-		if ((g->exprs)[(g->ta)][(g->gti)[(g->ta)]] == '[')
-		{
-			if (!parse_glob_rect(g))
-				return (FALSE);
-		}
-		else if ((g->exprs)[(g->ta)][(g->gti)[(g->ta)]] == '*')
-		{
-			if (!parse_glob_star(g))
-				return (FALSE);
-		}
-		else if ((g->exprs)[(g->ta)][(g->gti)[(g->ta)]] == '?')
-		{
-			if (!parse_glob_imark(g))
-				return (FALSE);
-		}
-		else if (((g->g_tmp) = rec_g((g->exprs)[(g->ta)],
-		(g->gti) + (g->ta), 1)) != NULL)
-			(g->tgs)[(g->ta)][(g->gta)[(g->ta)]++] = (g->g_tmp);
-		else
+		if (!parse_glob_rect(g))
 			return (FALSE);
-		(g->gti)[(g->ta)]++;
 	}
+	else if ((g->exprs)[(g->ta)][(g->gti)[(g->ta)]] == '*')
+	{
+		if (!parse_glob_star(g))
+			return (FALSE);
+	}
+	else if ((g->exprs)[(g->ta)][(g->gti)[(g->ta)]] == '?')
+	{
+		if (!parse_glob_imark(g))
+			return (FALSE);
+	}
+	else if (((g->g_tmp) = rec_g((g->exprs)[(g->ta)],
+					(g->gti) + (g->ta), 1)) != NULL)
+		(g->tgs)[(g->ta)][(g->gta)[(g->ta)]++] = (g->g_tmp);
+	else
+		return (FALSE);
+	(g->gti)[(g->ta)] += 1;
 	return (TRUE);
 }
 
@@ -90,8 +87,11 @@ int		parse_glob(t_norm_glob *g)
 {
 	while ((g->exprs)[(g->ta)])
 	{
-		if (!parse_glob_globbing(g))
-			return (FALSE);
+		while ((g->exprs)[(g->ta)][(g->gti)[(g->ta)]])
+		{
+			if (!parse_glob_globbing(g))
+				return (FALSE);
+		}
 		(g->tgs)[(g->ta)][(g->gta)[(g->ta)]] = xmalloc(sizeof(t_globbing));
 		if (!((g->tgs)[(g->ta)][(g->gta)[(g->ta)]]))
 			return (FALSE);

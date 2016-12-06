@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/06 18:18:03 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/06 18:56:53 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -399,13 +399,14 @@ char **brace_handler(char *s);
 t_globbing *quarter(char *expr, int *tmp_len);
 t_globbing *rec_g(char *expr, int *i, int iquare);
 
+void	update_t(char ***p_t, int **p_i_a, int *p_ta, char c);
 char	**find_globbing(t_globbing **gs, int a, char **words);
 void finder_s_j_soj(t_finder *f, t_globbing *g, char **words);
 void finder_s_j_soj_list(t_finder *f, t_globbing *g, char **words);
 void finder_s_j_list(t_finder *f, t_globbing *g, char **words);
 void finder_not_suspension_judgement(t_finder *f, t_globbing *g, char **words);
+int		ret_virgule(t_arr *r);
 
-//globuse
 char	*x_strjoin2(char *s1, size_t len1, char *s2, size_t len2);
 char *x_strdup2(char *s, int len);
 size_t len_depth(char *s);

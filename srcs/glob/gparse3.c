@@ -6,11 +6,22 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 16:55:40 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/05 16:56:48 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/06 18:56:05 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+int			ret_virgule(t_arr *r)
+{
+	if (!((r->t_s)[(r->t_i)] = xmalloc(sizeof(char) * ((r->len) + 1))))
+		return (FALSE);
+	(r->t_s)[(r->t_i)][0] = '\0';
+	(r->t_a)[(r->t_i)] = 0;
+	(r->tog) = 1;
+	(r->t_s)[++(r->t_i)] = NULL;
+	return (TRUE);
+}
 
 void		add_char(char **exprs, int *len, char c)
 {
