@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prepare_exec2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/06 18:11:28 by agadhgad          #+#    #+#             */
+/*   Updated: 2016/12/06 18:14:06 by agadhgad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
-static t_builtin const  g_builtin_list[NB_BUILT] = {
+static t_builtin const g_builtin_list[NB_BUILT] = {
 	{"cd", bi_cd},
 	{"setenv", bi_setenv},
 	{"unsetenv", bi_unsetenv},
@@ -15,10 +27,13 @@ static t_builtin const  g_builtin_list[NB_BUILT] = {
 	{"glob", bi_glob}
 };
 
-int get_out(t_redirect ***r, int fd_out)
+int			get_out(t_redirect ***r, int fd_out)
 {
-	int i = 0;
-	while((*r)[i])i++;
+	int i;
+
+	i = 0;
+	while ((*r)[i])
+		i++;
 	(*r)[i] = xmalloc(sizeof(t_redirect));
 	(*r)[i]->type = 0;
 	(*r)[i]->fd_in = 1;
@@ -27,7 +42,7 @@ int get_out(t_redirect ***r, int fd_out)
 	return (1);
 }
 
-char **convert_env(t_list *g_env, t_list *l_env)
+char		**convert_env(t_list *g_env, t_list *l_env)
 {
 	t_list	*env;
 	char	**t;
@@ -49,16 +64,16 @@ char **convert_env(t_list *g_env, t_list *l_env)
 	return (t);
 }
 
-char **get_allpath(char *cmd, char *path)
+char		**get_allpath(char *cmd, char *path)
 {
 	char	**temp;
-	char **temp2;
+	char	**temp2;
 	char	**allpath;
 	int		i;
 	int		a;
 
 	i = -1;
-	temp = x_strsplit(path, ':');//TRYING FIX LEAKS
+	temp = x_strsplit(path, ':');
 	allpath = (char **)xmalloc(sizeof(char *) * (ft_tablen(temp) + 1));
 	while (temp[++i] != NULL)
 		allpath[i] = x_strjoin(temp[i], "/");
@@ -70,16 +85,15 @@ char **get_allpath(char *cmd, char *path)
 		if (ft_strncmp(cmd, allpath[a], ft_strlen(allpath[a])) == 0)
 		{
 			temp2[++i] = cmd;
-			break;
+			break ;
 		}
-	//del_tab(temp);
 	while (allpath[++i] != NULL)
 		temp2[i] = x_strjoin(allpath[i], cmd);
 	temp2[i] = NULL;
 	return (temp2);
 }
 
-int	 exec_path(char *cmd, char **path)
+int			exec_path(char *cmd, char **path)
 {
 	int i;
 
@@ -100,8 +114,8 @@ int	 exec_path(char *cmd, char **path)
 
 t_exec		make_exec_builtin(t_av *av)
 {
-	t_exec ex;
-	int i;
+	t_exec	ex;
+	int		i;
 
 	i = 0;
 	ex.type = -1;
@@ -113,7 +127,7 @@ t_exec		make_exec_builtin(t_av *av)
 			ex.argv = av->argv;
 			ex.path = NULL;
 			ex.type = BUILTIN;
-			break;
+			break ;
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/23 16:51:04 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/06 17:43:12 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-/*
-** SHELL_PRE_EXEC HANDLE THE LOGICAL EXECUTION OF THE COMMAND,
-** IT ALSO HANDLE THE open() of the redirection
-*/
-int shell_pre_exec(t_shells *s, t_av **av)
+int			shell_pre_exec(t_shells *s, t_av **av)
 {
 	if (av[(s->a)]->cmd == NULL && (av[(s->a)]->type == TYPE_OR ||
 		av[(s->a)]->type == TYPE_AND || av[(s->a)]->type == TYPE_PIPE ||
@@ -46,46 +42,18 @@ int shell_pre_exec(t_shells *s, t_av **av)
 	return (TRUE);
 }
 
-/*
-**  SHELL_POST_EXEC handle the cleaning of the executed command
-** 	+ set the ret_code ($?)
-*/
-
-int shell_post_exec(t_shells *s, int ret)
+int			shell_post_exec(t_shells *s, int ret)
 {
 	clear_stack(&(s->stack), &(s->stack_index));
 	set_retcode((unsigned char)(s->output).ret_code);
 	if (ret)
-		x_strjoins(&(s->all).string,(size_t *)&(s->all).len,(s->output).string,
-			(s->output).len);
+		x_strjoins(&(s->all).string, (size_t *)&(s->all).len,
+				(s->output).string, (s->output).len);
 	(s->all).ret_code = (s->output).ret_code;
 	return (TRUE);
 }
 
-/*
- HOW DOES THIS WORK?
-
- this is a simple system of stack.
-
- the stack is extended only when the next command is a pipe.
- It's for handle the async mode.
-
- for: "ls | cat -e"
-
- we will have a stack of this sort
-
- 1 | cat -e  |
- 0 | ls      |
-
-for: "echo ok ; ls "
-
- 0 | echo ok |
-then
- 0 | ls      |
-
-etc..
-*/
-t_output		shell(t_av **av, int ret)
+t_output	shell(t_av **av, int ret)
 {
 	t_shells s;
 
@@ -107,14 +75,11 @@ t_output		shell(t_av **av, int ret)
 	return (s.all);
 }
 
-/*
- ** give him an expr (example: "echo ok | cat -e")
- ** give you the return output and the last ret_code
-*/
-t_output shell_exec(char *expr)
+t_output	shell_exec(char *expr)
 {
-	t_av **av;
-	t_output o;
+	t_av		**av;
+	t_output	o;
+
 	av = parse_commands(expr);
 	o = shell(av, 1);
 	return (o);

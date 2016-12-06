@@ -1,21 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/06 17:44:24 by agadhgad          #+#    #+#             */
+/*   Updated: 2016/12/06 17:47:01 by agadhgad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
-void clear_output(t_output *o)
+void		clear_output(t_output *o)
 {
 	o->len = 0;
 	o->string = xmalloc(2);
 	if (o->string == NULL)
 	{
-		//dprintf(2, "xmalloc error.. leaving...\n");
 		exit(1);
 	}
 	o->string[0] = '\0';
 }
 
-/*
-** initialise the shell structure
-*/
-void shell_init(t_shells *s)
+void		shell_init(t_shells *s)
 {
 	(g_debug) ? ft_dprintf(2, "-- {red}EXECUTION{eoc} --\n") : 0;
 	s->find = -1;
@@ -28,27 +36,23 @@ void shell_init(t_shells *s)
 	clear_stack(&s->stack, &s->stack_index);
 }
 
-/*
-** print useful debug
-** note: w and v are in the parameters for handle the norme
-*/
-void shell_print_debug(t_shells *s, int w, int v)
+void		shell_print_debug(t_shells *s, int w, int v)
 {
 	w = 0;
 	while ((s->stack)[w])
 	{
 		if ((s->stack)[w]->ex.type == 0)
-			ft_dprintf(2, "%d ; call bin |%s|\n",w, (s->stack)[w]->ex.path);
+			ft_dprintf(2, "%d ; call bin |%s|\n", w, (s->stack)[w]->ex.path);
 		else if ((s->stack)[w]->ex.type == 1)
-			ft_dprintf(2, "%d ; call builtin |%s|\n",w, (s->stack)[w]->av.cmd);
+			ft_dprintf(2, "%d ; call builtin |%s|\n", w, (s->stack)[w]->av.cmd);
 		v = 0;
 		ft_dprintf(2, "[");
 		while ((s->stack)[w]->av.argv[v])
 		{
-				ft_dprintf(2, "'%s'", (s->stack)[w]->av.argv[v]);
-				if ((s->stack)[w]->av.argv[v + 1])
-					ft_dprintf(2, ", ");
-				v++;
+			ft_dprintf(2, "'%s'", (s->stack)[w]->av.argv[v]);
+			if ((s->stack)[w]->av.argv[v + 1])
+				ft_dprintf(2, ", ");
+			v++;
 		}
 		ft_dprintf(2, "]\n");
 		w++;
@@ -56,10 +60,7 @@ void shell_print_debug(t_shells *s, int w, int v)
 	(g_debug) ? ft_dprintf(2, "{green}----------------------{eoc}\n") : 0;
 }
 
-/*
-** HANDLE && and ||
-*/
-int shell_pre_exec_logical_and_or(t_shells *s, t_av **av)
+int			shell_pre_exec_logical_and_or(t_shells *s, t_av **av)
 {
 	if (av[(s->a)]->type == TYPE_OR || av[(s->a)]->type == TYPE_AND)
 	{
@@ -76,31 +77,28 @@ int shell_pre_exec_logical_and_or(t_shells *s, t_av **av)
 			return (FALSE);
 	}
 	if (av[(s->a) + 1] != NULL && (av[(s->a) + 1]->type == TYPE_OR ||
-		av[(s->a) + 1]->type == TYPE_AND) && ((s->find) == -1))
+				av[(s->a) + 1]->type == TYPE_AND) && ((s->find) == -1))
 		(s->find) = 0;
 	else
 		(s->find) = -1;
 	return (TRUE);
 }
 
-/*
-** HANDLE |
-*/
-int shell_pre_exec_logical_pipe(t_shells *s, t_av **av)
+int			shell_pre_exec_logical_pipe(t_shells *s, t_av **av)
 {
 	if ((s->ex).type == -1)
 	{
-	set_retcode(127);
-	return (FALSE);
+		set_retcode(127);
+		return (FALSE);
 	}
 	if (av[(s->a) + 1] != NULL && av[(s->a) + 1]->type == TYPE_PIPE)
 	{
-		extend_stack(&(s->stack), &(s->stack_index),  &(s->ex), av[(s->a)]);
+		extend_stack(&(s->stack), &(s->stack_index), &(s->ex), av[(s->a)]);
 		return (FALSE);
 	}
 	else
 		update_stack(&(s->stack), &(s->stack_index), &(s->ex), av[(s->a)]);
 	if (av[(s->a)]->type == TYPE_PIPE && (s->output).ret_code != 0)
-			return (FALSE);
+		return (FALSE);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/06 17:10:13 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/06 18:18:03 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -506,6 +506,16 @@ void father_handle_redirect(t_handle_r *hr);
 void active_redirect(t_redirect **r, t_handle_r *hr);
 void son_handle_in(int fdin, t_redirect **r);
 void init_handle_redirect(t_redirect **redirect, t_handle_r *hr, int ispipe);
+
+
+/*
+** exec3
+*/
+void	impossibru_error(char *s);
+void	son_handle_redirect(t_handle_r *hr);
+void	switch_fd_begin(int fd, int *new_fd);
+void	switch_fd_end(int fd, int *old_fd);
+void	dup_writer_pipe(int fd, int writer);
 
 /*
 ** prepare_exec
