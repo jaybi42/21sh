@@ -6,11 +6,12 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:55:33 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/16 18:05:31 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/07 22:00:53 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
+#include "21sh.h"
 
 static t_actions const g_actions[18] = {
 	{ft_bp, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},
@@ -33,17 +34,17 @@ void			ft_bp(t_line *l)
 		return ;
 	len = ft_strlen(l->search);
 	if (len <= 1)
-		new_str = ft_strdup("");
+		new_str = x_strdup("");
 	else
-		new_str = ft_strndup(l->search, len - 1);
+		new_str = x_strndup(l->search, len - 1);
 	if (new_str == NULL)
 		return ;
-	ft_strdel(&l->search);
+	//ft_strdel(&l->search);
 	l->search = new_str;
 	l->bp = 1;
 }
 
-static int		cmp_buf(int *value, char *buf)
+static int		cmp_buf_bis(int *value, char *buf)
 {
 	int		i;
 
@@ -64,7 +65,7 @@ int				key_is_special(t_line *l)
 	i = 0;
 	while (g_actions[i].action != NULL)
 	{
-		if (cmp_buf((int *)g_actions[i].value, l->buffer) == 0)
+		if (cmp_buf_bis((int *)g_actions[i].value, l->buffer) == 0)
 		{
 			g_actions[i].action(l);
 			return (1);

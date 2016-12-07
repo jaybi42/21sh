@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/12/06 19:52:44 by agadhgad         ###   ########.fr        #
+#    Updated: 2016/12/07 21:58:43 by ibouchla         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -99,6 +99,7 @@ FILES = autocomp/autocomp			\
 		other/print_prompt			\
 		other/storage_new_var		\
 		other/x_strdup				\
+		other/x_strndup				\
 		other/x_strjoin				\
 		other/x_strnew				\
 		other/x_strsplit \

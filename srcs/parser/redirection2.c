@@ -32,9 +32,9 @@ int get_heredoc(char *s)
 			write(fd[WRITER], tmp, ft_strlen(tmp));
 			write(fd[WRITER], "\n", 1);
 		}
-		ft_strdel(&tmp);
+		//ft_strdel(&tmp);
 	}
-	ft_strdel(&tmp);
+	//ft_strdel(&tmp);
 	close(fd[WRITER]);
 	return (fd[READER]);
 }

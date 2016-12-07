@@ -6,20 +6,21 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/08 15:44:55 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/07 18:25:17 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
+#include "21sh.h"
 
 static void		ft_print_rest(t_line *l)
 {
 	char	*temp;
 
-	temp = ft_strjoin(l->str, &l->buffer[0]);
+	temp = x_strjoin(l->str, &l->buffer[0]);
 	if (temp == NULL)
 		return ;
-	ft_strdel(&(l->str));
+	//ft_strdel(&(l->str));
 	l->str = temp;
 	l->final_count = ft_strlen(l->str);
 	l->size = l->final_count;

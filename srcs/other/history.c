@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 13:02:57 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/05 17:55:02 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/07 18:10:24 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ int					get_history(t_ftl_root *root)
 int					add_history(char *str, t_ftl_root *root)
 {
 	t_hist		hist;
+	int			i;
 
+	i = 0;
 	if (str == NULL)
 		return (0);
 	if (root->next == NULL)
@@ -93,11 +95,11 @@ int					add_history(char *str, t_ftl_root *root)
 	hist.str = ft_strdup(str);
 	while (1)
 	{
-		if (*str == '\0')
+		if (str[i] == '\0')
 			return (0);
-		else if (ft_isspace(*str) == 0)
+		else if (ft_isspace(str[i]) == 0)
 			break ;
-		str++;
+		++i;
 	}
 	return (ftl_push_back(root, (FTL_NODE *)&hist));
 }

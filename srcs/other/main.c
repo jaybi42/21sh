@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/06 20:34:22 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/07 22:47:17 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,10 @@ int				main(int ac, char **argv)
 		return (1);
 	g_hash = hash_table(get_path(g_env, l_env));
 	if (sh21() == 1)
+	{
+		hash_del(&(g_hash));
 		return (1);
+	}
+	hash_del(&(g_hash));
 	return (0);
 }

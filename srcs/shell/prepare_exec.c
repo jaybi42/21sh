@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:47:21 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 20:35:17 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/07 21:37:53 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ t_exec		get_abs_path(char *cmd, char **argv)
 		ret = exec_path(cmd, path);
 	}
 	else
-		str = get_hash_path(g_hash, cmd);
+		str = get_hash_path(&g_hash, cmd);
 	if ((!g_hash && ret != -1) || (g_hash && str))
 	{
-			ex.type = BIN;
-			ex.path = (!g_hash) ? path[ret] : str;
-			ex.argv = argv;
+		ex.type = BIN;
+		ex.path = (!g_hash) ? path[ret] : str;
+		ex.argv = argv;
 	}
 	else
 		print_err("command not found", cmd);

@@ -23,7 +23,17 @@ ______________
 	| RESOLU |	-	Appuyer sur ENTREE pour valider une commande ou une ligne vide.
 
 	| RESOLU |	-	Fleche du haut, puis ENTREE.
-	
+
+	| RESOLU |	-	Rechercher une commande dans l historique avec les fleches et l'editer
+
+	| RESOLU |	-	ls | wc > toto;
+
+	| RESOLU |	-	alias var=foo;
+					alias var=foo2;
+
+	| RESOLU |	-	Ecrire beaucoup beaucoup de contenu dans la ligne de commande avec uen taille de fenetre moyenne
+					puis la redimanssionner a volonté, et l'éditer avec une fenetre plus petite qu'au début.
+
 	___________________
 		BUGS RESOLU
 	___________________
@@ -78,6 +88,8 @@ ______________
 					Faire un kill sur les PID des deux 21sh du milieu.
 					Nous avons un comportement indefinis sur l'edition de ligne de cmd.
 
+	| RESOLU |	-	J'avais eu une erreur critique en bombardant le shell de dizaine de millier d'entrée et en jouant en meme
+					temps avec la taille de la fenetre, le nombre de leaks bombarder aussi.
 ______________
 	BUGS
 ______________
@@ -100,13 +112,13 @@ ______________
 			
 				-	cmd : "setenv "untruclong 66;echo untruclong" donne "66truclong" bug toujours present
 
-				_	A chaque fois que la variable d'environnement PATH est modifier / supprimer
+				-	A chaque fois que la variable d'environnement PATH est modifier / supprimer
 					hash_del(&g_hash);
 					g_hash = hash_table(new_path);
 					Du coup ce sera de nouveau possible que le hash ne trouve pas de correspondance si on unset le PATH !
 
-				_	J'avais eu une erreur critique en bombardant le shell de dizaine de millier d'entrée et en jouant en meme
-					temps avec la taille de la fenetre, le nombre de leaks bombarder aussi.
+				-	cmd : "ls | pwd | wc"
+					comportement indeterminer
 
 				_____________________
 					MEDIUM PRIORITY
@@ -126,15 +138,30 @@ ______________
 	LEAKS
 ______________
 
-				-	Rechercher une commande dans l historique avec les fleches et l'editer
+				-	Grosse commande | ls | cat -e
+					jouer avec historique editer etc
 
-				-	ls | wc > toto;
-
-				-	alias var=foo;
-					alias var=foo2;
-
-				-	Ecrire beaucoup beaucoup de contenu dans la ligne de commande avec uen taille de fenetre moyenne
-					puis la redimanssionner a volonté, et l'éditer avec une fenetre plus petite qu'au début.
+					==68382== 25 (24 direct, 1 indirect) bytes in 1 blocks are definitely lost in loss record 70 of 189
+					==68382==    at 0x100039671: malloc (in /Users/ibouchla/.brew/Cellar/valgrind/3.12.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+					==68382==    by 0x100018A29: init_gnl (in ./21sh)
+					==68382==    by 0x1000189B4: get_next_line (in ./21sh)
+					==68382==    by 0x10000AB19: get_history (history.c:74)
+					==68382==    by 0x10000BC6E: sh21 (main.c:180)
+					==68382==    by 0x10000C007: main (main.c:228)
+					==68382==
+					==68382== 26 (24 direct, 2 indirect) bytes in 1 blocks are definitely lost in loss record 71 of 189
+					==68382==    at 0x100039671: malloc (in /Users/ibouchla/.brew/Cellar/valgrind/3.12.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+					==68382==    by 0x10000B745: insert_arr (main.c:62)
+					==68382==    by 0x10000BB43: handle_var (main.c:154)
+					==68382==    by 0x10000BC91: sh21 (main.c:182)
+					==68382==    by 0x10000C007: main (main.c:228)
+					==68382==
+					==68382== 28 (24 direct, 4 indirect) bytes in 1 blocks are definitely lost in loss record 74 of 189
+					==68382==    at 0x100039671: malloc (in /Users/ibouchla/.brew/Cellar/valgrind/3.12.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+					==68382==    by 0x10000B745: insert_arr (main.c:62)
+					==68382==    by 0x10000BB5C: handle_var (main.c:155)
+					==68382==    by 0x10000BC91: sh21 (main.c:182)
+					==68382==    by 0x10000C007: main (main.c:228)
 
 ______________
 	TODO

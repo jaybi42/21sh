@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:13:34 by malaine           #+#    #+#             */
-/*   Updated: 2016/12/06 20:47:09 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/07 18:17:26 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_init_line(t_line *l, t_ftl_root *hist)
 	l->line1 = l->largeur - l->sizeprompt;
 	/*if (ft_strcmp("\0", l->str) != 0)
 		l->strcpy = NULL;*/
-	l->str = ft_strdup("");
+	l->str = x_strdup("");
 	l->tmp = 0;
 	l->size = 0;
 	l->count = 0;

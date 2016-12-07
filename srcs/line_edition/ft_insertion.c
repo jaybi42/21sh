@@ -6,11 +6,12 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 12:13:07 by malaine           #+#    #+#             */
-/*   Updated: 2016/11/10 02:10:35 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/07 19:07:59 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
+#include "21sh.h"
 #include <stdlib.h>
 
 int			ft_insertion(t_line *l)
@@ -21,7 +22,7 @@ int			ft_insertion(t_line *l)
 
 	count = 0;
 	count2 = 0;
-	str_cpy = (char *)malloc(sizeof(char) * (ft_strlen(l->str) + 2));
+	str_cpy = (char *)xmalloc(sizeof(char) * (ft_strlen(l->str) + 2));
 	if (str_cpy == NULL)
 		return (1);
 	while (count < l->size + 1)
@@ -36,7 +37,7 @@ int			ft_insertion(t_line *l)
 		count++;
 	}
 	str_cpy[count] = '\0';
-	ft_strdel(&l->str);
+	//ft_strdel(&l->str);
 	l->str = str_cpy;
 	return (0);
 }
@@ -49,7 +50,7 @@ int			ft_delete_char(t_line *l)
 
 	count = 0;
 	count2 = 0;
-	str_cpy = (char *)malloc(sizeof(char) * (l->size + 1));
+	str_cpy = (char *)xmalloc(sizeof(char) * (l->size + 1));
 	if (str_cpy == NULL)
 		return (1);
 	while (count < l->size)
@@ -63,7 +64,7 @@ int			ft_delete_char(t_line *l)
 		count2++;
 	}
 	str_cpy[count] = '\0';
-	ft_strdel(&l->str);
+	//ft_strdel(&l->str);
 	l->str = str_cpy;
 	return (0);
 }

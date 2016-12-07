@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:39:18 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/16 18:43:52 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/07 21:45:27 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static bool		get_ans(t_ftl_root *h, int h_pos, t_line *l)
 	{
 		if (ft_strstr(((t_hist *)node)->str, l->search) != NULL)
 		{
-			ft_strdel(&l->ans);
+			//ft_strdel(&l->ans);
 			l->hist_pos -= i;
 			l->bp = 0;
-			l->ans = ft_strdup(((t_hist *)node)->str);
+			l->ans = x_strdup(((t_hist *)node)->str);
 			return (1);
 		}
 		i++;
@@ -46,11 +46,11 @@ static void		ft_addchar(t_line *l)
 	char		*tmp;
 
 	if (l->search == NULL)
-		tmp = ft_strdup(&l->buffer[0]);
+		tmp = x_strdup(&l->buffer[0]);
 	else
 	{
-		tmp = ft_strjoin(l->search, &l->buffer[0]);
-		ft_strdel(&(l->search));
+		tmp = x_strjoin(l->search, &l->buffer[0]);
+		//ft_strdel(&(l->search));
 	}
 	if (tmp == NULL)
 		return ;
@@ -64,17 +64,19 @@ static void		clean_ctrl_r(t_line *l)
 	{
 		l->hist_pos = -1;
 		l->bp = 0;
+		/*
 		if (l->str != NULL)
 			ft_strdel(&l->str);
 		if (l->search != NULL)
 			ft_strdel(&l->search);
+		*/
 		if (l->ans != NULL)
 		{
 			l->str = l->ans;
 			l->size = ft_strlen(l->str);
 			l->ans = NULL;
 		}
-		ft_strdel(&l->oldstr);
+		//ft_strdel(&l->oldstr);
 		print(l);
 	}
 	l->quit = 0;
@@ -82,19 +84,23 @@ static void		clean_ctrl_r(t_line *l)
 
 static int		init_ctrl_r(t_line *l)
 {
+	/*
 	if (l->search != NULL)
 		ft_strdel(&l->search);
 	if (l->ans != NULL)
 		ft_strdel(&l->ans);
-	l->search = ft_strdup("");
-	l->ans = ft_strdup("");
+	*/
+	l->search = x_strdup("");
+	l->ans = x_strdup("");
 	l->bp = 0;
 	if (l->search == NULL || l->ans == NULL)
 		return (1);
+	/*
 	if (l->oldstr != NULL)
 		ft_strdel(&l->oldstr);
+	*/
 	if (l->str == NULL)
-		l->oldstr = ft_strdup("");
+		l->oldstr = x_strdup("");
 	else
 		l->oldstr = l->str;
 	if (l->oldstr == NULL)

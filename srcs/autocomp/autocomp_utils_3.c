@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 20:30:39 by mseinic           #+#    #+#             */
-/*   Updated: 2016/11/06 17:11:45 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/07 19:30:51 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void			insert_in_string(t_ft_info *info, t_line *l, char *data)
 	char		*tmp;
 
 	info->k = info->size + ft_strlen(data) + 1;
-	if (!(tmp = ft_strnew(info->k)))
+	if (!(tmp = x_strnew(info->k)))
 		return ;
 	info->k = 0;
 	while (info->k < info->index)
@@ -38,7 +38,7 @@ void			insert_in_string(t_ft_info *info, t_line *l, char *data)
 	ft_copy_tab(tmp, data, 0, &info->k);
 	ft_copy_tab(tmp, info->copy, info->index, &info->k);
 	tmp[info->k] = '\0';
-	ft_strdel(&(l->str));
+	//ft_strdel(&(l->str));
 	l->str = tmp;
 	l->count = info->index + ft_strlen(data);
 	l->size = ft_strlen(l->str);
@@ -54,7 +54,7 @@ void			insert_ontop_string(t_ft_info *info, t_line *l, char *data)
 		info->k--;
 	info->k = info->index - info->k;
 	size = ft_strlen(info->copy) + ft_strlen(data) + 1 - info->k;
-	if (!(tmp = ft_strnew(size)))
+	if (!(tmp = x_strnew(size)))
 		return ;
 	size = 0;
 	info->k = info->index - info->k;
@@ -66,7 +66,7 @@ void			insert_ontop_string(t_ft_info *info, t_line *l, char *data)
 	ft_copy_tab(tmp, data, 0, &size);
 	ft_copy_tab(tmp, info->copy, info->index, &size);
 	tmp[size] = '\0';
-	ft_strdel(&(l->str));
+	//ft_strdel(&(l->str));
 	l->str = tmp;
 	l->count = info->k + ft_strlen(data);
 	l->size = ft_strlen(l->str);

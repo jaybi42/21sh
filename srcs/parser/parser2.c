@@ -6,17 +6,17 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 20:09:14 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 22:17:46 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/07 18:58:17 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-t_av **convert_parse(char *expr, t_nparse np, int *t_ind, int *l_ind)
+t_av		**convert_parse(char *expr, t_nparse np, int *t_ind, int *l_ind)
 {
-	t_av **cmds;
-	int id_cmds;
-	int i;
+	t_av	**cmds;
+	int		id_cmds;
+	int		i;
 
 	cmds = xmalloc(sizeof(t_av*) * (ft_strlen(expr) + 1));
 	id_cmds = 0;
@@ -81,7 +81,7 @@ int			parse_handle_space(t_norm_parse *p, char *expr,
 }
 
 int			parse_handle_connector(t_norm_parse *p, char *expr,
-		int *t_ind, int *l_ind)
+			int *t_ind, int *l_ind)
 {
 	if (!nparse_close(&(p->np), (is_intouchable((p->i)-1, t_ind, l_ind)
 					|| !is_whitespace(expr[(p->i)-1])) ? (p->i) : (p->i)-1))
@@ -97,7 +97,7 @@ int			parse_handle_connector(t_norm_parse *p, char *expr,
 	return (TRUE);
 }
 
-void parse_init(t_norm_parse *p, char *expr, int *t_ind, int *l_ind)
+void		parse_init(t_norm_parse *p, char *expr, int *t_ind, int *l_ind)
 {
 	nparse_init(&(p->np), expr);
 	(p->i) = 0;

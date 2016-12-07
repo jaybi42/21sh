@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/06 19:56:20 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/07 21:58:13 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,9 +416,10 @@ void finder_not_suspension_judgement(t_finder *f, t_globbing *g, char **words);
 int		ret_virgule(t_arr *r);
 
 char	*x_strjoin2(char *s1, size_t len1, char *s2, size_t len2);
-char *x_strdup2(char *s, int len);
-size_t len_depth(char *s);
-char **fusion_tarray(char ***t);
+char	*x_strdup2(char *s, int len);
+char	*x_strndup(const char *s1, size_t n);
+size_t	len_depth(char *s);
+char	**fusion_tarray(char ***t);
 int		ttlen(char ***t);
 
 
@@ -794,7 +795,7 @@ typedef struct		s_hash
 ** hash_functions
 */
 unsigned int	hash_algo(char *key, int nb);
-char			*get_hash_path(t_hash **hash, char *bin);
+char			*get_hash_path(t_hash ***hash_addr, char *bin);
 void			hash_del(t_hash ***hash);
 
 /*
