@@ -6,12 +6,27 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-     Updated: 2016/12/06 06:01:47 by malaine          ###   ########.fr         
+#    Updated: 2016/12/04 22:08:02 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 ______________
 	RESOLU
 ______________
+
+	___________________
+		LEAKS RESOLU
+	___________________
+
+	| RESOLU |	-	Ctrl + R et taper ls pour retrouver la commande.
+
+	| RESOLU |	-	Appuyer sur ENTREE pour valider une commande ou une ligne vide.
+
+	| RESOLU |	-	Fleche du haut, puis ENTREE.
+	
+	___________________
+		BUGS RESOLU
+	___________________
 
 	| RESOLU |	-	L' historique affiche des caracteres chelou apres une commande de plusieurs ligne suite a un oubli de quote.
 
@@ -39,58 +54,70 @@ ______________
 					Nous entrons dans heredoc, ecrivez quelque chose.
 					Appuyez sur ENTREE --> Segmentation Fault.
 
-	| RESOLU |	-	JB : après avoir entré cette commande: "glob '*' 'ok' '" le shell va nous proposer de fermer le ' ouvert, puis commande executer, tout est normal...
+	| RESOLU |	-	JB : après avoir entré cette commande: "glob '*' 'ok' '" le shell va nous proposer de fermer le ' ouvert, puis commande executer,
+					tout est normal...
 					Mais apres l'history affiche un truc random (ou une ligne vide).
 					Serait il possible de remplacer les \n par des espaces tout simplement? ou un "\\n"
 	| RESOLU |	-	Ctrl + d
 					Si on est sur un char il est supprimer.
 					Sinon comportement normal.
+	| RESOLU |	-	cmd : "ls |ls" acffiche deux fois ls bug seulement quand le pipe est cole a la deuxieme commande
+					(ne bug pas qu avec "ls", meme erreur avec "echo |echo" et parfois ca SEGFAULT
+
+	| RESOLU |	-	cmd : "ls |" execute toujours le ls (on devrais se servir de la fonction quote addapter pour les pipe non ?)
+
+	| RESOLU |	-	cmd : "ls |wc" bug ne kill pas le fils mais surement dut au meme probleme qu au dessus le pipe qui est colle
+
+	| RESOLU |	-	cmd : "echo ;;;;;;;" ------> SEGFAULT
+
+	| RESOLU |	-	cmd : ".." reaffiche le prompt mais n affiche "command not found : .."
+
+	| RESOLU |	-	cmd : "cat" suivit d un ctrl + c affiche 2 fois le prompt
+
+	| RESOLU |	-	lancer quatres ./21sh.
+					Faire un kill sur les PID des deux 21sh du milieu.
+					Nous avons un comportement indefinis sur l'edition de ligne de cmd.
 
 ______________
 	BUGS
 ______________
-				[TEST FAIT SUR LA DERNIERE VERSION]
-				[BEGIN]
 
-					-	cmd : "ok======================sadasdasdasd=asd=as=das=d==asd=asd=as=d||||||||||||ASDasdasd>>>>>>>>>>>>"
-						Beaucoup d'invalid command au lieu d'un
+				____________________
+					HIGH PRIORITY
+				____________________
 
-					-	cmd : "history -c" ensuite rechercher dans l historique avec les fleche ---> SEGFAULT
-					
-					-	| RESOLU | cmd : "ls |ls" acffiche deux fois ls bug seulement quand le pipe est cole a la deuxieme commande
-					  	(ne bug pas qu avec "ls", meme erreur avec "echo |echo" et parfois ca SEGFAULT
-					
-					-	| RESOLU | cmd : "ls |wc" bug ne kill pas le fils mais surement dut au meme probleme qu au dessus le pipe qui est cole
+				-	cmd : ""FDP | cat -e"" (Il faut mettre les deux "")
+					FDP commande inconnue mais fait quand meme un cat -e
+					Bash lui s'arrete des qu'il determine que la commande n'existe pas
+					ou qu'elle ne s'est pas exec
 
-					-	cmd : "cat" suivit d un ctrl + c affiche 2 fois le prompt
+				-	cmd : "history -c" ensuite rechercher dans l historique avec les fleche
+					---> SEGFAULT
 
-					-	| RESOLU | cmd : "ls |" execute toujours le ls (on devrais se servir de la fonction quote addapter pour les pipe non ?)
+				- 	cmd : "cat $LC_CTYPE"
+					En repetant 3/4 fois l'operation nous avons des caracteres aleatoires
+					et un malloc erreur
+			
+				-	cmd : "setenv "untruclong 66;echo untruclong" donne "66truclong" bug toujours present
 
-					-	cmd : "setenv "untruclong 66;echo untruclong" donne "66truclong" bug toujours present
+				_	A chaque fois que la variable d'environnement PATH est modifier / supprimer
+					hash_del(&g_hash);
+					g_hash = hash_table(new_path);
+					Du coup ce sera de nouveau possible que le hash ne trouve pas de correspondance si on unset le PATH !
 
-					-	| RESOLU | cmd : "echo ;;;;;;;" ------> SEGFAULT
+				_	J'avais eu une erreur critique en bombardant le shell de dizaine de millier d'entrée et en jouant en meme
+					temps avec la taille de la fenetre, le nombre de leaks bombarder aussi.
 
-					-	cmd : "alias e=emacs" suivit de "e jacky" ----> "21sh: command not found: e" 
-						mais si on fait "alias" les alias saisi sont bien present.
+				_____________________
+					MEDIUM PRIORITY
+				_____________________
 
-					-	lancer un 21sh dans un 21sh kill le deuxieme, la boucle ignore le signal mais si on ctrl+c ca bug						
+				-	Le signal STOP ou ctrl + z n'est plus catché,
+					lors de la reprise il y a un comportement aléatoire
 
-					- 	cmd : "cat $LC_CTYPE"
-                    	En repetant 3/4 fois l'operation nous avons des caracteres aleatoires et fait freeze le shell
-
-					-	cmd : ".." reaffiche le prompt mais n affiche "command not found : .."
-
-					
-				[COMMENT : test fait a 6h je me pointe au plus vite cette aprem pr venir vous aidez a les corriger mais la je vais dormir]
-				[END]
-								
-				-	"alias "ls= ls - lah | cat -e""
-					print bien ls= command unknow
-					mais va quand meme faire un pipe cat -e
-
-				-	lancer quatres ./21sh.
-					Faire un kill sur les PID des deux 21sh du milieu.
-					Nous avons un comportement indefinis sur l'edition de ligne de cmd.
+				-	lancer un 21sh dans un 21sh kill le deuxieme,
+					la boucle ignore le signal mais si on ctrl+c
+					les couleurs bugs
 
 				-	alias "l= ls -lah | cat -e"
 					Envoi "|" "cat" et "-e" en option au ls au lieu de faire un pipe
@@ -99,23 +126,15 @@ ______________
 	LEAKS
 ______________
 
-				[TEST FAIT SUR LA DERNIERE VERSION]
-                [BEGIN]
+				-	Rechercher une commande dans l historique avec les fleches et l'editer
 
-					- rechercher une commande dans l historique avec les fleche vouloir l editer ---> 1 leaks;
-					
-					-	ls | wc > toto;
+				-	ls | wc > toto;
 
-				[END]
 				-	alias var=foo;
 					alias var=foo2;
-					C'est ma partie je m'en occupe
 
-	| RESOLU |	-	Ctrl + R et taper ls pour retrouver la commande.
-
-	| RESOLU |	-	Appuyer sur ENTREE pour valider une commande ou une ligne vide.
-
-	| RESOLU |	-	Fleche du haut, puis ENTREE.
+				-	Ecrire beaucoup beaucoup de contenu dans la ligne de commande avec uen taille de fenetre moyenne
+					puis la redimanssionner a volonté, et l'éditer avec une fenetre plus petite qu'au début.
 
 ______________
 	TODO
@@ -127,8 +146,7 @@ ______________
 
 				-	CHECKER LES APPELLES DE FONCTION INTERDIT AVEC NM (strlen, printf, strdup...)
 
-				-	Appeller ma fonction de hash avant l'exec
-					pour le moment elle est juste creer.
+				-	Re-implementer mon systeme d'alias
 
 ______________
 	BONUS
@@ -144,67 +162,4 @@ ______________
 
 				-	Builtin 42info
 
-____________________
-	COMMENTAIRE
-____________________
-
-				-	Listing des bonus realises
-
-				-	Nous en sommes a l'etape de la detection / resolution des bugs / leaks
-
-___________________
-	NORMINETTE
-___________________
-
- /*
- **		Je corrige toutes les fautes de normes sauf les fonctions de +25 lignes / +5 fonctions
- **		Si une fonction est listee ici, je n' ai pas reussi a la normer ou
- **		j'ai peut etre mis des commentaires dessus pour vous aider a la mettre a la norme
- */
- 			
-				_______________
-					BUILTIN
-				_______________
-
-				-	builtin/bi_42info.c = je ne sais pas pourquoi on a des bad indentation
-
-				-	builtin/bi_env.c = juste un commentaire de JB a voir ce qu'il en fait
-
-				________________
-					AUTOCOMP
-				________________
-
- 				-	autocomp/autocomp_utils_1.c = 12 fonctions et d'autres trucs
-
-				________________
-					GLOBING
-				________________
-
-				-	glob/gbrace.c = 6 fonctions dans le fichier et la fonction insert_in_arr fait 28 lignes
-
-				-	glob/globexec.c = 6 variable et 30 lignes dans la derniere fonction
-
-				-	glob/globexec2.c = 26 lignes dans finder_s_j_soj
-
-				-	glob/glob_gparse2.c = 6 fonctions dans le fichier, ligne 49-50, 55 et 100 je ne vois pas comment raccourcir.
-
-				-	glob/glob_gparse.c	= 26 lignes dans parse_glob_globbing
-
-				________________
-					LINE EDIT
-				________________
-
-				-	line_edition/ft_init_line.c = juste un commentaire a enlever si plus besoin.
-
-				________________
-					 OTHER
-				________________
-
-				-	other/main.c = 9 fonctions et handle_var fait 44 lgnes.
-					l_env etant une globale devrait etre g_env sauf qu'elle existe deja.
-
-				-	other/garbage_collector.c = 9 fonctions dans le fichier
-
-				-	other/storage_new_var = 26 lignes dans la fonction check_if_key_exists je n'arrive pas a la raccourcir
-
-				-	other/storage_all_cmd.c timeout
+				_	ft_pacman by ibouchla
