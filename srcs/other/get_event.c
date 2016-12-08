@@ -51,7 +51,7 @@ static char		*get_event_byid(int pos, t_ftl_root *hist)
 	node = (t_ftl_node *)hist->next;
 	while (--pos > 0)
 		node = node->next;
-	return (ft_strdup(((t_hist *)node)->str));
+	return (x_strdup(((t_hist *)node)->str));
 }
 
 static char		*get_event_bystr(char *str, t_ftl_root *hist)
@@ -62,7 +62,7 @@ static char		*get_event_bystr(char *str, t_ftl_root *hist)
 	while (node != (t_ftl_node *)hist)
 	{
 		if (is_match(((t_hist *)node)->str, str) == 1)
-			return (ft_strdup(((t_hist *)node)->str));
+			return (x_strdup(((t_hist *)node)->str));
 		node = node->prev;
 	}
 	return (NULL);

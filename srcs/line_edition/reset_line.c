@@ -24,8 +24,8 @@ void		reset_line(void)
 	l->hauteur = w.ws_row;
 	l->sizeprompt = l->sizeprompt + 3;
 	l->line1 = l->largeur - l->sizeprompt;
-	ft_strdel(&l->str);
-	l->str = ft_strdup("");
+	//ft_strdel(&l->str);
+	l->str = x_strdup("");
 	l->tmp = 0;
 	l->final_count = 0;
 	l->size = 0;
@@ -34,10 +34,14 @@ void		reset_line(void)
 	if (l->strcpy != NULL)
 		ft_strdel(&l->strcpy);
 	l->hist_pos = -1;
+	/*
 	if (l->oldstr != NULL)
 		ft_strdel(&l->oldstr);
+	*/
 	if (l->search != NULL)
 		ft_strdel(&l->search);
+	/*
 	if (l->ans != NULL)
 		ft_strdel(&l->ans);
+	*/
 }

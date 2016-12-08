@@ -55,7 +55,7 @@ void		ft_cut(t_line *l)
 		tmp = ft_strdup("\0");
 	if (tmp == NULL)
 		return ;
-	ft_strdel(&l->str);
+	//ft_strdel(&l->str);
 	l->str = tmp;
 	l->size = ft_strlen(l->str);
 }
@@ -72,7 +72,7 @@ static void	do_join_paste(char *tmp, char *tmp2, t_line *l)
 	ft_strdel(&str);
 	if (str2 == NULL)
 		return ;
-	ft_strdel(&l->str);
+	//ft_strdel(&l->str);
 	l->str = str2;
 }
 

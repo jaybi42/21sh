@@ -25,24 +25,30 @@ static int		concat_str(char *t, char *new_i, char *t2, t_line *l)
 
 	if (t != NULL)
 	{
-		t3 = ft_strjoin(t, new_i);
+		t3 = x_strjoin(t, new_i);
 		if (t3 == NULL)
 			return (1);
+		/*
 		ft_strdel(&new_i);
 		ft_strdel(&t);
+		*/
 		new_i = t3;
 	}
 	if (t2 != NULL)
 	{
-		t3 = ft_strjoin(new_i, t2);
+		t3 = x_strjoin(new_i, t2);
 		if (t3 == NULL)
 			return (1);
+		/*
 		ft_strdel(&new_i);
 		ft_strdel(&t2);
+		*/
 		new_i = t3;
 	}
+	/*
 	if (l->str != NULL)
 		ft_strdel(&(l->str));
+	*/
 	l->str = new_i;
 	return (0);
 }
@@ -57,11 +63,11 @@ static int		transform_str(t_line *l, char *new_entry, int i)
 	if (new_entry == NULL)
 		return (0);
 	if (i != 0)
-		temp = ft_strndup(l->str, i);
+		temp = x_strndup(l->str, i);
 	while (l->str[i] != '\0' && ft_isspace(l->str[i]) == 0)
 		i++;
 	if (l->str + i != '\0')
-		temp2 = ft_strdup(l->str + i);
+		temp2 = x_strdup(l->str + i);
 	return (concat_str(temp, new_entry, temp2, l));
 }
 
