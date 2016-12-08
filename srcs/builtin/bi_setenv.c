@@ -25,6 +25,12 @@ static int	arg_isin(char *name, char *value, char *str, t_list **g_env)
 	}
 	if (temp == NULL)
 		return (1);
+	if (name)
+		if ((ft_strcmp("PATH", name)) == 0)
+		{
+			hash_del(&g_hash);
+			g_hash = hash_table(value);
+		}
 	if (((t_env *)temp->content)->value != NULL)
 		ft_strdel(&((t_env *)temp->content)->value);
 	if (((t_env *)temp->content)->str != NULL)
@@ -41,6 +47,12 @@ static int	arg_isout(char *name, char *value, char *str, t_list **g_env)
 	t_env	env;
 	t_list	*new_link;
 
+	if (name)
+		if ((ft_strcmp("PATH", name)) == 0)
+		{
+			hash_del(&g_hash);
+			g_hash = hash_table(value);
+		}
 	env.name = ft_strdup(name);
 	env.str = str;
 	env.value = ft_strdup(value);

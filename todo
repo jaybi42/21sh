@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-#    Updated: 2016/12/04 22:08:02 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/12/08 17:48:25 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,6 +90,11 @@ ______________
 
 	| RESOLU |	-	J'avais eu une erreur critique en bombardant le shell de dizaine de millier d'entrée et en jouant en meme
 					temps avec la taille de la fenetre, le nombre de leaks bombarder aussi.
+
+	| RESOLU |	-	A chaque fois que la variable d'environnement PATH est modifier / supprimer
+					hash_del(&g_hash);
+					g_hash = hash_table(new_path);
+					Du coup ce sera de nouveau possible que le hash ne trouve pas de correspondance si on unset le PATH !
 ______________
 	BUGS
 ______________
@@ -109,13 +114,11 @@ ______________
 				- 	cmd : "cat $LC_CTYPE"
 					En repetant 3/4 fois l'operation nous avons des caracteres aleatoires
 					et un malloc erreur
-			
-				-	cmd : "setenv "untruclong 66;echo untruclong" donne "66truclong" bug toujours present
 
-				-	A chaque fois que la variable d'environnement PATH est modifier / supprimer
-					hash_del(&g_hash);
-					g_hash = hash_table(new_path);
-					Du coup ce sera de nouveau possible que le hash ne trouve pas de correspondance si on unset le PATH !
+				-	unsetenv LC_CTYPE
+					ne veut pas a cause du char _
+
+				-	cmd : "setenv "untruclong 66;echo untruclong" donne "66truclong" bug toujours present
 
 				-	cmd : "ls | pwd | wc"
 					comportement indeterminer

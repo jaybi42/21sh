@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/20 13:29:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/05/19 17:58:47 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/08 18:09:29 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ int			bi_unsetenv(t_av av, t_list **g_env, t_list **l_env)
 	{
 		if (ft_strstr(((t_env *)link->content)->str, *av.arg) != NULL)
 		{
+			if (ft_strcmp(((t_env *)link->content)->name, "PATH") == 0)
+			{
+				hash_del(&g_hash);
+				g_hash = NULL;
+			}
 			unset_link(g_env, link);
 			return (0);
 		}
