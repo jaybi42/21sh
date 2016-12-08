@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/08 20:50:08 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/08 20:52:26 by ibouchla         ###   ########.fr       */
+/*   Created: 2016/12/08 22:55:53 by ibouchla          #+#    #+#             */
+/*   Updated: 2016/12/08 22:55:58 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ char	**check_var(char *s, char **env)
 		if (tmp != NULL && tmp[0] != NULL && tmp[1] != NULL)
 			if (ft_strncmp(s, tmp[0], ft_strlen(tmp[0])) == 0)
 			{
-				if (!(ret = xmalloc(sizeof(char *) * 3)))
+				ret = xmalloc(sizeof(char *) * 3);
+				if (!ret)
 					return (NULL);
 				ret[0] = tmp[0];
 				ret[1] = tmp[1];
@@ -78,10 +79,13 @@ char	*apply_var(char *s, int do_extra)
 		{
 			x_strjoins(&ns, &len, tmp[1], ft_strlen(tmp[1]));
 			ns[len] = '\0';
-			i += (ft_strlen(tmp[1]) > 0) ? ft_strlen(tmp[1]) - 1 : 1;
+			i += ft_strlen(tmp[0]);
 		}
 		else
+		{
 			ns[len++] = s[i];
+			ns[len] = '\0';
+		}
 	}
 	ns[len] = '\0';
 	return (ns);

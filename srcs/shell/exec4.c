@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 19:01:35 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/08 19:26:16 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/08 21:03:30 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void		exec_builtin_init(t_executor **exs, int *cpystdout,
 		int *cpystderr, t_handle_r *hr)
 {
 	if (exs[1] != NULL || (hr->is_redirecting && hr->b_out))
+	{
 		switch_fd_begin(STDOUT_FILENO, cpystdout);
+	}
 	if (exs[1] != NULL)
 		dup_writer_pipe(STDOUT_FILENO, hr->p[1].fds[WRITER]);
 	else if (hr->is_redirecting && hr->b_out)

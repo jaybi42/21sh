@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:47:21 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/08 19:06:40 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/08 21:09:23 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_exec		get_abs_path(char *cmd, char **argv)
 		str = get_hash_path(&g_hash, cmd);
 	if ((!g_hash && ret != -1) || (g_hash && str))
 	{
-		ex.type = BIN;
+		ex.type = BASIC;
 		ex.path = (!g_hash) ? path[ret] : str;
 		ex.argv = argv;
 	}
@@ -62,7 +62,7 @@ t_exec		make_exec_bin(t_av *av, t_list *g_env, t_list *l_env)
 			print_err("permission denied", av->cmd);
 			return (ex);
 		}
-		ex.type = BIN;
+		ex.type = BASIC;
 		ex.path = av->cmd;
 		ex.argv = av->argv;
 	}

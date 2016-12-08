@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/08 23:10:48 by ibouchla          #+#    #+#             */
+/*   Updated: 2016/12/08 23:11:52 by ibouchla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
-char *is_redir(char *s)
+char	*is_redir(char *s)
 {
-	int i;
-	char *redirs[] = {">>", ">", "<<", "<", NULL};
+	int		i;
+	char	*redirs[] = {">>", ">", "<<", "<", NULL};
 
 	i = 0;
 	while (redirs[i])
@@ -15,26 +27,24 @@ char *is_redir(char *s)
 	return (NULL);
 }
 
-int get_heredoc(char *s)
+int		get_heredoc(char *s)
 {
-	char *tmp;
-	int fd[2];
+	char	*tmp;
+	int		fd[2];
 
 	pipe(fd);
 	tmp = NULL;
-	while (1)
+	while (42)
 	{
 		tmp = get_input("heredoc> ");
 		if (ft_strcmp(s, tmp) == 0)
-			break;
+			break ;
 		else
 		{
 			write(fd[WRITER], tmp, ft_strlen(tmp));
 			write(fd[WRITER], "\n", 1);
 		}
-		//ft_strdel(&tmp);
 	}
-	//ft_strdel(&tmp);
 	close(fd[WRITER]);
 	return (fd[READER]);
 }
