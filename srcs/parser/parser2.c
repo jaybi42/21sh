@@ -17,52 +17,62 @@ typedef struct s_norm_convert_parse
 	t_av	**cmds;
 	int		id_cmds;
 	int		i;
+	char	**expr;
 }				t_norm_convert_parse;
+
+
+void 		convert_parse_if1(t_norm_convert_parse *t, t_nparse np)
+{
+	init_cmd(&(t->cmds)[++(t->id_cmds)], ft_strlen((*t->expr)));
+	(t->cmds)[(t->id_cmds)]->type = get_type(xget_string_l((*t->expr) +
+	np.begin[(t->i)], np.end[(t->i)] - np.begin[(t->i)]));
+	if ((t->cmds)[(t->id_cmds)]->type == -10)
+	{
+		if ((t->id_cmds) > 0)
+			(t->cmds)[(t->id_cmds)-1]->bg = TRUE;
+		else
+			ft_dprintf(2, "21sh: parse error\n");
+		(t->cmds)[(t->id_cmds)]->type = TYPE_NORMAL;
+	}
+	(t->cmds)[(t->id_cmds) + 1] = NULL;
+}
+
+void  convert_parse_if2(t_norm_convert_parse *t, t_nparse np,
+	int *t_ind, int *l_ind)
+{
+	char *x;
+
+	x = xget_string_l((*t->expr) + np.begin[(t->i)], np.end[(t->i)] -
+			np.begin[(t->i)]);
+	(t->cmds)[(t->id_cmds)]->argv[(t->cmds)[(t->id_cmds)]->argc] = x;
+	(t->cmds)[(t->id_cmds)]->argv_auth[(t->cmds)[(t->id_cmds)]->argc] =
+	handle_d(np, (t->i), t_ind, l_ind, ft_strlen((*t->expr)));
+	(t->cmds)[(t->id_cmds)]->argc++;
+	(t->cmds)[(t->id_cmds)]->argv_auth[(t->cmds)[(t->id_cmds)]->argc] = NULL;
+	(t->cmds)[(t->id_cmds)]->argv[(t->cmds)[(t->id_cmds)]->argc] = NULL;
+}
 
 t_av		**convert_parse(char *expr, t_nparse np, int *t_ind, int *l_ind)
 {
-	t_av	**cmds;
-	int		id_cmds;
-	int		i;
+	t_norm_convert_parse t;
 
-	cmds = xmalloc(sizeof(t_av*) * (ft_strlen(expr) + 1));
-	id_cmds = 0;
-	init_cmd(&cmds[0], ft_strlen(expr));
-	cmds[id_cmds]->type = TYPE_NORMAL;
-	cmds[id_cmds + 1] = NULL;
-	i = 0;
-	while (i < np.nb)
+	(t.expr) = &expr;
+	(t.cmds) = xmalloc(sizeof(t_av*) * (ft_strlen((*t.expr)) + 1));
+	(t.id_cmds) = 0;
+	init_cmd(&(t.cmds)[0], ft_strlen((*t.expr)));
+	(t.cmds)[(t.id_cmds)]->type = TYPE_NORMAL;
+	(t.cmds)[(t.id_cmds) + 1] = NULL;
+	(t.i) = 0;
+	while ((t.i) < np.nb)
 	{
-		if (np.type[i] > 0)
-		{
-			init_cmd(&cmds[++id_cmds], ft_strlen(expr));
-			cmds[id_cmds]->type = get_type(xget_string_l(expr + np.begin[i],
-						np.end[i] - np.begin[i]));
-			if (cmds[id_cmds]->type == -10)
-			{
-				if (id_cmds > 0)
-					cmds[id_cmds-1]->bg = TRUE;
-				else
-					dprintf(2, "21sh: parse error\n");
-				cmds[id_cmds]->type = TYPE_NORMAL;
-			}
-			cmds[id_cmds + 1] = NULL;
-		}
+		if (np.type[(t.i)] > 0)
+			convert_parse_if1(&t, np);
 		else
-		{
-			char *x = xget_string_l(expr + np.begin[i], np.end[i] -
-					np.begin[i]);
-			cmds[id_cmds]->argv[cmds[id_cmds]->argc] = x;
-			cmds[id_cmds]->argv_auth[cmds[id_cmds]->argc] = handle_d(np,
-					i, t_ind, l_ind, ft_strlen(expr));
-			cmds[id_cmds]->argc++;
-			cmds[id_cmds]->argv_auth[cmds[id_cmds]->argc] = NULL;
-			cmds[id_cmds]->argv[cmds[id_cmds]->argc] = NULL;
-		}
-		i++;
+			convert_parse_if2(&t, np, t_ind, l_ind);
+		(t.i)++;
 	}
-	cmds[id_cmds + 1] = NULL;
-	return (cmds);
+	(t.cmds)[(t.id_cmds) + 1] = NULL;
+	return ((t.cmds));
 }
 
 typedef struct	s_norm_parse
