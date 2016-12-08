@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-#    Updated: 2016/12/08 17:48:25 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/12/08 20:38:40 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,11 +115,14 @@ ______________
 					En repetant 3/4 fois l'operation nous avons des caracteres aleatoires
 					et un malloc erreur
 
+				-	echo "bonjour" | cat -e
+					ne fais rien
+
 				-	unsetenv LC_CTYPE
 					ne veut pas a cause du char _
 
 				-	cmd : "setenv "untruclong 66;echo untruclong" donne "66truclong" bug toujours present
-
+ 
 				-	cmd : "ls | pwd | wc"
 					comportement indeterminer
 
