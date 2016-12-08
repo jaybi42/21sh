@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/12/07 21:58:43 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/12/08 19:02:05 by agadhgad         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -125,6 +125,7 @@ FILES = autocomp/autocomp			\
 		shell/exec		\
 		shell/exec2		\
 		shell/exec3		\
+		shell/exec4		\
 		shell/prepare_exec		\
 		shell/prepare_exec2		\
 		shell/prepare_exec3		\

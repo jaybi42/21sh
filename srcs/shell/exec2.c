@@ -6,37 +6,11 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 19:46:38 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/06 19:52:25 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/08 19:03:19 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-t_sf	*read_from_fd(int fd)
-{
-	t_sf	*tmp;
-	t_sf	*curr;
-	char	b[WRITING];
-	int		len;
-
-	curr = NULL;
-	while ((len = read(fd, &b, WRITING)) > 0)
-	{
-		if (!(tmp = create_packet((char *)b, len)))
-		{
-			impossibru_error("packet hasn't been created");
-			return (NULL);
-		}
-		if (curr == NULL)
-			curr = tmp;
-		else
-		{
-			curr->next = tmp;
-			curr = tmp;
-		}
-	}
-	return (curr);
-}
 
 void	father_handle_redirect(t_handle_r *hr)
 {
@@ -94,14 +68,9 @@ void	son_handle_in(int fdin, t_redirect **r)
 	}
 }
 
-void	init_handle_redirect(t_redirect **redirect, t_handle_r *hr, int ispipe)
+int		init_handle_redirect2(t_redirect **redirect,
+		t_handle_r *hr, int ispipe, int i)
 {
-	int i;
-
-	hr->b_out = 0;
-	hr->b_err = 0;
-	hr->is_redirecting = 0;
-	i = -1;
 	while (++i < 3)
 	{
 		hr->p[i].fds[0] = -1;
@@ -112,10 +81,10 @@ void	init_handle_redirect(t_redirect **redirect, t_handle_r *hr, int ispipe)
 	{
 		hr->p[1].activate = 1;
 		pipe(hr->p[1].fds);
-		return ;
+		return (FALSE);
 	}
 	if (!redirect)
-		return ;
+		return (FALSE);
 	i = -1;
 	while (redirect[++i])
 	{
@@ -126,6 +95,16 @@ void	init_handle_redirect(t_redirect **redirect, t_handle_r *hr, int ispipe)
 		if (redirect[i]->fd_in == 2)
 			hr->b_err = 1;
 	}
+	return (TRUE);
+}
+
+void	init_handle_redirect(t_redirect **redirect, t_handle_r *hr, int ispipe)
+{
+	hr->b_out = 0;
+	hr->b_err = 0;
+	hr->is_redirecting = 0;
+	if (!init_handle_redirect2(redirect, hr, ispipe, -1))
+		return ;
 	if (hr->b_out)
 	{
 		if (pipe(hr->fdout) == -1)

@@ -6,52 +6,11 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:18:48 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 20:42:17 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/08 19:26:00 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-void		exec_builtin_init(t_executor **exs, int *cpystdout,
-		int *cpystderr, t_handle_r *hr)
-{
-	if (exs[1] != NULL || (hr->is_redirecting && hr->b_out))
-		switch_fd_begin(STDOUT_FILENO, cpystdout);
-	if (exs[1] != NULL)
-		dup_writer_pipe(STDOUT_FILENO, hr->p[1].fds[WRITER]);
-	else if (hr->is_redirecting && hr->b_out)
-		dup_writer_pipe(STDOUT_FILENO, hr->fdout[WRITER]);
-	if (hr->is_redirecting && hr->b_err)
-	{
-		switch_fd_begin(STDERR_FILENO, cpystderr);
-		dup_writer_pipe(STDERR_FILENO, hr->fderr[WRITER]);
-	}
-}
-
-void		exec_builtin(t_executor **exs, t_handle_r *hr, char **env)
-{
-	int cpystdout;
-	int cpystderr;
-
-	cpystdout = -1;
-	cpystderr = -1;
-	exec_builtin_init(exs, &cpystdout, &cpystderr, hr);
-	(*exs)->ex.fnct((*exs)->av, &g_env, &l_env);
-	if (exs[1] != NULL || (hr->is_redirecting && hr->b_out))
-		switch_fd_end(STDOUT_FILENO, &cpystdout);
-	if (hr->is_redirecting && hr->b_err)
-		switch_fd_end(STDERR_FILENO, &cpystderr);
-	if (exs[1] != NULL)
-		exec_all(&exs[1], env, hr->p[1].fds[READER]);
-	else if (hr->is_redirecting && hr->b_out)
-	{
-		close(hr->fdout[WRITER]);
-		hr->packets_out = read_from_fd(hr->fdout[READER]);
-		close(hr->fdout[READER]);
-	}
-	if (hr->is_redirecting && hr->b_err)
-		close(hr->fderr[WRITER]);
-}
 
 void		exec_bin_child(t_executor **exs, int fdin,
 		t_handle_r *hr, char **env)
@@ -89,7 +48,6 @@ int			exec_bin_father(t_executor **exs, int fdin,
 		g_prompt.son = 1;
 	if (WIFEXITED(wait_status))
 		ret = WEXITSTATUS(wait_status);
-	
 	return (ret);
 }
 
@@ -115,61 +73,60 @@ int			exec_all(t_executor **exs, char **env, int fdin)
 	return (ret);
 }
 
-t_output	do_exec(t_executor **exs, int ret)
+void		do_exec_init(t_do_exec *t, t_executor ***exs, int ret)
 {
-	t_output	o;
-	int			fdout[2];
-	char		**env;
-	int			i;
-	int			y;
-	char		b[WRITING];
-	int			r;
-
-	(g_debug) ? ft_dprintf(2, "-- {green}EXEC{eoc} --\n") : 0;
-	clear_output(&o);
-	o.string[0] = '\0';
-	o.ret_code = 0;
-	fdout[0] = -1;
-	fdout[1] = -1;
-	env = convert_env(g_env, l_env);
+	(t->fdout)[1] = -1;
+	(t->env) = convert_env(g_env, l_env);
 	if (ret != 0)
 	{
-		pipe(fdout);
-		i = 0;
-		while (exs[i])
+		pipe((t->fdout));
+		(t->i) = 0;
+		while ((*exs)[(t->i)])
 		{
-			if (exs[i + 1] == NULL)
-				get_out(&exs[i]->ex.r, fdout[WRITER]);
-			i++;
+			if ((*exs)[(t->i) + 1] == NULL)
+				get_out(&(*exs)[(t->i)]->ex.r, (t->fdout)[WRITER]);
+			(t->i)++;
 		}
 	}
-	o.ret_code = 0;
-	o.ret_code = exec_all(exs, env, -1);
+	(t->o).ret_code = 0;
+	(t->o).ret_code = exec_all((*exs), (t->env), -1);
 	if (*g_exit != -1)
 		clean_exit(*g_exit);
 	if (ret != 0)
 	{
-		close(fdout[WRITER]);
-		while ((r = read(fdout[READER], b, WRITING)) > 0)
-			x_strjoins(&o.string, (size_t *)&o.len, (char *)b, r);
-		close(fdout[READER]);
+		close((t->fdout)[WRITER]);
+		while (((t->r) = read((t->fdout)[READER], (t->b), WRITING)) > 0)
+			x_strjoins(&(t->o).string, (size_t *)&(t->o).len,
+					(char *)(t->b), (t->r));
+		close((t->fdout)[READER]);
 	}
-	i = -1;
-	y = -1;
-	while (exs[++y])
+}
+
+t_output	do_exec(t_executor **exs, int ret)
+{
+	t_do_exec t;
+
+	clear_output(&(t.o));
+	(t.o).string[0] = '\0';
+	(t.o).ret_code = 0;
+	(t.fdout)[0] = -1;
+	do_exec_init(&t, &exs, ret);
+	(t.i) = -1;
+	(t.y) = -1;
+	while (exs[++(t.y)])
 	{
-		i = -1;
-		while (exs[y]->ex.r[++i])
+		(t.i) = -1;
+		while (exs[(t.y)]->ex.r[++(t.i)])
 		{
-			if (exs[y]->ex.r[i]->type == IGNORE)
+			if (exs[(t.y)]->ex.r[(t.i)]->type == IGNORE)
 				continue ;
-			if (ret != 0 && exs[y]->ex.r[i + 1] == NULL)
+			if (ret != 0 && exs[(t.y)]->ex.r[(t.i) + 1] == NULL)
 				continue ;
-			if (exs[y]->ex.r[i]->fd_out != STDOUT_FILENO ||
-					exs[y]->ex.r[i]->fd_out != STDERR_FILENO ||
-					exs[y]->ex.r[i]->fd_out != STDIN_FILENO)
-				close(exs[y]->ex.r[i]->fd_out);
+			if (exs[(t.y)]->ex.r[(t.i)]->fd_out != STDOUT_FILENO ||
+					exs[(t.y)]->ex.r[(t.i)]->fd_out != STDERR_FILENO ||
+					exs[(t.y)]->ex.r[(t.i)]->fd_out != STDIN_FILENO)
+				close(exs[(t.y)]->ex.r[(t.i)]->fd_out);
 		}
 	}
-	return (o);
+	return ((t.o));
 }

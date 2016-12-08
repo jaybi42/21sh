@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/07 21:58:13 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/08 19:39:03 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -484,6 +484,17 @@ typedef struct s_shells
 	int find;
 }			 	t_shells;
 
+typedef struct	s_do_exec
+{
+	t_output	o;
+	int			fdout[2];
+	char		**env;
+	int			i;
+	int			y;
+	char		b[WRITING];
+	int			r;
+}				t_do_exec;
+
 /*
 ** shell
 */
@@ -527,6 +538,10 @@ void	switch_fd_begin(int fd, int *new_fd);
 void	switch_fd_end(int fd, int *old_fd);
 void	dup_writer_pipe(int fd, int writer);
 
+t_sf	*read_from_fd(int fd);
+void		exec_builtin_init(t_executor **exs, int *cpystdout,
+		int *cpystderr, t_handle_r *hr);
+void		exec_builtin(t_executor **exs, t_handle_r *hr, char **env);
 /*
 ** prepare_exec
 */
@@ -708,6 +723,15 @@ t_nparse parse(char *expr, int *t_ind, int *l_ind);
 /*
 ** parser3
 */
+
+typedef struct	s_norm_connector
+{
+	int id_tab;
+	char *s;
+	int num_tmp;
+	int i_tmp;
+}				t_norm_connector;
+
 int is_intouchable(int i, int *t_ind, int *l_ind);
 int is_connector(char *tested_s, int i, int *t_ind, int *l_ind);
 int		nparse_close(t_nparse *np, int id_close);

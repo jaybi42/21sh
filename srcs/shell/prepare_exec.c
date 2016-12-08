@@ -6,11 +6,17 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:47:21 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/07 21:37:53 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/08 19:06:40 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
+
+void		grate_une_ligne(int *type, void **fnct)
+{
+	(*type) = -1;
+	(*fnct) = NULL;
+}
 
 t_exec		get_abs_path(char *cmd, char **argv)
 {
@@ -20,8 +26,7 @@ t_exec		get_abs_path(char *cmd, char **argv)
 	t_exec	ex;
 	int		ret;
 
-	ex.type = -1;
-	ex.fnct = NULL;
+	grate_une_ligne(&ex.type, (void *)&ex.fnct);
 	if (!g_hash)
 	{
 		env = convert_env(g_env, l_env);
