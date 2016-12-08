@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 17:13:02 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/07 21:37:30 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/08 18:16:09 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,6 @@ void			hash_del(t_hash ***hash)
 				if (tmp != NULL)
 					ft_memdel((void **)&tmp);
 			}
+	ft_memdel((void **)hash);
+	g_hash_size = 0;
 }
