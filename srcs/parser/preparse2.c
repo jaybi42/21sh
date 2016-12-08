@@ -1,25 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   preparse2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/08 20:50:08 by ibouchla          #+#    #+#             */
+/*   Updated: 2016/12/08 20:52:26 by ibouchla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
-char **check_var(char *s, char **env)
+char	**check_var(char *s, char **env)
 {
-	int i;
-	char **tmp;
-	char *tmpe;
+	int		i;
+	char	**tmp;
+	char	*tmpe;
+	char	**ret;
 
 	tmpe = handle_var(KV_GET, s, NULL);
 	if (tmpe != NULL)
 	{
-		char **ret;
-
-		ret = xmalloc(sizeof(char *) * 3);
-		if (!ret)
+		if (!(ret = xmalloc(sizeof(char *) * 3)))
 			return (NULL);
 		ret[0] = s;
 		ret[1] = tmpe;
 		ret[2] = NULL;
 		return (ret);
 	}
-
 	i = 0;
 	while (env[i])
 	{
@@ -27,9 +36,7 @@ char **check_var(char *s, char **env)
 		if (tmp != NULL && tmp[0] != NULL && tmp[1] != NULL)
 			if (ft_strncmp(s, tmp[0], ft_strlen(tmp[0])) == 0)
 			{
-				char **ret;
-				ret = xmalloc(sizeof(char *) * 3);
-				if (!ret)
+				if (!(ret = xmalloc(sizeof(char *) * 3)))
 					return (NULL);
 				ret[0] = tmp[0];
 				ret[1] = tmp[1];
@@ -41,13 +48,13 @@ char **check_var(char *s, char **env)
 	return (NULL);
 }
 
-char *apply_var(char *s, int do_extra)
+char	*apply_var(char *s, int do_extra)
 {
-	int i;
-	char *ns;
-	char **tmp;
-	size_t len;
-	char **env;
+	int		i;
+	char	*ns;
+	char	**tmp;
+	size_t	len;
+	char	**env;
 
 	env = convert_env(g_env, l_env);
 	if (do_extra == TRUE)
@@ -69,9 +76,9 @@ char *apply_var(char *s, int do_extra)
 	{
 		if (s[i] == '$' && (tmp = check_var(s + i + 1, env)) != NULL)
 		{
-				x_strjoins(&ns, &len, tmp[1], ft_strlen(tmp[1]));
-				ns[len] = '\0';
-				i += (ft_strlen(tmp[1]) > 0) ? ft_strlen(tmp[1]) - 1 : 1;
+			x_strjoins(&ns, &len, tmp[1], ft_strlen(tmp[1]));
+			ns[len] = '\0';
+			i += (ft_strlen(tmp[1]) > 0) ? ft_strlen(tmp[1]) - 1 : 1;
 		}
 		else
 			ns[len++] = s[i];

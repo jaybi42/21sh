@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 19:52:23 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 20:01:38 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/08 21:04:55 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	simplify_space(char **expr, int **t_ind, int **l_ind)
 
 void	exclude_s(t_norm_simplify *t)
 {
-	int x;
-	int w;
-	char *tmp;
+	int		x;
+	int		w;
+	char	*tmp;
 
 	x = 0;
 	tmp = xmalloc(sizeof(char *) * (ft_strlen((*t->expr)) + 1));
@@ -58,7 +58,7 @@ void	exclude_s(t_norm_simplify *t)
 		if (x < t->i || (!(x >= t->i && x < t->i + t->a)))
 			tmp[w++] = (*t->expr)[x];
 	tmp[w] = '\0';
-	(*t->expr) =  tmp;
+	(*t->expr) = tmp;
 }
 
 void	update_debug(t_av **av, int i)
@@ -67,12 +67,12 @@ void	update_debug(t_av **av, int i)
 	int b;
 
 	x = -1;
-	while(av[i]->argv[++x])
+	while (av[i]->argv[++x])
 	{
-		dprintf(2, "cmd %.*s %d argv[%d] : %%",(i + 1)*2,
+		dprintf(2, "cmd %.*s %d argv[%d] : %%", (i + 1) * 2,
 				"---------------------------------------", i, x);
 		b = -1;
-		while(av[i]->argv[x][++b])
+		while (av[i]->argv[x][++b])
 		{
 			if (av[i]->argv_auth[x][b] == 1)
 				ft_dprintf(2, "{green}%c{eoc}", av[i]->argv[x][b]);
@@ -81,7 +81,6 @@ void	update_debug(t_av **av, int i)
 		}
 		ft_dprintf(2, "%%\n");
 	}
-
 }
 
 void	update_arg(t_av ***av, int i)

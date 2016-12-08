@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parseruse3.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/08 20:49:28 by ibouchla          #+#    #+#             */
+/*   Updated: 2016/12/08 20:49:45 by ibouchla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 
-void reset_current(t_parse *p, int index)
+void	reset_current(t_parse *p, int index)
 {
 	p->nb++;
 	p->current = EMPTY;
@@ -11,7 +23,7 @@ void reset_current(t_parse *p, int index)
 	p->quote_activate = FALSE;
 }
 
-void update_new(t_parse *p, int index, int delimiter_index)
+void	update_new(t_parse *p, int index, int delimiter_index)
 {
 	p->end[p->nb++] = index;
 	p->current = delimiter_index;

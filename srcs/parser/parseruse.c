@@ -6,13 +6,13 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 19:56:30 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 19:56:32 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/08 20:49:10 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-void delete_c(t_av **cmd, int id_argv, int i, int *pi)
+void	delete_c(t_av **cmd, int id_argv, int i, int *pi)
 {
 	int a;
 
@@ -20,18 +20,19 @@ void delete_c(t_av **cmd, int id_argv, int i, int *pi)
 	while ((*cmd)->argv[id_argv][i + a])
 	{
 		(*cmd)->argv[id_argv][i + a] = (*cmd)->argv[id_argv][i + a + 1];
-		(*cmd)->argv_auth[id_argv][i + a] = (*cmd)->argv_auth[id_argv][i + a + 1];
+		(*cmd)->argv_auth[id_argv][i + a] =
+		(*cmd)->argv_auth[id_argv][i + a + 1];
 		a++;
 	}
 	(*pi) -= 1;
 }
 
-void delete_s(t_av **cmd, int id_argv)
+void	delete_s(t_av **cmd, int id_argv)
 {
 	int a;
 
 	a = id_argv;
-	while((*cmd)->argv[a])
+	while ((*cmd)->argv[a])
 	{
 		(*cmd)->argv[a] = (*cmd)->argv[a + 1];
 		(*cmd)->argv_auth[a] = (*cmd)->argv_auth[a + 1];
@@ -40,14 +41,14 @@ void delete_s(t_av **cmd, int id_argv)
 	(*cmd)->argc--;
 }
 
-int is_whitespace(char c)
+int		is_whitespace(char c)
 {
 	if (c == ' ' || c == '\n')
 		return (1);
 	return (0);
 }
 
-void print_step1(char *expr, int *t_ind, int *l_ind)
+void	print_step1(char *expr, int *t_ind, int *l_ind)
 {
 	int i;
 
@@ -59,7 +60,7 @@ void print_step1(char *expr, int *t_ind, int *l_ind)
 			ft_dprintf(2, "{red}%c{eoc}", expr[i]);
 		else
 			ft_dprintf(2, "{green}%c{eoc}", expr[i]);
-			i++;
+		i++;
 	}
-		ft_dprintf(2, "%%\n");
+	ft_dprintf(2, "%%\n");
 }

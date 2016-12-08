@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/07 18:54:54 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/07 18:56:06 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/08 20:44:50 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	init_cmd(t_av **cmd, size_t len)
 	(*cmd)->redirect[0] = NULL;
 }
 
-char	*xget_string_l(char *s,int l)
+char	*xget_string_l(char *s, int l)
 {
 	int		i;
 	char	*ret;
@@ -58,13 +58,13 @@ int		get_type(char *s)
 	if (ft_strncmp(s, ";", ft_strlen(";")) == 0)
 		return (TYPE_NORMAL);
 	if (ft_strncmp(s, "||", ft_strlen("||")) == 0)
-			return (TYPE_OR);
+		return (TYPE_OR);
 	if (ft_strncmp(s, "&&", ft_strlen("&&")) == 0)
-			return (TYPE_AND);
+		return (TYPE_AND);
 	if (ft_strncmp(s, "|", ft_strlen("|")) == 0)
-			return (TYPE_PIPE);
+		return (TYPE_PIPE);
 	if (ft_strncmp(s, "&", ft_strlen("&")) == 0)
-			return (-10);
+		return (-10);
 	else
 		return (TYPE_NORMAL);
 }
@@ -80,12 +80,12 @@ int		*handle_d(t_nparse np, int i, int *t_ind, int *l_ind, int len)
 	id_x = 0;
 	while (a <= np.end[i])
 	{
-			if (is_intouchable(a, t_ind, l_ind))
-				x[id_x] = 0;
-			else
-				x[id_x] = 1;
-			id_x++;
-			a++;
+		if (is_intouchable(a, t_ind, l_ind))
+			x[id_x] = 0;
+		else
+			x[id_x] = 1;
+		id_x++;
+		a++;
 	}
 	return (x);
 }
