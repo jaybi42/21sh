@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:11:28 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 18:14:06 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/08 21:11:34 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ t_exec		make_exec_builtin(t_av *av)
 			ex.argv = av->argv;
 			ex.path = NULL;
 			ex.type = BUILTIN;
+			ft_dprintf(2, "");
 			break ;
 		}
 		i++;

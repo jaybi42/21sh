@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/08 19:39:03 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/08 20:58:17 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -515,9 +515,9 @@ int shell_pre_exec_logical_pipe(t_shells *s, t_av **av);
 /*
 ** exec
 */
-int exec_all(t_executor **exs, char **env, int fdin);
-t_output do_exec(t_executor **exs, int ret);
-void impossibru_error(char *s);
+int			exec_all(t_executor **exs, char **env, int fdin);
+t_output	do_exec(t_executor **exs, int ret);
+void		impossibru_error(char *s);
 
 /*
 ** exec2

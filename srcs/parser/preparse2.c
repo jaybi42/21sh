@@ -71,10 +71,13 @@ char *apply_var(char *s, int do_extra)
 		{
 				x_strjoins(&ns, &len, tmp[1], ft_strlen(tmp[1]));
 				ns[len] = '\0';
-				i += (ft_strlen(tmp[1]) > 0) ? ft_strlen(tmp[1]) - 1 : 1;
+				i += ft_strlen(tmp[0]);
 		}
 		else
+		{
 			ns[len++] = s[i];
+			ns[len] = '\0';
+		}
 	}
 	ns[len] = '\0';
 	return (ns);
