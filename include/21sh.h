@@ -789,7 +789,6 @@ char *apply_var(char *s, int do_extra);
 /*
 ** preparse3
 */
-void		handle_delimiter2(char *expr, int *i, t_parse *p, t_delimiter *d, int l);
 t_parse		*parse_it2(char *expr, int len, t_delimiter *d, int l);
 
 /*

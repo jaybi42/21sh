@@ -61,41 +61,57 @@ char	*find_home(char **env)
 	return (ans);
 }
 
-char	*join_string_array(char **a, int *marked_ind,
-		int **t_ind, int **l_ind)
+typedef struct s_norm_j_s_a
 {
 	int		i;
 	size_t	len;
 	char	*ns;
 	int		len_ind;
+	int		**t_ind;
+	int		**l_ind;
+}							t_norm_j_s_a;
 
-	len = 0;
-	len_ind = 0;
-	i = -1;
-	while (a[++i])
+int join_string_array_init(t_norm_j_s_a *t, char **a, int *marked_ind)
+{
+	(t->len) = 0;
+	(t->len_ind) = 0;
+	(t->i) = -1;
+	while (a[++(t->i)])
 	{
-		len += ft_strlen(a[i]) + 1;
-		if (marked_ind[i] == 1)
-			len_ind++;
+		(t->len) += ft_strlen(a[(t->i)]) + 1;
+		if (marked_ind[(t->i)] == 1)
+			(t->len_ind)++;
 	}
-	ns = xmalloc(sizeof(char) * (len + 1));
-	(*t_ind) = xmalloc(sizeof(int) * (len_ind + 1));
-	(*l_ind) = xmalloc(sizeof(int) * (len_ind + 1));
-	i = 0;
-	len = 0;
-	len_ind = 0;
-	while (a[i])
+	if (!((t->ns) = xmalloc(sizeof(char) * ((t->len) + 1))) ||
+	!((*(t->t_ind)) = xmalloc(sizeof(int) * ((t->len_ind) + 1))) ||
+	!((*(t->l_ind)) = xmalloc(sizeof(int) * ((t->len_ind) + 1))))
+		return (FALSE);
+	(t->i) = 0;
+	(t->len) = 0;
+	(t->len_ind) = 0;
+	return (TRUE);
+}
+char	*join_string_array(char **a, int *marked_ind,
+		int **t_ind, int **l_ind)
+{
+	t_norm_j_s_a t;
+
+	t.t_ind = t_ind;
+	t.l_ind = l_ind;
+	if (!join_string_array_init(&t, a, marked_ind))
+		return (FALSE);
+	while (a[(t.i)])
 	{
-		if (marked_ind[i] == 1)
+		if (marked_ind[(t.i)] == 1)
 		{
-			(*t_ind)[len_ind] = len;
-			(*l_ind)[len_ind++] = ft_strlen(a[i]) - 1;
+			(*t_ind)[(t.len_ind)] = (t.len);
+			(*l_ind)[(t.len_ind)++] = ft_strlen(a[(t.i)]) - 1;
 		}
-		x_strjoins(&ns, &len, a[i], ft_strlen(a[i]));
-		i++;
+		x_strjoins(&(t.ns), &(t.len), a[(t.i)], ft_strlen(a[(t.i)]));
+		(t.i)++;
 	}
-	ns[len] = '\0';
-	(*t_ind)[len_ind] = -1;
-	(*l_ind)[len_ind] = -1;
-	return (ns);
+	(t.ns)[(t.len)] = '\0';
+	(*t_ind)[(t.len_ind)] = -1;
+	(*l_ind)[(t.len_ind)] = -1;
+	return ((t.ns));
 }

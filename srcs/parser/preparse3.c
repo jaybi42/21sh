@@ -12,66 +12,87 @@
 
 #include "21sh.h"
 
-void		handle_delimiter2(char *expr, int *i, t_parse *p,
-		t_delimiter *d, int l)
+typedef struct s_norm_parse2
+{
+	char		*expr;
+	int			len;
+	t_parse *p;
+	int			i;
+	t_delimiter *d;
+	int				l;
+}							t_norm_parse2;
+
+int			handle_delimiter2_init(t_norm_parse2 *t, int *a)
+{
+	while ((*a) < (t->l))
+	{
+		if (ft_strncmp((t->expr) + (t->i), (t->d)[(*a)].name,
+		ft_strlen((t->d)[(*a)].name)) == 0)
+		{
+			if ((t->p)->current != EMPTY &&
+			(t->d)[(t->p)->current].wait_another == TRUE && (t->p)->current == (*a))
+			{
+				(t->p)->end[(t->p)->nb] = (t->i);
+				reset_current((t->p), (t->i));
+			}
+			else if ((t->p)->current != EMPTY &&
+			(t->d)[(t->p)->current].do_recursivity == TRUE && (t->p)->current == (*a))
+				update_new((t->p), (t->i), (*a));
+			else if ((t->p)->current == EMPTY)
+				update_new((t->p), (t->i), (*a));
+			(t->i) += 1;
+			return (FALSE);
+		}
+		(*a)++;
+	}
+	return (TRUE);
+}
+
+void		handle_delimiter2(t_norm_parse2 *t)
 {
 	int a;
 
 	a = 0;
-	while (a < l)
+	if (!handle_delimiter2_init(t, &a))
+		return ;
+	if ((t->p)->current != EMPTY && (t->d)[(t->p)->current].is_redirection == TRUE
+			&& (t->p)->one_arg == FALSE
+			&& char_is_whitespace((t->expr)[(t->i)]) == FALSE)
+		(t->p)->one_arg = TRUE;
+	else if ((t->p)->current != EMPTY && (t->d)[(t->p)->current].is_redirection
+		== TRUE && (t->p)->one_arg == TRUE && char_is_whitespace((t->expr)[(t->i)])
+		== TRUE)
 	{
-		if (ft_strncmp(expr + (*i), d[a].name, ft_strlen(d[a].name)) == 0)
-		{
-			if (p->current != EMPTY && d[p->current].wait_another == TRUE
-					&& p->current == a)
-			{
-				p->end[p->nb] = (*i);
-				reset_current(p, (*i));
-			}
-			else if (p->current != EMPTY && d[p->current].do_recursivity == TRUE
-					&& p->current == a)
-				update_new(p, (*i), a);
-			else if (p->current == EMPTY)
-				update_new(p, (*i), a);
-			(*i) += 1;
-			return ;
-		}
-		a++;
+		(t->p)->end[(t->p)->nb] = (t->i);
+		reset_current((t->p), (t->i));
 	}
-	if (p->current != EMPTY && d[p->current].is_redirection == TRUE
-			&& p->one_arg == FALSE
-			&& char_is_whitespace(expr[(*i)]) == FALSE)
-		p->one_arg = TRUE;
-	else if (p->current != EMPTY && d[p->current].is_redirection == TRUE
-			&& p->one_arg == TRUE && char_is_whitespace(expr[(*i)]) == TRUE)
-	{
-		p->end[p->nb] = (*i);
-		reset_current(p, (*i));
-	}
-	(*i) += 1;
+	(t->i) += 1;
 }
 
 t_parse		*parse_it2(char *expr, int len, t_delimiter *d, int l)
 {
-	int		i;
-	t_parse	*p;
+	t_norm_parse2 t;
 
-	if (!(p = xmalloc(sizeof(t_parse))) ||
-			!(p->begin = xmalloc(sizeof(int) * ft_strlen(expr))) ||
-			!(p->end = xmalloc(sizeof(int) * ft_strlen(expr))) ||
-			!(p->type = xmalloc(sizeof(int) * ft_strlen(expr))))
+	t.expr = expr;
+	t.len = len;
+	t.d = d;
+	t.l = l;
+	if (!((t.p) = xmalloc(sizeof(t_parse))) ||
+			!((t.p)->begin = xmalloc(sizeof(int) * ft_strlen((t.expr)))) ||
+			!((t.p)->end = xmalloc(sizeof(int) * ft_strlen((t.expr)))) ||
+			!((t.p)->type = xmalloc(sizeof(int) * ft_strlen((t.expr)))))
 		exit(0);
-	i = 0;
-	p->nb = 0;
-	p->current = -1;
-	p->begin[0] = 0;
-	p->type[0] = -1;
-	while (i < len && expr[i] != '\0')
-		handle_delimiter2(expr, &i, p, d, l);
-	if (p->current != EMPTY && d[p->current].wait_another == TRUE)
+	(t.i) = 0;
+	(t.p)->nb = 0;
+	(t.p)->current = -1;
+	(t.p)->begin[0] = 0;
+	(t.p)->type[0] = -1;
+	while ((t.i) < (t.len) && (t.expr)[(t.i)] != '\0')
+		handle_delimiter2(&t);
+	if ((t.p)->current != EMPTY && (t.d)[(t.p)->current].wait_another == TRUE)
 		ft_printf("[!] we were waiting another |%s|\
-				adding one for u\n", d[p->current].name);
-	p->end[p->nb] = i;
-	p->nb++;
-	return (p);
+				adding one for u\n", (t.d)[(t.p)->current].name);
+	(t.p)->end[(t.p)->nb] = (t.i);
+	(t.p)->nb++;
+	return ((t.p));
 }

@@ -25,10 +25,10 @@ void	finder_suspension_judgement(t_finder *f, t_globbing *g, char **words)
 			if (words[(f->a_w)][(*(f->p_d))[(f->a_w)]] == g->exprs[0])
 				(f->find) = 1;
 		}
-		else if (!strncmp(words[(f->a_w)] + (*(f->p_d))[(f->a_w)],
-					g->exprs, strlen(g->exprs)))
+		else if (!ft_strncmp(words[(f->a_w)] + (*(f->p_d))[(f->a_w)],
+					g->exprs, ft_strlen(g->exprs)))
 		{
-			(*(f->p_d))[(f->a_w)] += strlen(g->exprs);
+			(*(f->p_d))[(f->a_w)] += ft_strlen(g->exprs);
 			(f->find) = 1;
 		}
 	}

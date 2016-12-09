@@ -122,6 +122,18 @@ void		parse_init(t_norm_parse *p, char *expr, int *t_ind, int *l_ind)
 	nparse_extend(&(p->np), (p->i));
 }
 
+t_nparse ret_parse(t_norm_parse *p, char *expr, int *t_ind, int *l_ind)
+{
+	if (!nparse_close(&(p->np), (p->i)))
+		return ((p->np));
+	(p->np).nb++;
+	if ((p->i) > 0 && !is_intouchable((p->i) - 1, t_ind, l_ind) &&
+			is_whitespace(expr[(p->i) - 1]))
+	(p->np).nb--;
+	(p->np).failed = FALSE;
+	return ((p->np));
+}
+
 t_nparse	parse(char *expr, int *t_ind, int *l_ind)
 {
 	t_norm_parse	p;
@@ -147,12 +159,5 @@ t_nparse	parse(char *expr, int *t_ind, int *l_ind)
 		}
 		(p.i)++;
 	}
-	if (!nparse_close(&(p.np), (p.i)))
-		return ((p.np));
-	(p.np).nb++;
-	if ((p.i) > 0 && !is_intouchable((p.i) - 1, t_ind, l_ind) &&
-			is_whitespace(expr[(p.i) - 1]))
-		(p.np).nb--;
-	(p.np).failed = FALSE;
-	return ((p.np));
+	return (ret_parse(&p, expr, t_ind, l_ind));
 }

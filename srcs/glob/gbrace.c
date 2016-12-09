@@ -77,7 +77,7 @@ char	**bracesplit(char *s)
 	t_brak	b;
 	int		i;
 
-	b.len = strlen(s) + 1;
+	b.len = ft_strlen(s) + 1;
 	if (!(b.t = xmalloc(sizeof(char *) * b.len)) ||
 			!(b.i_a = xmalloc(sizeof(int) * b.len)))
 		return (NULL);

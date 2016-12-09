@@ -69,7 +69,7 @@ void	update_debug(t_av **av, int i)
 	x = -1;
 	while (av[i]->argv[++x])
 	{
-		dprintf(2, "cmd %.*s %d argv[%d] : %%", (i + 1) * 2,
+		ft_dprintf(2, "cmd %.*s %d argv[%d] : %%", (i + 1) * 2,
 				"---------------------------------------", i, x);
 		b = -1;
 		while (av[i]->argv[x][++b])

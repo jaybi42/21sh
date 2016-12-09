@@ -108,7 +108,7 @@ void	init_handle_redirect(t_redirect **redirect, t_handle_r *hr, int ispipe)
 	if (hr->b_out)
 	{
 		if (pipe(hr->fdout) == -1)
-			dprintf(2, "failed to pipe\n");
+			ft_dprintf(2, "failed to pipe\n");
 		hr->packets_out = NULL;
 	}
 	if (hr->b_err)

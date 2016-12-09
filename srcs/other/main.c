@@ -119,6 +119,26 @@ char			*delete_key(char ***keys, char ***values, char *key)
 	return (NULL);
 }
 
+char			*handle_var_set(char ***keys, char ***values, char *key, char *value)
+{
+	int			tmp;
+
+	if (key == NULL || value == NULL)
+		return (NULL);
+	if ((tmp = search_key_values((*keys), (*values), key)) != -1)
+	{
+		ft_strdel(&(*keys)[tmp]);
+		ft_strdel(&(*values)[tmp]);
+		(*keys)[tmp] = ft_strdup(key);
+		(*values)[tmp] = ft_strdup(value);
+		return (key);
+	}
+	if (insert_arr(&(*keys), key) == -1 ||
+			insert_arr(&(*values), value) == -1)
+		return (NULL);
+	return (key);
+}
+
 char			*handle_var(int state, char *key, char *value)
 {
 	static char	**keys = NULL;
@@ -134,28 +154,8 @@ char			*handle_var(int state, char *key, char *value)
 			clean_exit(8);
 		values[0] = NULL;
 	}
-	/*a_printf("test handle_var: |%s| and |%s|\n", key, value);
-	  for (int i = 0; keys[i]; i++)
-	  {
-	  a_printf("|%s| => |%s| \n", keys[i], values[i]);
-	  }*/
 	if (state == KV_SET)
-	{
-		if (key == NULL || value == NULL)
-			return (NULL);
-		if ((tmp = search_key_values(keys, values, key)) != -1)
-		{
-			ft_strdel(&keys[tmp]);
-			ft_strdel(&values[tmp]);
-			keys[tmp] = ft_strdup(key);
-			values[tmp] = ft_strdup(value);
-			return (key);
-		}
-		if (insert_arr(&keys, key) == -1 ||
-				insert_arr(&values, value) == -1)
-			return (NULL);
-		return (key);
-	}
+		return (handle_var_set(&keys, &values, key, value));
 	else if (state == KV_GET)
 	{
 		if ((tmp = search_key_values(keys, values, key)) == -1)
