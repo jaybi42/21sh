@@ -12,9 +12,9 @@
 
 #include <21sh.h>
 
-char	*isolate(char *new_var, int obj)
+char		*isolate(char *new_var, int obj)
 {
-	int		i;
+	int	i;
 	char	*elem;
 
 	i = (-1);
@@ -36,14 +36,35 @@ char	*isolate(char *new_var, int obj)
 	return (elem);
 }
 
-int		check_if_key_exist(char *new_var, t_list **g_env)
+
+static int	replace_key_value(new_var, value)
+{
+	char *	temp;
+
+	temp = ft_strdup(new_var);
+	if (temp == NULL)
+		return (1);
+	if (((t_env *)temp->content)->str != NULL)
+		ft_strdel(&((t_env *)temp->content)->str);
+	((t_env *)temp->content)->str = temp;
+	temp = ft_strdup(value);
+	if (temp == NULL)
+		return (1);
+	if (((t_env *)temp->content)->value != NULL)
+		ft_strdel(&((t_env *)temp->content)->value);
+	((t_env *)temp->content)->value = temp;
+	return (0);
+}
+
+int		if_key_replace(char *new_var, t_list **g_env)
 {
 	t_list	*temp;
 	char	*name;
 	char	*value;
 
 	temp = *g_env;
-	if ((name = isolate(new_var, 0)) == NULL)
+	name = isolate(new_var, 0);
+	if (name == NULL)
 		return (1);
 	value = isolate(new_var, 1);
 	while (temp != NULL)
@@ -53,27 +74,19 @@ int		check_if_key_exist(char *new_var, t_list **g_env)
 		temp = temp->next;
 	}
 	ft_strdel(&name);
-	if (temp == NULL)
+	if (temp == NULL || value == NULL)
 		return (1);
-	if (value == 0)
-		return (0);
-	if (((t_env *)temp->content)->value != NULL)
-		ft_strdel(&((t_env *)temp->content)->value);
-	if (((t_env *)temp->content)->str != NULL)
-		ft_strdel(&((t_env *)temp->content)->str);
-	((t_env *)temp->content)->value = ft_strdup(value);
-	((t_env *)temp->content)->str = ft_strdup(new_var);
-	return (0);
+	return (replace_key_value(new_var, value));
 }
 
-void	storage_env(t_list **e, char *new_var)
+void		storage_env(t_list **e, char *new_var)
 {
-	int		i;
+	int	i;
 	t_env	env;
 	t_list	*new_node;
 
 	i = 0;
-	if ((check_if_key_exist(new_var, e)) == 0)
+	if ((if_key_replace(new_var, e)) == 0)
 		return ;
 	env.str = ft_strdup(new_var);
 	while (new_var[i] != '=' && new_var[i] != '\0')
