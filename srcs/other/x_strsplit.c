@@ -6,14 +6,14 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 21:37:53 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/05 18:15:35 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/10 20:03:34 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 #include <stdlib.h>
 
-static char	*x_strsub(char const *s, unsigned int start, size_t len)
+char	*x_strsub(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
 	int		i;

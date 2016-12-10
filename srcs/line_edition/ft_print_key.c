@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/12/07 18:25:17 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/10 19:41:26 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void		ft_print_rest(t_line *l)
 	temp = x_strjoin(l->str, &l->buffer[0]);
 	if (temp == NULL)
 		return ;
-	//ft_strdel(&(l->str));
 	l->str = temp;
 	l->final_count = ft_strlen(l->str);
 	l->size = l->final_count;

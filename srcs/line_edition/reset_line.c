@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 16:00:51 by malaine           #+#    #+#             */
-/*   Updated: 2016/12/06 20:47:26 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/10 20:13:20 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,15 @@ void		reset_line(void)
 	l->hauteur = w.ws_row;
 	l->sizeprompt = l->sizeprompt + 3;
 	l->line1 = l->largeur - l->sizeprompt;
-	//ft_strdel(&l->str);
 	l->str = x_strdup("");
 	l->tmp = 0;
 	l->final_count = 0;
 	l->size = 0;
 	l->count = 0;
 	l->nbline = 0;
-	if (l->strcpy != NULL)
-		ft_strdel(&l->strcpy);
+	l->strcpy = NULL;
 	l->hist_pos = -1;
-	/*
-	if (l->oldstr != NULL)
-		ft_strdel(&l->oldstr);
-	*/
-	if (l->search != NULL)
-		ft_strdel(&l->search);
-	/*
-	if (l->ans != NULL)
-		ft_strdel(&l->ans);
-	*/
+	l->oldstr = NULL;
+	l->search = NULL;
+	l->ans = NULL;
 }

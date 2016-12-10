@@ -418,6 +418,7 @@ int		ret_virgule(t_arr *r);
 char	*x_strjoin2(char *s1, size_t len1, char *s2, size_t len2);
 char	*x_strdup2(char *s, int len);
 char	*x_strndup(const char *s1, size_t n);
+char	*x_strsub(char const *s, unsigned int start, size_t len);
 size_t	len_depth(char *s);
 char	**fusion_tarray(char ***t);
 int		ttlen(char ***t);

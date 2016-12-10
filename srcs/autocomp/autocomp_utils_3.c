@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 20:30:39 by mseinic           #+#    #+#             */
-/*   Updated: 2016/12/07 19:30:51 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/10 19:36:11 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			insert_in_string(t_ft_info *info, t_line *l, char *data)
 	ft_copy_tab(tmp, data, 0, &info->k);
 	ft_copy_tab(tmp, info->copy, info->index, &info->k);
 	tmp[info->k] = '\0';
-	//ft_strdel(&(l->str));
+	l->str = NULL;
 	l->str = tmp;
 	l->count = info->index + ft_strlen(data);
 	l->size = ft_strlen(l->str);
@@ -66,7 +66,7 @@ void			insert_ontop_string(t_ft_info *info, t_line *l, char *data)
 	ft_copy_tab(tmp, data, 0, &size);
 	ft_copy_tab(tmp, info->copy, info->index, &size);
 	tmp[size] = '\0';
-	//ft_strdel(&(l->str));
+	l->str = NULL;
 	l->str = tmp;
 	l->count = info->k + ft_strlen(data);
 	l->size = ft_strlen(l->str);

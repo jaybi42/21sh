@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:39:18 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/07 21:45:27 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/10 19:51:31 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static bool		get_ans(t_ftl_root *h, int h_pos, t_line *l)
 	{
 		if (ft_strstr(((t_hist *)node)->str, l->search) != NULL)
 		{
-			//ft_strdel(&l->ans);
+			l->ans = NULL;
 			l->hist_pos -= i;
 			l->bp = 0;
 			l->ans = x_strdup(((t_hist *)node)->str);
@@ -50,7 +50,7 @@ static void		ft_addchar(t_line *l)
 	else
 	{
 		tmp = x_strjoin(l->search, &l->buffer[0]);
-		//ft_strdel(&(l->search));
+		l->search = NULL;
 	}
 	if (tmp == NULL)
 		return ;
@@ -64,19 +64,15 @@ static void		clean_ctrl_r(t_line *l)
 	{
 		l->hist_pos = -1;
 		l->bp = 0;
-		/*
-		if (l->str != NULL)
-			ft_strdel(&l->str);
-		if (l->search != NULL)
-			ft_strdel(&l->search);
-		*/
+		l->str = NULL;
+		l->search = NULL;
 		if (l->ans != NULL)
 		{
 			l->str = l->ans;
 			l->size = ft_strlen(l->str);
 			l->ans = NULL;
 		}
-		//ft_strdel(&l->oldstr);
+		l->oldstr = NULL;
 		print(l);
 	}
 	l->quit = 0;
@@ -84,21 +80,12 @@ static void		clean_ctrl_r(t_line *l)
 
 static int		init_ctrl_r(t_line *l)
 {
-	/*
-	if (l->search != NULL)
-		ft_strdel(&l->search);
-	if (l->ans != NULL)
-		ft_strdel(&l->ans);
-	*/
 	l->search = x_strdup("");
 	l->ans = x_strdup("");
 	l->bp = 0;
 	if (l->search == NULL || l->ans == NULL)
 		return (1);
-	/*
-	if (l->oldstr != NULL)
-		ft_strdel(&l->oldstr);
-	*/
+	l->oldstr = NULL;
 	if (l->str == NULL)
 		l->oldstr = x_strdup("");
 	else

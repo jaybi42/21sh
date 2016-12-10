@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 20:41:47 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/07 22:07:34 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/10 19:42:25 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,6 @@ static char		*get_str_in_hist(t_line *l, int dir)
 		if (dir == 1)
 			return (NULL);
 		l->hist_pos = l->hist->size;
-		/*
-		if (l->oldstr != NULL)
-			ft_strdel(&l->oldstr);
-		*/
 		l->oldstr = l->str;
 		l->str = NULL;
 		return (get_hist_pos(l->hist, l->hist_pos, 0, l));
@@ -62,10 +58,6 @@ static void		dup_print(char *new_in, t_line *l)
 		tmp = x_strdup(new_in);
 		if (tmp == NULL)
 			return ;
-		/*
-		if (l->str != NULL)
-			ft_strdel(&l->str);
-		*/
 		l->str = tmp;
 		l->final_count = ft_strlen(l->str);
 		l->size = l->final_count;

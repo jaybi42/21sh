@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-#    Updated: 2016/12/10 19:33:37 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/12/10 20:48:07 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,10 +78,6 @@ ______________
 ______________
 
 				-	ligne de commande compose d'espace uniquement
-
-				-	ctrl + k et ctr + p (copier / coller)
-					Quand il y a du texte ou meme sans
-					----> leaks
 
 				-	Grosse commande | ls | cat -e
 					jouer avec historique editer etc

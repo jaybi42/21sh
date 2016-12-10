@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 12:13:07 by malaine           #+#    #+#             */
-/*   Updated: 2016/12/07 19:07:59 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/10 19:40:26 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int			ft_insertion(t_line *l)
 		count++;
 	}
 	str_cpy[count] = '\0';
-	//ft_strdel(&l->str);
+	l->str = NULL;
 	l->str = str_cpy;
 	return (0);
 }
@@ -64,7 +64,7 @@ int			ft_delete_char(t_line *l)
 		count2++;
 	}
 	str_cpy[count] = '\0';
-	//ft_strdel(&l->str);
+	l->str = NULL;
 	l->str = str_cpy;
 	return (0);
 }

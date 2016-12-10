@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/16 16:17:59 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/16 16:41:18 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/10 20:23:36 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ static void		find_history(t_line *l, t_ftl_root *root, char *to_search)
 		{
 			l->count = ret;
 			l->final_count = ret;
-			if (l->str != NULL)
-				ft_strdel(&l->str);
 			l->str = ((t_hist *)node)->str;
 			l->size = ft_strlen(l->str);
 			break ;

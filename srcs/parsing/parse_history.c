@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 16:58:08 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/04 20:38:55 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/10 19:50:59 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ static int		concat_str(char *t, char *new_i, char *t2, t_line *l)
 		t3 = x_strjoin(t, new_i);
 		if (t3 == NULL)
 			return (1);
-		/*
-		ft_strdel(&new_i);
-		ft_strdel(&t);
-		*/
+		t = NULL;
 		new_i = t3;
 	}
 	if (t2 != NULL)
@@ -39,16 +36,9 @@ static int		concat_str(char *t, char *new_i, char *t2, t_line *l)
 		t3 = x_strjoin(new_i, t2);
 		if (t3 == NULL)
 			return (1);
-		/*
-		ft_strdel(&new_i);
-		ft_strdel(&t2);
-		*/
+		t2 = NULL;
 		new_i = t3;
 	}
-	/*
-	if (l->str != NULL)
-		ft_strdel(&(l->str));
-	*/
 	l->str = new_i;
 	return (0);
 }

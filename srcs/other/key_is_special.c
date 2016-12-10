@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:55:33 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/07 22:00:53 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/10 19:44:38 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void			ft_bp(t_line *l)
 		new_str = x_strndup(l->search, len - 1);
 	if (new_str == NULL)
 		return ;
-	//ft_strdel(&l->search);
 	l->search = new_str;
 	l->bp = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/10 03:00:32 by malaine           #+#    #+#             */
-/*   Updated: 2016/12/07 21:49:12 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/10 19:43:06 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 static int		inst_ans(t_line *l)
 {
-	//ft_strdel(&l->ans);
 	l->ans = x_strdup(l->oldstr);
 	if (l->ans == NULL)
 		return (1);
@@ -56,10 +55,6 @@ int				constructor_search(bool isok, t_line *l)
 	ft_strdel(&new_search);
 	if (full_str == NULL)
 		return (1);
-	/*
-	 * if (l->str != NULL)
-		ft_strdel(&l->str);
-	*/
 	l->str = full_str;
 	l->final_count = ft_strlen(l->ans);
 	l->size = ft_strlen(l->ans);
