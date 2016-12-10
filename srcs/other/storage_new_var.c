@@ -39,7 +39,7 @@ char		*isolate(char *new_var, int obj)
 
 static int	replace_key_value(new_var, value)
 {
-	char *	temp;
+	char 	*temp;
 
 	temp = ft_strdup(new_var);
 	if (temp == NULL)
