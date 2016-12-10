@@ -6,9 +6,129 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-#    Updated: 2016/12/08 20:38:40 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/12/10 16:39:32 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+______________
+	TODO
+______________
+
+				-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
+
+				-	Finir la norme sur tout les fichiers du projet et de la libft.
+
+				-	CHECKER LES APPELLES DE FONCTION INTERDIT AVEC NM (strlen, printf, strdup...)
+
+				-	Re-implementer mon systeme d'alias
+
+______________
+	BUGS
+______________
+
+				____________________
+					HIGH PRIORITY
+				____________________
+
+				-	"   full space
+									echo
+									$PATH
+																			"
+					----> malloc error
+
+				-	"env ls" ou "env ./21sh"
+					----> le shell quitte
+
+				-	echo $FOO | cat -e repeter tres vite et bcp de fois
+					----> ne quitte pas cat
+
+				-	la partie heredoc affiche des char non imprimable sur un simple copier / coller
+
+				-	ctrl + d dans l'heredoc doit signifier fin de lecture et envoyer le resultat
+					actuellement il quitte le shell.
+
+				-	unsetenv LC_CTYPE
+					ne veut pas a cause du char '_' (underscore)
+ 
+ 				-	Pour tout les dquotes, bquote ou quote
+ 					Quand on copie / colle des caracteres se rajoutent.
+
+				-	cmd : "ls | pwd | wc"
+					Ne rend pas le prompt
+				
+				-	cmd : ""FDP | cat -e"" (Il faut mettre les deux "")
+					FDP commande inconnue mais fait quand meme un cat -e
+					Bash lui s'arrete des qu'il determine que la commande n'existe pas
+					ou qu'elle ne s'est pas exec
+
+				_____________________
+					MEDIUM PRIORITY
+				_____________________
+
+				-	Le signal STOP ou ctrl + z n'est plus catché,
+					lors de la reprise il y a un comportement aléatoire
+
+				-	lancer un 21sh dans un 21sh kill le deuxieme,
+					la boucle ignore le signal mais si on ctrl+c
+					les couleurs bugs
+
+				-	alias "l= ls -lah | cat -e"
+					Envoi "|" "cat" et "-e" en option au ls au lieu de faire un pipe
+
+______________
+	LEAKS
+______________
+
+				-	ligne de commande compose d'espace uniquement
+
+				-	ctrl + k et ctr + p (copier / coller)
+					Quand il y a du texte ou meme sans
+					----> leaks
+
+				-	Grosse commande | ls | cat -e
+					jouer avec historique editer etc
+
+					==68382== 25 (24 direct, 1 indirect) bytes in 1 blocks are definitely lost in loss record 70 of 189
+					==68382==    at 0x100039671: malloc (in /Users/ibouchla/.brew/Cellar/valgrind/3.12.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+					==68382==    by 0x100018A29: init_gnl (in ./21sh)
+					==68382==    by 0x1000189B4: get_next_line (in ./21sh)
+					==68382==    by 0x10000AB19: get_history (history.c:74)
+					==68382==    by 0x10000BC6E: sh21 (main.c:180)
+					==68382==    by 0x10000C007: main (main.c:228)
+					==68382==
+					==68382== 26 (24 direct, 2 indirect) bytes in 1 blocks are definitely lost in loss record 71 of 189
+					==68382==    at 0x100039671: malloc (in /Users/ibouchla/.brew/Cellar/valgrind/3.12.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+					==68382==    by 0x10000B745: insert_arr (main.c:62)
+					==68382==    by 0x10000BB43: handle_var (main.c:154)
+					==68382==    by 0x10000BC91: sh21 (main.c:182)
+					==68382==    by 0x10000C007: main (main.c:228)
+					==68382==
+					==68382== 28 (24 direct, 4 indirect) bytes in 1 blocks are definitely lost in loss record 74 of 189
+					==68382==    at 0x100039671: malloc (in /Users/ibouchla/.brew/Cellar/valgrind/3.12.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+					==68382==    by 0x10000B745: insert_arr (main.c:62)
+					==68382==    by 0x10000BB5C: handle_var (main.c:155)
+					==68382==    by 0x10000BC91: sh21 (main.c:182)
+					==68382==    by 0x10000C007: main (main.c:228)
+
+______________
+	BONUS
+______________
+
+				-	Syteme d'Alias
+
+				-	Caracteres de controles du builtin echo
+
+				-	Autocompletion
+
+				-	Execution des commandes de maniere asynchrone
+
+				-	Globbing
+
+				-	Builtin 42info
+
+				_	ft_pacman by ibouchla
+
+-----------------------------------------------------------------------------------------------
 
 ______________
 	RESOLU
@@ -95,104 +215,13 @@ ______________
 					hash_del(&g_hash);
 					g_hash = hash_table(new_path);
 					Du coup ce sera de nouveau possible que le hash ne trouve pas de correspondance si on unset le PATH !
-______________
-	BUGS
-______________
 
-				____________________
-					HIGH PRIORITY
-				____________________
-
-				-	cmd : ""FDP | cat -e"" (Il faut mettre les deux "")
-					FDP commande inconnue mais fait quand meme un cat -e
-					Bash lui s'arrete des qu'il determine que la commande n'existe pas
-					ou qu'elle ne s'est pas exec
-
-				-	cmd : "history -c" ensuite rechercher dans l historique avec les fleche
-					---> SEGFAULT
-
-				- 	cmd : "cat $LC_CTYPE"
-					En repetant 3/4 fois l'operation nous avons des caracteres aleatoires
-					et un malloc erreur
-
-				-	echo "bonjour" | cat -e
+	| RESOLU |	-	echo "bonjour" | cat -e
 					ne fais rien
 
-				-	unsetenv LC_CTYPE
-					ne veut pas a cause du char _
+	| RESOLU |	-	cmd : "history -c" ensuite rechercher dans l historique avec les fleche
+					---> SEGFAULT
 
-				-	cmd : "setenv "untruclong 66;echo untruclong" donne "66truclong" bug toujours present
- 
-				-	cmd : "ls | pwd | wc"
-					comportement indeterminer
-
-				_____________________
-					MEDIUM PRIORITY
-				_____________________
-
-				-	Le signal STOP ou ctrl + z n'est plus catché,
-					lors de la reprise il y a un comportement aléatoire
-
-				-	lancer un 21sh dans un 21sh kill le deuxieme,
-					la boucle ignore le signal mais si on ctrl+c
-					les couleurs bugs
-
-				-	alias "l= ls -lah | cat -e"
-					Envoi "|" "cat" et "-e" en option au ls au lieu de faire un pipe
-
-______________
-	LEAKS
-______________
-
-				-	Grosse commande | ls | cat -e
-					jouer avec historique editer etc
-
-					==68382== 25 (24 direct, 1 indirect) bytes in 1 blocks are definitely lost in loss record 70 of 189
-					==68382==    at 0x100039671: malloc (in /Users/ibouchla/.brew/Cellar/valgrind/3.12.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-					==68382==    by 0x100018A29: init_gnl (in ./21sh)
-					==68382==    by 0x1000189B4: get_next_line (in ./21sh)
-					==68382==    by 0x10000AB19: get_history (history.c:74)
-					==68382==    by 0x10000BC6E: sh21 (main.c:180)
-					==68382==    by 0x10000C007: main (main.c:228)
-					==68382==
-					==68382== 26 (24 direct, 2 indirect) bytes in 1 blocks are definitely lost in loss record 71 of 189
-					==68382==    at 0x100039671: malloc (in /Users/ibouchla/.brew/Cellar/valgrind/3.12.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-					==68382==    by 0x10000B745: insert_arr (main.c:62)
-					==68382==    by 0x10000BB43: handle_var (main.c:154)
-					==68382==    by 0x10000BC91: sh21 (main.c:182)
-					==68382==    by 0x10000C007: main (main.c:228)
-					==68382==
-					==68382== 28 (24 direct, 4 indirect) bytes in 1 blocks are definitely lost in loss record 74 of 189
-					==68382==    at 0x100039671: malloc (in /Users/ibouchla/.brew/Cellar/valgrind/3.12.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-					==68382==    by 0x10000B745: insert_arr (main.c:62)
-					==68382==    by 0x10000BB5C: handle_var (main.c:155)
-					==68382==    by 0x10000BC91: sh21 (main.c:182)
-					==68382==    by 0x10000C007: main (main.c:228)
-
-______________
-	TODO
-______________
-
-				-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
-
-				-	Finir la norme sur tout les fichiers du projet et de la libft.
-
-				-	CHECKER LES APPELLES DE FONCTION INTERDIT AVEC NM (strlen, printf, strdup...)
-
-				-	Re-implementer mon systeme d'alias
-
-______________
-	BONUS
-______________
-
-				-	Syteme d'Alias
-
-				-	Caracteres de controles du builtin echo
-
-				-	Autocompletion
-
-				-	Execution des commandes de maniere asynchrone
-
-				-	Builtin 42info
-
-				_	ft_pacman by ibouchla
+	| RESOLU |	- 	cmd : "cat $LC_CTYPE"
+					En repetant 3/4 fois l'operation nous avons des caracteres aleatoires
+					et un malloc erreur

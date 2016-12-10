@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/25 18:56:29 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 19:05:39 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/10 15:57:50 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,26 @@ char		*isolate(char *new_var, int obj)
 	return (elem);
 }
 
-
-static int	replace_key_value(new_var, value)
+static int	replace_key_value(t_list **addr, char *new_var, char *value)
 {
-	char 	*temp;
+	char	*temp;
 
 	temp = ft_strdup(new_var);
 	if (temp == NULL)
 		return (1);
-	if (((t_env *)temp->content)->str != NULL)
-		ft_strdel(&((t_env *)temp->content)->str);
-	((t_env *)temp->content)->str = temp;
+	if (((t_env *)(*addr)->content)->str != NULL)
+		ft_strdel(&((t_env *)(*addr)->content)->str);
+	((t_env *)(*addr)->content)->str = temp;
 	temp = ft_strdup(value);
 	if (temp == NULL)
 		return (1);
-	if (((t_env *)temp->content)->value != NULL)
-		ft_strdel(&((t_env *)temp->content)->value);
-	((t_env *)temp->content)->value = temp;
+	if (((t_env *)(*addr)->content)->value != NULL)
+		ft_strdel(&((t_env *)(*addr)->content)->value);
+	((t_env *)(*addr)->content)->value = temp;
 	return (0);
 }
 
-int		if_key_replace(char *new_var, t_list **g_env)
+int			if_key_replace(char *new_var, t_list **g_env)
 {
 	t_list	*temp;
 	char	*name;
@@ -76,12 +75,12 @@ int		if_key_replace(char *new_var, t_list **g_env)
 	ft_strdel(&name);
 	if (temp == NULL || value == NULL)
 		return (1);
-	return (replace_key_value(new_var, value));
+	return (replace_key_value(&temp, new_var, value));
 }
 
 void		storage_env(t_list **e, char *new_var)
 {
-	int	i;
+	int		i;
 	t_env	env;
 	t_list	*new_node;
 
