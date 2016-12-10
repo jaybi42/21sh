@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-#    Updated: 2016/12/10 16:39:32 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/12/10 19:33:37 by ibouchla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,8 @@ ______________
 					HIGH PRIORITY
 				____________________
 
-				-	"   full space
-									echo
-									$PATH
-																			"
+				-	cmd : "       echo      $PATH               "
+					repeter plusieurs fois
 					----> malloc error
 
 				-	"env ls" ou "env ./21sh"
