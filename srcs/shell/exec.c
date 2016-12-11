@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:18:48 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 20:46:34 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 21:03:12 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ t_output	do_exec(t_executor **exs, int ret)
 				continue ;
 			if (ret != 0 && exs[(t.y)]->ex.r[(t.i) + 1] == NULL)
 				continue ;
-			if (exs[(t.y)]->ex.r[(t.i)]->fd_out != STDOUT_FILENO ||
-					exs[(t.y)]->ex.r[(t.i)]->fd_out != STDERR_FILENO ||
+			if (exs[(t.y)]->ex.r[(t.i)]->fd_out != STDOUT_FILENO &&
+					exs[(t.y)]->ex.r[(t.i)]->fd_out != STDERR_FILENO &&
 					exs[(t.y)]->ex.r[(t.i)]->fd_out != STDIN_FILENO)
 				close(exs[(t.y)]->ex.r[(t.i)]->fd_out);
 		}
