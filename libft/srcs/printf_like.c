@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/27 17:48:59 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/11/27 17:50:14 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 16:50:58 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,8 @@ static const char	*ft_gestion(const char *restrict format, va_list pa)
 	return (format);
 }
 
-int					ft_dprintf(int fd, const char *restrict format, ...)
+static void			process_format(const char *restrict format, va_list pa)
 {
-	va_list	pa;
-	int		old_fd;
-
-	if (format == NULL)
-		return (0);
-	old_fd = get_fd(0);
-	if (fd > 0)
-		get_fd(fd);
-	ret_val(0, 1);
-	writex(NULL, 0, -1);
-	va_start(pa, format);
 	while (*format)
 	{
 		if (*format == '%')
@@ -74,6 +63,22 @@ int					ft_dprintf(int fd, const char *restrict format, ...)
 			ft_putc(*format);
 		(*format) ? format++ : 0;
 	}
+}
+
+int					ft_dprintf(int fd, const char *restrict format, ...)
+{
+	va_list	pa;
+	int		old_fd;
+
+	if (format == NULL)
+		return (0);
+	old_fd = get_fd(0);
+	if (fd > 0)
+		get_fd(fd);
+	ret_val(0, 1);
+	writex(NULL, 0, -1);
+	va_start(pa, format);
+	process_format(format, pa);
 	va_end(pa);
 	writex(NULL, 0, 1);
 	get_fd(old_fd);
