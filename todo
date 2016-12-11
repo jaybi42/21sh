@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-     Updated: 2016/12/11 15:37:46 by jguthert         ###   ########.fr         
+     Updated: 2016/12/11 17:47:39 by jguthert         ###   ########.fr         
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,9 @@ ______________
 
 				-	aggrégations de descripteurs de fichiers ( ex: "cat file_no_exists 2>&-" )
 
-				-	Finir la norme sur tout les fichiers du projet et de la libft.
+				-	Finir la norme des .h
 
-				-	CHECKER LES APPELLES DE FONCTION INTERDIT AVEC NM (strlen, printf, strdup...)
+	| RESOLU |	-	CHECKER LES APPELLES DE FONCTION INTERDIT AVEC NM (strlen, printf, strdup...)
 
 				-	Re-implementer mon systeme d'alias
 
@@ -30,11 +30,11 @@ ______________
 					HIGH PRIORITY
 				____________________
 
-				-	cmd : "       echo      $PATH               "
+	| RESOLU |	-	cmd : "       echo      $PATH               "
 					repeter plusieurs fois
 					----> malloc error
 
-				-	"env ls" ou "env ./21sh"
+	| RESOLU |	-	"env ls" ou "env ./21sh"
 					----> le shell quitte
 
 				-	echo $FOO | cat -e repeter tres vite et bcp de fois
@@ -54,16 +54,18 @@ ______________
 				-	cmd : "ls | pwd | wc"
 					Ne rend pas le prompt
 
-				-	cmd : ""FDP | cat -e"" (Il faut mettre les deux "")
+				-	cmd : ""ASV | cat -e"" (Il faut mettre les deux "")
 					FDP commande inconnue mais fait quand meme un cat -e
 					Bash lui s'arrete des qu'il determine que la commande n'existe pas
 					ou qu'elle ne s'est pas exec
+
+				-	Executer les binaires via le chemin absolu /bin/ls par exemple
 
 				_____________________
 					MEDIUM PRIORITY
 				_____________________
 
-				-	Le signal STOP ou ctrl + z n'est plus catché,
+	| RESOLU |	-	Le signal STOP ou ctrl + z n'est plus catché,
 					lors de la reprise il y a un comportement aléatoire
 
 				-	lancer un 21sh dans un 21sh kill le deuxieme,
@@ -73,7 +75,7 @@ ______________
 				-	alias "l= ls -lah | cat -e"
 					Envoi "|" "cat" et "-e" en option au ls au lieu de faire un pipe
 
-				-	Dans bi_setenv remplacer checkbin par fonction pour executer shell dans un fork
+	| RESOLU |	-	Dans bi_env remplacer checkbin par fonction pour executer shell dans un fork
 
 ______________
 	LEAKS
