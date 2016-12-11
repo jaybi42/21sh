@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-     Updated: 2016/12/11 17:47:39 by jguthert         ###   ########.fr         
+     Updated: 2016/12/11 17:56:11 by jguthert         ###   ########.fr         
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ ______________
 				-	ctrl + d dans l'heredoc doit signifier fin de lecture et envoyer le resultat
 					actuellement il quitte le shell.
 
-				-	unsetenv LC_CTYPE
+	| RESOLU |	-	unsetenv LC_CTYPE
 					ne veut pas a cause du char '_' (underscore)
 
  				-	Pour tout les dquotes, bquote ou quote

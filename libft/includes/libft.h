@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/13 14:10:31 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/06 16:56:06 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 17:52:57 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,7 @@ int							ft_isprint(int c);
 int							ft_toupper(int c);
 int							ft_tolower(int c);
 int							ft_strisalnum(char *str);
+int							ft_strisprint(char *str);
 
 /*
 **	##=-  Memory  -=##

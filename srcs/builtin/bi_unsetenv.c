@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/20 13:29:49 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 15:55:48 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/11 17:54:46 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			bi_unsetenv(t_av av, t_list **g_env, t_list **g_lenv)
 		return (print_error(av, 0));
 	else if (av.argc == 1 && ft_isalpha(*av.arg[0]) == 0)
 		return (print_error(av, 5));
-	else if (av.argc == 1 && ft_strisalnum(*av.arg) == 0)
+	else if (av.argc == 1 && ft_strisprint(*av.arg) == 0)
 		return (print_error(av, 4));
 	return (find_and_replace(link, av, g_env));
 }
