@@ -6,12 +6,12 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 23:28:39 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 23:32:29 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_21SH_H
-# define FT_21SH_H
+#ifndef SHELL_H
+# define SHELL_H
 
 /*
 ** TODO: Suppr stdio
