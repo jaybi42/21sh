@@ -1,0 +1,20 @@
+{green}#Definition :{eoc}
+Alias system is a implementation of command's substitution,
+	  The format is: "{green}key{eoc}={red}value{eoc}"
+
+{green}#How it works ?{eoc}
+When you send a command to the shell,
+	 if it's present in the alias's list,
+	 it's search recursively the {red}value{eoc}
+	 associated to the {green}key{eoc}.
+	 When an infinite loop is detected, no substitution is made.
+
+{green}#Examples :{eoc}
+$> alias "{green}key1{eoc}={red}value1{eoc}"
+$> alias "{green}value1{eoc}={red}ls -la -h{eoc}"
+$> key1
+total 0
+drwxr-xr-x   4 ibouchla  2015_paris  136 Dec  4 20:41 .
+drwxr-xr-x  13 ibouchla  2015_paris  442 Dec  4 20:41 ..
+drwxr-xr-x   2 ibouchla  2015_paris   68 Dec  4 20:41 bar
+-rw-r--r--   1 ibouchla  2015_paris    0 Dec  4 20:41 foo
