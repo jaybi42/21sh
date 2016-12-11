@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:25:51 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/16 17:08:58 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/04 21:49:53 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int				bi_env(t_av av, t_list **g_env, t_list **l_env)
 		new_av.cmd = av.arg[ret];
 		new_av.arg = av.arg + ret + 1;
 		new_av.argv = av.argv + ret + 1;
-		check_bin(*g_env, *l_env, new_av);//mettre la fonction a Anis pas celle la
+		check_bin(*g_env, *l_env, new_av);//TODO: Gerer env
 	}
 	else
 		print_env(*g_env);

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/30 17:13:12 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/08 21:44:00 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 15:52:30 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ static int		pop_line(t_ftl_root *hist, int pos)
 	return (0);
 }
 
+static	int		history_reset(t_ftl_root *hist)
+{
+	ftl_release(hist, del_history);
+	get_history(&g_hist);
+	return (0);
+}
+
 int				bi_history(t_av av, t_list **g_env, t_list **l_env)
 {
 	t_ftl_root *hist;
@@ -81,10 +88,7 @@ int				bi_history(t_av av, t_list **g_env, t_list **l_env)
 	else if (!ft_strcmp(*av.arg, "-d"))
 		return (pop_line(hist, ft_atoi(av.arg[1])));
 	else if (!ft_strcmp(*av.arg, "-c"))
-	{
-		ftl_release(hist, del_history);
-		get_history(&g_hist);
-	}
+		return (history_reset(hist));
 	else if (*av.arg && ft_strncmp(*av.arg, "-", 1) == 0)
 	{
 		ft_putendl_fd("history: usage: history [-c] [-d offset] [n]", 2);

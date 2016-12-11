@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/10 19:44:03 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 16:04:14 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,6 @@
 #include "edit_line.h"
 
 extern t_prompt g_prompt;
-
-void	debug_editline(t_line *l)
-{
-	do_term("sc");
-	do_goto("DO", 0, 5);
-	do_term("cd");
-	do_goto("DO", 0, 5);
-	ft_putstr("count = ");
-	ft_putnbr(l->count);
-	ft_putstr(", largeur = ");
-	ft_putnbr(l->largeur);
-	ft_putstr(", size = ");
-	ft_putnbr(l->size);
-	ft_putstr(", sizeprompt = ");
-	ft_putnbr(l->sizeprompt);
-	ft_putstr("\nSTR = ");
-	ft_putstr(l->str);
-	do_term("rc");
-}
 
 void	ft_ctrl_l(t_line *l)
 {
@@ -57,20 +38,15 @@ void	ft_ctrl_d(t_line *l)
 	}
 }
 
-t_av	**read_init(t_line *l, t_ftl_root *hist)
+static int	get_stdin(t_line *l)
 {
-	t_av	**av;
-	int		ret;
-
-	g_line = l;
-	ft_init_line(l, hist);
 	while (42)
 	{
 		ft_bzero(l->buffer, 6);
 		if (read(0, l->buffer, 6) == -1)
 		{
 			l->str = NULL;
-			return (NULL);
+			return (1);
 		}
 		if (l->buffer[0] != 10)
 			actions(l);
@@ -79,9 +55,20 @@ t_av	**read_init(t_line *l, t_ftl_root *hist)
 		if (l->buffer[0] == 10)
 		{
 			ft_putchar('\n');
-			break ;
+			return (0);
 		}
 	}
+}
+
+t_av	**read_init(t_line *l, t_ftl_root *hist)
+{
+	t_av	**av;
+	int		ret;
+
+	g_line = l;
+	ft_init_line(l, hist);
+	if (get_stdin(l) == 1)
+		return (NULL);
 	ret = parse_line(l, hist);
 	av = parse_commands(ret == 0 ? l->str : "");
 	l->str = NULL;

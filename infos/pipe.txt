@@ -1,0 +1,10 @@
+{green}#Definition :{eoc}
+'|' is called  a 'pipe'. it's a specific separator between
+two commands,
+The format is: "command1 | command2"
+{green}#How it works ?{eoc}
+The output (stdout{red}(?){eoc}) of the command1 will be put in the stdin
+{red}(?){eoc} of the command2.
+{green}#Examples :{eoc}
+$>echo "ok" | cat -e <ENTER>
+ok$

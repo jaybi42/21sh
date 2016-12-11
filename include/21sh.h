@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 15:49:36 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 16:02:37 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,13 @@ typedef struct s_file
 	char		buffer[4096 + 1];
 }				t_file;
 
+char		*file_get_contents(char *filename);
 #define LEN_INFOS 2
 
 typedef struct	s_info
 {
 	char		*name;
-	char		*info;
+	char		*path;
 }				t_info;
 
 /*

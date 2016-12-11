@@ -6,7 +6,7 @@
 #    By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/04 22:07:51 by ibouchla          #+#    #+#              #
-#    Updated: 2016/12/10 20:48:07 by ibouchla         ###   ########.fr        #
+     Updated: 2016/12/11 15:37:46 by jguthert         ###   ########.fr         
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,13 +47,13 @@ ______________
 
 				-	unsetenv LC_CTYPE
 					ne veut pas a cause du char '_' (underscore)
- 
+
  				-	Pour tout les dquotes, bquote ou quote
  					Quand on copie / colle des caracteres se rajoutent.
 
 				-	cmd : "ls | pwd | wc"
 					Ne rend pas le prompt
-				
+
 				-	cmd : ""FDP | cat -e"" (Il faut mettre les deux "")
 					FDP commande inconnue mais fait quand meme un cat -e
 					Bash lui s'arrete des qu'il determine que la commande n'existe pas
@@ -72,6 +72,8 @@ ______________
 
 				-	alias "l= ls -lah | cat -e"
 					Envoi "|" "cat" et "-e" en option au ls au lieu de faire un pipe
+
+				-	Dans bi_setenv remplacer checkbin par fonction pour executer shell dans un fork
 
 ______________
 	LEAKS
