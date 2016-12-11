@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:47:21 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 19:38:50 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 20:57:41 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void		make_r(t_redirect ***r)
 					(*r)[i]->path) : 0;
 		}
 		else if ((*r)[i]->type == 0
-		&& (*r)[i]->fd_out == -1 && (*r)[i]->path == NULL)
+		&& (*r)[i]->fd != -1 && (*r)[i]->path == NULL)
 			(*r)[i]->fd_out = (*r)[i]->fd;
 		else if ((*r)[i]->type == 1 && (*r)[i]->fd == -1
 				&& (*r)[i]->path != NULL)

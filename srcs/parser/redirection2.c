@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 23:10:48 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/11 19:16:55 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 20:38:41 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int		get_heredoc(char *s)
 
 	pipe(fd);
 	tmp = NULL;
+	g_heredoc_expected = s;
 	while (42)
 	{
 		tmp = get_input("heredoc> ");
@@ -71,5 +72,6 @@ int		get_heredoc(char *s)
 		}
 	}
 	close(fd[WRITER]);
+	g_heredoc_expected = NULL;
 	return (fd[READER]);
 }

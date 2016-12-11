@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/07 22:47:17 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 20:32:40 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				*g_exit;
 int				g_debug;
 t_hash			**g_hash;
 unsigned int	g_hash_size;
-
+char			*g_heredoc_expected;
 char			*handle_var_set(char ***keys, char ***values,
 				char *key, char *value)
 {
@@ -129,6 +129,7 @@ void			init_global(int ac, char **argv)
 	*g_exit = -1;
 	g_hash = NULL;
 	g_hash_size = 0;
+	g_heredoc_expected = NULL;
 }
 
 int				main(int ac, char **argv)

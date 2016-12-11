@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 19:44:11 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 20:58:41 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ t_output	shell(t_av **av, int ret)
 	shell_init(&s);
 	while (av[++(s.a)] != NULL)
 	{
-		get_alias(&(av[(s.a)]));
 		if (!shell_pre_exec(&s, av))
 			continue ;
 		(g_debug) ? shell_print_debug(&s, 0, 0) : 0;
