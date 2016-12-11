@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/08 20:58:17 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 15:49:36 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -718,8 +718,30 @@ void	simplify_space(char **expr, int **t_ind, int **l_ind);
 /*
 ** parser2
 */
+
+typedef struct	s_norm_parse
+{
+	t_nparse	np;
+	int			i;
+	int			i32_tmp;
+}				t_norm_parse;
+
+
+typedef struct	s_norm_convert_parse
+{
+	t_av		**cmds;
+	int			id_cmds;
+	int			i;
+	char		**expr;
+}				t_norm_convert_parse;
+
 t_av **convert_parse(char *expr, t_nparse np, int *t_ind, int *l_ind);
 t_nparse parse(char *expr, int *t_ind, int *l_ind);
+
+void		convert_parse_if1(t_norm_convert_parse *t, t_nparse np);
+void		convert_parse_if2(t_norm_convert_parse *t, t_nparse np,
+			int *t_ind, int *l_ind);
+t_av		**convert_parse(char *expr, t_nparse np, int *t_ind, int *l_ind);
 
 /*
 ** parser3
@@ -741,11 +763,18 @@ void nparse_extend(t_nparse *np, int id_open);
 /*
 ** parser4
 */
+typedef struct	s_handle_d_param
+{
+	t_nparse	np;
+	int			i;
+}				t_handle_d_param;
+
+t_handle_d_param	create_np(t_nparse np, int i);
 void nparse_init(t_nparse *np, char *expr);
 void init_cmd(t_av **cmd, size_t len);
 char *xget_string_l(char *s,int l);
 int get_type(char *s);
-int *handle_d(t_nparse np, int i, int *t_ind, int *l_ind, int len);
+int		*handle_d(t_handle_d_param t, int *t_ind, int *l_ind, int len);
 
 /*
 ** parser5
@@ -764,6 +793,17 @@ void print_step1(char *expr, int *t_ind, int *l_ind);
 /*
 ** parseruse2
 */
+
+typedef struct s_norm_j_s_a
+{
+	int		i;
+	size_t	len;
+	char	*ns;
+	int		len_ind;
+	int		**t_ind;
+	int		**l_ind;
+}							t_norm_j_s_a;
+
 int			char_is_whitespace(char c);
 char		*cpy_a_to_b(char *str, int a, int b);
 char		*find_home(char **env);
@@ -778,6 +818,58 @@ void update_new(t_parse *p, int index, int delimiter_index);
 /*
 ** preparse
 */
+
+typedef struct s_norm_parse2
+{
+	char		*expr;
+	int			len;
+	t_parse *p;
+	int			i;
+	t_delimiter *d;
+	int				l;
+}							t_norm_parse2;
+
+
+typedef struct s_norm_d_p
+{
+	char		**ts;
+	t_parse		*p;
+	int			*marked_ind;
+	int			i;
+	t_output	o;
+}			t_norm_d_p;
+
+typedef struct s_norm_handle_tilde
+{
+	char	*home;
+	int		i;
+	char	**tmpx;
+	char	*tmp;
+	char	**ret;
+	int		find;
+	char	*ret_s;
+	size_t	len;
+}							t_norm_handle_tilde;
+
+typedef struct s_c_v
+{
+	int		i;
+	char	**tmp;
+	char	*tmpe;
+	char	**ret;
+	int		x;
+}							t_c_v;
+
+typedef struct s_apply_var
+{
+	int		i;
+	char	*ns;
+	char	**tmp;
+	size_t	len;
+	char	**env;
+}							t_apply_var;
+
+
 char *handle_tilde(char *s, char **env);
 char *decortique_parse(char *expr, size_t l, int **t_ind, int **l_ind);
 
@@ -795,6 +887,21 @@ t_parse		*parse_it2(char *expr, int len, t_delimiter *d, int l);
 /*
 ** redirection
 */
+typedef struct	s_set_redir
+{
+	char		*s;
+	t_av		*cmd;
+	int			findfile;
+	t_redirect	*redir;
+	int					len;
+	int			b;
+	int			x;
+	int			i;
+	int			id_argv;
+}								t_set_redir;
+
+
+int		set_redir_init(t_set_redir *t, t_av **pcmd, char *r);
 int set_redir(t_av **pcmd, int id_argv, int i, char *r);
 int get_redirect(t_av **cmd);
 

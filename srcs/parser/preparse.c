@@ -6,25 +6,13 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 23:02:52 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/08 23:06:44 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 15:45:36 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-typedef struct s_norm_handle_tilde
-{
-	char	*home;
-	int		i;
-	char	**tmpx;
-	char	*tmp;
-	char	**ret;
-	int		find;
-	char	*ret_s;
-	size_t	len;
-}							t_norm_handle_tilde;
-
-int handle_tilde_init(t_norm_handle_tilde *t, char *s, char **env)
+int		handle_tilde_init(t_norm_handle_tilde *t, char *s, char **env)
 {
 	(t->tmp) = NULL;
 	if (!((t->tmpx) = fstrsplit(s, ft_strlen(s), char_is_whitespace)))
@@ -87,16 +75,7 @@ char	*handle_tilde(char *s, char **env)
 	return ((t.ret_s));
 }
 
-typedef struct s_norm_d_p
-{
-	char		**ts;
-	t_parse		*p;
-	int			*marked_ind;
-	int			i;
-	t_output	o;
-}			t_norm_d_p;
-
-void  decortique_parse_while(t_norm_d_p *t, char *expr)
+void	decortique_parse_while(t_norm_d_p *t, char *expr)
 {
 	if ((t->p)->type[(t->i)] == 2)
 	{

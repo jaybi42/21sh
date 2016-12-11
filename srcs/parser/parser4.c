@@ -6,13 +6,13 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/07 18:54:54 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/08 20:44:50 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 15:41:56 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-void	nparse_init(t_nparse *np, char *expr)
+void				nparse_init(t_nparse *np, char *expr)
 {
 	int len;
 
@@ -24,7 +24,7 @@ void	nparse_init(t_nparse *np, char *expr)
 	np->failed = TRUE;
 }
 
-void	init_cmd(t_av **cmd, size_t len)
+void				init_cmd(t_av **cmd, size_t len)
 {
 	(*cmd) = xmalloc(sizeof(t_av));
 	(*cmd)->argv = xmalloc(sizeof(char *) * (len + 1));
@@ -37,7 +37,7 @@ void	init_cmd(t_av **cmd, size_t len)
 	(*cmd)->redirect[0] = NULL;
 }
 
-char	*xget_string_l(char *s, int l)
+char				*xget_string_l(char *s, int l)
 {
 	int		i;
 	char	*ret;
@@ -53,7 +53,7 @@ char	*xget_string_l(char *s, int l)
 	return (ret);
 }
 
-int		get_type(char *s)
+int					get_type(char *s)
 {
 	if (ft_strncmp(s, ";", ft_strlen(";")) == 0)
 		return (TYPE_NORMAL);
@@ -69,16 +69,17 @@ int		get_type(char *s)
 		return (TYPE_NORMAL);
 }
 
-int		*handle_d(t_nparse np, int i, int *t_ind, int *l_ind, int len)
+int					*handle_d(t_handle_d_param t, int *t_ind, int *l_ind,
+		int len)
 {
 	int	*x;
 	int a;
 	int id_x;
 
 	x = xmalloc(sizeof(int *) * (len + 1));
-	a = np.begin[i];
+	a = t.np.begin[t.i];
 	id_x = 0;
-	while (a <= np.end[i])
+	while (a <= t.np.end[t.i])
 	{
 		if (is_intouchable(a, t_ind, l_ind))
 			x[id_x] = 0;

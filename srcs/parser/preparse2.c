@@ -6,20 +6,11 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 22:55:53 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/08 22:55:58 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 15:44:03 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-typedef struct s_c_v
-{
-	int		i;
-	char	**tmp;
-	char	*tmpe;
-	char	**ret;
-	int		x;
-}							t_c_v;
 
 int		check_var_init(t_c_v *t, char *s)
 {
@@ -63,15 +54,6 @@ char	**check_var(char *s, char **env)
 	}
 	return (NULL);
 }
-
-typedef struct s_apply_var
-{
-	int		i;
-	char	*ns;
-	char	**tmp;
-	size_t	len;
-	char	**env;
-}							t_apply_var;
 
 int		apply_var_init(t_apply_var *t, char **s, int do_extra)
 {

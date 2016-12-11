@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 19:56:39 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/08 21:51:55 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 15:43:10 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,7 @@ char	*find_home(char **env)
 	return (ans);
 }
 
-typedef struct s_norm_j_s_a
-{
-	int		i;
-	size_t	len;
-	char	*ns;
-	int		len_ind;
-	int		**t_ind;
-	int		**l_ind;
-}							t_norm_j_s_a;
-
-int join_string_array_init(t_norm_j_s_a *t, char **a, int *marked_ind)
+int		join_string_array_init(t_norm_j_s_a *t, char **a, int *marked_ind)
 {
 	(t->len) = 0;
 	(t->len_ind) = 0;
@@ -91,6 +81,7 @@ int join_string_array_init(t_norm_j_s_a *t, char **a, int *marked_ind)
 	(t->len_ind) = 0;
 	return (TRUE);
 }
+
 char	*join_string_array(char **a, int *marked_ind,
 		int **t_ind, int **l_ind)
 {

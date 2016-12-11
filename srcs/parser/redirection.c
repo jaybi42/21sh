@@ -6,48 +6,11 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 19:36:15 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/08 20:57:12 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 15:50:22 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-typedef struct	s_set_redir
-{
-	char		*s;
-	t_av		*cmd;
-	int			findfile;
-	t_redirect	*redir;
-	int					len;
-	int			b;
-	int			x;
-	int			i;
-	int			id_argv;
-}								t_set_redir;
-
-int		set_redir_init(t_set_redir *t, t_av **pcmd, char *r)
-{
-	(t->cmd) = (*pcmd);
-	(t->redir) = xmalloc(sizeof(t_redirect));
-	(t->redir)->fd_in = 1;
-	(t->redir)->fd_out = -1;
-	(t->redir)->fd = -1;
-	(t->redir)->type = 0;
-	if ((t->i) > 0 && !in_cmd_is_intouchable((t->cmd), (t->id_argv), (t->i) - 1)
-			&& ft_isdigit((t->cmd)->argv[(t->id_argv)][(t->i) - 1]))
-	{
-		(t->redir)->fd_in = (t->cmd)->argv[(t->id_argv)][(t->i) - 1] - 0x30;
-		delete_c(pcmd, (t->id_argv), (t->i) - 1, &(t->i));
-	}
-	(t->len) = ft_strlen(r);
-	(t->b) = -1;
-	while ((++(t->b)) < (int)ft_strlen(r))
-		delete_c(pcmd, (t->id_argv), (t->i) + (t->b), &(t->i));
-	if (!(t->cmd)->argv[(t->id_argv)])
-		return (FALSE);
-	(t->findfile) = TRUE;
-	return (TRUE);
-}
 
 int		set_redir_init2(t_set_redir *t, t_av **pcmd)
 {
@@ -76,7 +39,7 @@ int		set_redir_init2(t_set_redir *t, t_av **pcmd)
 	return (TRUE);
 }
 
-void set_redir_inside(t_set_redir *t, t_av **pcmd)
+void	set_redir_inside(t_set_redir *t, t_av **pcmd)
 {
 	(t->x) = 0;
 	while ((t->cmd)->argv[(t->id_argv)][(t->i) + (t->len)])
@@ -100,7 +63,7 @@ void set_redir_inside(t_set_redir *t, t_av **pcmd)
 		(t->findfile) = TRUE;
 }
 
-void set_redir_inside2(t_set_redir *t, char *r)
+void	set_redir_inside2(t_set_redir *t, char *r)
 {
 	if (ft_strncmp(r, ">", 1) == 0)
 	{
@@ -128,7 +91,7 @@ void set_redir_inside2(t_set_redir *t, char *r)
 	from open(\"%s\")\n", r, (t->s)) : 0;
 }
 
-int	set_redir(t_av **pcmd, int id_argv, int i, char *r)
+int		set_redir(t_av **pcmd, int id_argv, int i, char *r)
 {
 	t_set_redir t;
 
@@ -140,7 +103,7 @@ int	set_redir(t_av **pcmd, int id_argv, int i, char *r)
 		return (FALSE);
 	if (!((t.s) = xmalloc(sizeof(char *) *
 		(ft_strlen((t.cmd)->argv[(t.id_argv)]) + 1))))
-			return (FALSE);
+		return (FALSE);
 	set_redir_inside(&t, pcmd);
 	set_redir_inside2(&t, r);
 	(t.i) = 0;
@@ -151,7 +114,7 @@ int	set_redir(t_av **pcmd, int id_argv, int i, char *r)
 	return (TRUE);
 }
 
-int	get_redirect(t_av **cmd)
+int		get_redirect(t_av **cmd)
 {
 	int		id_argv;
 	char	*s;

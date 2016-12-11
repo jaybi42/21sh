@@ -6,21 +6,11 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 23:09:34 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/08 23:10:02 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 15:47:44 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-typedef struct s_norm_parse2
-{
-	char		*expr;
-	int			len;
-	t_parse *p;
-	int			i;
-	t_delimiter *d;
-	int				l;
-}							t_norm_parse2;
 
 int			handle_delimiter2_init(t_norm_parse2 *t, int *a)
 {
@@ -30,13 +20,15 @@ int			handle_delimiter2_init(t_norm_parse2 *t, int *a)
 		ft_strlen((t->d)[(*a)].name)) == 0)
 		{
 			if ((t->p)->current != EMPTY &&
-			(t->d)[(t->p)->current].wait_another == TRUE && (t->p)->current == (*a))
+			(t->d)[(t->p)->current].wait_another
+			== TRUE && (t->p)->current == (*a))
 			{
 				(t->p)->end[(t->p)->nb] = (t->i);
 				reset_current((t->p), (t->i));
 			}
 			else if ((t->p)->current != EMPTY &&
-			(t->d)[(t->p)->current].do_recursivity == TRUE && (t->p)->current == (*a))
+			(t->d)[(t->p)->current].do_recursivity == TRUE &&
+			(t->p)->current == (*a))
 				update_new((t->p), (t->i), (*a));
 			else if ((t->p)->current == EMPTY)
 				update_new((t->p), (t->i), (*a));
@@ -55,13 +47,14 @@ void		handle_delimiter2(t_norm_parse2 *t)
 	a = 0;
 	if (!handle_delimiter2_init(t, &a))
 		return ;
-	if ((t->p)->current != EMPTY && (t->d)[(t->p)->current].is_redirection == TRUE
-			&& (t->p)->one_arg == FALSE
-			&& char_is_whitespace((t->expr)[(t->i)]) == FALSE)
+	if ((t->p)->current != EMPTY &&
+		(t->d)[(t->p)->current].is_redirection == TRUE
+		&& (t->p)->one_arg == FALSE
+		&& char_is_whitespace((t->expr)[(t->i)]) == FALSE)
 		(t->p)->one_arg = TRUE;
-	else if ((t->p)->current != EMPTY && (t->d)[(t->p)->current].is_redirection
-		== TRUE && (t->p)->one_arg == TRUE && char_is_whitespace((t->expr)[(t->i)])
-		== TRUE)
+	else if ((t->p)->current != EMPTY &&
+		(t->d)[(t->p)->current].is_redirection == TRUE && (t->p)->one_arg ==
+		TRUE && char_is_whitespace((t->expr)[(t->i)]) == TRUE)
 	{
 		(t->p)->end[(t->p)->nb] = (t->i);
 		reset_current((t->p), (t->i));
