@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 23:10:48 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/11 15:49:22 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 19:16:55 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		set_redir_init(t_set_redir *t, t_av **pcmd, char *r)
 {
 	(t->cmd) = (*pcmd);
+	(t->fd) = -1;
 	(t->redir) = xmalloc(sizeof(t_redirect));
 	(t->redir)->fd_in = 1;
 	(t->redir)->fd_out = -1;

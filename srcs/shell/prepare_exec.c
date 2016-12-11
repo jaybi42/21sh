@@ -6,16 +6,17 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:47:21 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/08 21:09:23 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 19:38:50 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-void		grate_une_ligne(int *type, void **fnct)
+void		grate_une_ligne(int *type, void **fnct, int *ret)
 {
 	(*type) = -1;
 	(*fnct) = NULL;
+	(*ret) = -1;
 }
 
 t_exec		get_abs_path(char *cmd, char **argv)
@@ -26,20 +27,19 @@ t_exec		get_abs_path(char *cmd, char **argv)
 	t_exec	ex;
 	int		ret;
 
-	grate_une_ligne(&ex.type, (void *)&ex.fnct);
-	if (!g_hash)
+	grate_une_ligne(&ex.type, (void *)&ex.fnct, &ret);
+	str = (g_hash) ? get_hash_path(&g_hash, cmd) : NULL;
+	if (!str)
 	{
 		env = convert_env(g_env, g_lenv);
 		str = get_path(g_env, g_lenv);
 		path = get_allpath(cmd, str);
 		ret = exec_path(cmd, path);
 	}
-	else
-		str = get_hash_path(&g_hash, cmd);
-	if ((!g_hash && ret != -1) || (g_hash && str))
+	if (str || ret != -1)
 	{
 		ex.type = BASIC;
-		ex.path = (!g_hash) ? path[ret] : str;
+		ex.path = (ret != -1) ? path[ret] : str;
 		ex.argv = argv;
 	}
 	else
@@ -86,6 +86,9 @@ void		make_r(t_redirect ***r)
 			(g_debug) ? ft_dprintf(2, "[?] we did an open(\"%s\")",
 					(*r)[i]->path) : 0;
 		}
+		else if ((*r)[i]->type == 0
+		&& (*r)[i]->fd_out == -1 && (*r)[i]->path == NULL)
+			(*r)[i]->fd_out = (*r)[i]->fd;
 		else if ((*r)[i]->type == 1 && (*r)[i]->fd == -1
 				&& (*r)[i]->path != NULL)
 		{

@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 19:36:15 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 15:50:22 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 19:38:43 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int		set_redir_init2(t_set_redir *t, t_av **pcmd)
 	{
 		(t->findfile) = FALSE;
 		delete_c(pcmd, (t->id_argv), (t->i) + (t->len), &(t->i));
+		(t->i)++;
 	}
 	if ((t->cmd)->argv[(t->id_argv)][(t->i) + (t->len)] == '\0')
 	{
@@ -58,8 +59,14 @@ void	set_redir_inside(t_set_redir *t, t_av **pcmd)
 		delete_s(pcmd, (t->id_argv));
 		(t->id_argv)--;
 	}
-	if ((t->findfile) == FALSE && !(ft_strlen((t->s)) > 0
-		&& !ft_isdigit((t->s)[0])))
+	if ((t->findfile) == FALSE && ft_strlen((t->s)) > 0)
+	{
+		if (ft_isdigit((t->s)[0]))
+			(t->fd) = (t->s)[0] - '0';
+		else if ((t->s)[0] == '-')
+			(t->fd) = open("/dev/null", O_RDWR);
+	}
+	else
 		(t->findfile) = TRUE;
 }
 
@@ -68,7 +75,10 @@ void	set_redir_inside2(t_set_redir *t, char *r)
 	if (ft_strncmp(r, ">", 1) == 0)
 	{
 		if ((t->findfile) == FALSE)
-			(t->redir)->fd = ft_atoi((t->s));
+		{
+			(t->redir)->fd = (t->fd);
+			(t->redir)->path = NULL;
+		}
 		else
 		{
 			(t->redir)->path = (t->s);
