@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 13:02:57 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/07 18:10:24 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 21:31:01 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ int					add_history(char *str, t_ftl_root *root)
 	while (1)
 	{
 		if (str[i] == '\0')
+		{
+			ft_strdel(&hist.str);
 			return (0);
+		}
 		else if (ft_isspace(str[i]) == 0)
 			break ;
 		++i;
