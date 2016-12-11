@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/20 13:28:44 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/10 01:22:15 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/11 15:53:40 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ static int	arg_isin(char *name, char *value, char *str, t_list **g_env)
 	}
 	if (temp == NULL)
 		return (1);
-	if (name)
-		if ((ft_strcmp("PATH", name)) == 0)
-		{
-			hash_del(&g_hash);
-			g_hash = hash_table(value);
-		}
+	if (name && (ft_strcmp("PATH", name)) == 0)
+	{
+		hash_del(&g_hash);
+		g_hash = hash_table(value);
+	}
 	if (((t_env *)temp->content)->value != NULL)
 		ft_strdel(&((t_env *)temp->content)->value);
 	if (((t_env *)temp->content)->str != NULL)
