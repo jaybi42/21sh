@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <21sh.h>
+#include <shell.h>
 
 void	check_char(char c, int *option_n)
 {

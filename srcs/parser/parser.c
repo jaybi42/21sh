@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 void	p_s_a_init(t_norm_simplify *t, char **tmp)
 {

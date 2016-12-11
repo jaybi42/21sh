@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include <unistd.h>
 
 static int		ft_search_str(char *str, char *to_find)

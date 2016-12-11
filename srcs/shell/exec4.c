@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 void		exec_builtin_init(t_executor **exs, int *cpystdout,
 		int *cpystderr, t_handle_r *hr)

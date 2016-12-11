@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 t_exec		exec_ret_err(t_exec e, char *msg, char *cmd)
 {

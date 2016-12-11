@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <21sh.h>
+#include <shell.h>
 
 char		*isolate(char *new_var, int obj)
 {

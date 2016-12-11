@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "21sh.h"
+#include "shell.h"
 
 #define DEBUG 1
 

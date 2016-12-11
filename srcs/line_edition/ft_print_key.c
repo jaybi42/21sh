@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "edit_line.h"
-#include "21sh.h"
+#include "shell.h"
 
 static void		ft_print_rest(t_line *l)
 {

@@ -17,7 +17,7 @@
 #include <sys/wait.h>
 #include <stdio.h>
 #include <fcntl.h>
-#include "21sh.h"
+#include "shell.h"
 
 char	*file_get_contents(char *filename)
 {

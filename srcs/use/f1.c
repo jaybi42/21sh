@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 char	**fstrsplit(char *str, int len, int (*is_whatever)(char))
 {

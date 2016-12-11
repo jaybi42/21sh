@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 void				convert_parse_if1(t_norm_convert_parse *t, t_nparse np)
 {

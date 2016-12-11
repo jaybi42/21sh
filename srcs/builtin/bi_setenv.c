@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 static int	arg_isin(char *name, char *value, char *str, t_list **g_env)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 char	*get_alias_elem_by_id(t_alias *alias, int id)
 {

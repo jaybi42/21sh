@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <21sh.h>
+#include <shell.h>
 
 int		already_searched(t_list *key_list, char *new_key)
 {

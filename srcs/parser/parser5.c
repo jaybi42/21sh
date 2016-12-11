@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 int		in_cmd_is_intouchable(t_av *cmd, int id_argv, int i)
 {

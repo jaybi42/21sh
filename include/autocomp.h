@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 17:06:38 by mseinic           #+#    #+#             */
-/*   Updated: 2016/12/05 20:15:05 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/12/11 23:28:58 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <unistd.h>
-# include "21sh.h"
+# include "shell.h"
 
 typedef struct		s_ft_info
 {

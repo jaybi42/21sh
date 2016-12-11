@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 void		exec_bin_child(t_executor **exs, int fdin,
 		t_handle_r *hr, char **env)

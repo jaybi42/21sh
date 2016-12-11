@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 int		set_redir_init(t_set_redir *t, t_av **pcmd, char *r)
 {

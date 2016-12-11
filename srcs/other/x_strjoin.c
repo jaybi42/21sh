@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include <stdlib.h>
 
 char	*x_strjoin(char const *s1, char const *s2)

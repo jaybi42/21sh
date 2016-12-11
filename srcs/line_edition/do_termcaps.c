@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include <curses.h>
 #include <sys/types.h>
 #include <sys/uio.h>

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include <stdlib.h>
 
 char		*x_strsub(char const *s, unsigned int start, size_t len)

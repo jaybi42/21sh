@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 int		x_strjoins(char **s1, size_t *len1, char *s2, size_t len2)
 {

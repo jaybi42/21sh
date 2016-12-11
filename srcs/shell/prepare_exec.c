@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 void		grate_une_ligne(t_g_a_p *t, int *type, void **fnct, char *cmd)
 {

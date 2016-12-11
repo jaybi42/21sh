@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 static char		*get_hist_pos(t_ftl_root *hist, int pos, int dir, t_line *l)
 {

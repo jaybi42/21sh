@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>

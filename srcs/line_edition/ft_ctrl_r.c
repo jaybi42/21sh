@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 static bool		get_ans(t_ftl_root *h, int h_pos, t_line *l)
 {

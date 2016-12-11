@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 /*
 ** {is cmd printed, "message", is arg[0] printed} // list start at line 20

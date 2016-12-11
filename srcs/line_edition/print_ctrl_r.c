@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "edit_line.h"
-#include "21sh.h"
+#include "shell.h"
 
 static int		inst_ans(t_line *l)
 {

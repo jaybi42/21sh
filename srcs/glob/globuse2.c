@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 void	update_t(char ***p_t, int **p_i_a, int *p_ta, char c)
 {

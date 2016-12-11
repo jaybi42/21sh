@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "edit_line.h"
-#include "21sh.h"
+#include "shell.h"
 
 static t_actions const g_actions[18] = {
 	{ft_bp, {127, 0, 0, 0, 0, 0}, "BACKSPACE"},

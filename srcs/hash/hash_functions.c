@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include <math.h>
 
 unsigned int	hash_algo(char *key, int nb)

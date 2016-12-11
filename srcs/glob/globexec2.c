@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 void	finder_s_j_list(t_finder *f, t_globbing *g, char **words)
 {

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "21sh.h"
+#include "shell.h"
 
 char	*x_strnew(size_t size)
 {

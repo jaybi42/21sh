@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 int			handle_delimiter2_init(t_norm_parse2 *t, int *a)
 {

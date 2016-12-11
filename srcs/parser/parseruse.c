@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 void	delete_c(t_av **cmd, int id_argv, int i, int *pi)
 {

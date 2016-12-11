@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 #include <stdlib.h>
 #include <time.h>
 #include <stdlib.h>

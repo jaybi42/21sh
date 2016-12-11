@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 static t_builtin const g_builtin_list[NB_BUILT] = {
 	{"cd", bi_cd},

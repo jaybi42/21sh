@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 void	set_redir_inside_bis(t_set_redir *t, t_av **pcmd)
 {

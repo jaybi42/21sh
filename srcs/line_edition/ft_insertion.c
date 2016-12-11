@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "edit_line.h"
-#include "21sh.h"
+#include "shell.h"
 #include <stdlib.h>
 
 int			ft_insertion(t_line *l)

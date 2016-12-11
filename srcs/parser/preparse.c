@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 int		handle_tilde_init(t_norm_handle_tilde *t, char *s, char **env)
 {

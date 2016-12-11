@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "shell.h"
 
 int			bi_getenv(t_av av, t_list **g_env, t_list **g_lenv)
 {
