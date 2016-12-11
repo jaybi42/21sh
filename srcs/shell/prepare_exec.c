@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:47:21 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 20:57:41 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 21:22:19 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,47 @@ void		grate_une_ligne(int *type, void **fnct, int *ret)
 	(*ret) = -1;
 }
 
-t_exec		get_abs_path(char *cmd, char **argv)
+t_exec		exec_ret_err(t_exec e, char *msg, char *cmd)
+{
+	print_err(msg, cmd);
+	return (e);
+}
+typedef struct s_g_a_p
 {
 	char	**env;
 	char	**path;
 	char	*str;
 	t_exec	ex;
 	int		ret;
+}			t_g_a_p;
+t_exec		get_abs_path(char *cmd, char **argv)
+{
+	t_g_a_p t;
 
-	grate_une_ligne(&ex.type, (void *)&ex.fnct, &ret);
-	str = (g_hash) ? get_hash_path(&g_hash, cmd) : NULL;
-	if (!str)
+	grate_une_ligne(&t.ex.type, (void *)&t.ex.fnct, &t.ret);
+	t.str = (g_hash) ? get_hash_path(&g_hash, cmd) : NULL;
+	if (!t.str)
 	{
-		env = convert_env(g_env, g_lenv);
-		str = get_path(g_env, g_lenv);
-		path = get_allpath(cmd, str);
-		ret = exec_path(cmd, path);
+		t.env = convert_env(g_env, g_lenv);
+		t.str = get_path(g_env, g_lenv);
+		t.path = get_allpath(cmd, t.str);
+		t.ret = exec_path(cmd, t.path);
+		if (t.ret == -1)
+			t.str = NULL;
 	}
-	if (str || ret != -1)
+	if (t.str || t.ret != -1)
 	{
-		ex.type = BASIC;
-		ex.path = (ret != -1) ? path[ret] : str;
-		ex.argv = argv;
+		t.ex.path = (t.ret != -1) ? t.path[t.ret] : t.str;
+		if ((access(t.ex.path, F_OK)) == -1)
+			return (exec_ret_err(t.ex, "command not found", cmd));
+		if ((access(t.ex.path, X_OK)) == -1)
+			return (exec_ret_err(t.ex, "permission denied", cmd));
+		t.ex.argv = argv;
+		t.ex.type = BASIC;
 	}
 	else
 		print_err("command not found", cmd);
-	return (ex);
+	return (t.ex);
 }
 
 t_exec		make_exec_bin(t_av *av, t_list *g_env, t_list *g_lenv)
