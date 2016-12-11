@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include "21sh.h"
 
-typedef struct s_ft_info
+typedef struct		s_ft_info
 {
 	int				count;
 	char			*complete;
@@ -33,7 +33,6 @@ typedef struct s_ft_info
 	char			*copy2;
 	int				globing;
 }					t_ft_info;
-
 
 typedef struct		s_aut_info
 {

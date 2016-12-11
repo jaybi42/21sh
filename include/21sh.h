@@ -40,7 +40,7 @@
 # define IL(CMD,AV1,AV2) (char *[]){CMD, AV1, AV2, NULL}
 # define IG(AV1,AV2) (char *[]){AV1, AV2, NULL}
 # define N NULL
-# define INIT_AV(A,B,C,D) ((t_av){A, IqG(B, C), D, IL(A, B, C), N, -1, N, 0})
+# define INIT_AV(A,B,C,D) ((t_av){A, IG(B, C), D, IL(A, B, C), N, -1, N, 0})
 # define STAT	struct stat
 # define PW_T	struct passwd
 
@@ -879,6 +879,7 @@ typedef struct			s_set_redir
 	t_av				*cmd;
 	int					findfile;
 	t_redirect			*redir;
+	int					fd;
 	int					len;
 	int					b;
 	int					x;

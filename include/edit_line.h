@@ -26,8 +26,6 @@
 
 # define TIOCGETD	_IOR('t', 26, int)
 
-//# define CTRL_R {27, 91, 49, 59, 53, 67}
-//# define BACKSPACE {27, 91, 51, 126, 0, 0}
 # define CTRL_R "\e[1;5C"
 # define BACKSPACE "\e[1;5C"
 
@@ -99,7 +97,6 @@ void			reset_line(void);
 **File: parse_quotes.c parse_history.c
 **Desc: Parsing quotes, history
 */
-
 
 /*
 **Name: Parse editing
