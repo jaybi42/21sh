@@ -136,13 +136,13 @@ static void			set_shlvl(t_list *g_env)
 	}
 }
 
-int					init_env(t_list **g_env, t_list **l_env)
+int					init_env(t_list **g_env, t_list **g_lenv)
 {
 	extern char		**environ;
 
-	*l_env = NULL;
+	*g_lenv = NULL;
 	*g_env = NULL;
-	if (set_lenv(l_env) == 1)
+	if (set_lenv(g_lenv) == 1)
 		return (1);
 	if (*environ != NULL)
 	{

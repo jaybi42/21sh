@@ -85,7 +85,7 @@ void	print_args(char *s, int *end_option, int **options)
 	}
 }
 
-int		bi_echo(t_av av, t_list **g_env, t_list **l_env)
+int		bi_echo(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	int	*options;
 	int	end_option;
@@ -93,7 +93,7 @@ int		bi_echo(t_av av, t_list **g_env, t_list **l_env)
 	int	x;
 
 	(void)g_env;
-	(void)l_env;
+	(void)g_lenv;
 	if ((options = (int *)ft_memalloc(sizeof(int) * 2)) == NULL)
 		return (1);
 	end_option = 0;

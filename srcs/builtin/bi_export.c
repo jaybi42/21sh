@@ -69,13 +69,13 @@ void	print_all_exported_variables(t_list *env)
 	}
 }
 
-int		bi_export(t_av av, t_list **g_env, t_list **l_env)
+int		bi_export(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	int		p_option;
 	int		x;
 	char	*str;
 
-	(void)l_env;
+	(void)g_lenv;
 	p_option = check_option(av.arg[0]);
 	x = ((p_option == 0) ? (-1) : 0);
 	while (av.arg[++x] != NULL)

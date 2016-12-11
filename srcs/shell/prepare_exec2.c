@@ -42,7 +42,7 @@ int			get_out(t_redirect ***r, int fd_out)
 	return (1);
 }
 
-char		**convert_env(t_list *g_env, t_list *l_env)
+char		**convert_env(t_list *g_env, t_list *g_lenv)
 {
 	t_list	*env;
 	char	**t;
@@ -50,7 +50,7 @@ char		**convert_env(t_list *g_env, t_list *l_env)
 
 	env = g_env;
 	if (env == NULL)
-		env = l_env;
+		env = g_lenv;
 	i = ft_listlen(env);
 	t = (char **)xmalloc(sizeof(char *) * (i + 1));
 	if (t == NULL)

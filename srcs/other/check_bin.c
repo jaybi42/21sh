@@ -28,7 +28,7 @@ static int	exec_path2(char **arg, char **path, char **env)
 	return (-2);
 }
 
-int			check_bin(t_list *g_env, t_list *l_env, t_av av)
+int			check_bin(t_list *g_env, t_list *g_lenv, t_av av)
 {
 	char	**env;
 	char	**path;
@@ -36,8 +36,8 @@ int			check_bin(t_list *g_env, t_list *l_env, t_av av)
 	int		ret;
 
 	ret = -2;
-	env = convert_env(g_env, l_env);
-	str = get_path(g_env, l_env);
+	env = convert_env(g_env, g_lenv);
+	str = get_path(g_env, g_lenv);
 	path = get_allpath(av.cmd, str);
 	if (access(av.cmd, X_OK) != -1)
 	{

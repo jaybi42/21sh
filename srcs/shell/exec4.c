@@ -38,7 +38,7 @@ void		exec_builtin(t_executor **exs, t_handle_r *hr, char **env)
 	cpystdout = -1;
 	cpystderr = -1;
 	exec_builtin_init(exs, &cpystdout, &cpystderr, hr);
-	(*exs)->ex.fnct((*exs)->av, &g_env, &l_env);
+	(*exs)->ex.fnct((*exs)->av, &g_env, &g_lenv);
 	if (exs[1] != NULL || (hr->is_redirecting && hr->b_out))
 		switch_fd_end(STDOUT_FILENO, &cpystdout);
 	if (hr->is_redirecting && hr->b_err)

@@ -95,7 +95,7 @@ static int	go_home(char *arg, t_list **g_e, t_list **l_e)
 	return (0);
 }
 
-int			bi_cd(t_av av, t_list **g_env, t_list **l_env)
+int			bi_cd(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	if (av.argc > 2)
 		return (print_error(av, 0));
@@ -103,9 +103,9 @@ int			bi_cd(t_av av, t_list **g_env, t_list **l_env)
 		return (print_error(av, 1));
 	if (*av.arg == NULL || ft_strncmp(*av.arg, "~", 1) == 0 ||
 		ft_strcmp(*av.arg, "--") == 0)
-		return (go_home(*av.arg, g_env, l_env));
+		return (go_home(*av.arg, g_env, g_lenv));
 	if (av.argc == 1 && ft_strcmp(*av.arg, "-") == 0)
-		return (go_back(g_env, l_env));
+		return (go_back(g_env, g_lenv));
 	if (av.argc == 1 && access(*av.arg, F_OK) == -1)
 		return (print_error(av, 2));
 	if (av.argc == 1 && access(*av.arg, X_OK) == -1)
@@ -113,7 +113,7 @@ int			bi_cd(t_av av, t_list **g_env, t_list **l_env)
 	if (*av.arg != NULL)
 	{
 		if (chdir(*av.arg) == 0)
-			if (mod_pwd(g_env, l_env) == 0)
+			if (mod_pwd(g_env, g_lenv) == 0)
 				return (0);
 		return (1);
 	}

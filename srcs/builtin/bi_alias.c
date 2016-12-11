@@ -104,13 +104,13 @@ char	**get_data(char *cmd)
 	return (pair);
 }
 
-int		bi_alias(t_av av, t_list **g_env, t_list **l_env)
+int		bi_alias(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	int		x;
 	char	**pair;
 
 	(void)g_env;
-	(void)l_env;
+	(void)g_lenv;
 	x = (-1);
 	if (av.argc == 0)
 		return (print_alias_list(g_alias, (char *)NULL));

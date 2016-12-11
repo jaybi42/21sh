@@ -24,7 +24,7 @@ static void		print_env(t_list *env)
 	}
 }
 
-static int		set_new_arg(char *arg, t_list **g_env, t_list **l_env)
+static int		set_new_arg(char *arg, t_list **g_env, t_list **g_lenv)
 {
 	char		*my_arg;
 	char		*my_cmd;
@@ -39,13 +39,13 @@ static int		set_new_arg(char *arg, t_list **g_env, t_list **l_env)
 	my_arg = ft_strchr(arg, '=') + 1;
 	if (my_cmd == NULL || my_arg == NULL)
 		return (1);
-	bi_setenv(INIT_AV("setenv", my_cmd, my_arg, 2), g_env, l_env);
+	bi_setenv(INIT_AV("setenv", my_cmd, my_arg, 2), g_env, g_lenv);
 	ft_strdel(&my_cmd);
 	ft_strdel(&my_arg);
 	return (0);
 }
 
-static int		parse_env(t_av av, t_list **g_env, t_list **l_env)
+static int		parse_env(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	int			i;
 
@@ -57,29 +57,29 @@ static int		parse_env(t_av av, t_list **g_env, t_list **l_env)
 		else if (ft_strncmp("-u", av.arg[i], 2) == 0)
 		{
 			i++;
-			bi_unsetenv(INIT_AV(NULL, av.arg[i], NULL, 1), g_env, l_env);
+			bi_unsetenv(INIT_AV(NULL, av.arg[i], NULL, 1), g_env, g_lenv);
 		}
 		else
 			break ;
 	}
-	while (i < av.argc && set_new_arg(*(av.arg + i), g_env, l_env) == 0)
+	while (i < av.argc && set_new_arg(*(av.arg + i), g_env, g_lenv) == 0)
 		i++;
 	return (i);
 }
 
-int				bi_env(t_av av, t_list **g_env, t_list **l_env)
+int				bi_env(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	int			ret;
 	t_av		new_av;
 
-	ret = parse_env(av, g_env, l_env);
+	ret = parse_env(av, g_env, g_lenv);
 	new_av.argc = av.argc - ret;
 	if (new_av.argc >= 1)
 	{
 		new_av.cmd = av.arg[ret];
 		new_av.arg = av.arg + ret + 1;
 		new_av.argv = av.argv + ret + 1;
-		check_bin(*g_env, *l_env, new_av);//TODO: Gerer env
+		check_bin(*g_env, *g_lenv, new_av);//TODO: Gerer env
 	}
 	else
 		print_env(*g_env);

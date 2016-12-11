@@ -19,7 +19,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-t_list			*l_env;
+t_list			*g_lenv;
 t_list			*g_env;
 t_ftl_root		g_hist;
 t_line			*g_line;
@@ -95,8 +95,8 @@ int				sh21(void)
 	while (1)
 	{
 		catch_signal();
-		((g_prompt.son == 0) ? print_prompt(nbr, g_env, l_env, &l) : (0));
-		g_prompt = (t_prompt){nbr, g_env, l_env, 0, &l};
+		((g_prompt.son == 0) ? print_prompt(nbr, g_env, g_lenv, &l) : (0));
+		g_prompt = (t_prompt){nbr, g_env, g_lenv, 0, &l};
 		g_line = NULL;
 		if ((av = read_init(&l, &g_hist)) != NULL)
 		{
@@ -120,7 +120,7 @@ void			init_global(int ac, char **argv)
 	MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 	g_env = NULL;
 	g_env = NULL;
-	l_env = NULL;
+	g_lenv = NULL;
 	g_line = NULL;
 	g_alias = mmap(NULL, sizeof(*g_alias), PROT_READ | PROT_WRITE, MAP_SHARED
 			| MAP_ANONYMOUS, -1, 0);
@@ -134,9 +134,9 @@ void			init_global(int ac, char **argv)
 int				main(int ac, char **argv)
 {
 	init_global(ac, argv);
-	if (init_env(&g_env, &l_env) == 1 || (a_init() == -1))
+	if (init_env(&g_env, &g_lenv) == 1 || (a_init() == -1))
 		return (1);
-	g_hash = hash_table(get_path(g_env, l_env));
+	g_hash = hash_table(get_path(g_env, g_lenv));
 	if (sh21() == 1)
 	{
 		hash_del(&(g_hash));

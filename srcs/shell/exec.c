@@ -76,7 +76,7 @@ int			exec_all(t_executor **exs, char **env, int fdin)
 void		do_exec_init(t_do_exec *t, t_executor ***exs, int ret)
 {
 	(t->fdout)[1] = -1;
-	(t->env) = convert_env(g_env, l_env);
+	(t->env) = convert_env(g_env, g_lenv);
 	if (ret != 0)
 	{
 		pipe((t->fdout));

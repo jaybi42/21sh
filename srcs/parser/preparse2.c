@@ -57,7 +57,7 @@ char	**check_var(char *s, char **env)
 
 int		apply_var_init(t_apply_var *t, char **s, int do_extra)
 {
-	(t->env) = convert_env(g_env, l_env);
+	(t->env) = convert_env(g_env, g_lenv);
 	if (do_extra == TRUE)
 		(*s) = handle_tilde((*s), (t->env));
 	(t->i) = -1;

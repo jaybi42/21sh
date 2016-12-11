@@ -40,10 +40,10 @@ int	ex_glob(int argc, char **argv)
 	return (0);
 }
 
-int	bi_glob(t_av av, t_list **g_env, t_list **l_env)
+int	bi_glob(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	(void)g_env;
 	(void)av;
-	(void)l_env;
+	(void)g_lenv;
 	return (ex_glob(av.argc + 1, av.argv));
 }

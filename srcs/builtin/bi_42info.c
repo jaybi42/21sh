@@ -51,10 +51,10 @@ int	exec_42info(int ac, char **argv)
 	return (0);
 }
 
-int	bi_42info(t_av av, t_list **g_env, t_list **l_env)
+int	bi_42info(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	(void)g_env;
 	(void)av;
-	(void)l_env;
+	(void)g_lenv;
 	return (exec_42info(av.argc, av.argv));
 }

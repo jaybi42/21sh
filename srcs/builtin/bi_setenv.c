@@ -82,14 +82,14 @@ static int	set_arg(char *name, char *value, t_list **g_env)
 	return (1);
 }
 
-int			bi_setenv(t_av av, t_list **g_env, t_list **l_env)
+int			bi_setenv(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	int	i;
 
 	i = 0;
-	(void)l_env;
+	(void)g_lenv;
 	if (av.argc == 0)
-		return (bi_env(av, g_env, l_env));
+		return (bi_env(av, g_env, g_lenv));
 	else if (av.argc > 2)
 		return (print_error(av, 0));
 	else if (av.argc >= 1 && ft_isalpha(*av.arg[0]) == 0)

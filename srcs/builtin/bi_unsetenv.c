@@ -48,11 +48,11 @@ static int	find_and_replace(t_list *link, t_av av, t_list **g_env)
 	return (-1);
 }
 
-int			bi_unsetenv(t_av av, t_list **g_env, t_list **l_env)
+int			bi_unsetenv(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	t_list	*link;
 
-	(void)l_env;
+	(void)g_lenv;
 	if (g_env == NULL || *av.arg == NULL)
 		return (1);
 	link = *g_env;

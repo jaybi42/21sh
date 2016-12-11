@@ -25,7 +25,7 @@ static void		get_color(int rand)
 	ft_putstr("m");
 }
 
-static	int		print_value(t_list *g_env, t_list *l_env, char *key)
+static	int		print_value(t_list *g_env, t_list *g_lenv, char *key)
 {
 	t_list		*temp;
 
@@ -39,7 +39,7 @@ static	int		print_value(t_list *g_env, t_list *l_env, char *key)
 		}
 		temp = temp->next;
 	}
-	temp = l_env;
+	temp = g_lenv;
 	while (temp != NULL)
 	{
 		if (ft_strcmp(((t_env *)temp->content)->name, key) == 0)
@@ -52,16 +52,16 @@ static	int		print_value(t_list *g_env, t_list *l_env, char *key)
 	return (0);
 }
 
-void			print_prompt(int rand, t_list *g_env, t_list *l_env, t_line *l)
+void			print_prompt(int rand, t_list *g_env, t_list *g_lenv, t_line *l)
 {
 	get_color(rand);
-	if (print_value(g_env, l_env, "PWD") == 0)
+	if (print_value(g_env, g_lenv, "PWD") == 0)
 		ft_putstr("21sh");
 	ft_putstr("\033[0m");
 	get_color(rand + 2);
 	ft_putchar('\n');
 	ft_putchar('@');
-	l->sizeprompt = print_value(g_env, l_env, "USER");
+	l->sizeprompt = print_value(g_env, g_lenv, "USER");
 	ft_putstr("$>");
 	ft_putstr("\033[0m");
 }

@@ -29,7 +29,7 @@ static t_builtin const	g_builtin_list[NB_BUILTIN] = {
 	{"glob", bi_glob}
 };
 
-int			builtin(t_list **g_env, t_list **l_env, t_ftl_root *hist, t_av *av)
+int			builtin(t_list **g_env, t_list **g_lenv, t_ftl_root *hist, t_av *av)
 {
 	int i;
 
@@ -42,7 +42,7 @@ int			builtin(t_list **g_env, t_list **l_env, t_ftl_root *hist, t_av *av)
 	while (i < NB_BUILTIN)
 	{
 		if (ft_strcmp(g_builtin_list[i].key, av->cmd) == 0)
-			return (g_builtin_list[i].value((*av), g_env, l_env) & -1);
+			return (g_builtin_list[i].value((*av), g_env, g_lenv) & -1);
 		i++;
 	}
 	return (1);

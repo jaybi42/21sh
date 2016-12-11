@@ -74,12 +74,12 @@ static	int		history_reset(t_ftl_root *hist)
 	return (0);
 }
 
-int				bi_history(t_av av, t_list **g_env, t_list **l_env)
+int				bi_history(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	t_ftl_root *hist;
 
 	(void)g_env;
-	(void)l_env;
+	(void)g_lenv;
 	hist = &g_hist;
 	if (hist == NULL || hist->next == (t_ftl_node*)hist)
 		return (0);

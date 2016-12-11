@@ -12,7 +12,7 @@
 
 #include "21sh.h"
 
-char	*get_path(t_list *g_env, t_list *l_env)
+char	*get_path(t_list *g_env, t_list *g_lenv)
 {
 	while (g_env != NULL)
 	{
@@ -20,11 +20,11 @@ char	*get_path(t_list *g_env, t_list *l_env)
 			return (((t_env *)g_env->content)->value);
 		g_env = g_env->next;
 	}
-	while (l_env != NULL)
+	while (g_lenv != NULL)
 	{
-		if (ft_strcmp(((t_env *)l_env->content)->name, "PATH") == 0)
-			return (((t_env *)l_env->content)->value);
-		l_env = l_env->next;
+		if (ft_strcmp(((t_env *)g_lenv->content)->name, "PATH") == 0)
+			return (((t_env *)g_lenv->content)->value);
+		g_lenv = g_lenv->next;
 	}
 	return (NULL);
 }

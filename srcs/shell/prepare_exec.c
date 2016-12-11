@@ -29,8 +29,8 @@ t_exec		get_abs_path(char *cmd, char **argv)
 	grate_une_ligne(&ex.type, (void *)&ex.fnct);
 	if (!g_hash)
 	{
-		env = convert_env(g_env, l_env);
-		str = get_path(g_env, l_env);
+		env = convert_env(g_env, g_lenv);
+		str = get_path(g_env, g_lenv);
 		path = get_allpath(cmd, str);
 		ret = exec_path(cmd, path);
 	}
@@ -47,14 +47,14 @@ t_exec		get_abs_path(char *cmd, char **argv)
 	return (ex);
 }
 
-t_exec		make_exec_bin(t_av *av, t_list *g_env, t_list *l_env)
+t_exec		make_exec_bin(t_av *av, t_list *g_env, t_list *g_lenv)
 {
 	t_exec	ex;
 
 	ex.type = -1;
 	ex.fnct = NULL;
 	(void)g_env;
-	(void)l_env;
+	(void)g_lenv;
 	if (ft_strstr(av->cmd, "./") != NULL && access(av->cmd, F_OK) != -1)
 	{
 		if (access(av->cmd, X_OK) == -1)
@@ -98,13 +98,13 @@ void		make_r(t_redirect ***r)
 	}
 }
 
-t_exec		make_exec(t_av *av, t_list **g_env, t_list **l_env)
+t_exec		make_exec(t_av *av, t_list **g_env, t_list **g_lenv)
 {
 	t_exec ex;
 
 	ex = make_exec_builtin(av);
 	if (ex.type == -1)
-		ex = make_exec_bin(av, *g_env, *l_env);
+		ex = make_exec_bin(av, *g_env, *g_lenv);
 	ex.r = av->redirect;
 	make_r(&ex.r);
 	return (ex);

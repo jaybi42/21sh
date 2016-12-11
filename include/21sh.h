@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 16:02:37 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 16:22:58 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -948,7 +948,7 @@ t_hash		**hash_table(char *path);
 */
 
 extern t_alias		*g_alias;
-extern t_list		*l_env;
+extern t_list		*g_lenv;
 extern t_list		*g_env;
 extern t_ftl_root g_hist;
 extern t_line 	*g_line;

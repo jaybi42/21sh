@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/06 17:43:12 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 16:23:44 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			shell_pre_exec(t_shells *s, t_av **av)
 		clear_stack(&(s->stack), &(s->stack_index));
 		return (FALSE);
 	}
-	(s->ex) = make_exec(av[(s->a)], &g_env, &l_env);
+	(s->ex) = make_exec(av[(s->a)], &g_env, &g_lenv);
 	if (!shell_pre_exec_logical_and_or(s, av))
 		return (FALSE);
 	if (!shell_pre_exec_logical_pipe(s, av))
