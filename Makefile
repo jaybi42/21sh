@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/12/11 16:02:15 by ibouchla         ###   ########.fr        #
+#    Updated: 2016/12/11 23:04:03 by agadhgad         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -147,6 +147,7 @@ FILES = autocomp/autocomp			\
 		parser/preparse3 \
 		parser/redirection \
 		parser/redirection2 \
+		parser/redirection3 \
 		\
 		hash/hash_functions \
 		hash/hash \

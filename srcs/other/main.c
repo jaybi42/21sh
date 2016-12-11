@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 20:32:40 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 22:54:41 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ int				g_debug;
 t_hash			**g_hash;
 unsigned int	g_hash_size;
 char			*g_heredoc_expected;
+
 char			*handle_var_set(char ***keys, char ***values,
-				char *key, char *value)
+		char *key, char *value)
 {
 	int			tmp;
 
@@ -116,8 +117,6 @@ void			init_global(int ac, char **argv)
 		g_debug = TRUE;
 		ft_dprintf(2, "-- {red}WELCOME ON THE DEBUG MODE{eoc} --\n");
 	}
-	g_env = mmap(NULL, sizeof(*g_env), PROT_READ | PROT_WRITE,
-	MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 	g_env = NULL;
 	g_env = NULL;
 	g_lenv = NULL;

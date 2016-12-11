@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:25:51 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/04 21:49:53 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/11 22:52:33 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,55 @@ static int		parse_env(t_av av, t_list **g_env, t_list **g_lenv)
 	return (i);
 }
 
+void			gen_exec(t_av nv)
+{
+	int			x;
+	size_t		len;
+	char		*s;
+	t_output	o;
+
+	len = 0;
+	s = xmalloc(sizeof(char) * (1));
+	s[0] = '\0';
+	x = -1;
+	while (nv.argv[++x])
+	{
+		x_strjoins(&s, &len, "\'", 1);
+		x_strjoins(&s, &len, nv.argv[x], ft_strlen(nv.argv[x]));
+		x_strjoins(&s, &len, "\' ", 2);
+	}
+	s[len] = '\0';
+	(void)o;
+	o = shell_exec(s);
+	x = -1;
+	while (++x < o.len)
+		ft_dprintf(2, "%c", o.string[x]);
+}
+
 int				bi_env(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	int			ret;
 	t_av		new_av;
+	pid_t		pid;
 
-	ret = parse_env(av, g_env, g_lenv);
-	new_av.argc = av.argc - ret;
-	if (new_av.argc >= 1)
+	if ((pid = fork()) == -1)
+		return (127);
+	else if (pid == 0)
 	{
-		new_av.cmd = av.arg[ret];
-		new_av.arg = av.arg + ret + 1;
-		new_av.argv = av.argv + ret + 1;
-		check_bin(*g_env, *g_lenv, new_av);//TODO: Gerer env
+		ret = parse_env(av, g_env, g_lenv);
+		new_av.argc = av.argc - ret;
+		if (new_av.argc >= 1)
+		{
+			new_av.cmd = av.arg[ret];
+			new_av.arg = av.arg + ret + 1;
+			new_av.argv = av.argv + ret + 1;
+			gen_exec(new_av);
+		}
+		else
+			print_env(*g_env);
+		exit(0);
 	}
 	else
-		print_env(*g_env);
+		wait(NULL);
 	return (0);
 }

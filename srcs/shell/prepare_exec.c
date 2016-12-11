@@ -6,38 +6,25 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:47:21 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 21:22:19 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/11 23:16:49 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-void		grate_une_ligne(int *type, void **fnct, int *ret)
+void		grate_une_ligne(t_g_a_p *t, int *type, void **fnct, char *cmd)
 {
 	(*type) = -1;
 	(*fnct) = NULL;
-	(*ret) = -1;
+	t->ret = -1;
+	t->str = (g_hash) ? get_hash_path(&g_hash, cmd) : NULL;
 }
 
-t_exec		exec_ret_err(t_exec e, char *msg, char *cmd)
-{
-	print_err(msg, cmd);
-	return (e);
-}
-typedef struct s_g_a_p
-{
-	char	**env;
-	char	**path;
-	char	*str;
-	t_exec	ex;
-	int		ret;
-}			t_g_a_p;
 t_exec		get_abs_path(char *cmd, char **argv)
 {
 	t_g_a_p t;
 
-	grate_une_ligne(&t.ex.type, (void *)&t.ex.fnct, &t.ret);
-	t.str = (g_hash) ? get_hash_path(&g_hash, cmd) : NULL;
+	grate_une_ligne(&t, &t.ex.type, (void *)&t.ex.fnct, cmd);
 	if (!t.str)
 	{
 		t.env = convert_env(g_env, g_lenv);
@@ -107,8 +94,7 @@ void		make_r(t_redirect ***r)
 		else if ((*r)[i]->type == 1 && (*r)[i]->fd == -1
 				&& (*r)[i]->path != NULL)
 		{
-			(*r)[i]->fd = open((*r)[i]->path,
-					(*r)[i]->open_flag, 0666);
+			(*r)[i]->fd = open((*r)[i]->path, (*r)[i]->open_flag, 0666);
 			(g_debug) ? ft_dprintf(2, "[?] we did an open(\"%s\")",
 					(*r)[i]->path) : 0;
 		}

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 20:58:41 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 23:08:31 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,15 @@ t_output	shell(t_av **av, int ret)
 		shell_post_exec(&s, ret);
 	}
 	return (s.all);
+}
+
+void		shell_exec_in(char *expr)
+{
+	t_av		**av;
+	t_output	o;
+
+	av = parse_commands(expr);
+	o = shell(av, 0);
 }
 
 t_output	shell_exec(char *expr)

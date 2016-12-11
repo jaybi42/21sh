@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 23:10:48 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/11 20:38:41 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 22:28:15 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		set_redir_init(t_set_redir *t, t_av **pcmd, char *r)
 	if ((t->i) > 0 && !in_cmd_is_intouchable((t->cmd), (t->id_argv), (t->i) - 1)
 			&& ft_isdigit((t->cmd)->argv[(t->id_argv)][(t->i) - 1]))
 	{
-		(t->redir)->fd_in = (t->cmd)->argv[(t->id_argv)][(t->i) - 1] - 0x30;
+		(t->redir)->fd_in = (t->cmd)->argv[(t->id_argv)][(t->i) - 1] - '0';
 		delete_c(pcmd, (t->id_argv), (t->i) - 1, &(t->i));
 	}
 	(t->len) = ft_strlen(r);

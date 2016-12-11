@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 20:32:00 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 23:18:11 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -418,6 +418,7 @@ char					*x_strsub(char const *s, unsigned int start,
 size_t					len_depth(char *s);
 char					**fusion_tarray(char ***t);
 int						ttlen(char ***t);
+void					shell_exec_in(char *expr);
 
 /*
 **	SHELL
@@ -887,6 +888,15 @@ typedef struct			s_set_redir
 	int					id_argv;
 }						t_set_redir;
 
+typedef struct			s_g_a_p
+{
+	char				**env;
+	char				**path;
+	char				*str;
+	t_exec				ex;
+	int					ret;
+}						t_g_a_p;
+
 int						set_redir_init(t_set_redir *t, t_av **pcmd, char *r);
 int						set_redir(t_av **pcmd, int id_argv, int i, char *r);
 int						get_redirect(t_av **cmd);
@@ -919,6 +929,9 @@ char					*get_hash_path(t_hash ***hash_addr, char *bin);
 void					hash_del(t_hash ***hash);
 t_hash					**hash_table(char *path);
 void					init_bin_list(t_hash **addr, char *path);
+void					set_redir_inside2_bis(t_set_redir *t, char *r);
+void					set_redir_inside_bis(t_set_redir *t, t_av **pcmd);
+t_exec					exec_ret_err(t_exec e, char *msg, char *cmd);
 
 /*
 **	global

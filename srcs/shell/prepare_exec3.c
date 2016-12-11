@@ -6,13 +6,19 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 18:39:42 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/06 18:14:14 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 23:11:14 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-char	*get_path(t_list *g_env, t_list *g_lenv)
+t_exec		exec_ret_err(t_exec e, char *msg, char *cmd)
+{
+	print_err(msg, cmd);
+	return (e);
+}
+
+char		*get_path(t_list *g_env, t_list *g_lenv)
 {
 	while (g_env != NULL)
 	{

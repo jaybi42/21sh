@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 20:02:01 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 23:04:42 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,6 @@ static void				is_sig(int signum)
 	g_prompt.son = 0;
 }
 
-void					handle_eof(int sig)
-{
-	(void)sig;
-	ft_dprintf(2, "okalm\n");
-}
-
 void					catch_signal(void)
 {
 	int i;
@@ -60,7 +54,6 @@ void					catch_signal(void)
 	i = 0;
 	while (i++ < 15)
 		signal(i, is_sig);
-	signal(SIGTSTP, handle_eof); 
 }
 
 void					sig_on(void)

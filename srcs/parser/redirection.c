@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 19:36:15 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 19:38:43 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 23:06:14 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	set_redir_inside(t_set_redir *t, t_av **pcmd)
 	{
 		(t->s)[(t->x)] = (t->cmd)->argv[(t->id_argv)][(t->i) + (t->len)];
 		if ((is_redir((t->cmd)->argv[(t->id_argv)] + (t->i) + (t->len))
-		&& !in_cmd_is_intouchable((t->cmd), (t->id_argv), (t->i))))
+					&& !in_cmd_is_intouchable((t->cmd), (t->id_argv), (t->i))))
 			break ;
 		delete_c(pcmd, (t->id_argv), (t->i) + (t->len), &(t->i));
 		(t->i)++;
@@ -55,10 +55,7 @@ void	set_redir_inside(t_set_redir *t, t_av **pcmd)
 	}
 	(t->s)[(t->x)] = '\0';
 	if (ft_strlen((t->cmd)->argv[(t->id_argv)]) == 0)
-	{
-		delete_s(pcmd, (t->id_argv));
-		(t->id_argv)--;
-	}
+		set_redir_inside_bis(t, pcmd);
 	if ((t->findfile) == FALSE && ft_strlen((t->s)) > 0)
 	{
 		if (ft_isdigit((t->s)[0]))
@@ -73,19 +70,7 @@ void	set_redir_inside(t_set_redir *t, t_av **pcmd)
 void	set_redir_inside2(t_set_redir *t, char *r)
 {
 	if (ft_strncmp(r, ">", 1) == 0)
-	{
-		if ((t->findfile) == FALSE)
-		{
-			(t->redir)->fd = (t->fd);
-			(t->redir)->path = NULL;
-		}
-		else
-		{
-			(t->redir)->path = (t->s);
-			(t->redir)->open_flag = ((ft_strcmp(r, ">>") == 0)
-			? O_CREAT | O_RDWR | O_APPEND : O_CREAT | O_RDWR | O_TRUNC);
-		}
-	}
+		set_redir_inside2_bis(t, r);
 	else
 	{
 		(t->redir)->type = 1;
@@ -98,7 +83,7 @@ void	set_redir_inside2(t_set_redir *t, char *r)
 		}
 	}
 	(g_debug) ? ft_dprintf(2, "{yellow}[?]{eoc} add a redirection '%s'\
-	from open(\"%s\")\n", r, (t->s)) : 0;
+			from open(\"%s\")\n", r, (t->s)) : 0;
 }
 
 int		set_redir(t_av **pcmd, int id_argv, int i, char *r)
@@ -112,7 +97,7 @@ int		set_redir(t_av **pcmd, int id_argv, int i, char *r)
 	if (!set_redir_init2(&t, pcmd))
 		return (FALSE);
 	if (!((t.s) = xmalloc(sizeof(char *) *
-		(ft_strlen((t.cmd)->argv[(t.id_argv)]) + 1))))
+					(ft_strlen((t.cmd)->argv[(t.id_argv)]) + 1))))
 		return (FALSE);
 	set_redir_inside(&t, pcmd);
 	set_redir_inside2(&t, r);
