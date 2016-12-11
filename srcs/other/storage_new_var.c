@@ -14,7 +14,7 @@
 
 char		*isolate(char *new_var, int obj)
 {
-	int	i;
+	int		i;
 	char	*elem;
 
 	i = (-1);

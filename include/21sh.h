@@ -308,6 +308,9 @@ int				print_error(t_av av, int error);
 
 t_av **parse_commands(char *expr);
 int				ret_exit(int state, int value);
+char			*delete_key(char ***keys, char ***values, char *key);
+int				search_key_values(char **keys, char **values, char *key);
+int				insert_arr(char ***a, char *s);
 int			fd_get_binary(int fd, char **str, int *len);
 int			char_is_whitespace(char c);
 char            **fstrsplit(char *str, int len, int (*is_whatever)(char));

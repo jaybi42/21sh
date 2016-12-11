@@ -38,7 +38,7 @@ static char			**get_info(void)
 	if ((t = (char **)malloc(sizeof(char *) * 7)) == NULL)
 		return (NULL);
 	t[6] = NULL;
-	t[0] = ft_strdup(""); // On a update ici le PATH
+	t[0] = ft_strdup("");
 	t[1] = ft_strdup(pw->pw_dir);
 	t[2] = ft_strdup(pw->pw_name);
 	t[3] = ft_strdup(pw->pw_name);

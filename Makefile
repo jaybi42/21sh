@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/12/11 15:30:02 by agadhgad         ###   ########.fr        #
+#    Updated: 2016/12/11 16:02:15 by ibouchla         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -95,6 +95,7 @@ FILES = autocomp/autocomp			\
 		other/init_env				\
 		other/key_is_special		\
 		other/main					\
+		other/main_functions		\
 		other/print_error			\
 		other/print_prompt			\
 		other/storage_new_var		\

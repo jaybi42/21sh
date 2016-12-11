@@ -13,7 +13,7 @@
 #include "21sh.h"
 #include <stdlib.h>
 
-char	*x_strsub(char const *s, unsigned int start, size_t len)
+char		*x_strsub(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
 	int		i;
