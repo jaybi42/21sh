@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 16:24:53 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/11 16:30:47 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 extern t_prompt g_prompt;
 
-void	ft_ctrl_l(t_line *l)
+void		ft_ctrl_l(t_line *l)
 {
 	do_term("cl");
 	if (l->size == 0)
@@ -26,7 +26,7 @@ void	ft_ctrl_l(t_line *l)
 	print(l);
 }
 
-void	ft_ctrl_d(t_line *l)
+void		ft_ctrl_d(t_line *l)
 {
 	if (l->size != 0)
 		ft_real_backspace(l);
@@ -60,7 +60,7 @@ static int	get_stdin(t_line *l)
 	}
 }
 
-t_av	**read_init(t_line *l, t_ftl_root *hist)
+t_av		**read_init(t_line *l, t_ftl_root *hist)
 {
 	t_av	**av;
 	int		ret;
