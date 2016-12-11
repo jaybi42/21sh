@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 23:02:52 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/11 15:45:36 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/11 16:37:48 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	decortique_parse_while(t_norm_d_p *t, char *expr)
 		(t->p)->end[(t->i)]));
 		(t->ts)[(t->i)] = apply_var((t->o).string, FALSE);
 	}
-	else if ((t->p)->type[(t->i)] == 1)
+	else if ((t->p)->type[(t->i)] == 1 || (t->p)->type[(t->i)] == 0)
 		(t->ts)[(t->i)] = cpy_a_to_b(expr, (t->p)->begin[(t->i)],
 		(t->p)->end[(t->i)]);
 	else
