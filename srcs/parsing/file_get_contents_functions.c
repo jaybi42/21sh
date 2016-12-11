@@ -71,6 +71,7 @@ char	*add_alloc(int fd, int count, t_file *f)
 	tmp[f->len_str] = '\0';
 	return (tmp);
 }
+
 char	*x_allocat(int size)
 {
 	char	*s;
