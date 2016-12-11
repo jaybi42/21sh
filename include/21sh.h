@@ -74,6 +74,8 @@ typedef struct	s_prompt
 	t_line		*l;
 }				t_prompt;
 
+# define READLEN 4096
+
 typedef struct s_file
 {
 	int			len_str;
@@ -83,6 +85,12 @@ typedef struct s_file
 }				t_file;
 
 char		*file_get_contents(char *filename);
+char		*allocat(int size);
+char		*add_alloc(int fd, int count, t_file *f);
+char		*binary_cat(char *dest, int len_dest, char *src, int len_src);
+char		*binary_cpy(char *src, char *dest, int len);
+char		*x_allocat(int size);
+
 #define LEN_INFOS 2
 
 typedef struct	s_info

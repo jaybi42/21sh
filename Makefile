@@ -76,6 +76,7 @@ FILES = autocomp/autocomp			\
 		line_edition/reset_line		\
 									\
 		parsing/file_get_contents	\
+		parsing/file_get_contents_functions	\
 		parsing/parse_history		\
 		parsing/parse_line			\
 		parsing/parse_quote			\

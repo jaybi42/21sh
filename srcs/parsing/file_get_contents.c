@@ -19,71 +19,7 @@
 #include <fcntl.h>
 #include "21sh.h"
 
-#define READLEN 4096
-
-void		ft_memdel(void **ap)
-{
-	if (ap != NULL)
-	{
-		free(*ap);
-		*ap = NULL;
-	}
-}
-
-static char	*allocat(int size)
-{
-	char *s;
-
-	if ((s = malloc(sizeof(char *) * (size + 1))) == NULL)
-		return (NULL);
-	s[0] = '\0';
-	return (s);
-}
-
-char		*binary_cat(char *dest, int len_dest, char *src, int len_src)
-{
-	int i;
-
-	i = 0;
-	while (i < len_src)
-	{
-		dest[i + len_dest] = src[i];
-		i++;
-	}
-	return (dest);
-}
-
-char		*binary_cpy(char *src, char *dest, int len)
-{
-	int i;
-
-	i = 0;
-	while (i < len)
-	{
-		src[i] = dest[i];
-		i++;
-	}
-	return (src);
-}
-
-static char	*add_alloc(int fd, int count, t_file *f)
-{
-	char *tmp;
-
-	f->str = binary_cat(f->str, f->len_str, f->buffer, f->len_buff);
-	f->len_str += f->len_buff;
-	if ((tmp = allocat(count * READLEN)) == NULL)
-	{
-		close(fd);
-		return (NULL);
-	}
-	tmp = binary_cpy(tmp, f->str, f->len_str);
-	ft_memdel((void **)(&f->str));
-	tmp[f->len_str] = '\0';
-	return (tmp);
-}
-
-char		*file_get_contents(char *filename)
+char	*file_get_contents(char *filename)
 {
 	int		fd;
 	t_file	f;
@@ -108,7 +44,7 @@ char		*file_get_contents(char *filename)
 	return (f.str);
 }
 
-int			file_get_binary(char *filename, char **str, int *len)
+int		file_get_binary(char *filename, char **str, int *len)
 {
 	int		fd;
 	t_file	f;
@@ -137,7 +73,7 @@ int			file_get_binary(char *filename, char **str, int *len)
 	return (1);
 }
 
-int			fd_get_binary(int fd, char **str, int *len)
+int		fd_get_binary(int fd, char **str, int *len)
 {
 	t_file	f;
 	int		i;
@@ -163,17 +99,7 @@ int			fd_get_binary(int fd, char **str, int *len)
 	return (1);
 }
 
-static char	*x_allocat(int size)
-{
-	char *s;
-
-	if ((s = xmalloc(sizeof(char *) * (size + 1))) == NULL)
-		return (NULL);
-	s[0] = '\0';
-	return (s);
-}
-
-static char	*x_add_alloc(int fd, int count, t_file *f)
+char	*x_add_alloc(int fd, int count, t_file *f)
 {
 	char *tmp;
 
@@ -190,7 +116,7 @@ static char	*x_add_alloc(int fd, int count, t_file *f)
 	return (tmp);
 }
 
-int			x_fd_get_binary(int fd, char **str, int *len)
+int		x_fd_get_binary(int fd, char **str, int *len)
 {
 	t_file	f;
 	int		i;
