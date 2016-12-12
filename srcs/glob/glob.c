@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 16:15:12 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/05 16:17:01 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/12 17:29:45 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		init_glob(t_norm_glob *g, char *expr)
 		(g->gti)[(g->ta)] = 0;
 		(g->gta)[(g->ta)] = 0;
 		if (!((g->tgs)[(g->ta)] = xmalloc(sizeof(t_globbing *)
-		* (strlen(expr) + 1))))
+		* (ft_strlen(expr) + 1))))
 			return (FALSE);
 		(g->ta)++;
 	}

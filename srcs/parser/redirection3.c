@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 22:58:52 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 23:06:26 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/12 17:24:07 by ibouchla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*defragement(char *s)
 {
-	int i;
-	int a;
-	char *s2;
+	int		i;
+	int		a;
+	char	*s2;
 
 	if (!(s2 = xmalloc(sizeof(char) * (ft_strlen(s) + 1))))
 		return (NULL);
@@ -24,16 +24,16 @@ char	*defragement(char *s)
 	i = -1;
 	while (s[++i])
 	{
-			if (s[i] == ' ')
-			{
-				while (s[i] == ' ')
-					i++;
-				if (s[i] != '\0')
-					s2[a++] = ' ';
-				i--;
-			}
-			else
-				s2[a++] = s[i];
+		if (s[i] == ' ')
+		{
+			while (s[i] == ' ')
+				i++;
+			if (s[i] != '\0')
+				s2[a++] = ' ';
+			i--;
+		}
+		else
+			s2[a++] = s[i];
 	}
 	s2[a] = '\0';
 	return (s2);
