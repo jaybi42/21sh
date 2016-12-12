@@ -12,14 +12,12 @@
 
 #include <shell.h>
 
-void	check_char(char c, int *option_n)
+void	check_char(char c)
 {
 	if (c == 'a')
 		ft_putchar('\a');
 	else if (c == 'b')
 		ft_putchar('\b');
-	else if (c == 'c')
-		*option_n = 1;
 	else if (c == 'f')
 		ft_putchar('\f');
 	else if (c == 'n')
@@ -65,20 +63,20 @@ int		check_options(char *s, int *option_n, int *option_control)
 	return (1);
 }
 
-void	print_args(char *s, int *end_option, int **options)
+void	print_args(char *s, int *end_option, int *options)
 {
 	int	i;
 
 	i = (-1);
 	if (*end_option == 0)
-		*end_option = check_options(s, &(*(options[0])), &(*(options[1])));
+		*end_option = check_options(s, options, (options + 1));
 	while (s[++i] != '\0' && *end_option == 1)
 	{
-		if (s[i] == '\\' && *options[1] == 1)
+		if (s[i] == '\\' && options[1] == 1)
 		{
 			++i;
 			if (s[i] != '\0')
-				check_char(s[i], &(*(options[0])));
+				check_char(s[i]);
 		}
 		else
 			ft_putchar(s[i]);
@@ -101,7 +99,7 @@ int		bi_echo(t_av av, t_list **g_env, t_list **g_lenv)
 	x = 0;
 	while (av.arg[x] != NULL)
 	{
-		print_args(av.arg[x], &end_option, &options);
+		print_args(av.arg[x], &end_option, options);
 		++x;
 		if (av.arg[x] != NULL && end_option == 1)
 			ft_putchar(' ');
