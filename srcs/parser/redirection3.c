@@ -12,6 +12,33 @@
 
 #include "shell.h"
 
+char	*defragement(char *s)
+{
+	int i;
+	int a;
+	char *s2;
+
+	if (!(s2 = xmalloc(sizeof(char) * (ft_strlen(s) + 1))))
+		return (NULL);
+	a = 0;
+	i = -1;
+	while (s[++i])
+	{
+			if (s[i] == ' ')
+			{
+				while (s[i] == ' ')
+					i++;
+				if (s[i] != '\0')
+					s2[a++] = ' ';
+				i--;
+			}
+			else
+				s2[a++] = s[i];
+	}
+	s2[a] = '\0';
+	return (s2);
+}
+
 void	set_redir_inside_bis(t_set_redir *t, t_av **pcmd)
 {
 	delete_s(pcmd, (t->id_argv));

@@ -81,14 +81,14 @@ void	decortique_parse_while(t_norm_d_p *t, char *expr)
 	{
 		(t->o) = shell_exec(cpy_a_to_b(expr, (t->p)->begin[(t->i)],
 		(t->p)->end[(t->i)]));
-		(t->ts)[(t->i)] = apply_var((t->o).string, FALSE);
+		(t->ts)[(t->i)] = apply_var(defragement((t->o).string), FALSE);
 	}
-	else if ((t->p)->type[(t->i)] == 1 || (t->p)->type[(t->i)] == 0)
+	else if ((t->p)->type[(t->i)] == 1)
 		(t->ts)[(t->i)] = cpy_a_to_b(expr, (t->p)->begin[(t->i)],
 		(t->p)->end[(t->i)]);
 	else
-		(t->ts)[(t->i)] = apply_var(cpy_a_to_b(expr, (t->p)->begin[(t->i)],
-		(t->p)->end[(t->i)]), TRUE);
+		(t->ts)[(t->i)] = apply_var(defragement(cpy_a_to_b(expr,
+			(t->p)->begin[(t->i)], (t->p)->end[(t->i)])), TRUE);
 	if ((t->p)->type[(t->i)] == 0 || (t->p)->type[(t->i)] == 1)
 		(t->marked_ind)[(t->i)] = 1;
 	else

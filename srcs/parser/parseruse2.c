@@ -99,6 +99,7 @@ char	*join_string_array(char **a, int *marked_ind,
 			(*l_ind)[(t.len_ind)++] = ft_strlen(a[(t.i)]) - 1;
 		}
 		x_strjoins(&(t.ns), &(t.len), a[(t.i)], ft_strlen(a[(t.i)]));
+		x_strjoins(&(t.ns), &(t.len), " ", 1);
 		(t.i)++;
 	}
 	(t.ns)[(t.len)] = '\0';

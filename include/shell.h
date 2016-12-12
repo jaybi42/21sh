@@ -195,6 +195,7 @@ void					print_err(char *err, char *what);
 char					*get_path(t_list *g_env, t_list *l_env);
 char					**convert_env(t_list *g_env, t_list *l_env);
 char					**get_allpath(char *cmd, char *path);
+char					*defragement(char *s);
 
 /*
 **	Garbage collector like
