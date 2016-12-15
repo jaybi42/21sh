@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 22:54:41 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/15 13:29:27 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int				sh21(void)
 	{
 		g_prompt.onshell = 1;
 		catch_signal();
-		((g_prompt.son == 0) ? print_prompt(sh.nbr, g_env, g_lenv, &sh.l) : (0));
+		g_prompt.son == 0 ? print_prompt(sh.nbr, g_env, g_lenv, &sh.l) : 0;
 		g_prompt = (t_prompt){sh.nbr, g_env, g_lenv, 0, &sh.l, 1};
 		g_line = NULL;
 		if ((sh.av = read_init(&sh.l, &g_hist)) != NULL)

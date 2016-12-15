@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:25:51 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 22:52:33 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/15 13:18:23 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void		print_env(t_list *env)
 	}
 }
 
-int		set_new_arg(char *arg, t_list **g_env, t_list **g_lenv)
+int				set_new_arg(char *arg, t_list **g_env, t_list **g_lenv)
 {
 	char		*my_arg;
 	char		*my_cmd;
@@ -60,7 +60,7 @@ static int		parse_env(t_av av, t_list **g_env, t_list **g_lenv)
 			bi_unsetenv(INIT_AV(NULL, av.arg[i], NULL, 1), g_env, g_lenv);
 		}
 		else
-			break;
+			break ;
 	}
 	return (i);
 }

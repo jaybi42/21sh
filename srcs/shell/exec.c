@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:18:48 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 22:34:27 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/15 13:22:39 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ t_output	do_exec(t_executor **exs, int ret)
 	(t.fdout)[0] = -1;
 	do_exec_init(&t, &exs, ret);
 	g_prompt.son = 0;
-	(t.i) = -1;
 	(t.y) = -1;
 	while (exs[++(t.y)])
 	{

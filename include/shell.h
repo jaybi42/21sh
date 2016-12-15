@@ -6,16 +6,12 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 23:32:29 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/15 13:39:44 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_H
 # define SHELL_H
-
-/*
-** TODO: Suppr stdio
-*/
 
 # define NAME "21sh"
 
@@ -79,14 +75,6 @@ typedef struct			s_prompt
 	t_line				*l;
 	int					onshell;
 }						t_prompt;
-
-typedef struct					s_sh
-{
-	t_av				**av;
-	t_line				l;
-	uint64_t			nbr;
-	t_output			o;
-}						t_sh;
 
 # define READLEN 4096
 
@@ -190,6 +178,14 @@ typedef struct			s_av
 	struct s_redirect	**redirect;
 	int					type;
 }						t_av;
+
+typedef struct			s_sh
+{
+	t_av				**av;
+	t_line				l;
+	uint64_t			nbr;
+	t_output			o;
+}						t_sh;
 
 typedef int				(*t_bi_fptr)();
 

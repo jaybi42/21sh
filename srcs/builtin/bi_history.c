@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/30 17:13:12 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 15:52:30 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/15 14:03:20 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int		pop_line(t_ftl_root *hist, int pos)
 static	int		history_reset(t_ftl_root *hist)
 {
 	ftl_release(hist, del_history);
-	get_history(&g_hist);
+	ftl_init(hist, sizeof(t_hist));
 	return (0);
 }
 
