@@ -37,7 +37,8 @@ static void				is_sig(int signum)
 	else if (g_prompt.son == 0)
 	{
 		ft_putstr("\n");
-		print_prompt(g_prompt.rand, g_prompt.g_env, g_lenv, g_prompt.l);
+		(g_prompt.onshell) ?
+		print_prompt(g_prompt.rand, g_prompt.g_env, g_lenv, g_prompt.l) : 0;
 		if (g_line != NULL)
 		{
 			reset_line();

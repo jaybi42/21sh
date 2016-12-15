@@ -95,13 +95,15 @@ int				sh21(void)
 	handle_var(KV_SET, "?", "0");
 	while (1)
 	{
+		g_prompt.onshell = 1;
 		catch_signal();
 		((g_prompt.son == 0) ? print_prompt(nbr, g_env, g_lenv, &l) : (0));
-		g_prompt = (t_prompt){nbr, g_env, g_lenv, 0, &l};
+		g_prompt = (t_prompt){nbr, g_env, g_lenv, 0, &l, 1};
 		g_line = NULL;
 		if ((av = read_init(&l, &g_hist)) != NULL)
 		{
 			g_line = NULL;
+			g_prompt.onshell = 0;
 			o = shell(av, 0);
 		}
 		xmasterfree();

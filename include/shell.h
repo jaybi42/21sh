@@ -77,6 +77,7 @@ typedef struct			s_prompt
 	t_list				*l_env;
 	bool				son;
 	t_line				*l;
+	int					onshell;
 }						t_prompt;
 
 # define READLEN 4096
