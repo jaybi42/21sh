@@ -24,7 +24,7 @@ static void		print_env(t_list *env)
 	}
 }
 
-static int		set_new_arg(char *arg, t_list **g_env, t_list **g_lenv)
+int		set_new_arg(char *arg, t_list **g_env, t_list **g_lenv)
 {
 	char		*my_arg;
 	char		*my_cmd;
@@ -54,16 +54,14 @@ static int		parse_env(t_av av, t_list **g_env, t_list **g_lenv)
 	{
 		if (ft_strncmp("-i", av.arg[i], 2) == 0)
 			ft_lstdel(g_env, free_env);
-		else if (ft_strncmp("-u", av.arg[i], 2) == 0)
+		else if (ft_strncmp("-u", av.arg[i], 2) == 0 && av.arg[i + 1])
 		{
 			i++;
 			bi_unsetenv(INIT_AV(NULL, av.arg[i], NULL, 1), g_env, g_lenv);
 		}
 		else
-			break ;
+			break;
 	}
-	while (i < av.argc && set_new_arg(*(av.arg + i), g_env, g_lenv) == 0)
-		i++;
 	return (i);
 }
 

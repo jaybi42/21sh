@@ -111,6 +111,7 @@ t_output	do_exec(t_executor **exs, int ret)
 	(t.o).ret_code = 0;
 	(t.fdout)[0] = -1;
 	do_exec_init(&t, &exs, ret);
+	g_prompt.son = 0;
 	(t.i) = -1;
 	(t.y) = -1;
 	while (exs[++(t.y)])
