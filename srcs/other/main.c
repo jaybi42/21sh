@@ -82,29 +82,27 @@ char			*handle_var(int state, char *key, char *value)
 
 int				sh21(void)
 {
-	t_av		**av;
-	t_line		l;
-	uint64_t	nbr;
-	t_output	o;
+	t_sh sh;
 
-	ft_bzero(&l, sizeof(t_line));
+	ft_bzero(&sh.l, sizeof(t_line));
 	srand(time(NULL));
-	nbr = rand();
+	sh.nbr = rand();
 	get_history(&g_hist);
-	av = NULL;
+	sh.av = NULL;
 	handle_var(KV_SET, "?", "0");
 	while (1)
 	{
 		g_prompt.onshell = 1;
 		catch_signal();
-		((g_prompt.son == 0) ? print_prompt(nbr, g_env, g_lenv, &l) : (0));
-		g_prompt = (t_prompt){nbr, g_env, g_lenv, 0, &l, 1};
+		((g_prompt.son == 0) ? print_prompt(sh.nbr, g_env, g_lenv, &sh.l) : (0));
+		g_prompt = (t_prompt){sh.nbr, g_env, g_lenv, 0, &sh.l, 1};
 		g_line = NULL;
-		if ((av = read_init(&l, &g_hist)) != NULL)
+		if ((sh.av = read_init(&sh.l, &g_hist)) != NULL)
 		{
 			g_line = NULL;
 			g_prompt.onshell = 0;
-			o = shell(av, 0);
+			sh.o = shell(sh.av, 0);
+			g_prompt.onshell = 1;
 		}
 		xmasterfree();
 	}

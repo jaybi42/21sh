@@ -80,6 +80,14 @@ typedef struct			s_prompt
 	int					onshell;
 }						t_prompt;
 
+typedef struct					s_sh
+{
+	t_av				**av;
+	t_line				l;
+	uint64_t			nbr;
+	t_output			o;
+}						t_sh;
+
 # define READLEN 4096
 
 typedef struct			s_file
