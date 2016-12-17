@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 23:04:42 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/17 17:57:16 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static void				is_sig(int signum)
 {
 	struct winsize		w;
 
-	if (signum > 3 && signum < 16)
+	if (signum > 3 && signum < 28)
 		signal(signum, SIG_IGN);
-	if (signum == SIGWINCH && g_prompt.l != NULL)
+	else if (signum == SIGWINCH && g_prompt.l != NULL)
 	{
 		ioctl(0, TIOCGWINSZ, &w);
 		g_prompt.l->largeur = w.ws_col;
@@ -53,7 +53,7 @@ void					catch_signal(void)
 	int i;
 
 	i = 0;
-	while (i++ < 15)
+	while (i++ < 28)
 		signal(i, is_sig);
 }
 
