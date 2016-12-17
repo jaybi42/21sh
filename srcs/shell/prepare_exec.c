@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:47:21 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/11 23:16:49 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/17 17:43:56 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_exec		make_exec_bin(t_av *av, t_list *g_env, t_list *g_lenv)
 	ex.fnct = NULL;
 	(void)g_env;
 	(void)g_lenv;
-	if (ft_strstr(av->cmd, "./") != NULL && access(av->cmd, F_OK) != -1)
+	if (ft_strstr(av->cmd, "/") != NULL && access(av->cmd, F_OK) != -1)
 	{
 		if (access(av->cmd, X_OK) == -1)
 		{
