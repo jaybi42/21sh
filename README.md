@@ -28,7 +28,7 @@
     - getenv
     - export
     - 42info
-- Autocompletion
+- Autocompletion (TAB)
 - Hash table to execute binaries
 - History research (CTRL+R)
 - Globing:
@@ -47,8 +47,6 @@
     - CTRL+RIGHT    Move to the next word
     - CTRL+LEFT     Move to the previous word
 - History
-    - !
-    - !!
     - UP:   Previous CMD
     - DOWN: Next CMD
 
