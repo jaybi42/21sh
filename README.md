@@ -3,7 +3,10 @@
 
 #Features
 - Tokens: ||  &&   |   <   >   <<   >>   "   '   `
-- Builtins: env, unsetenv, setenv, cd, alias, echo, history, exit, globing, clear, getenv, export, 42info
+- Builtins:
+    - env
+    - unsetenv
+    - setenv, cd, alias, echo, history, exit, globing, clear, getenv, export, 42info
 - Autocompletion
 - Hash table to execute binaries
 - History research
