@@ -26,6 +26,7 @@ void	ft_init_line(t_line *l, t_ftl_root *hist)
 	l->str = x_strdup("");
 	l->tmp = 0;
 	l->size = 0;
+	l->start_print = -1;
 	l->count = 0;
 	l->nbline = 0;
 	l->hist = hist;
