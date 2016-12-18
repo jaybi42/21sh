@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/12/11 23:04:03 by agadhgad         ###   ########.fr        #
+#    Updated: 2016/12/18 17:04:27 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -74,6 +74,8 @@ FILES = autocomp/autocomp			\
 		line_edition/print_ctrl_r	\
 		line_edition/read			\
 		line_edition/reset_line		\
+		line_edition/home_end		\
+		line_edition/print_cmd		\
 									\
 		parsing/file_get_contents	\
 		parsing/file_get_contents_functions	\
@@ -92,7 +94,6 @@ FILES = autocomp/autocomp			\
 		other/get_event				\
 		other/heredoc				\
 		other/history				\
-		other/home_end				\
 		other/init_env				\
 		other/key_is_special		\
 		other/main					\
