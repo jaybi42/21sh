@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/12/18 17:04:27 by jguthert         ###   ########.fr        #
+#    Updated: 2016/12/18 17:59:18 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -76,6 +76,7 @@ FILES = autocomp/autocomp			\
 		line_edition/reset_line		\
 		line_edition/home_end		\
 		line_edition/print_cmd		\
+		line_edition/print_big_cmd		\
 									\
 		parsing/file_get_contents	\
 		parsing/file_get_contents_functions	\

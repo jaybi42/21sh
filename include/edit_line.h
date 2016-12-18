@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/29 14:08:17 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/18 17:59:05 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ void			check_is_space_r(t_line *l);
 */
 
 void			print(t_line *l);
+void			big_print(t_line *l, int window);
 void			ft_home_2(t_line *l);
 void			ft_clean(t_line *l, int a, char *str);
 int				int_putchar(int c);
