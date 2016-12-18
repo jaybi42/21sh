@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/15 13:29:27 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/18 16:41:08 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ int				main(int ac, char **argv)
 	if (init_env(&g_env, &g_lenv) == 1 || (a_init() == -1))
 		return (1);
 	g_hash = hash_table(get_path(g_env, g_lenv));
+	xmalloc(100);
 	if (sh21() == 1)
 	{
 		hash_del(&(g_hash));
