@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:25:51 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/15 13:18:23 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/18 19:13:19 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int				set_new_arg(char *arg, t_list **g_env, t_list **g_lenv)
 static int		parse_env(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	int			i;
+	char		**tmp;
 
 	i = -1;
 	while (++i < av.argc)
@@ -61,6 +62,14 @@ static int		parse_env(t_av av, t_list **g_env, t_list **g_lenv)
 		}
 		else
 			break ;
+	}
+	while (i < av.argc)
+	{
+		tmp = x_strsplit(av.arg[i], '=');
+		if (!tmp || tlen(tmp) != 2)
+			break ;
+		bi_setenv(INIT_AV("setenv", tmp[0], tmp[1], 2), g_env, g_lenv);
+		i++;
 	}
 	return (i);
 }
