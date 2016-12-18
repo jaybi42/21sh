@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 17:51:23 by malaine           #+#    #+#             */
-/*   Updated: 2016/12/18 17:02:19 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/18 22:09:37 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		ft_paste(t_line *l)
 	char	*tmp;
 	char	*tmp2;
 
-	if (l->strcpy != NULL)
+	if (l->strcpy != NULL && (ft_strlen(l->strcpy) + ft_strlen(l->str) <= MAXSIZE))
 	{
 		tmp = x_strsub(l->str, 0, l->count);
 		if (tmp == NULL)

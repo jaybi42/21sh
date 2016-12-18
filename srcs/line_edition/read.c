@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/11 16:30:47 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/18 22:10:08 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	get_stdin(t_line *l)
 		}
 		if (l->buffer[0] != 10)
 			actions(l);
-		if (l->buffer[0] != 10 && ft_isprint(l->buffer[0]) == 1)
+		if (l->buffer[0] != 10 && ft_isprint(l->buffer[0]) == 1 && l->size <= MAXSIZE)
 			ft_print_key(l);
 		if (l->buffer[0] == 10)
 		{

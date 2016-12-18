@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/18 19:26:17 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/18 22:11:36 by agadhgad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 # define INIT_AV(A,B,C,D) ((t_av){A, IG(B, C), D, IL(A, B, C), N, -1, N, 0})
 # define STAT	struct stat
 # define PW_T	struct passwd
+
+# define MAXSIZE	2048
 
 # define STDIN	0
 # define STDOUT	1
