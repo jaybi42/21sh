@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 20:07:25 by mseinic           #+#    #+#             */
-/*   Updated: 2016/12/05 20:12:49 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/12/18 19:42:54 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char			**del_return_null(char ***t)
 
 void			init_var(int *n, char ***t, char ***tab2, char ***ret)
 {
+	xmalloc(100);
 	*n = 0;
 	*t = NULL;
 	*tab2 = NULL;
