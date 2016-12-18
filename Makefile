@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/12/18 18:04:05 by jguthert         ###   ########.fr        #
+#    Updated: 2016/12/18 19:30:56 by malaine          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -85,6 +85,7 @@ FILES = autocomp/autocomp			\
 		parsing/parse_quote			\
 		parsing/search_history		\
 									\
+		other/uncatch_signal		\
 		other/catch_sig				\
 		other/free_list				\
 		other/ft_size_tab			\

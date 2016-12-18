@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:18:48 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/15 13:22:39 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/18 19:27:38 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void		exec_bin_child(t_executor **exs, int fdin,
 		t_handle_r *hr, char **env)
 {
+	uncatch_signal();
 	son_handle_in(fdin, (*exs)->ex.r);
 	if (hr->p[1].activate == 1)
 	{

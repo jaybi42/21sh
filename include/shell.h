@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/15 13:39:44 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/18 19:26:17 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,7 @@ int						check_bin(t_list *g_env, t_list *l_env, t_av av);
 void					print_prompt(int rand, t_list *g_env,
 						t_list *l_env, t_line *l);
 void					catch_signal(void);
+void					uncatch_signal(void);
 
 /*
 **	Name: history
