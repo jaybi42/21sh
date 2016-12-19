@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/18 16:59:38 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/18 19:16:54 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/19 16:10:24 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,5 @@ void		print(t_line *l)
 	int window;
 
 	window = (l->hauteur - 4) * l->largeur;
-	if (l->size > window)
-	{
-		ft_putendl("TOO BIG");
-		if (false)
-			big_print(l, window);
-	}
-	else
-		little_print(l);
+	little_print(l);
 }

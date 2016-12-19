@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 16:00:51 by malaine           #+#    #+#             */
-/*   Updated: 2016/12/10 20:13:20 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/19 16:48:22 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void		reset_line(void)
 	l->size = 0;
 	l->count = 0;
 	l->nbline = 0;
-	l->strcpy = NULL;
 	l->hist_pos = -1;
 	l->oldstr = NULL;
 	l->search = NULL;
