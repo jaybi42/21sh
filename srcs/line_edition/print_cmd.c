@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/18 16:59:38 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/19 16:10:24 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/12/19 19:02:12 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ static void	put_cursor(t_line *l)
 	}
 }
 
+static void	toomuch_print(t_line *l)
+{
+	do_term("cl");
+	print_prompt(g_prompt.rand, g_prompt.g_env, g_lenv, g_prompt.l);
+	l->sizeprompt = l->sizeprompt + 3;
+	l->final_count = ft_strlen(l->str);
+	l->count = 0;
+	print_str(l);
+}
+
 static void	little_print(t_line *l)
 {
 	ft_home(l);
@@ -54,6 +64,9 @@ void		print(t_line *l)
 {
 	int window;
 
-	window = (l->hauteur - 4) * l->largeur;
-	little_print(l);
+	window = (l->hauteur - 1) * l->largeur;
+	if (l->size >= window - l->sizeprompt)
+		toomuch_print(l);
+	else
+		little_print(l);
 }
