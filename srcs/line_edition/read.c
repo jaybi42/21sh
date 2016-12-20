@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/19 16:08:43 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/12/20 19:31:52 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static int	get_stdin(t_line *l)
 			ft_print_key(l);
 		if (l->buffer[0] == 10)
 		{
+			ft_end(l);
 			ft_putchar('\n');
 			return (0);
 		}
