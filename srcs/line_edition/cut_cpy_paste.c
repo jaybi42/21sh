@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 17:51:23 by malaine           #+#    #+#             */
-/*   Updated: 2016/12/19 16:48:24 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/12/20 19:03:26 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void		ft_cut(t_line *l)
 	char	*tmp;
 
 	do_term("cd");
-	if (l->strcpy != NULL)
-		ft_strdel(&l->strcpy);
+	ft_strdel(&l->strcpy);
 	l->strcpy = ft_strsub(l->str, l->count, l->size);
 	if (l->strcpy == NULL)
 		return ;
