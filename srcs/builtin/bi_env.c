@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/19 17:25:51 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 18:48:59 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 23:02:09 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ int				bi_env(t_av av, t_list **g_env, t_list **g_lenv)
 	t_av		new_av;
 	pid_t		pid;
 
-	ft_putendl("toto");
 	if ((pid = fork()) == -1)
 		return (127);
 	else if (pid == 0)

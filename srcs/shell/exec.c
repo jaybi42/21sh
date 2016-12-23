@@ -6,16 +6,11 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:18:48 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/23 18:37:13 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 23:03:35 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-static struct sigaction		sigchld_action = {
-	.sa_handler = SIG_DFL,
-	.sa_flags = SA_NOCLDWAIT
-};
 
 void			father_handle_redirect(t_handle_r *hr)
 {
@@ -32,14 +27,13 @@ int				exec_bin_father(t_executor **exs, t_handle_r *hr, char **env,
 {
 	int			ret;
 	int			wait_status;
-	t_pipe		p[3];
 
 	if (solvefive.fdin != -1)
 		close(solvefive.fdin);
 	if (hr->p[2].activate)
 		redir_err_father(exs, hr);
 	if (hr->p[1].activate)
-		redir_out_father(exs, hr, p[1], env);
+		redir_out_father(exs, hr, env, solvefive.pid);
 	ret = waitpid(solvefive.pid, &wait_status, WUNTRACED);
 	if (WIFSIGNALED(wait_status))
 		g_prompt.son = 1;
@@ -60,7 +54,6 @@ int				exec_all(t_executor **exs, char **env, int fdin)
 	pid = -1;
 	if ((*exs)->ex.type == BASIC && (pid = fork()) == -1)
 		exit(0);
-	sigaction(SIGCHLD, &sigchld_action, NULL);
 	if (pid == 0)
 		exec_bin_child(exs, fdin, &hr, env);
 	else if (pid == -1)

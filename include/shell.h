@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/23 19:21:12 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/23 23:07:00 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -554,7 +554,7 @@ void					writor(t_executor **exs, int fd, int *b, int x);
 void					exec_bin_child(t_executor **exs, int fdin,
 									t_handle_r *hr, char **env);
 void					redir_out_father(t_executor **exs, t_handle_r *hr,
-										t_pipe p, char **env);
+		char **env, int pid);
 void					redir_err_father(t_executor **exs, t_handle_r *hr);
 /*
 **	exec2

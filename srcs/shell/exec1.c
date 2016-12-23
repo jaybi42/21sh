@@ -6,11 +6,16 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/23 17:49:39 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 19:14:49 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/23 23:22:04 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+/*
+static struct sigaction		sigchld_action = {
+	.sa_handler = SIG_DFL,
+	.sa_flags = SA_NOCLDWAIT
+};*/
 
 int			special_redir(t_redirect **r)
 {
@@ -73,10 +78,10 @@ void		read_father(t_executor **exs, t_handle_r *hr, t_pipe p)
 	}
 }
 
-void		redir_out_father(t_executor **exs, t_handle_r *hr,
-							t_pipe p, char **env)
+void		redir_out_father(t_executor **exs, t_handle_r *hr, char **env, int ppid)
 {
 	int pid;
+	t_pipe p;
 
 	close(hr->p[1].fds[WRITER]);
 	if (exs[1] != NULL)
@@ -94,10 +99,12 @@ void		redir_out_father(t_executor **exs, t_handle_r *hr,
 	else if (exs[1] != NULL)
 	{
 		close(p.fds[WRITER]);
-		waitpid(-1, NULL, WNOHANG);
 		exec_all(&exs[1], env, p.fds[READER]);
 		close(p.fds[READER]);
-		wait(NULL);
+		//ft_dprintf(2, "{red}KILL SON!!!{eoc}\n");
+		kill(ppid, SIGKILL);
+		//kill(pid, SIGKILL);
+		waitpid(pid, NULL, WUNTRACED);
 	}
 }
 
