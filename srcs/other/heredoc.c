@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/30 18:20:40 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 16:52:22 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/23 17:09:38 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static char	*clean_return(t_line *l)
 	ft_strdel(&l->strcpy);
 	ft_end(l);
 	ft_putchar('\n');
+	g_inheredoc = 0;
 	return (l->str);
 }
 
@@ -27,6 +28,7 @@ static int	init_heredoc(t_line *l, char *prompt)
 	l->sizeprompt = ft_strlen(prompt);
 	l->line1 = l->largeur - l->sizeprompt;
 	g_heredoc = l;
+	g_inheredoc = 1;
 	return (0);
 }
 
