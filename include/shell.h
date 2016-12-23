@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/23 16:28:18 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/23 18:41:03 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -457,6 +457,17 @@ typedef struct			s_pipe
 	int					fds[2];
 }						t_pipe;
 
+typedef struct			s_built_redir
+{
+	int					cpystdout;
+	int					cpystderr;
+	t_pipe				p[3];
+	int					x;
+	int					b[50];
+	int					special;
+	int					fdout;
+}						t_built_redir;
+
 typedef struct			s_handle_r
 {
 	int					is_redirecting;
@@ -502,6 +513,12 @@ typedef struct			s_do_exec
 	int					r;
 }						t_do_exec;
 
+typedef struct			s_solvefive
+{
+	pid_t				pid;
+	int					fdin;
+}						t_solvefive;
+
 /*
 **	shell
 */
@@ -527,9 +544,18 @@ int						shell_pre_exec_logical_pipe(t_shells *s, t_av **av);
 int						exec_all(t_executor **exs, char **env, int fdin);
 t_output				do_exec(t_executor **exs, int ret);
 void					impossibru_error(char *s);
-int			special_redir(t_redirect **r);
-void   writor(t_executor **exs, int fd, int *b, int x);
+int						special_redir(t_redirect **r);
+void					writor(t_executor **exs, int fd, int *b, int x);
 
+/*
+**	exec1
+*/
+
+void					exec_bin_child(t_executor **exs, int fdin,
+									t_handle_r *hr, char **env);
+void					redir_out_father(t_executor **exs, t_handle_r *hr,
+										t_pipe p, char **env);
+void					redir_err_father(t_executor **exs, t_handle_r *hr);
 /*
 **	exec2
 */

@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/12/18 19:30:56 by malaine          ###   ########.fr        #
+#    Updated: 2016/12/23 17:50:38 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -126,6 +126,7 @@ FILES = autocomp/autocomp			\
 		shell/shelluse		\
 		shell/shelluse2		\
 		shell/exec		\
+		shell/exec1		\
 		shell/exec2		\
 		shell/exec3		\
 		shell/exec4		\

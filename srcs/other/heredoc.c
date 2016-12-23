@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/30 18:20:40 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 17:09:38 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 18:39:26 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ char		*get_input(char *prompt)
 			ft_print_key(&l);
 		if (l.buffer[0] == 10)
 			break ;
-		}
+	}
 	return (clean_return(&l));
 }

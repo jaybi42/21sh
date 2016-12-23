@@ -6,13 +6,13 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 19:01:35 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/08 21:03:30 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/23 18:36:16 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void   writor(t_executor **exs, int fd, int *b, int x)
+void	writor(t_executor **exs, int fd, int *b, int x)
 {
 	int i;
 
@@ -26,25 +26,14 @@ void   writor(t_executor **exs, int fd, int *b, int x)
 	}
 }
 
-typedef struct s_built_redir
-{
-	int cpystdout;
-	int cpystderr;
-	t_pipe p[3];
-	int x;
-	int b[50];
-	int special;
-	int fdout;
-}							t_built_redir;
-
-void    exec_builtin_redir_err_init(t_executor **exs, t_handle_r *hr,
+void	exec_builtin_redir_err_init(t_executor **exs, t_handle_r *hr,
 	t_built_redir *t)
 {
 	if (hr->p[2].activate && fork() == 0)
 	{
 		close(hr->p[2].fds[WRITER]);
 		while (((t->x) = read(hr->p[2].fds[READER], &(t->b), 50)) > 0)
-				writor(exs, 2, (int *)(t->b), (t->x));
+			writor(exs, 2, (int *)(t->b), (t->x));
 		exit(0);
 	}
 	else if (hr->p[2].activate)
@@ -56,7 +45,7 @@ void    exec_builtin_redir_err_init(t_executor **exs, t_handle_r *hr,
 	}
 }
 
-void    exec_builtin_redir_out_init(t_executor **exs, t_handle_r *hr,
+void	exec_builtin_redir_out_init(t_executor **exs, t_handle_r *hr,
 	t_built_redir *t)
 {
 	if (hr->p[1].activate && exs[1] != NULL)
@@ -85,7 +74,7 @@ void    exec_builtin_redir_out_init(t_executor **exs, t_handle_r *hr,
 	}
 }
 
-void		exec_builtin(t_executor **exs, t_handle_r *hr, char **env)
+void	exec_builtin(t_executor **exs, t_handle_r *hr, char **env)
 {
 	t_built_redir t;
 
@@ -113,7 +102,7 @@ void		exec_builtin(t_executor **exs, t_handle_r *hr, char **env)
 	}
 }
 
-t_sf		*read_from_fd(int fd)
+t_sf	*read_from_fd(int fd)
 {
 	t_sf	*tmp;
 	t_sf	*curr;

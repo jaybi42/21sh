@@ -6,132 +6,41 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:18:48 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/18 19:27:38 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/23 18:37:13 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int			special_redir(t_redirect **r)
+static struct sigaction		sigchld_action = {
+	.sa_handler = SIG_DFL,
+	.sa_flags = SA_NOCLDWAIT
+};
+
+void			father_handle_redirect(t_handle_r *hr)
 {
-	int find;
-	int i;
-
-	i = -1;
-	find = FALSE;
-	while (r[++i])
+	if (hr->b_out)
 	{
-		if (r[i]->fd_in == 2 && r[i]->fd_out == 1)
-		{
-			find = TRUE;
-			break;
-		}
-	}
-	return (find);
-}
-
-void		exec_bin_child(t_executor **exs, int fdin,
-		t_handle_r *hr, char **env)
-{
-	int special;
-
-	special = FALSE;
-	uncatch_signal();
-	son_handle_in(fdin, (*exs)->ex.r);
-	if (hr->p[1].activate)
-	{
-		close(hr->p[1].fds[READER]);
-		special = special_redir((*exs)->ex.r);
-		dup2(hr->p[1].fds[WRITER], (special == TRUE) ? 2 : 1);
-		if (special == TRUE)
-			close(1);
-		close(hr->p[1].fds[WRITER]);
-	}
-	if (hr->p[2].activate)
-	{
-		special = special_redir((*exs)->ex.r);
-		if (special == FALSE)
-		{
-			close(hr->p[2].fds[READER]);
-			dup2(hr->p[2].fds[WRITER], 2);
-			close(hr->p[2].fds[WRITER]);
-		}
-	}
-	execve((*exs)->ex.path, (*exs)->ex.argv, env);
-	exit(0);
-}
-
-void read_father(t_executor **exs, t_handle_r *hr, t_pipe p)
-{
-	int b[50];
-	int x;
-
-	while ((x = read(hr->p[1].fds[READER], &b, 50)) > 0)
-	{
-			if (exs[1] != NULL)
-				write(p.fds[WRITER], b, x);
-			writor(exs, 1, (int *)b, x);
+		close(hr->fdout[WRITER]);
+		hr->packets_out = read_from_fd(hr->fdout[READER]);
+		close(hr->fdout[READER]);
 	}
 }
 
-void redir_out_father(t_executor **exs, t_handle_r *hr, t_pipe p, char **env)
+int				exec_bin_father(t_executor **exs, t_handle_r *hr, char **env,
+								t_solvefive solvefive)
 {
-	int pid;
+	int			ret;
+	int			wait_status;
+	t_pipe		p[3];
 
-	close(hr->p[1].fds[WRITER]);
-	if (exs[1] != NULL)
-			pipe(p.fds);
-	if ((pid = fork()) == -1)
-		exit(0);
-	if (pid == 0)
-	{
-		if (exs[1] != NULL)
-			close(p.fds[READER]);
-		read_father(exs, hr, p);
-		close(p.fds[WRITER]);
-		exit(0);
-	}
-	else if (exs[1] != NULL)
-	{
-		close(p.fds[WRITER]);
-		waitpid(-1, NULL, WNOHANG);
-		exec_all(&exs[1], env, p.fds[READER]);
-		close(p.fds[READER]);
-		wait(NULL);
-	}
-}
-
-void redir_err_father(t_executor **exs, t_handle_r *hr)
-{
-	int b[50];
-	int x;
-	int pid;
-
-	close(hr->p[2].fds[WRITER]);
-	if ((pid = fork()) == -1)
-		exit(0);
-	else if (pid == 0)
-	{
-		while ((x = read(hr->p[2].fds[READER], &b, 50)) > 0)
-			writor(exs, 2, (int *)b, x);
-		exit(0);
-	}
-}
-
-int			exec_bin_father(t_executor **exs, int fdin,
-		t_handle_r *hr, char **env, pid_t mypid)
-{
-	int ret;
-	int wait_status;
-	t_pipe p[3];
-
-	if (fdin != -1)
-		close(fdin);
+	if (solvefive.fdin != -1)
+		close(solvefive.fdin);
 	if (hr->p[2].activate)
 		redir_err_father(exs, hr);
 	if (hr->p[1].activate)
 		redir_out_father(exs, hr, p[1], env);
-	ret = waitpid(mypid, &wait_status, WUNTRACED);
+	ret = waitpid(solvefive.pid, &wait_status, WUNTRACED);
 	if (WIFSIGNALED(wait_status))
 		g_prompt.son = 1;
 	if (WIFEXITED(wait_status))
@@ -139,18 +48,15 @@ int			exec_bin_father(t_executor **exs, int fdin,
 	return (ret);
 }
 
-int			exec_all(t_executor **exs, char **env, int fdin)
+int				exec_all(t_executor **exs, char **env, int fdin)
 {
-	pid_t		pid;
-	int			ret;
-	t_handle_r	hr;
-	static struct sigaction sigchld_action = {
-		.sa_handler = SIG_DFL,
-		.sa_flags = SA_NOCLDWAIT
-	};
+	pid_t					pid;
+	int						ret;
+	t_handle_r				hr;
+	t_solvefive				solvefive;
 
-	init_handle_redirect(exs[0]->ex.r, &hr, (exs[1] != NULL) ? TRUE : FALSE);
 	ret = 0;
+	init_handle_redirect(exs[0]->ex.r, &hr, (exs[1] != NULL) ? TRUE : FALSE);
 	pid = -1;
 	if ((*exs)->ex.type == BASIC && (pid = fork()) == -1)
 		exit(0);
@@ -159,12 +65,15 @@ int			exec_all(t_executor **exs, char **env, int fdin)
 		exec_bin_child(exs, fdin, &hr, env);
 	else if (pid == -1)
 		exec_builtin(exs, &hr, env);
-	else
-		ret = exec_bin_father(exs, fdin, &hr, env, pid);
+	else if ((solvefive.pid = pid) == pid)
+	{
+		solvefive.fdin = fdin;
+		ret = exec_bin_father(exs, &hr, env, solvefive);
+	}
 	return (ret);
 }
 
-void		do_exec_init(t_do_exec *t, t_executor ***exs, int ret)
+void			do_exec_init(t_do_exec *t, t_executor ***exs, int ret)
 {
 	(t->fdout)[1] = -1;
 	(t->env) = convert_env(g_env, g_lenv);
@@ -193,7 +102,7 @@ void		do_exec_init(t_do_exec *t, t_executor ***exs, int ret)
 	}
 }
 
-t_output	do_exec(t_executor **exs, int ret)
+t_output		do_exec(t_executor **exs, int ret)
 {
 	t_do_exec t;
 

@@ -6,21 +6,11 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 19:46:38 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/08 19:03:19 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/23 18:37:29 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-void	father_handle_redirect(t_handle_r *hr)
-{
-	if (hr->b_out)
-	{
-		close(hr->fdout[WRITER]);
-		hr->packets_out = read_from_fd(hr->fdout[READER]);
-		close(hr->fdout[READER]);
-	}
-}
 
 void	active_redirect(t_redirect **r, t_handle_r *hr)
 {
