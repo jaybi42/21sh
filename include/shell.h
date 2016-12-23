@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/23 18:41:03 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 19:21:12 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -975,7 +975,8 @@ t_exec					exec_ret_err(t_exec e, char *msg, char *cmd);
 **	global
 */
 
-extern bool				g_inheredoc;
+extern int				g_inheredoc_2;
+extern int				g_inheredoc;
 extern t_alias			*g_alias;
 extern t_list			*g_lenv;
 extern t_list			*g_env;

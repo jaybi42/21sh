@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 17:09:01 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 19:21:24 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-bool			g_inheredoc;
+int				g_inheredoc_2;
+int				g_inheredoc;
 t_list			*g_lenv;
 t_list			*g_env;
 t_ftl_root		g_hist;

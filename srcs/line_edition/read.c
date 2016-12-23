@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/20 19:31:52 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 19:47:46 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void		ft_ctrl_l(t_line *l)
 	if (l->size == 0)
 		l->final_count = 0;
 	print_prompt(g_prompt.rand, g_prompt.g_env, g_lenv, g_prompt.l);
-	l->sizeprompt = l->sizeprompt + 3;
+	if (g_inheredoc != 1)
+		l->sizeprompt = l->sizeprompt + 3;
 	print(l);
 }
 

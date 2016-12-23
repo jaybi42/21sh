@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 18:39:13 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 20:03:26 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void				is_sig(int signum)
 		g_prompt.l->largeur = w.ws_col;
 		g_prompt.l->hauteur = w.ws_row;
 	}
-	else if (g_prompt.son == 0 && g_inheredoc == 0)
+	else if (g_prompt.son == 0 && g_inheredoc_2 != 1)
 	{
 		if (g_heredoc != NULL)
 			ft_init_line_heredoc(g_heredoc);
