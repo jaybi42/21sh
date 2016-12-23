@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/20 18:46:55 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/23 16:54:47 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void				is_sig(int signum)
 	}
 	else if (g_prompt.son == 0)
 	{
+		if (g_heredoc != NULL)
+			ft_init_line_heredoc(g_heredoc);
 		ft_putstr("\n");
 		(g_prompt.onshell) ?
 		print_prompt(g_prompt.rand, g_prompt.g_env, g_lenv, g_prompt.l) : 0;

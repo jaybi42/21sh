@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/30 18:20:40 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/20 19:25:43 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 16:52:22 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	init_heredoc(t_line *l, char *prompt)
 	l->strcpy = NULL;
 	l->sizeprompt = ft_strlen(prompt);
 	l->line1 = l->largeur - l->sizeprompt;
+	g_heredoc = l;
 	return (0);
 }
 

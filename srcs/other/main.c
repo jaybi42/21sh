@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/18 16:41:08 by mseinic          ###   ########.fr       */
+/*   Updated: 2016/12/23 16:35:46 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_list			*g_lenv;
 t_list			*g_env;
 t_ftl_root		g_hist;
 t_line			*g_line;
+t_line			*g_heredoc;
 t_prompt		g_prompt;
 t_alias			*g_alias;
 int				*g_exit;

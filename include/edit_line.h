@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/18 17:59:05 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 16:55:10 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct	s_actions
 
 int				init_env(t_list **g_env, t_list **l_env);
 void			ft_init_line(t_line *l, t_ftl_root *hist);
+void			ft_init_line_heredoc(t_line *l);
 void			ft_init_read(t_line *l);
 int				init_term(void);
 void			reset_line(void);

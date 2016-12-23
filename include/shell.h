@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/18 22:11:36 by agadhgad         ###   ########.fr       */
+/*   Updated: 2016/12/23 16:28:18 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -962,5 +962,6 @@ extern t_hash			**g_hash;
 extern unsigned int		g_hash_size;
 extern unsigned int		g_heredoc_actif;
 extern char				*g_heredoc_expected;
+extern t_line			*g_heredoc;
 
 #endif
