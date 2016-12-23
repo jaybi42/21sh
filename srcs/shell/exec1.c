@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/23 17:49:39 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 18:25:35 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 20:14:17 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,9 @@ void		redir_out_father(t_executor **exs, t_handle_r *hr,
 		close(p.fds[WRITER]);
 		waitpid(-1, NULL, WNOHANG);
 		exec_all(&exs[1], env, p.fds[READER]);
+		close(hr->p[1].fds[READER]);
 		close(p.fds[READER]);
+		kill(pid, SIGKILL);
 		wait(NULL);
 	}
 }

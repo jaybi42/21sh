@@ -6,16 +6,14 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:18:48 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/23 18:37:13 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 20:08:47 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static struct sigaction		sigchld_action = {
-	.sa_handler = SIG_DFL,
-	.sa_flags = SA_NOCLDWAIT
-};
+/*
+*/
 
 void			father_handle_redirect(t_handle_r *hr)
 {
@@ -38,13 +36,17 @@ int				exec_bin_father(t_executor **exs, t_handle_r *hr, char **env,
 		close(solvefive.fdin);
 	if (hr->p[2].activate)
 		redir_err_father(exs, hr);
+	ft_dprintf(2, "0WAIT\n");
 	if (hr->p[1].activate)
 		redir_out_father(exs, hr, p[1], env);
-	ret = waitpid(solvefive.pid, &wait_status, WUNTRACED);
+	ft_dprintf(2, "1WAIT\n");
+	ret = waitpid(-1, &wait_status, WUNTRACED);
 	if (WIFSIGNALED(wait_status))
 		g_prompt.son = 1;
+	ft_dprintf(2, "2WAIT\n");
 	if (WIFEXITED(wait_status))
 		ret = WEXITSTATUS(wait_status);
+	ft_dprintf(2, "3WAIT\n");
 	return (ret);
 }
 
@@ -60,7 +62,7 @@ int				exec_all(t_executor **exs, char **env, int fdin)
 	pid = -1;
 	if ((*exs)->ex.type == BASIC && (pid = fork()) == -1)
 		exit(0);
-	sigaction(SIGCHLD, &sigchld_action, NULL);
+	//sigaction(SIGCHLD, &sigchld_action, NULL);
 	if (pid == 0)
 		exec_bin_child(exs, fdin, &hr, env);
 	else if (pid == -1)
@@ -106,6 +108,7 @@ t_output		do_exec(t_executor **exs, int ret)
 {
 	t_do_exec t;
 
+	ft_dprintf(2, "OKALm\n");
 	clear_output(&(t.o));
 	(t.o).string[0] = '\0';
 	(t.o).ret_code = 0;
