@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 19:47:46 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/23 23:27:11 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void		ft_ctrl_d(t_line *l)
 	else
 	{
 		ft_putchar('\n');
-		reset_line();
-		exit(0);
+		clean_exit(0);
 	}
 }
 
