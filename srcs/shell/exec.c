@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 18:18:48 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/23 23:03:35 by jguthert         ###   ########.fr       */
+/*   Updated: 2016/12/23 23:34:36 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int				exec_bin_father(t_executor **exs, t_handle_r *hr, char **env,
 {
 	int			ret;
 	int			wait_status;
+	int			i;
 
 	if (solvefive.fdin != -1)
 		close(solvefive.fdin);
@@ -34,7 +35,11 @@ int				exec_bin_father(t_executor **exs, t_handle_r *hr, char **env,
 		redir_err_father(exs, hr);
 	if (hr->p[1].activate)
 		redir_out_father(exs, hr, env, solvefive.pid);
-	ret = waitpid(solvefive.pid, &wait_status, WUNTRACED);
+	i = -1;
+	while (++i < 10)
+		ft_dprintf(2, "");
+	ret = waitpid(solvefive.pid, &wait_status, WCONTINUED);
+	ft_dprintf(2, "");
 	if (WIFSIGNALED(wait_status))
 		g_prompt.son = 1;
 	if (WIFEXITED(wait_status))
