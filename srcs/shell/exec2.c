@@ -68,6 +68,20 @@ void	son_handle_in(int fdin, t_redirect **r)
 	}
 }
 
+int		have_fd(t_redirect **r, int fd)
+{
+	int x;
+
+	x = 0;
+	while (r[x])
+	{
+		if (r[x]->type == 0 && fd == r[x]->fd_in)
+			return (TRUE);
+		x++;
+	}
+	return (FALSE);
+}
+
 int		init_handle_redirect2(t_redirect **redirect,
 		t_handle_r *hr, int ispipe, int i)
 {
@@ -77,23 +91,16 @@ int		init_handle_redirect2(t_redirect **redirect,
 		hr->p[i].fds[1] = -1;
 		hr->p[i].activate = 0;
 	}
-	if (ispipe)
+	if (ispipe || have_fd(redirect, 1))
 	{
 		hr->p[1].activate = 1;
 		pipe(hr->p[1].fds);
 		return (FALSE);
 	}
-	if (!redirect)
-		return (FALSE);
-	i = -1;
-	while (redirect[++i])
+	if (have_fd(redirect, 2))
 	{
-		if (redirect[i]->type == 1)
-			continue ;
-		if (redirect[i]->fd_in == 1)
-			hr->b_out = 1;
-		if (redirect[i]->fd_in == 2)
-			hr->b_err = 1;
+		hr->p[2].activate = 1;
+		pipe(hr->p[2].fds);
 	}
 	return (TRUE);
 }
@@ -105,16 +112,4 @@ void	init_handle_redirect(t_redirect **redirect, t_handle_r *hr, int ispipe)
 	hr->is_redirecting = 0;
 	if (!init_handle_redirect2(redirect, hr, ispipe, -1))
 		return ;
-	if (hr->b_out)
-	{
-		if (pipe(hr->fdout) == -1)
-			ft_dprintf(2, "failed to pipe\n");
-		hr->packets_out = NULL;
-	}
-	if (hr->b_err)
-	{
-		pipe(hr->fderr);
-		hr->packets_err = NULL;
-	}
-	hr->is_redirecting = (hr->b_out || hr->b_err) ? 1 : 0;
 }

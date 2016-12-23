@@ -467,6 +467,7 @@ typedef struct			s_handle_r
 	t_sf				*packets_out;
 	t_sf				*packets_err;
 	t_pipe				p[3];
+	t_pipe				**pr;
 }						t_handle_r;
 
 /*
@@ -526,6 +527,8 @@ int						shell_pre_exec_logical_pipe(t_shells *s, t_av **av);
 int						exec_all(t_executor **exs, char **env, int fdin);
 t_output				do_exec(t_executor **exs, int ret);
 void					impossibru_error(char *s);
+int			special_redir(t_redirect **r);
+void   writor(t_executor **exs, int fd, int *b, int x);
 
 /*
 **	exec2

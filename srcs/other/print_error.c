@@ -35,10 +35,10 @@ static t_error const	g_print[13] = {
 int		print_error(t_av av, int error)
 {
 	if (g_print[error].cmd == 1)
-		ft_putstr(av.cmd);
-	ft_putstr(g_print[error].str);
+		ft_putstr_fd(av.cmd, 2);
+	ft_putstr_fd(g_print[error].str, 2);
 	if (g_print[error].arg == 1)
-		ft_putstr(av.arg[0]);
-	ft_putchar('\n');
+		ft_putstr_fd(av.arg[0], 2);
+	ft_putchar_fd('\n', 2);
 	return (1);
 }

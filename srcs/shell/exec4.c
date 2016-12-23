@@ -12,47 +12,105 @@
 
 #include "shell.h"
 
-void		exec_builtin_init(t_executor **exs, int *cpystdout,
-		int *cpystderr, t_handle_r *hr)
+void   writor(t_executor **exs, int fd, int *b, int x)
 {
-	if (exs[1] != NULL || (hr->is_redirecting && hr->b_out))
+	int i;
+
+	if (!exs[0]->ex.r)
+		return ;
+	i = -1;
+	while (exs[0]->ex.r[++i])
 	{
-		switch_fd_begin(STDOUT_FILENO, cpystdout);
+		if (exs[0]->ex.r[i]->type == 0 && exs[0]->ex.r[i]->fd_in == fd)
+			write(exs[0]->ex.r[i]->fd_out, b, x);
 	}
-	if (exs[1] != NULL)
-		dup_writer_pipe(STDOUT_FILENO, hr->p[1].fds[WRITER]);
-	else if (hr->is_redirecting && hr->b_out)
-		dup_writer_pipe(STDOUT_FILENO, hr->fdout[WRITER]);
-	if (hr->is_redirecting && hr->b_err)
+}
+
+typedef struct s_built_redir
+{
+	int cpystdout;
+	int cpystderr;
+	t_pipe p[3];
+	int x;
+	int b[50];
+	int special;
+	int fdout;
+}							t_built_redir;
+
+void    exec_builtin_redir_err_init(t_executor **exs, t_handle_r *hr,
+	t_built_redir *t)
+{
+	if (hr->p[2].activate && fork() == 0)
 	{
-		switch_fd_begin(STDERR_FILENO, cpystderr);
-		dup_writer_pipe(STDERR_FILENO, hr->fderr[WRITER]);
+		close(hr->p[2].fds[WRITER]);
+		while (((t->x) = read(hr->p[2].fds[READER], &(t->b), 50)) > 0)
+				writor(exs, 2, (int *)(t->b), (t->x));
+		exit(0);
+	}
+	else if (hr->p[2].activate)
+	{
+		(t->cpystderr) = dup(STDERR_FILENO);
+		close(STDERR_FILENO);
+		close(hr->p[2].fds[READER]);
+		dup2(hr->p[2].fds[WRITER], STDERR_FILENO);
+	}
+}
+
+void    exec_builtin_redir_out_init(t_executor **exs, t_handle_r *hr,
+	t_built_redir *t)
+{
+	if (hr->p[1].activate && exs[1] != NULL)
+		pipe((t->p[1]).fds);
+	if (hr->p[1].activate && fork() == 0)
+	{
+		if (exs[1] != NULL)
+			close((t->p[1]).fds[READER]);
+		close(hr->p[1].fds[WRITER]);
+		while (((t->x) = read(hr->p[1].fds[READER], &(t->b), 50)) > 0)
+		{
+			if (exs[1] != NULL)
+				write((t->p[1]).fds[WRITER], (t->b), (t->x));
+			writor(exs, 1, (int *)(t->b), (t->x));
+		}
+		exit(0);
+	}
+	if (hr->p[1].activate)
+	{
+		if (exs[1] != NULL)
+			close((t->p[1]).fds[WRITER]);
+		(t->cpystdout) = dup((t->fdout));
+		close((t->fdout));
+		close(hr->p[1].fds[READER]);
+		dup2(hr->p[1].fds[WRITER], (t->fdout));
 	}
 }
 
 void		exec_builtin(t_executor **exs, t_handle_r *hr, char **env)
 {
-	int cpystdout;
-	int cpystderr;
+	t_built_redir t;
 
-	cpystdout = -1;
-	cpystderr = -1;
-	exec_builtin_init(exs, &cpystdout, &cpystderr, hr);
+	(t.special) = special_redir((*exs)->ex.r);
+	(t.fdout) = ((t.special)) ? STDERR_FILENO : STDOUT_FILENO;
+	exec_builtin_redir_err_init(exs, hr, &t);
+	exec_builtin_redir_out_init(exs, hr, &t);
 	(*exs)->ex.fnct((*exs)->av, &g_env, &g_lenv);
-	if (exs[1] != NULL || (hr->is_redirecting && hr->b_out))
-		switch_fd_end(STDOUT_FILENO, &cpystdout);
-	if (hr->is_redirecting && hr->b_err)
-		switch_fd_end(STDERR_FILENO, &cpystderr);
-	if (exs[1] != NULL)
-		exec_all(&exs[1], env, hr->p[1].fds[READER]);
-	else if (hr->is_redirecting && hr->b_out)
+	if (hr->p[1].activate)
 	{
-		close(hr->fdout[WRITER]);
-		hr->packets_out = read_from_fd(hr->fdout[READER]);
-		close(hr->fdout[READER]);
+		close(hr->p[1].fds[WRITER]);
+		dup2((t.cpystdout), (t.fdout));
+		close((t.cpystdout));
+		if (exs[1] != NULL)
+		{
+			exec_all(&exs[1], env, (t.p[1]).fds[READER]);
+			close((t.p[1]).fds[READER]);
+		}
 	}
-	if (hr->is_redirecting && hr->b_err)
-		close(hr->fderr[WRITER]);
+	if (hr->p[2].activate)
+	{
+		close(hr->p[2].fds[WRITER]);
+		dup2((t.cpystderr), STDERR_FILENO);
+		close((t.cpystderr));
+	}
 }
 
 t_sf		*read_from_fd(int fd)
