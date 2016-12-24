@@ -1,0 +1,24 @@
+{green}#Definition :{eoc}
+History builtin is an implementation of command's substitution using the history, and his flags
+
+{green}#flags{eoc}
+
+{yellow}-c{eoc}:	Delete the history
+
+{green}#Substitution{eoc}
+
+{yellow}!n{eoc}:	Print the n line of the history
+{yellow}!!{eoc}:	Print the previous command in the history
+
+{green}#Examples :{eoc}
+$> history
+To print the history
+
+$> ls
+$> !!
+{red}Answer:{eoc}"ls"
+
+$> toto
+$> echo !! !! !!
+{red}Answer:{eoc}	"echo toto toto toto
+	toto toto toto"
