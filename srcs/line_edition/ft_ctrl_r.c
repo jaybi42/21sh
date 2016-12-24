@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/06 18:39:18 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/10 19:51:31 by ibouchla         ###   ########.fr       */
+/*   Updated: 2016/12/24 02:11:14 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static void		clean_ctrl_r(t_line *l)
 
 static int		init_ctrl_r(t_line *l)
 {
+	l->quit = g_quithist;
 	l->search = x_strdup("");
 	l->ans = x_strdup("");
 	l->bp = 0;
@@ -101,7 +102,7 @@ void			ctrl_r(t_line *l)
 {
 	bool	isok;
 
-	if ((isok = init_ctrl_r(l)) == 1)
+	if (g_inheredoc == 1 || (isok = init_ctrl_r(l)) == 1)
 		return ;
 	while (1)
 	{

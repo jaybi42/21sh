@@ -6,7 +6,7 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:13:34 by malaine           #+#    #+#             */
-/*   Updated: 2016/12/23 20:14:27 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/24 02:01:55 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ void	ft_init_line_heredoc(t_line *l)
 {
 	if (g_line != NULL)
 		l->sizeprompt = g_line->sizeprompt;
-	l->str = x_strdup("");
 	l->size = 0;
+	l->str = x_strdup("");
 	l->count = 0;
-	l->final_count = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/21 11:39:33 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/08 16:07:18 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/23 23:48:02 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static	int		print_value(t_list *g_env, t_list *g_lenv, char *key)
 void			print_prompt(int rand, t_list *g_env, t_list *g_lenv, t_line *l)
 {
 	get_color(rand);
+	ft_putstr("\n");
 	if (print_value(g_env, g_lenv, "PWD") == 0)
 		ft_putstr("21sh");
 	ft_putstr("\033[0m");

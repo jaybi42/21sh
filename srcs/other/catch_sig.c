@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 20:03:26 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/24 02:16:08 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void				is_sig(int signum)
 {
 	struct winsize		w;
 
-	if (signum == SIGCHLD)
+	if ((g_quithist = 0) == 0 && signum == SIGCHLD)
 		return ;
 	else if (signum > 3 && signum < 28)
 		signal(signum, SIG_IGN);

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/30 18:20:40 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 20:09:12 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/24 01:20:04 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	init_heredoc(t_line *l, char *prompt)
 
 char		*eof_ret(void)
 {
+	g_inheredoc = 0;
 	g_inheredoc_2 = 0;
 	ft_printf("\n");
 	return (x_strdup(g_heredoc_expected));

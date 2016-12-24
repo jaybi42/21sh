@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 19:21:24 by malaine          ###   ########.fr       */
+/*   Updated: 2016/12/24 02:09:03 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+int				g_quithist;
 int				g_inheredoc_2;
 int				g_inheredoc;
 t_list			*g_lenv;
@@ -122,6 +123,7 @@ void			init_global(int ac, char **argv)
 	}
 	g_env = NULL;
 	g_inheredoc = 0;
+	g_quithist = 0;
 	g_lenv = NULL;
 	g_line = NULL;
 	g_alias = mmap(NULL, sizeof(*g_alias), PROT_READ | PROT_WRITE, MAP_SHARED
