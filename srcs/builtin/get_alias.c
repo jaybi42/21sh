@@ -25,77 +25,40 @@ int		already_searched(t_list *key_list, char *new_key)
 	return (0);
 }
 
-char	**tabjoin(char **t1, char **t2)
+void	*del_stuff(char **tmp, t_list **key_list)
 {
-	char	**new_tab;
-	size_t	i;
-	size_t	n;
-
-	i = (-1);
-	new_tab = (char **)xmalloc(sizeof(char *) *
-	((ft_size_tab(t1) + ft_size_tab(t2)) + 1));
-	while (t1[++i] != NULL)
-		new_tab[i] = x_strdup(t1[i]);
-	n = i;
-	i = (-1);
-	while (t2[++i] != NULL)
-		new_tab[n++] = x_strdup(t2[i]);
-	new_tab[n] = NULL;
-	return (new_tab);
+	if (tmp)
+		ft_strdel(tmp);
+	if (key_list)
+		ft_lstdel(key_list, &free_key);
+	return (NULL);
 }
 
-char	**tabdup(char **t)
-{
-	size_t	i;
-	char	**new_tab;
-
-	i = (-1);
-	new_tab = (char **)xmalloc(sizeof(char *) * (ft_size_tab(t) + 1));
-	while (t[++i] != NULL)
-		new_tab[i] = x_strdup(t[i]);
-	new_tab[i] = NULL;
-	return (new_tab);
-}
-
-void	do_all_stuff(t_av **av, char *key_value)
-{
-	char	**tmp;
-
-	if (key_value[0] == '\0')
-		return ;
-	if (!(tmp = ft_strsplit(key_value, ' ')))
-		return ;
-	(*av)->cmd = x_strdup(tmp[0]);
-	(*av)->argv = tabjoin(tmp, (*av)->arg);
-	(*av)->arg = tabdup(((*av)->argv + 1));
-	ft_tabdel(tmp);
-}
-
-void	get_alias(t_av **av)
+char	*get_alias(char *key)
 {
 	char	*tmp;
+	char	*ret;
 	int		id;
 	t_list	*key_list;
 
-	if (!((*av)->cmd))
-		return ;
-	tmp = ft_strdup((*av)->cmd);
+	if (!(key))
+		return (NULL);
+	tmp = ft_strdup(key);
 	key_list = (t_list *)ft_memalloc(sizeof(t_list));
 	while ((id = array_key_exists(g_alias, tmp)))
 	{
 		ft_lstadd(&key_list, ft_lstnew((void *)tmp, (ft_strlen(tmp) + 1)));
 		ft_strdel(&tmp);
 		if (!(tmp = get_alias_elem_by_id(g_alias, id)))
-			return ;
+			return (del_stuff(NULL, &key_list));
 		if ((already_searched(key_list, tmp)))
-		{
-			ft_strdel(&tmp);
-			ft_lstdel(&key_list, &free_key);
-			return ;
-		}
+			return (del_stuff(&tmp, &key_list));
 	}
-	if ((array_key_exists(g_alias, (*av)->cmd)))
-		do_all_stuff(av, tmp);
-	ft_strdel(&tmp);
-	ft_lstdel(&key_list, &free_key);
+	if ((array_key_exists(g_alias, key)))
+	{
+		ret = x_strdup(tmp);
+		del_stuff(&tmp, &key_list);
+		return (ret);
+	}
+	return (del_stuff(&tmp, &key_list));
 }

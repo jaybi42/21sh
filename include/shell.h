@@ -245,7 +245,7 @@ char					*get_input(char *prompt);
 
 t_output				shell(t_av **av, int ret);
 int						do_fork(char *bin, char **all, char **env);
-void					get_alias(t_av **av);
+char					*get_alias(char *key);
 int						array_key_exists(t_alias *alias, char *key);
 char					*get_alias_elem_by_id(t_alias *alias, int id);
 int						check_bin(t_list *g_env, t_list *l_env, t_av av);
