@@ -723,6 +723,17 @@ typedef struct			s_norm_simplify
 	int					i;
 }						t_norm_simplify;
 
+typedef struct s_norm_hag
+{
+	int i;
+	int a;
+	int continu;
+	int len;
+	int first_time;
+}							t_norm_hag;
+
+void handle_alias_glob(char **expr, int **t_ind, int **l_ind);
+void inject_in_string(char **s1, char *s2, int i_to_insert, int del_length);
 void					update_debug(t_av **av, int i);
 void					update_arg(t_av ***av, int i);
 t_av					**updated(t_av **av);

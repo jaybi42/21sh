@@ -34,3 +34,30 @@ void	update_new(t_parse *p, int index, int delimiter_index)
 	p->one_arg = FALSE;
 	p->quote_activate = FALSE;
 }
+
+void inject_in_string(char **s1, char *s2, int i_to_insert, int del_length)
+{
+	int i;
+	int a;
+	char *ns;
+	int len2;
+	int len;
+
+	len = ft_strlen((*s1));
+	len2 = ft_strlen(s2);
+	ns = xmalloc(sizeof(char) * (len
+	- del_length + len2 + 1));
+	a = 0;
+	ns[a] = '\0';
+	i = -1;
+	while (++i < i_to_insert)
+		ns[a++] = (*s1)[i];
+	i = -1;
+	while (++i < len2)
+		ns[a++] = s2[i];
+	i = i_to_insert + del_length - 1;
+	while (++i < len)
+		ns[a++] = (*s1)[i];
+	ns[a] = '\0';
+	(*s1) = ns;
+}

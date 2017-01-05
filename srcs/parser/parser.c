@@ -93,6 +93,20 @@ t_av	**nparse(char *expr, int *t_ind, int *l_ind)
 	return (cmds);
 }
 
+int avance_intouchable(int *t_ind, int *l_ind, int id)
+{
+	int i;
+
+	i = 0;
+	while (t_ind[i] != -1)
+	{
+		if (t_ind[i] == id)
+			return (l_ind[i]);
+		i++;
+	}
+	return (-1);
+}
+
 t_av	**parse_commands(char *expr)
 {
 	int			*t_ind;
@@ -114,6 +128,7 @@ t_av	**parse_commands(char *expr)
 	expr = decortique_parse(expr, ft_strlen(expr), &t_ind, &l_ind);
 	if (g_debug)
 		print_step1(expr, t_ind, l_ind);
+	handle_alias_glob(&expr, &t_ind, &l_ind);
 	if (!(cmds = nparse(expr, t_ind, l_ind)))
 		return (NULL);
 	return (updated(cmds));

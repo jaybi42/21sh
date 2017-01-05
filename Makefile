@@ -141,6 +141,7 @@ FILES = autocomp/autocomp			\
 		parser/parser5 \
 		parser/parser6 \
 		parser/parser7 \
+		parser/parser8 \
 		parser/parseruse \
 		parser/parseruse2 \
 		parser/parseruse3 \
