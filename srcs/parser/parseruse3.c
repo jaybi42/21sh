@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 20:49:28 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/08 20:49:45 by ibouchla         ###   ########.fr       */
+/*   Updated: 2017/01/06 18:33:55 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ void	update_new(t_parse *p, int index, int delimiter_index)
 	p->quote_activate = FALSE;
 }
 
-void inject_in_string(char **s1, char *s2, int i_to_insert, int del_length)
+void	inject_in_string(char **s1, char *s2, int i_to_insert, int del_length)
 {
-	int i;
-	int a;
-	char *ns;
-	int len2;
-	int len;
+	int		i;
+	int		a;
+	char	*ns;
+	int		len2;
+	int		len;
 
 	len = ft_strlen((*s1));
 	len2 = ft_strlen(s2);

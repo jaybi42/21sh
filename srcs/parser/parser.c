@@ -6,25 +6,11 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 17:25:47 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/12 17:25:51 by ibouchla         ###   ########.fr       */
+/*   Updated: 2017/01/06 23:05:44 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-void	p_s_a_init(t_norm_simplify *t, char **tmp)
-{
-	int x;
-
-	x = 0;
-	(*tmp) = xmalloc(sizeof(char) * (ft_strlen((*t->expr)) + t->a + 4));
-	while ((*t->t_ind)[x] != -1)
-	{
-		if ((*t->t_ind)[x] >= t->i)
-			(*t->t_ind)[x] += t->a + 1;
-		x++;
-	}
-}
 
 void	put_space_around(t_norm_simplify *t)
 {
@@ -93,7 +79,7 @@ t_av	**nparse(char *expr, int *t_ind, int *l_ind)
 	return (cmds);
 }
 
-int avance_intouchable(int *t_ind, int *l_ind, int id)
+int		avance_intouchable(int *t_ind, int *l_ind, int id)
 {
 	int i;
 

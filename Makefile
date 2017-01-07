@@ -6,13 +6,13 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2016/12/23 17:50:38 by jguthert         ###   ########.fr        #
+#    Updated: 2017/01/07 01:05:52 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 ##=-		Compilatator		-=##
 
-NAME = 21sh
+NAME = 42sh
 
 CC_FLAGS = gcc -Wall -Wextra -g3 -Werror
 
@@ -83,6 +83,7 @@ FILES = autocomp/autocomp			\
 		parsing/parse_history		\
 		parsing/parse_line			\
 		parsing/parse_quote			\
+		parsing/parse_surgery		\
 		parsing/search_history		\
 									\
 		other/uncatch_signal		\

@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 16:55:10 by malaine          ###   ########.fr       */
+/*   Updated: 2017/01/07 01:36:47 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void			reset_line(void);
 int				parse_history(t_line *l, t_ftl_root *hist);
 char			*get_event(char *str, t_ftl_root *hist);
 int				parse_quote(t_line *line);
+int				parse_surgery(t_quotes *quotes, t_line *l);
 int				parse_line(t_line *l, t_ftl_root *hist);
 
 /*

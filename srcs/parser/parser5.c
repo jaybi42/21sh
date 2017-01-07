@@ -6,7 +6,7 @@
 /*   By: ibouchla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/07 18:50:10 by ibouchla          #+#    #+#             */
-/*   Updated: 2016/12/08 20:45:21 by ibouchla         ###   ########.fr       */
+/*   Updated: 2017/01/06 18:30:26 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,19 @@ void	convert_other(t_av ***cmds)
 	{
 		get_redirect(&(*cmds)[i]);
 		i++;
+	}
+}
+
+void	p_s_a_init(t_norm_simplify *t, char **tmp)
+{
+	int x;
+
+	x = 0;
+	(*tmp) = xmalloc(sizeof(char) * (ft_strlen((*t->expr)) + t->a + 4));
+	while ((*t->t_ind)[x] != -1)
+	{
+		if ((*t->t_ind)[x] >= t->i)
+			(*t->t_ind)[x] += t->a + 1;
+		x++;
 	}
 }

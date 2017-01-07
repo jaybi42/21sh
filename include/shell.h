@@ -6,14 +6,14 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/24 02:09:37 by malaine          ###   ########.fr       */
+/*   Updated: 2017/01/06 18:38:13 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_H
 # define SHELL_H
 
-# define NAME "21sh"
+# define NAME "42sh"
 
 # define KV_SET 0
 # define KV_GET 1
@@ -723,17 +723,19 @@ typedef struct			s_norm_simplify
 	int					i;
 }						t_norm_simplify;
 
-typedef struct s_norm_hag
+typedef struct			s_norm_hag
 {
-	int i;
-	int a;
-	int continu;
-	int len;
-	int first_time;
-}							t_norm_hag;
+	int					i;
+	int					a;
+	int					continu;
+	int					len;
+	int					first_time;
+}						t_norm_hag;
 
-void handle_alias_glob(char **expr, int **t_ind, int **l_ind);
-void inject_in_string(char **s1, char *s2, int i_to_insert, int del_length);
+void					handle_alias_glob(char **expr, int **t_ind,
+										int **l_ind);
+void					inject_in_string(char **s1, char *s2, int i_to_insert,
+										int del_length);
 void					update_debug(t_av **av, int i);
 void					update_arg(t_av ***av, int i);
 t_av					**updated(t_av **av);
@@ -812,6 +814,7 @@ int						*handle_d(t_handle_d_param t, int *t_ind,
 
 int						in_cmd_is_intouchable(t_av *cmd, int id_argv, int i);
 void					convert_other(t_av ***cmds);
+void					p_s_a_init(t_norm_simplify *t, char **tmp);
 
 /*
 **	parseruse

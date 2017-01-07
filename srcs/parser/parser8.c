@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser8.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/01/06 18:34:44 by jguthert          #+#    #+#             */
+/*   Updated: 2017/01/06 23:05:13 by jguthert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-void decalage_intouchable(int **t_ind, int fpoint, int dec)
+void	decalage_intouchable(int **t_ind, int fpoint, int dec)
 {
 	int i;
 
@@ -10,7 +22,7 @@ void decalage_intouchable(int **t_ind, int fpoint, int dec)
 			(*t_ind)[i] += dec;
 }
 
-void replace_alias(char **expr, int **t_ind, int i, int len)
+void	replace_alias(char **expr, int **t_ind, int i, int len)
 {
 	char *s;
 
@@ -23,7 +35,7 @@ void replace_alias(char **expr, int **t_ind, int i, int len)
 	}
 }
 
-void replace_glob(char **expr, int **t_ind, int i, int len)
+void	replace_glob(char **expr, int **t_ind, int i, int len)
 {
 	char *s;
 
@@ -35,7 +47,7 @@ void replace_glob(char **expr, int **t_ind, int i, int len)
 	}
 }
 
-void handle_alias_glob2(char **expr, int **t_ind, int **l_ind,
+void	handle_alias_glob2(char **expr, int **t_ind, int **l_ind,
 	t_norm_hag *t)
 {
 	(t->a) = 0;
@@ -48,12 +60,12 @@ void handle_alias_glob2(char **expr, int **t_ind, int **l_ind,
 			(t->continu) = TRUE;
 			(t->i) += (t->a) + 1;
 			(t->first_time) = FALSE;
-			break;
+			break ;
 		}
 		(t->a)++;
 	}
 	if ((t->continu) == TRUE)
-			return ;
+		return ;
 	if ((t->first_time))
 		replace_alias(expr, t_ind, (t->i), (t->a));
 	replace_glob(expr, t_ind, (t->i), (t->a));
@@ -61,7 +73,7 @@ void handle_alias_glob2(char **expr, int **t_ind, int **l_ind,
 	(t->first_time) = FALSE;
 }
 
-void handle_alias_glob(char **expr, int **t_ind, int **l_ind)
+void	handle_alias_glob(char **expr, int **t_ind, int **l_ind)
 {
 	t_norm_hag t;
 
@@ -73,7 +85,7 @@ void handle_alias_glob(char **expr, int **t_ind, int **l_ind)
 		(t.continu) = FALSE;
 		if (is_whitespace((*expr)[(t.i)]) &&
 		!is_intouchable((t.i), (*t_ind), (*l_ind)))
-				(t.i)++;
+			(t.i)++;
 		else
 			handle_alias_glob2(expr, t_ind, l_ind, &t);
 	}

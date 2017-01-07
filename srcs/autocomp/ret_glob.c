@@ -6,7 +6,7 @@
 /*   By: mseinic <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 21:29:12 by mseinic           #+#    #+#             */
-/*   Updated: 2016/12/06 21:37:35 by mseinic          ###   ########.fr       */
+/*   Updated: 2017/01/06 19:32:34 by mseinic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char		*ret_glob(char *str)
 {
 	char	*tmp;
 	char	**ret;
+	char	*my_str;
 
 	tmp = x_strdup(str);
 	if (ft_strchr(tmp, '*') != NULL || ft_strchr(tmp, '{') != NULL ||
@@ -25,7 +26,11 @@ char		*ret_glob(char *str)
 		if (ret == NULL)
 			return (NULL);
 		else
-			return (ret[0]);
+		{
+			my_str = x_strdup(ret[0]);
+			del_tab(ret);
+			return (my_str);
+		}
 	}
 	return (NULL);
 }
