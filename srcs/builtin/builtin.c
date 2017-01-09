@@ -12,16 +12,18 @@
 
 #include "shell.h"
 
-#define NB_BUILTIN 12
+#define NB_BUILTIN 14
 
 static t_builtin const	g_builtin_list[NB_BUILTIN] = {
 	{"cd", bi_cd},
 	{"setenv", bi_setenv},
 	{"unsetenv", bi_unsetenv},
+	{"unset", bi_unset},
 	{"env", bi_env},
 	{"getenv", bi_getenv},
 	{"echo", bi_echo},
 	{"exit", bi_exit},
+	{"export", bi_export},
 	{"clear", bi_clear},
 	{"history", bi_history},
 	{"alias", bi_alias},

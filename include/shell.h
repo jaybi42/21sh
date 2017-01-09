@@ -276,6 +276,7 @@ int						builtin(t_list **g_env, t_list **l_env,
 int						bi_cd(t_av av, t_list **g_env, t_list **l_env);
 int						bi_env(t_av av, t_list **g_env, t_list **l_env);
 int						bi_unsetenv(t_av av, t_list **g_env, t_list **l_env);
+int						bi_unset(t_av av, t_list **g_env, t_list **l_env);
 int						bi_setenv(t_av av, t_list **g_env, t_list **l_env);
 int						bi_exit(t_av av, t_list **g_env, t_list **l_env);
 int						bi_getenv(t_av av, t_list **g_env, t_list **l_env);
@@ -447,7 +448,7 @@ typedef struct			s_f
 	int					fd_to_write;
 }						t_f;
 
-# define NB_BUILT 12
+# define NB_BUILT 14
 # define BASIC 0
 # define IGNORE 1
 

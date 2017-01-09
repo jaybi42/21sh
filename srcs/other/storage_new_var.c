@@ -36,22 +36,22 @@ char		*isolate(char *new_var, int obj)
 	return (elem);
 }
 
-static int	replace_key_value(t_list **addr, char *new_var, char *value)
+static int	replace_key_value(t_list *addr, char *new_var, char *value)
 {
 	char	*temp;
 
 	temp = ft_strdup(new_var);
 	if (temp == NULL)
 		return (1);
-	if (((t_env *)(*addr)->content)->str != NULL)
-		ft_strdel(&((t_env *)(*addr)->content)->str);
-	((t_env *)(*addr)->content)->str = temp;
-	temp = ft_strdup(value);
+	if (((t_env *)addr->content)->str != NULL)
+		ft_strdel(&((t_env *)addr->content)->str);
+	((t_env *)addr->content)->str = temp;
+	temp = ((value != NULL) ? ft_strdup(value) : ft_strdup(""));
 	if (temp == NULL)
 		return (1);
-	if (((t_env *)(*addr)->content)->value != NULL)
-		ft_strdel(&((t_env *)(*addr)->content)->value);
-	((t_env *)(*addr)->content)->value = temp;
+	if (((t_env *)addr->content)->value != NULL)
+		ft_strdel(&((t_env *)addr->content)->value);
+	((t_env *)addr->content)->value = temp;
 	return (0);
 }
 
@@ -73,9 +73,9 @@ int			if_key_replace(char *new_var, t_list **g_env)
 		temp = temp->next;
 	}
 	ft_strdel(&name);
-	if (temp == NULL || value == NULL)
+	if (temp == NULL)
 		return (1);
-	return (replace_key_value(&temp, new_var, value));
+	return (replace_key_value(temp, new_var, value));
 }
 
 void		storage_env(t_list **e, char *new_var)

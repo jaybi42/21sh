@@ -52,6 +52,7 @@ FILES = autocomp/autocomp			\
 		builtin/bi_history 			\
 		builtin/bi_setenv 			\
 		builtin/bi_unsetenv			\
+		builtin/bi_unset			\
 		builtin/bi_42info			\
 		builtin/bi_glob				\
 		builtin/builtin				\
