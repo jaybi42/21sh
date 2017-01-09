@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/25 18:56:55 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/06 17:17:03 by jguthert         ###   ########.fr       */
+/*   Updated: 2017/01/09 17:30:32 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,15 @@ void	print_bad_syntaxe(char *s)
 	ft_putstr_fd("\': not a valid identifier\n", 2);
 }
 
-void	print_all_exported_variables(t_list *env)
+void	print_env(t_list *env)
 {
 	while (env != NULL)
 	{
-		ft_putstr("export ");
 		if (((t_env *)env->content)->name != NULL)
 			ft_putstr(((t_env *)env->content)->name);
-		ft_putstr("=\"");
+		ft_putstr("=");
 		if (((t_env *)env->content)->value != NULL)
-			ft_putstr(((t_env *)env->content)->value);
-		ft_putendl("\"");
+			ft_putendl(((t_env *)env->content)->value);
 		env = env->next;
 	}
 }
@@ -78,7 +76,9 @@ int		bi_export(t_av av, t_list **g_env, t_list **g_lenv)
 	(void)g_lenv;
 	p_option = check_option(av.arg[0]);
 	x = ((p_option == 0) ? (-1) : 0);
-	while (av.arg[++x] != NULL)
+	if (av.arg[0] == NULL)
+		print_env(*g_env);
+	while (p_option == 0 && av.arg[++x] != NULL)
 	{
 		str = ft_strtrim(av.arg[x]);
 		if ((check_syntaxe(str)) == 0)
@@ -88,6 +88,6 @@ int		bi_export(t_av av, t_list **g_env, t_list **g_lenv)
 		ft_strdel(&str);
 	}
 	if (p_option == 1)
-		print_all_exported_variables(*g_env);
+		option_p(av, g_env);
 	return (0);
 }

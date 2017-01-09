@@ -6,7 +6,7 @@
 #    By: jguthert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/30 15:25:02 by jguthert          #+#    #+#              #
-#    Updated: 2017/01/07 01:05:52 by jguthert         ###   ########.fr        #
+#    Updated: 2017/01/09 17:10:29 by jguthert         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -48,6 +48,7 @@ FILES = autocomp/autocomp			\
 		builtin/bi_env				\
 		builtin/bi_exit				\
 		builtin/bi_export			\
+		builtin/bi_export_print		\
 		builtin/bi_getenv 			\
 		builtin/bi_history 			\
 		builtin/bi_setenv 			\

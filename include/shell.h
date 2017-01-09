@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2017/01/06 18:38:13 by jguthert         ###   ########.fr       */
+/*   Updated: 2017/01/09 17:13:36 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,7 @@ int						bi_echo(t_av av, t_list **g_env, t_list **l_env);
 int						bi_clear(t_av av, t_list **g_env, t_list **l_env);
 int						bi_history(t_av av, t_list **g_env, t_list **l_env);
 int						bi_export(t_av av, t_list **g_env, t_list **l_env);
+void					option_p(t_av av, t_list **g_env);
 int						bi_42info(t_av av, t_list **g_env, t_list **l_env);
 int						bi_glob(t_av av, t_list **g_env, t_list **l_env);
 int						bi_alias(t_av av, t_list **g_env, t_list **l_env);
