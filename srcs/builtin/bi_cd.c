@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 19:50:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/11/24 20:11:00 by ibouchla         ###   ########.fr       */
+/*   Updated: 2017/01/10 19:26:13 by jguthert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int			bi_cd(t_av av, t_list **g_env, t_list **g_lenv)
 		return (print_error(av, 2));
 	if (av.argc == 1 && access(*av.arg, X_OK) == -1)
 		return (print_error(av, 3));
-	if (*av.arg != NULL)
+	if (*av.arg != NULL && !(ft_strcmp(".", *av.arg) == 0))
 	{
 		if (chdir(*av.arg) == 0)
 			if (mod_pwd(g_env, g_lenv) == 0)
