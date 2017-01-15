@@ -82,5 +82,5 @@ int				parse_quote(t_line *l)
 		if (close_quotes(&quotes, l) == 1)
 			return (1);
 	}
-	return (parse_surgery(&quotes, l));
+	return (0);
 }
