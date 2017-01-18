@@ -283,6 +283,7 @@ void						*ft_memdup(void const *data, size_t size);
 **	##=-  Simple chained list  -=##
 */
 
+void						ft_lst_sort(t_list **alst, int (*f_cmp)());
 t_list						*ft_lstnew(void const *content,
 							size_t content_size);
 void						ft_lstdelone(t_list **alst,

@@ -18,8 +18,9 @@ static void		print_export_err(char *str)
 	ft_putendl(str);
 }
 
-static void		print_all_exported_variables(t_list *env)
+void		print_all_exported_variables(t_list *env)
 {
+	ft_lst_sort(&env, &ft_strcmp);
 	while (env != NULL)
 	{
 		ft_putstr("export ");

@@ -54,40 +54,27 @@ void	print_bad_syntaxe(char *s)
 	ft_putstr_fd("\': not a valid identifier\n", 2);
 }
 
-void	print_env(t_list *env)
-{
-	while (env != NULL)
-	{
-		if (((t_env *)env->content)->name != NULL)
-			ft_putstr(((t_env *)env->content)->name);
-		ft_putstr("=");
-		if (((t_env *)env->content)->value != NULL)
-			ft_putendl(((t_env *)env->content)->value);
-		env = env->next;
-	}
-}
-
 int		bi_export(t_av av, t_list **g_env, t_list **g_lenv)
 {
 	int		p_option;
 	int		x;
 	char	*str;
 
-	(void)g_lenv;
+	(void)g_env;
 	p_option = check_option(av.arg[0]);
 	x = ((p_option == 0) ? (-1) : 0);
 	if (av.arg[0] == NULL)
-		print_env(*g_env);
+		print_all_exported_variables(*g_lenv);
 	while (p_option == 0 && av.arg[++x] != NULL)
 	{
 		str = ft_strtrim(av.arg[x]);
 		if ((check_syntaxe(str)) == 0)
-			storage_env(g_env, str);
+			storage_env(g_lenv, str);
 		else
 			print_bad_syntaxe(str);
 		ft_strdel(&str);
 	}
 	if (p_option == 1)
-		option_p(av, g_env);
+		option_p(av, g_lenv);
 	return (0);
 }
