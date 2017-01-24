@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 17:05:06 by jguthert          #+#    #+#             */
-/*   Updated: 2017/01/09 17:30:16 by jguthert         ###   ########.fr       */
+/*   Updated: 2017/01/24 20:51:06 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void		print_export_err(char *str)
 	ft_putendl(str);
 }
 
-void		print_all_exported_variables(t_list *env)
+void			print_all_exported_variables(t_list *env)
 {
 	ft_lst_sort(&env, &ft_strcmp);
 	while (env != NULL)

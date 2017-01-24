@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/13 15:36:17 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/24 02:09:03 by malaine          ###   ########.fr       */
+/*   Updated: 2017/01/24 20:52:09 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+int				g_toto;
+int				g_tete;
+int				g_titi;
+int				g_tutu;
+int				g_tata;
 int				g_quithist;
 int				g_inheredoc_2;
 int				g_inheredoc;
@@ -96,6 +101,8 @@ int				sh21(void)
 	handle_var(KV_SET, "?", "0");
 	while (1)
 	{
+		g_tutu = g_toto = g_titi = 1;
+		g_tata = 0;
 		g_prompt.onshell = 1;
 		catch_signal();
 		g_prompt.son == 0 ? print_prompt(sh.nbr, g_env, g_lenv, &sh.l) : 0;

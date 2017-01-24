@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:22 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/24 01:10:22 by malaine          ###   ########.fr       */
+/*   Updated: 2017/01/24 16:27:30 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void		ft_ctrl_l(t_line *l)
 		print_prompt(g_prompt.rand, g_prompt.g_env, g_lenv, g_prompt.l);
 		if (g_inheredoc != 1)
 			l->sizeprompt = l->sizeprompt + 3;
+		l->resize = 1;
 		print(l);
 	}
 }

@@ -6,14 +6,14 @@
 /*   By: malaine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/28 14:05:56 by malaine           #+#    #+#             */
-/*   Updated: 2016/12/10 19:41:26 by ibouchla         ###   ########.fr       */
+/*   Updated: 2017/01/24 20:51:27 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "edit_line.h"
 #include "shell.h"
 
-static void		ft_print_rest(t_line *l)
+void			ft_print_rest(t_line *l)
 {
 	char	*temp;
 

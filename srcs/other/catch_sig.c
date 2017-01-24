@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 12:59:02 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/24 02:16:08 by malaine          ###   ########.fr       */
+/*   Updated: 2017/01/18 17:12:03 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static void				is_sig(int signum)
 		ioctl(0, TIOCGWINSZ, &w);
 		g_prompt.l->largeur = w.ws_col;
 		g_prompt.l->hauteur = w.ws_row;
+		g_line->resize = 1;
+		ft_ctrl_l(g_line);
 	}
 	else if (g_prompt.son == 0 && g_inheredoc_2 != 1)
 	{

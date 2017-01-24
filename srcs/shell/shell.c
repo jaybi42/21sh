@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2017/01/06 22:56:12 by jguthert         ###   ########.fr       */
+/*   Updated: 2017/01/24 20:53:36 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 int			shell_pre_exec(t_shells *s, t_av **av)
 {
+	g_tete = av[(s->a)]->type;
 	if (av[(s->a)]->cmd == NULL && (av[(s->a)]->type == TYPE_OR ||
 		av[(s->a)]->type == TYPE_AND || av[(s->a)]->type == TYPE_PIPE ||
 		(av[(s->a) + 1] != NULL && (av[(s->a) + 1]->type == TYPE_AND ||
@@ -65,6 +66,10 @@ t_output	shell(t_av **av, int ret)
 		(g_debug) ? shell_print_debug(&s, 0, 0) : 0;
 		a_stop(0);
 		s.output = do_exec(s.stack, ret);
+		g_toto = 1;
+		g_titi = 0;
+		g_tata = 0;
+		g_tutu = 1;
 		if (a_init() == -1)
 		{
 			ft_printf("error while getting the set\n");
