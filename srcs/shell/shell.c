@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 17:01:52 by jguthert          #+#    #+#             */
-/*   Updated: 2017/01/24 20:53:36 by malaine          ###   ########.fr       */
+/*   Updated: 2017/01/24 21:27:53 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ t_output	shell(t_av **av, int ret)
 		g_toto = 1;
 		g_titi = 0;
 		g_tata = 0;
-		g_tutu = 1;
 		if (a_init() == -1)
 		{
 			ft_printf("error while getting the set\n");

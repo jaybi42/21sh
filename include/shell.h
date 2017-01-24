@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 23:28:34 by agadhgad          #+#    #+#             */
-/*   Updated: 2017/01/24 19:41:03 by malaine          ###   ########.fr       */
+/*   Updated: 2017/01/24 21:26:34 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1011,7 +1011,6 @@ extern t_line			*g_heredoc;
 extern int			g_titi;
 extern int			g_tete;
 extern int			g_toto;
-extern int			g_tutu;
 extern int			g_tata;
 
 #endif
