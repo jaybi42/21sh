@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:56:10 by jguthert          #+#    #+#             */
-/*   Updated: 2017/01/07 01:36:47 by jguthert         ###   ########.fr       */
+/*   Updated: 2017/01/24 20:50:30 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct	s_line
 	int			hist_size;
 	int			hist_pos;
 	int			bp;
+	int			resize;
 }				t_line;
 
 typedef struct	s_quotes
@@ -151,6 +152,7 @@ void			ft_ctrl_e(t_line *l);
 **Desc: Termcaps actions
 */
 
+void			ft_print_rest(t_line *l);
 int				do_goto(char *key, int col, int row);
 int				do_term(char *key);
 void			go_up(t_line *l);
@@ -178,6 +180,7 @@ void			check_is_space_r(t_line *l);
 **Desc: Print functions
 */
 
+void			print_2(t_line *l);
 void			print(t_line *l);
 void			big_print(t_line *l, int window);
 void			ft_home_2(t_line *l);
@@ -186,6 +189,6 @@ int				int_putchar(int c);
 void			ft_print_line(t_line *l);
 void			ft_print_key(t_line *l);
 int				constructor_search(bool isok, t_line *l);
-
 void			debug_editline(t_line *l);
+
 #endif

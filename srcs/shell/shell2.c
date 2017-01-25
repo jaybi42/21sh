@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:44:24 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/06 17:47:01 by agadhgad         ###   ########.fr       */
+/*   Updated: 2017/01/24 21:25:49 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,13 @@ void		shell_print_debug(t_shells *s, int w, int v)
 
 int			shell_pre_exec_logical_and_or(t_shells *s, t_av **av)
 {
-	if (av[(s->a)]->type == TYPE_OR || av[(s->a)]->type == TYPE_AND)
+	if ((av[(s->a)]->type == TYPE_OR && g_toto == 1)
+		|| ((av[(s->a)]->type == TYPE_AND) && g_toto == 0))
 	{
 		if ((s->find) == 0)
 		{
 			if (((s->output).ret_code == 0 && av[(s->a)]->type == TYPE_OR) ||
-					((s->output).ret_code != 0 && av[(s->a)]->type == TYPE_AND))
+					((s->output).ret_code == 0 && av[(s->a)]->type == TYPE_AND))
 			{
 				(s->find) = 1;
 				return (FALSE);

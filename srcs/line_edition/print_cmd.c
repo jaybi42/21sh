@@ -6,7 +6,7 @@
 /*   By: jguthert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/18 16:59:38 by jguthert          #+#    #+#             */
-/*   Updated: 2016/12/23 17:22:37 by jguthert         ###   ########.fr       */
+/*   Updated: 2017/01/18 17:11:40 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,13 @@ static void	toomuch_print(t_line *l)
 
 static void	little_print(t_line *l)
 {
-	ft_home(l);
+	if (l->resize == 1)
+	{
+		l->count = 0;
+		l->resize = 0;
+	}
+	else
+		ft_home(l);
 	do_term("cd");
 	print_str(l);
 	ft_home(l);

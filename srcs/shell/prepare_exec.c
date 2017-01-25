@@ -6,7 +6,7 @@
 /*   By: agadhgad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:47:21 by agadhgad          #+#    #+#             */
-/*   Updated: 2016/12/17 17:43:56 by jguthert         ###   ########.fr       */
+/*   Updated: 2017/01/24 21:27:07 by malaine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,15 @@ t_exec		get_abs_path(char *cmd, char **argv)
 		t.ex.type = BASIC;
 	}
 	else
-		print_err("command not found", cmd);
+	{
+		if (((g_titi != 0 && g_tete == 4) || (g_titi != 0 && g_tete == 1))
+			|| ((g_tata != 1 && g_tete == 6) || (g_tata != 1 && g_tete == 1)))
+		{
+			print_err("command not found", cmd);
+			g_tata = 1;
+			g_toto = 0;
+		}
+	}
 	return (t.ex);
 }
 
