@@ -583,7 +583,7 @@ void					dup_writer_pipe(int fd, int writer);
 t_sf					*read_from_fd(int fd);
 void					exec_builtin_init(t_executor **exs, int *cpystdout,
 						int *cpystderr, t_handle_r *hr);
-void					exec_builtin(t_executor **exs, t_handle_r *hr,
+int					exec_builtin(t_executor **exs, t_handle_r *hr,
 						char **env);
 
 /*

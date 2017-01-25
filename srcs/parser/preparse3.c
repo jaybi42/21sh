@@ -12,6 +12,15 @@
 
 #include "shell.h"
 
+int			is_escaping(char *s, int i, char *a)
+{
+	if ((ft_strcmp(a, "\"") == 0 || ft_strcmp(a, "\'") == 0) && i > 0 && s[i - 1] == '\\')
+	{
+		return (1);
+	}
+	return (0);
+}
+
 int			handle_delimiter2_init(t_norm_parse2 *t, int *a)
 {
 	while ((*a) < (t->l))
@@ -30,12 +39,17 @@ int			handle_delimiter2_init(t_norm_parse2 *t, int *a)
 			(t->d)[(t->p)->current].do_recursivity == TRUE &&
 			(t->p)->current == (*a))
 				update_new((t->p), (t->i), (*a));
-			else if ((t->p)->current == EMPTY)
+			else if ((t->p)->current == EMPTY && !is_escaping((t->expr), (t->i), (t->d)[(*a)].name))
 				update_new((t->p), (t->i), (*a));
 			(t->i) += 1;
 			return (FALSE);
 		}
 		(*a)++;
+	}
+	if (is_escaping((t->expr), (t->i), (t->expr) + (t->i) + 1))
+	{
+		dprintf(2, "inside\n");
+		return (FALSE);
 	}
 	return (TRUE);
 }
@@ -82,9 +96,6 @@ t_parse		*parse_it2(char *expr, int len, t_delimiter *d, int l)
 	(t.p)->type[0] = -1;
 	while ((t.i) < (t.len) && (t.expr)[(t.i)] != '\0')
 		handle_delimiter2(&t);
-	if ((t.p)->current != EMPTY && (t.d)[(t.p)->current].wait_another == TRUE)
-		ft_printf("[!] we were waiting another |%s|\
-				adding one for u\n", (t.d)[(t.p)->current].name);
 	(t.p)->end[(t.p)->nb] = (t.i);
 	(t.p)->nb++;
 	return ((t.p));

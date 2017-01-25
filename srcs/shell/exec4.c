@@ -74,15 +74,16 @@ void	exec_builtin_redir_out_init(t_executor **exs, t_handle_r *hr,
 	}
 }
 
-void	exec_builtin(t_executor **exs, t_handle_r *hr, char **env)
+int	exec_builtin(t_executor **exs, t_handle_r *hr, char **env)
 {
-	t_built_redir t;
+	t_built_redir	t;
+	int		r;
 
 	(t.special) = special_redir((*exs)->ex.r);
 	(t.fdout) = ((t.special)) ? STDERR_FILENO : STDOUT_FILENO;
 	exec_builtin_redir_err_init(exs, hr, &t);
 	exec_builtin_redir_out_init(exs, hr, &t);
-	(*exs)->ex.fnct((*exs)->av, &g_env, &g_lenv);
+	r =  (*exs)->ex.fnct((*exs)->av, &g_env, &g_lenv);
 	if (hr->p[1].activate)
 	{
 		close(hr->p[1].fds[WRITER]);
@@ -100,6 +101,7 @@ void	exec_builtin(t_executor **exs, t_handle_r *hr, char **env)
 		dup2((t.cpystderr), STDERR_FILENO);
 		close((t.cpystderr));
 	}
+	return (r);
 }
 
 t_sf	*read_from_fd(int fd)

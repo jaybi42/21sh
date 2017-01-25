@@ -62,7 +62,7 @@ int				exec_all(t_executor **exs, char **env, int fdin)
 	if (pid == 0)
 		exec_bin_child(exs, fdin, &hr, env);
 	else if (pid == -1)
-		exec_builtin(exs, &hr, env);
+		ret = exec_builtin(exs, &hr, env);
 	else if ((solvefive.pid = pid) == pid)
 	{
 		solvefive.fdin = fdin;
