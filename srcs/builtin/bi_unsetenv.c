@@ -29,30 +29,11 @@ static void	unset_link(t_list **g_env, t_list *link)
 	ft_lstdelone(&link, free_env);
 }
 
-static int	find_and_replace_same(t_list *link, t_av av, t_list **g_env)
-{
-	while (link != NULL)
-	{
-		if (ft_strcmp(((t_env *)link->content)->name, *av.arg) == 0)
-		{
-			if (ft_strcmp(((t_env *)link->content)->name, "PATH") == 0)
-			{
-				hash_del(&g_hash);
-				g_hash = NULL;
-			}
-			unset_link(g_env, link);
-			return (1);
-		}
-		link = link->next;
-	}
-	return (0);
-}
-
 static int	find_and_replace(t_list *link, t_av av, t_list **g_env)
 {
 	while (link != NULL)
 	{
-		if (ft_strstr(((t_env *)link->content)->str, *av.arg) != NULL)
+		if (ft_strcmp(((t_env *)link->content)->name, *av.arg) == 0)
 		{
 			if (ft_strcmp(((t_env *)link->content)->name, "PATH") == 0)
 			{
@@ -81,7 +62,5 @@ int			bi_unsetenv(t_av av, t_list **g_env, t_list **g_lenv)
 		return (print_error(av, 5));
 	else if (av.argc == 1 && ft_strisprint(*av.arg) == 0)
 		return (print_error(av, 4));
-	if (find_and_replace_same(link, av, g_env) == 1)
-		return (0);
 	return (find_and_replace(link, av, g_env));
 }
