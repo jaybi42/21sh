@@ -60,21 +60,21 @@ int		bi_export(t_av av, t_list **g_env, t_list **g_lenv)
 	int		x;
 	char	*str;
 
-	(void)g_env;
+	(void)g_lenv;
 	p_option = check_option(av.arg[0]);
 	x = ((p_option == 0) ? (-1) : 0);
 	if (av.arg[0] == NULL)
-		print_all_exported_variables(*g_lenv);
+		print_all_exported_variables(*g_env);
 	while (p_option == 0 && av.arg[++x] != NULL)
 	{
 		str = ft_strtrim(av.arg[x]);
 		if ((check_syntaxe(str)) == 0)
-			storage_env(g_lenv, str);
+			storage_env(g_env, str);
 		else
 			print_bad_syntaxe(str);
 		ft_strdel(&str);
 	}
 	if (p_option == 1)
-		option_p(av, g_lenv);
+		option_p(av, g_env);
 	return (0);
 }
